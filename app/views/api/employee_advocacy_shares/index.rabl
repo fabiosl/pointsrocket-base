@@ -1,0 +1,2 @@
+collection @employee_advocacy_shares.decorate
+extends "api/employee_advocacy_shares/employee_advocacy_share"

@@ -1,0 +1,22 @@
+<%= hidden_field_tag "user[complete_account_question_option_ids][]", nil %>
+
+<% CompleteAccountQuestion.all.each do |caq| %>
+  <div class="form-group">
+    <label class="col-sm-3 control-label"><%= caq.title %></label>
+    <div class="col-sm-6">
+      <% caq.complete_account_question_options.each do |caqo| %>
+        <span class="checkbox custom-checkbox custom-checkbox-inverse">
+          <%= check_box_tag "user[complete_account_question_option_ids][]",
+              caqo.id,
+              current_user.complete_account_question_option_ids.include?(caqo.id),
+              id: dom_id(caqo)
+          %>
+
+          <label for="<%= dom_id(caqo) %>">
+            &nbsp;&nbsp;<%= caqo.name %>
+          </label>
+        </span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

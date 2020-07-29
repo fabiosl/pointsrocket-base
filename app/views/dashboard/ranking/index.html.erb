@@ -1,0 +1,124 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.ranking.index.title') %>
+  </span>
+</h2>
+
+<hr>
+
+<div class="mb10">
+  <span>Filtrar por período de tempo: </span>
+  <%= link_to t('views.general.filters.general'), filter_path(date: "all"), class: "btn btn-default btn-sm", remote: true %>
+  <%= link_to t('views.general.filters.last_24_hours'), filter_path(date: "last_24_hours"), class: "btn btn-default btn-sm", remote: true %>
+  <%= link_to t('views.general.filters.last_week'), filter_path(date: "last_7_days"), class: "btn btn-default btn-sm", remote: true %>
+  <%= link_to t('views.general.filters.last_month'), filter_path(date: "last_month"), class: "btn btn-default btn-sm", remote: true %>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h4>Ranking por total de pontos</h4>
+    <div class="panel panel-default" style="border-top: 0;">
+      <div id="total_points_table" class="panel-body pt0 pb0 pl0 pr0">
+        <%= render partial: "dashboard/ranking/total_points_table", locals: {users: @users, current_user_ranking: @current_user_ranking } %>
+      </div>
+    </div>
+
+    <% if !can?(:manage_community, current_domain) &&
+      !@current_user_ranking[:visible_in_ranking]
+    %>
+      <% unless @current_user_ranking[:is_next_position] %>
+        <i class="ico-ellipsis-vertical text-center mt10" style="display: block;"></i>
+      <% end %>
+
+      <div class="panel mt10">
+        <div class="panel-body pt0 pb0 pl0 pr0"> 
+          <div class="table-responsive panel-collapse pull out"> 
+            <table class="table table-hover mb0"> 
+              <tbody> 
+                <tr> 
+                  <td style="width: 5%;border:none;" class="text-right"><%= @current_user_ranking[:position] %></td> 
+                  <td style="width: 5%;border:none;"> 
+                    <div class="pos-relative mt5 mb5"> 
+                      <% if @current_user_ranking[:user].admin_current_domain %> 
+                        <i class="ico-crown large-user-admin-ico" title="Admin"></i> 
+                      <% end %> 
+                      <%= image_tag @current_user_ranking[:user].avatar.url(:s50x50), :class => "img-circle" %> 
+                    </div> 
+                  </td> 
+                  <td style="border:none;"> 
+                    <%= link_to( 
+                        @current_user_ranking[:user].name, 
+                        user_path(@current_user_ranking[:user]) 
+                      ) 
+                    %> 
+                  </td> 
+                  <td style="width: 10%;border:none;" class="text-center"> 
+                    <%= @current_user_ranking[:user].ranking_points %> 
+                  </td> 
+                </tr> 
+              </tbody> 
+            </table>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @domain.peer_recognition_enabled %>
+      <h4>Ranking por reconhecimento</h4>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%
+            opts = [[(t 'views.dashboard.admin_dashboard.peer_recognition.all') , "all"]]
+            @domain.peer_recognition_hashtags.split(",").each do |hashtag|
+              opts << [hashtag, hashtag]
+            end
+          %>
+          <%= select_tag "hashtag", options_for_select(opts, "all"), :class => "form-control", :onchange => "selectHashtag()"%>
+          <hr>
+          <div id="most_recognized_by_hashtags_tables">
+            <%= render partial: "dashboard/ranking/most_recognized_by_hashtags_table", locals: {table_data: @most_recognized_by_hashtags_data } %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% content_for :css do %>
+  <%= stylesheet_link_tag "new_dashboard_table.css" %>
+<% end %>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag "dashboard.js" %>
+  <%= javascript_include_tag "new_dashboard_table.js" %>
+
+  <% if @domain.peer_recognition_enabled %>
+    <script>
+      // Rename the id of the tables
+      (() => {
+        hashtags = "all, <%= @domain.peer_recognition_hashtags.html_safe %>"
+        hashtags.split(",").forEach( function (item) {
+          document.getElementById(item.trim() + '_wrapper_wrapper').id = item.trim() + '_wrapper';
+        })
+      })();
+
+      // Hide the tables that don't match with the hashtag selected
+      function hideElements() {
+        hashtags = "all, <%= @domain.peer_recognition_hashtags.html_safe %>"
+        hashtags.split(",").forEach( function (item) {
+          if (item !== document.getElementById("hashtag").value) {
+            document.getElementById(item.trim() + '_wrapper').style.display = "none";
+          }
+        })
+      }
+      hideElements();
+
+      // Show the tables that match with the hashtag selected
+      function selectHashtag() {
+        hideElements();
+        d = document.getElementById("hashtag").value;
+        document.getElementById(d.trim() + '_wrapper').style.display = "table"
+      }
+    </script>
+  <% end %>
+<% end %>

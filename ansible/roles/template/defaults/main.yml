@@ -1,0 +1,4 @@
+template_webserver_name: template.onrocket.com.br
+template_deploy_directory: /home/deploy/apps/template
+template_repo_version: master
+template_repo_url: git@bitbucket.org:onrocket/template-admin.git

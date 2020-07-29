@@ -1,0 +1,26 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <i class="ico-facebook mr5"></i> {{_source.author.name}} - <%= t('views.timeline.index.facebook') %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    {{#_source.picture}}
+    <div class="thumbnail">
+      <div class="media">
+        <span class="meta bottom darken">
+          <h5 class="nm semibold">
+            {{_source.message}} <br>
+            <small> {{_source.author.name}}</small>
+          </h5>
+        </span>
+        <img src="{{_source.picture}}" alt="{{_source.message}}" width="100%">
+      </div>
+    </div>
+    {{/_source.picture}}
+    {{^_source.picture}}
+      <p>{{_source.message}}</p>
+    {{/_source.picture}}
+  </div>
+</div>

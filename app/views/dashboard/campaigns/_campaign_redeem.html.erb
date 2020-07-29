@@ -1,0 +1,177 @@
+<div class="col-md-4 col-sm-6 col-xs-12">
+  <div class="panel prize-panel">
+    <div class="panel-body text-center pb20">
+      <div style="height: 110px">
+        <img src="<%= campaign.image.url(:redeem) %>" alt="" class="prize-image">
+      </div>
+
+      <h3 class="prize-title mb0">
+        <%= campaign.title %>
+      </h3>
+
+      <h4 class="mt10 mb10">
+        <%= campaign.subtitle %>
+      </h4>
+
+      <span class="available_redeems text-primary text-uppercase">
+        <%= t "views.dashboard.campaigns.campaign_redeem.available_redeems", count: campaign.available_redeems %>
+      </span>
+
+      <div class="description-view">
+        <% if campaign.campaign_badges.any? %>
+          <h4 class="text-center">
+            <%= t 'views.dashboard.campaigns.campaign_redeem.badges_required' %>
+          </h4>
+          <p>
+            <% campaign.campaign_badges.each do |cb|%>
+              <div style="font-weight: bold;">
+                <i class="ico-medal"></i> <%= cb.badge.name %>
+              </div>
+            <% end %>
+          </p>
+
+          <hr>
+        <% end %>
+        <%= campaign.description %>
+      </div>
+
+      <% redeems = current_user.campaign_users.where(campaign_id: campaign.id).count %>
+
+      <% if redeems > 0 %>
+        <div class="ribbon"><span><%= t 'views.dashboard.campaigns.campaign_redeem.redeemed', count: redeems %></span></div>
+      <% end %>
+
+    </div>
+    <div class="panel-footer">
+      <% if campaign.able_to_redeem? current_user %>
+        <a href="javascript://" class="btn btn-primary btn-block" data-toggle="modal" data-target="#prize-modal-<%= campaign.id %>" >
+          <%= t 'views.dashboard.campaigns.campaign_redeem.use_points_html', count: campaign.redeem_points %>
+        </a>
+      <% else %>
+        <a href="javascript://" class="btn btn-default btn-block" data-toggle="modal" data-target="#prize-modal-<%= campaign.id %>-why-cant" >
+          <%= t 'views.dashboard.campaigns.campaign_redeem.use_points_html', count: campaign.redeem_points %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% if campaign.able_to_redeem? current_user %>
+  <div
+    id="prize-modal-<%= campaign.id %>"
+    class="modal fade prize-modal"
+    tabindex="-1"
+    role="dialog" >
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+          <img src="<%= campaign.image.url(:redeem) %>" alt="" class="prize-image">
+
+          <h3 class="prize-title">
+            <%= campaign.title %>
+          </h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            <%= campaign.description %>
+          </p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.challenges.show.buttons.discard') %></button>
+          <button type="button" class="btn btn-primary btn-redeem-campaign" data-campaign-id="<%= campaign.id %>" data-target="#prize-modal-thanks-<%= campaign.id %>">
+            <%= t 'views.dashboard.campaigns.campaign_redeem.redeem_points_html', points: campaign.redeem_points %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div
+    id="prize-modal-thanks-<%= campaign.id %>"
+    class="modal fade prize-modal"
+    tabindex="-1"
+    role="dialog"
+  >
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+          <img src="<%= campaign.image.url(:redeem) %>" alt="" class="prize-image">
+
+          <h3 class="prize-title">
+            <%= campaign.title %>
+          </h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            <%= t 'views.dashboard.campaigns.campaign_redeem.thanks_contact_you_soon', points: campaign.redeem_points %>
+          </p>
+          <div class="alert alert-dismissable alert-info">
+            <%= t('views.mail.campaign_user.instructions_note') %>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.challenges.show.buttons.discard') %></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% else %>
+
+  <div
+    id="prize-modal-<%= campaign.id %>-why-cant"
+    class="modal fade prize-modal"
+    tabindex="-1"
+    role="dialog" >
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+          <img src="<%= campaign.image.url(:redeem) %>" alt="" class="prize-image">
+
+          <h3 class="prize-title">
+            <%= campaign.title %>
+          </h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            <%= t 'views.dashboard.campaigns.campaign_redeem.requirements_for_redeem' %>:
+          </p>
+
+          <ul>
+            <li>
+              <i class="<%= campaign.able_to_redeem_by_limit? ? "ico-ok-circle text-success" : "ico-remove-circle text-danger" %>"></i> <%= t 'views.dashboard.campaigns.campaign_redeem.available_redeems', count: campaign.available_redeems %>
+            </li>
+            <li>
+                <i class="<%= campaign.able_to_redeem_by_points?(current_user) ? "ico-ok-circle text-success" : "ico-remove-circle text-danger" %>"></i><%= t 'views.dashboard.campaigns.campaign_redeem.points', count: campaign.redeem_points %>.
+            </li>
+
+            <% if campaign.campaign_badges.any? %>
+              <% campaign.campaign_badges.each do |cb|%>
+                <li>
+                  <a href="<%= badges_path %>">
+                    <i class="<%= current_user.has_badge?(cb.badge) ? "ico-ok-circle text-success" : "ico-remove-circle text-danger" %>"></i> <i class="ico-medal"></i> <span style="text-transform: italic;"><%= cb.badge.name %></span>
+                  </a>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.challenges.show.buttons.discard') %></button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+

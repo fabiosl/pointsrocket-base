@@ -1,0 +1,81 @@
+- name: Install PostgreSQL dependencies
+  action: apt pkg={{item}} state=latest
+  sudo: yes
+  with_items:
+    - python-pycurl
+    - python-psycopg2
+
+- name: Add PostgreSQL repo key
+  apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc
+  sudo: yes
+
+- name: Add PostgreSQL repo
+  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main'
+  sudo: yes
+
+- name: Install PostgreSQL
+  apt: pkg=postgresql-9.3 state=latest update_cache=true
+  ignore_errors: yes
+  sudo: yes
+
+- name: Copy valid pg_hba.conf
+  template: src=pg_hba.conf.j2 dest=/etc/postgresql/9.3/main/pg_hba.conf
+  sudo: yes
+
+- name: Copy valid postgresql.conf
+  template: src=postgresql.conf.j2 dest=/etc/postgresql/9.3/main/postgresql.conf
+  sudo: yes
+
+- name: Restart PostgreSQL
+  command: service postgresql restart
+  sudo: yes
+
+- name: create the postgresql user for application
+  postgresql_user: name={{ruby_deploy_user}}
+  become_user: postgres
+  become: true
+  tags: create_the_db_user
+
+# - name: create the postgresql database for application
+#   postgresql_db: name=app_{{app_name}} owner={{ruby_deploy_user}} state=present
+#   sudo: yes
+#   sudo_user: postgres
+#   tags: postgres_create_table
+
+# - name: create the postgresql database for application (staging)
+#   postgresql_db: name=app_{{app_name}}_staging owner={{ruby_deploy_user}} state=present
+#   sudo: yes
+#   sudo_user: postgres
+#   tags: postgres_create_table_staging
+
+
+# # - name: create the postgresql user for application cbfa
+# #   postgresql_user: name=cbfa
+# #   # postgresql_user: name=cbfa password={{ cbfa_passwor_db }}
+# #   sudo: yes
+# #   sudo_user: postgres
+# #   tags: postgres_create_cbfa
+
+# # - name: create the postgresql database for cbfa
+# #   postgresql_db: name=cbfa owner={{ruby_deploy_user}}
+# #   sudo: yes
+# #   sudo_user: postgres
+# #   tags: postgres_create_cbfa
+
+# - name: create the postgresql database for staging_loreal
+#   postgresql_db: name=staging_loreal owner={{ruby_deploy_user}}
+#   sudo: yes
+#   sudo_user: postgres
+#   tags: postgres_create_staging_loreal
+
+# - name: create the postgresql database for bm
+#   postgresql_db: name=bm owner={{ruby_deploy_user}}
+#   sudo: yes
+#   sudo_user: postgres
+#   tags: postgres_create_bm
+
+# - name: create the postgresql database for loreal
+#   postgresql_db: name=loreal owner={{ruby_deploy_user}}
+#   sudo: yes
+#   sudo_user: postgres
+#   tags: postgres_create_loreal

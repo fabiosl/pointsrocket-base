@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://graph.facebook.com/v2.7/me/feed?access_token=EAACEdEose0cBAI14xjh37DGmmi8ShIUfP1Pl21VH6Udy5nEFHUbnEZC4N3ZBIXGPzDiewghtZB4hZBs48s77ZALddrvPutncuSvTh8B9TDbwimjcu3VWkAX7kWIDobAuiLL3AYIWSBy1OnWEkkhjNyxqrUw2cGdtWbUjtMvIHeQZDZD
+    body:
+      encoding: UTF-8
+      string: message=Teste%20com%20link&link=http%3A%2F%2Fpointsrocket.com&picture=http%3A%2F%2Fwww.dicasuteisbrasil.com.br%2Fwp-content%2Fuploads%2F2015%2F01%2FDesenhos_de_carro_para_colorir_2.gif&name=name%20of%20link&caption=caption%20of%20link&description=description%20of%20link
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Facebook-Api-Version:
+      - v2.7
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Fb-Trace-Id:
+      - AO5yL/eGKfV
+      X-Fb-Rev:
+      - '2473111'
+      X-App-Usage:
+      - '{"call_count":4,"total_cputime":8,"total_time":4}'
+      X-Fb-Debug:
+      - qzZl19t62ekO+p0t0954ravLkFPi6vtZgN/DZ3eg0UUb9kZI/R37dCtcP9gGgKQIyfhavsIi3AL26W6waB/Ifg==
+      Date:
+      - Fri, 29 Jul 2016 03:04:08 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '42'
+    body:
+      encoding: UTF-8
+      string: '{"id":"1596316400616312_1756067647974519"}'
+    http_version: 
+  recorded_at: Fri, 29 Jul 2016 03:04:08 GMT
+recorded_with: VCR 3.0.3

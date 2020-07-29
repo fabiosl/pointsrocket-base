@@ -1,0 +1,12 @@
+$("#most_recognized_by_hashtags_tables").html("<%= j(render partial: "dashboard/ranking/most_recognized_by_hashtags_table", locals: {table_data: @most_recognized_by_hashtags_data}) %>");
+$("#total_points_table").html("<%= j(render partial: "dashboard/ranking/total_points_table", locals: {users: @users, current_user_ranking: @current_user_ranking }) %>");
+
+// Hide the most recognized by hashtags tables that don't match with the hashtag selected
+(() => {
+  hashtags = "all, <%= @domain.peer_recognition_hashtags.html_safe %>"
+  hashtags.split(",").forEach( function (item) {
+    if (item !== document.getElementById("hashtag").value) {
+      document.getElementById(item.trim() + '_wrapper').style.display = "none";
+    }
+  })
+})();

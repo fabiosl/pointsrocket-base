@@ -1,0 +1,50 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-camera6"></i> <%= t('views.broadcasts.created.title') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="panel-body">
+    <p class="title semibold">
+      <a href="<%= broadcasts_path %>/{{ timelineable.id }}">
+        {{ timelineable.title }}
+      </a>
+    </p>
+
+    <p class="info-list text-default">
+      <span>
+        <i class="ico-calendar3"></i>
+        <%= t('views.broadcasts.scheduled_for') %> {{ timelineable.schedule_time_str }}
+      </span>
+
+      {{ #timelineable.badge }}
+      <span>
+        <i class="ico-medal"></i> {{ name }}
+      </span>
+      {{ /timelineable.badge }}
+
+      <span>
+        <i class="ico-trophy"></i> {{ timelineable.points }} <%= t('views.general.points') %>
+      </span>
+    </p>
+
+    {{{ timelineable.description }}}
+  </div>
+
+  <hr class="nm">
+
+  <a href="<%= broadcasts_path %>/{{ timelineable.id }}">
+    <img src="https://img.youtube.com/vi/{{ timelineable.video_id }}/sddefault.jpg" alt="{{timelineable.title}}" width="100%">
+  </a>
+
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>
+

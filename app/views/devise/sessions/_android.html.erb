@@ -1,0 +1,8 @@
+<% content_for :footer do %>
+  <script>
+    if (window.Android) {
+      window.Android.saveUserTokenLogin("")
+      window.Android.saveUserDomain("")
+    }
+  </script>
+<% end %>

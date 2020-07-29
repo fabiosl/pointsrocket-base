@@ -1,0 +1,31 @@
+/*
+ *= require lib/jquery-ui-1.11.4.custom/jquery-ui
+ *= require lib/summernote/summernote
+ *= require adminre_jquery-ui
+ *= require_self
+ */
+
+.relative {
+  position: relative;
+}
+
+.ui-sortable-placeholder {
+  height: 100px;
+  width: auto;
+  margin: 0 10px;
+  display: block;
+  visibility: visible;
+}
+
+
+.ui-datepicker {
+  z-index: 9999 !important;
+}
+
+.btn-file input[type=file] {
+  font-size: 0px !important;
+}
+
+.panel .note-editor {
+  border: 1px solid #cfd9db;
+}

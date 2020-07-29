@@ -1,0 +1,74 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-pencil"></i> <%= t '.title' %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <ul class="list-table">
+      <li class="text-center pos-relative" style="width:60px;">
+        {{ #timelineable.user.admin_current_domain }}
+          <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+        {{ /timelineable.user.admin_current_domain }}
+        <a href="<%= users_path %>/{{ timelineable.user.id }}" class="text-default">
+          <img src="{{timelineable.user.avatar_timeline}}" alt="{{timelineable.user.name}}" class="img-circle">
+        </a>
+        <span class="social-hashtag_challenge-ico">
+          <i class="ico ico-youtube"></i>
+        </span>
+      </li>
+      <li class="text-left">
+        <p class="nm semibold">
+          <a href="<%= users_path %>/{{ timelineable.user.id }}" class="text-default">
+            {{timelineable.user.name}}
+          </a>
+        </p>
+        <p class="nm">
+
+          <%= t('.description',
+            link: link_to("{{timelineable.hashtag_challenge.title}}", "#{hashtag_challenges_path}/{{timelineable.hashtag_challenge.id}}"),
+            participate_link: link_to(t(".participate_you_too"), "#{hashtag_challenges_path}/{{timelineable.hashtag_challenge.id}}")
+            ).html_safe
+          %>
+        </p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="thumbnail thumbnail-album animation animating delay fadeInLeft">
+      <!-- media -->
+      <div class="media">
+        {{#timelineable.json._source.picture}}
+          <div class="panel-body">
+            <div class="challenge-post-message">
+              {{timelineable.json._source.message}}
+            </div>
+          </div>
+          <div class="pos-relative">
+            <div class="share-overlay-hashtag_challenge-user">
+              <a href="{{external_link}}" target="_blank">
+                <div class="ico-external-link"></div>
+              </a>
+            </div>
+            <img src="{{timelineable.json._source.picture}}" title="{{timelineable.json._source.message}}" width="100%">
+          </div>
+        {{/timelineable.json._source.picture}}
+
+        {{^timelineable.json._source.picture}}
+        <div class="placeholder-{{timelineable.json._source.social_network}}">
+          {{timelineable.json._source.message}}
+        </div>
+        {{/timelineable.json._source.picture}}
+      </div>
+      <!--/ media -->
+  </div>
+  <!--/ thumbnail -->
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>

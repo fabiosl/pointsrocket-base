@@ -1,0 +1,55 @@
+<%= render 'partials/alerts' %>
+
+<div class="container-fluid">
+    <!-- START row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-layout">
+                <!-- Left / Bottom Side -->
+                <div class="col-lg-12 panel">
+                    <!-- panel body -->
+                    <div class="panel-body">
+                        <ul class="list-table">
+                            <li class="text-left">
+                                <h4 class="semibold nm">Alterar cartão de crédito</h4>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <%= form_for(@credit_card, url: change_credit_card_path) do |f| %>
+                        <div class="panel-body">
+                          <div class="form-group clearfix">
+                            <%= f.label :holder_name, 'Nome escrito no cartão', class: 'col-sm-4 control-label text-right' %>
+                            <div class="col-sm-6">
+                              <%= f.text_field :holder_name, class: "form-control", placeholder: "Nome do dono do cartão" %>
+                            </div>
+                          </div>
+                          <div class="form-group clearfix">
+                            <%= f.label :number, 'Número', class: 'col-sm-4 control-label text-right' %>
+                            <div class="col-sm-6">
+                              <%= f.text_field :number, class: "form-control", placeholder: "Número", data: {maskedinput: '9999-9999-9999-9999'} %>
+                            </div>
+                          </div>
+                          <div class="form-group clearfix">
+                            <%= f.label :expiration, 'Expiração', class: 'col-sm-4 control-label text-right' %>
+                              <div class="col-sm-6">
+                                <%= f.text_field :expiration, class: "form-control", placeholder: "Data de expiração (formato MM/YY)", data: {maskedinput: '99/99'} %>
+                              </div>
+                          </div>
+                          <div class="form-group clearfix">
+                            <div class="col-sm-offset-4 col-sm-6">
+                              <%= f.submit "Atualizar cartão de crédito", class: "btn btn-primary" %>
+                            </div>
+                          </div>
+                        </div>
+                    <% end %>
+
+                </div>
+                <!--/ Left / Bottom Side -->
+            </div>
+        </div>
+    </div>
+    <!--/ END row -->
+
+</div>

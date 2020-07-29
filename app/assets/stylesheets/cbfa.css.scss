@@ -1,0 +1,220 @@
+@import "compass/css3/border-radius";
+@import "compass/css3/opacity";
+@import "compass/css3/box-shadow";
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
+@import url(https://fonts.googleapis.com/css?family=Fjalla+One);
+
+html body {
+  font-family: 'Lato', sans-serif;
+}
+
+// $amarelo: #C9AF77;
+// $amarelo: #FDBD07;
+$amarelo: #164379;
+
+@import "cbfa/header";
+@import "cbfa/login";
+
+
+#header.navbar .navbar-header {
+  background: #0267A5;
+}
+
+
+html body {
+  background: #B2CEDF;
+}
+
+html.login-page body {
+  background: image-url("cbfa/login.jpg") no-repeat center center fixed;
+  // background: image-url("loreal/mulher-home.png");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  @media (min-width: 421px) {
+    background: image-url("cbfa/background.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+}
+
+.navbar-brand .dash-logo {
+  display: block;
+  // margin-left: 40px;
+  margin: 0 auto;
+  margin-top: 6px;
+}
+
+.topmenu li.active a > .figure > [class^="ico-"], .mainmenu li.active a > .figure > [class^="ico-"], .topmenu li.active a > .figure > [class*=" ico-"], .mainmenu li.active a > .figure > [class*=" ico-"] {
+  color: $amarelo;
+}
+
+a {
+  color: $amarelo;
+
+  &:hover, &:focus, &:active {
+    color: $amarelo;
+    @include opacity(0.9);
+  }
+}
+
+.open > .dropdown-toggle.btn-success {
+  color: white;
+  background: black;
+}
+
+// .btn-success {
+//   background: $amarelo;
+//   border: none;
+//   color: black;
+
+//   &:hover, &:focus, &:active {
+//     color: white;
+//     background: black;
+//   }
+// }
+//
+
+#header.navbar .navbar-toolbar .navbar-nav > .navbar-main > a:active,
+#header.navbar .navbar-toolbar .navbar-nav > .navbar-main > a:focus {
+  color: #ffffff;
+  background-color: $amarelo;
+}
+
+
+.open > .dropdown-toggle.btn-filtro {
+  color: white;
+  background: black;
+}
+
+.btn-filtro {
+  background: none;
+  @include border-radius(0);
+  border: 1px solid black;
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+  color: black;
+
+  &:hover, &:focus, &:active {
+    color: white;
+    background: black;
+  }
+}
+
+
+// .open > .dropdown-toggle.btn-primary {
+//   background: $amarelo;
+// }
+
+
+// .btn-primary {
+//   background: black;
+//   border: none;
+
+//   &:hover, &:focus, &:active {
+//     background: $amarelo;
+//   }
+// }
+
+.progress .progress-bar.progress-bar-success {
+  background-color: $amarelo;
+}
+
+.text-success {
+  color: $amarelo !important;
+}
+
+.list-group-tabs > .list-group-item.active {
+  background-color: #2A2A2A;
+  border-color: #2A2A2A;
+}
+
+.form-control:focus {
+  border-color: $amarelo;
+}
+
+// .text-primary {
+//   color: black !important;
+// }
+
+.course-list .course-list-item .course-panel .panel-body > .course-panel-thumb > img {
+  @include box-shadow(1px 1px 8px 1px rgb(0, 0, 0));
+}
+
+.breadcrumb {
+  background-color: white;
+  border: 1px solid #cfd9db;
+}
+
+.step-overlay {
+  background: #777777;
+  padding: 10px;
+}
+
+.border-radius-5 {
+  @include border-radius(5px);
+}
+
+#modal-acerto, #modal-erro {
+  .modal-backdrop.in {
+    @include opacity(0.9);
+  }
+}
+
+%modal-header {
+  text-align: center;
+  padding: 20px 0;
+}
+
+%modal-footer {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 14px 0;
+  font-size: 30px;
+}
+
+%modal-footer-buttons {
+  // text-align: center;
+  // color: white;
+  // font-weight: bold;
+  // text-transform: uppercase;
+  // padding: 14px 0;
+  // font-size: 30px;
+}
+
+.td-modal-header {
+  @extend %modal-header;
+  background: #fae605;
+}
+
+.td-modal-footer {
+  @extend %modal-footer;
+  background: #3e1c10;
+}
+
+.int-modal-header {
+  @extend %modal-header;
+  background: #67a8ef;
+}
+
+.int-modal-footer {
+  @extend %modal-footer;
+  background: #fae605;
+  color: #213b51;
+}
+
+.int-modal-footer-buttons {
+  @extend %modal-footer-buttons;
+  padding: 10px 0;
+  // background: #fae605;
+  // color: #213b51;
+}
+

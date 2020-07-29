@@ -1,0 +1,76 @@
+<!-- thumbnail -->
+<div class="panel attending">
+  <div class="panel-body pt0 pr0 pl0 pb0">
+    <div class="thumbnail thumbnail-album animation animating delay fadeInLeft">
+      <div class="caption mt10">
+        <ul class="list-table">
+          <li class="text-left pos-relative" style="width:60px;">
+            <% if hashtag_challenge_user.user.admin_current_domain %>
+              <i class="ico-crown default-user-admin-ico" title="Admin"></i>
+            <% end %>
+            <%= link_to user_path(hashtag_challenge_user.user) do %>
+              <%= image_tag hashtag_challenge_user.user.avatar.url(:s50x50),
+                            size: '50x50',
+                            class: 'img-circle',
+                            alt: hashtag_challenge_user.user.name
+              %>
+            <% end %>
+            <span class="social-hashtag_challenge-ico">
+              <i class="ico ico-<%= hashtag_challenge_user.get_post_social_network_icon %>"></i>
+            </span>
+          </li>
+          <li class="text-left">
+            <h5 class="semibold mt0 mb5"><%= hashtag_challenge_user.user.name %></h5>
+            <p class="text-muted mb5 ellipsis">
+              <span class="ico ico-calendar"></span>
+              <%= hashtag_challenge_user.formatted_social_datetime %>
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <% if hashtag_challenge_user.get_post_message.present? %>
+        <div class="panel-body">
+          <div class="challenge-post-message skip-read-more ellipsis" style="height: 20px;">
+            <%= hashtag_challenge_user.get_post_message %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- media -->
+      <div class="media pos-relative">
+          <% if hashtag_challenge_user.get_post_picture.present? %>
+            <!-- indicator -->
+            <div class="indicator"><span class="spinner"></span></div>
+            <!--/ indicator -->
+
+            <!--/ toolbar overlay -->
+            <img data-toggle="unveil" src="<%= hashtag_challenge_user.get_post_picture %>" data-src="<%= hashtag_challenge_user.get_post_picture %>" width="100%" class="unveiled">
+          <% end %>
+
+          <div class="share-overlay-hashtag_challenge-user">
+            <a href="<%= hashtag_challenge_user.get_post_url %>" target="_blank">
+              <div class="ico-external-link"></div>
+            </a>
+          </div>
+      </div>
+      <!--/ media -->
+
+      <% if hashtag_challenge_user.get_metrics.size > 0 %>
+      <div class="panel-toolbar-wrapper">
+          <div class="panel-toolbar ellipsis">
+              <%
+              count = hashtag_challenge_user.get_metrics.size
+              hashtag_challenge_user.get_metrics.each_with_index do |metric, i| %>
+                <i class="ico-<%= hashtag_challenge_user.get_metric_icon metric["name"], hashtag_challenge_user.get_social_network %>"></i> <%= metric["value"] %>
+                <% if i < count - 1%>
+                  <span class="text-muted mr5 ml5">•</span>
+                <% end %>
+              <% end %>
+          </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<!--/ thumbnail -->

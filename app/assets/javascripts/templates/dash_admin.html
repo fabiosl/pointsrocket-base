@@ -1,0 +1,118 @@
+<div class="indicator show" data-ng-if="loading">
+  <span class="spinner"></span>
+</div>
+
+<div class="row">
+  <div class="col-sm-12 text-center">
+    <a href="/dashboard/admin/{{ domain.id }}/edit" class="admin_edit btn btn-primary mb2">
+      <i class="ico-pencil3"></i>
+      <span ng-bind="('views.dashboard.admin.menu.edit' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/courses" class="admin_courses btn btn-primary mb2">
+      <i class="ico-graduation"></i>
+      <span ng-bind="('views.dashboard.admin.menu.courses' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/badges" class="admin_badges btn btn-primary mb2">
+      <i class="ico-medal"></i>
+      <span ng-bind="('views.dashboard.admin.menu.badges' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/trivias_questions" class="admin_trivias_questions btn btn-primary mb2">
+      <i class="ico-pencil3"></i>
+      Trivias (Questões)
+    </a>
+    <a href="/dashboard/admin/campaigns" class="admin_campaigns btn btn-primary mb2">
+      <i class="ico-gift22"></i>
+      <span ng-bind="('views.dashboard.admin.menu.rewards' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/campaign_users" class="admin_campaigns btn btn-primary mb2">
+      <i class="ico-gift22"></i>
+      <span ng-bind="('views.dashboard.admin.menu.campaign_users' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/goals" class="admin_goals btn btn-primary mb2">
+      Metas diárias
+    </a>
+    <a href="/dashboard/admin/trails" class="admin_trails btn btn-primary mb2">
+      Trilhas
+    </a>
+    <a href="/dashboard/admin/franchisees" class="admin_franchisee btn btn-primary mb2">
+      Franqueados
+    </a>
+    <a href="/dashboard/admin/plans" class="admin_plans btn btn-primary mb2">
+      Planos
+    </a>
+    <a href="/dashboard/admin/categories" class="admin_category btn btn-primary mb2">
+      Categorias
+    </a>
+    <a href="/dashboard/admin/challenges" class="admin_challenges btn btn-primary mb2">
+      <i class="ico-pencil"></i>
+      <span ng-bind="('views.dashboard.admin.menu.challenges' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/challenges" class="admin_feedbacks btn btn-primary mb2">
+      <i class="ico-pencil"></i>
+      <span ng-bind="('views.dashboard.admin.menu.feedbacks' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/challenge_users" class="admin_challenge_users btn btn-primary mb2">
+      <i class="ico-forward"></i>
+      <span ng-bind="('views.dashboard.admin.menu.submissions' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/hashtag_challenges" class="admin_hashtag_challenges btn btn-primary mb2">
+      <i class="ico-pencil"></i>
+      <span ng-bind="('views.dashboard.admin.menu.hashtag_challenges' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/hashtag_challenge_users" class="admin_hashtag_challenge_users btn btn-primary mb2">
+      <i class="ico-forward"></i>
+      <span ng-bind="('views.dashboard.admin.menu.publications' | i18next)"></span>
+    </a>
+    <a href="/dashboard/admin/broadcasts" class="admin_broadcasts btn btn-primary mb2">
+      <i class="ico-camera6"></i>
+      <span ng-bind="('views.dashboard.admin.menu.broadcasts' | i18next)"></span>
+    </a>
+
+    <a href="/dashboard/admin/invites" class="admin_invites btn btn-primary mb2">
+      <i class="ico-user-plus2"></i>
+      <span ng-bind="('views.dashboard.admin.menu.invites' | i18next)"></span>
+    </a>
+
+    <a href="/dashboard/admin/complete_account_questions" class="admin_complete_account_questions btn btn-primary mb2">
+      <i class="ico-question-sign"></i>
+      <span ng-bind="('views.dashboard.admin.menu.complete_account_questions' | i18next)"></span>
+    </a>
+
+    <a
+      href="/dashboard/admin/community_invites"
+      class="admin_community_invites btn btn-primary mb2"
+      ng-if="adminOptions.subdomain_as_communities"
+    >
+      <i class="ico-user-plus"></i>
+      <span ng-bind="('views.dashboard.admin.menu.community_invites' | i18next)"></span>
+    </a>
+  </div>
+
+  <script>
+
+    if (window.challenge_as_feedback) {
+      document.querySelectorAll('.admin_challenges').forEach(function(elem){
+        elem.style.display = 'none'
+      });
+    } else {
+      document.querySelectorAll('.admin_feedbacks').forEach(function(elem){
+        elem.style.display = 'none'
+      });
+    }
+
+    ["trivias_questions",
+    "goals",
+    "trails",
+    "franchisee",
+    "plans",
+    "category"
+    ].forEach(function(item){
+      if (!adminOptions[item+"_active"]) {
+        document.querySelectorAll('.admin_'+item).forEach(function(elem){
+          elem.style.display = 'none';
+        });
+      }
+    });
+  </script>
+
+</div>

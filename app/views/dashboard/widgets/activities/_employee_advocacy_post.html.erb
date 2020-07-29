@@ -1,0 +1,39 @@
+<!-- ADVOCACY POST -->
+<hr class="mt10 mb10 activity-separator">
+
+<ul class="list-table">
+  <li style="width:60px;">
+    <div class="pos-relative w50 h50">
+      <div
+        class="widget-image-container img-circle"
+        style="background-image:url('<%= activity.image.url %>');" 
+      ></div>
+
+      <span class="item-status-ico">
+        <% if activity.done_by_user?(current_user) %>
+        <i class="ico ico-checkmark text-success"></i>
+        <% else %>
+          <i class="ico ico-circle text-danger"></i>
+        <% end %>
+      </span>
+    </div>
+  </li>
+  <li class="text-left">
+    <h5 class="semibold nm">
+      <%= link_to '/dashboard/compartilhamentos' do %>
+      <i class="ico-share22"></i>  <%= activity.title %>
+      <% end %>
+    </h5>
+    <p class="info-list text-default ellipsis">
+      <span>
+        <i class="ico-calendar3"></i> <%= l(activity.created_at, format: :long) %>
+      </span>
+      <br>
+      <span>
+        <i class="ico-users"></i>
+        <%= t('views.general.shares', count: activity.people_shared_info[:count]) %>
+      </span>
+    </p>
+  </li>
+</ul>
+<!--/ ADVOCACY POST -->

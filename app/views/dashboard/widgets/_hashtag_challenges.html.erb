@@ -1,0 +1,80 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      #
+      <%= t('views.dashboard.widgets.hashtag_challenges.title') %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <% if hashtag_challenges.size > 0 %>
+      <% hashtag_challenges.each_with_index do |hashtag_challenge, i| %>
+        <% if i > 0 %>
+        <hr class="mt10 mb10">
+        <% end %>
+
+        <ul class="list-table">
+          <li style="width:60px;" class="col-top">
+            <a href="<%= hashtag_challenge_path(hashtag_challenge) %>">
+              <img
+                class="img-rounded img-circle"
+                src="<%= image_url hashtag_challenge.image.url(:thumb) %>" 
+                width="50px"
+                height="50px"
+              >
+            </a>
+          </li>
+          <li class="text-left">
+            <a href="<%= hashtag_challenge_path(hashtag_challenge) %>">
+              <h5 class="semibold ellipsis nm">
+                <% if current_user.hashtag_challenge_approved? hashtag_challenge %>
+                  <i class="ico-ok-circle" style="color: green;" title="Approved"></i>
+                <% end %>
+
+                <%= hashtag_challenge.title %>
+              </h5>
+              <p class="info-list text-default ellipsis">
+                <span>
+                  <i class="ico-calendar3"></i> <%= t('views.general.from').capitalize %> <%= hashtag_challenge.date_start.strftime("%d/%m/%Y") %> <%= t('views.general.to')%> <%= hashtag_challenge.date_end.strftime("%d/%m/%Y") %>
+                </span><br/>
+
+                <% participating_people_count = hashtag_challenge.user_ids_visible.count.size %>
+
+                <%
+                  participating_key = hashtag_challenge.has_passed? ? "views.hashtag_challenges.index.have_published_past" : "views.hashtag_challenges.index.have_published"
+                %>
+
+                <span>
+                  <i class="ico-user"></i> <%= t participating_key, count: participating_people_count %>
+                </span>
+
+                <% if hashtag_challenge.points %>
+                  <span>
+                    <i class="ico-trophy"></i> <%= hashtag_challenge.points %> <%= t('views.general.points')%>
+                  </span><br/>
+                <% end %>
+
+                <% if hashtag_challenge.badge %>
+                  <span>
+                    <i class="ico-medal"></i> <%= hashtag_challenge.badge.name %>
+                  </span>
+                <% end %>
+              </p>
+            </a>
+          </li>
+        </ul>
+
+      <% end %>
+    <% else %>
+      <p><%= t('views.dashboard.widgets.hashtag_challenges.not_found') %></p>
+    <% end %>
+  </div>
+
+  <hr class="nm">
+
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar text-right">
+      <%= link_to t('views.dashboard.widgets.hashtag_challenges.see_all'), hashtag_challenges_path %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://graph.facebook.com/v2.7/me/feed?access_token=EAACEdEose0cBAI14xjh37DGmmi8ShIUfP1Pl21VH6Udy5nEFHUbnEZC4N3ZBIXGPzDiewghtZB4hZBs48s77ZALddrvPutncuSvTh8B9TDbwimjcu3VWkAX7kWIDobAuiLL3AYIWSBy1OnWEkkhjNyxqrUw2cGdtWbUjtMvIHeQZDZD
+    body:
+      encoding: UTF-8
+      string: message=Testando%20a%20publica%C3%A7%C3%A3o
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Facebook-Api-Version:
+      - v2.7
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      X-Fb-Trace-Id:
+      - AdioEhqEYOG
+      X-Fb-Rev:
+      - '2473111'
+      X-App-Usage:
+      - '{"call_count":3,"total_cputime":1,"total_time":2}'
+      X-Fb-Debug:
+      - WLne/uFbsmGMY4ta2Hta+Q2zYL2Ycyjuum8eYJfIldWadNfUHVvdNAMwisAk8QJkNsceju9aYQmNI05FRVvVBA==
+      Date:
+      - Fri, 29 Jul 2016 02:30:33 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '42'
+    body:
+      encoding: UTF-8
+      string: '{"id":"1596316400616312_1756052057976078"}'
+    http_version: 
+  recorded_at: Fri, 29 Jul 2016 02:30:33 GMT
+recorded_with: VCR 3.0.3

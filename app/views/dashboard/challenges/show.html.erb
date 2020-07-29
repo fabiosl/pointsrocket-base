@@ -1,0 +1,392 @@
+<script>
+  window.challengeUsers = <%= @challenge.challenge_users.select(&:persisted?).map {|cu|
+    {
+      id: cu.id,
+      user_id: cu.user_id,
+      user_avatar: cu.user.avatar.url(:s50x50),
+      user_name: cu.user.name,
+      description: cu.description,
+      created_at_to_now: distance_of_time_in_words_to_now(cu.created_at),
+      status: cu.status,
+      status_name: t(apply_feedback("views.challenges.show.status.#{cu.status == "pending" ? "waiting_approval" : cu.status }")),
+      feedback: cu.feedback,
+    }
+  }.to_json.html_safe %>;
+</script>
+
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t(apply_feedback('views.challenges.index.title')).capitalize %>
+  </span>
+</h2>
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-8">
+    <div class="panel">
+      <div class="panel-body pos-relative">
+        <% if current_user.challenge_approved? @challenge %>
+          <!-- <i class="ico-ok-circle challenge-approved-mark" style="color: green;" title="Approved"></i> -->
+          <span class="label label-success pull-right"><%= t(apply_feedback('views.challenges.show.participating')) %></span>
+        <% end %>
+
+        <h2 class="mt0">
+          <%= @challenge.title %>
+        </h2>
+        <p class="info-list text-default">
+          <span>
+            <i class="ico-calendar3"></i> <%= t('views.general.from').capitalize %>  <%= @challenge.date_start.strftime("%d/%m/%Y") %> <%= t('views.general.to') %>  <%= @challenge.date_end.strftime("%d/%m/%Y") %>
+          </span>
+
+          <% participating_people_count = @challenge.user_ids_visible.count.size %>
+
+          <!--  TODO: the following code needs to be refactored. It is being repeated several times across views. -->
+          <%
+            participating_key = @challenge.has_passed? ? apply_feedback("views.challenges.index.have_joined_past") : apply_feedback("views.challenges.index.have_joined")
+          %>
+
+          <span>
+            <i class="ico-user"></i> <%= t participating_key, count: participating_people_count %>
+          </span>
+
+          <span>
+            <% comments_count = Comment.where(commentable: @challenge).count %>
+            <i class="ico-comments"></i> <%= comments_count %> <%= t('views.general.comments') %>
+          </span>
+
+          <% if @challenge.badge %>
+          <span>
+            <i class="ico-medal"></i> <%= @challenge.badge.name %>
+          </span>
+          <% end %>
+
+          <% if @challenge.points %>
+          <span>
+            <i class="ico-trophy"></i> <%= @challenge.points %>
+            <%= t('views.general.points') %>
+          </span>
+          <% end %>
+        </p>
+
+        <div class="description">
+          <%= (@challenge.description || "").html_safe %>
+        </div>
+
+        <% unless current_user.challenge_approved?(@challenge) %>
+          <% if @challenge.date_start.beginning_of_day <= Time.now && @challenge.date_end.end_of_day >= Time.now %>
+            <div class="text-center mt15">
+              <a href="#" class="btn btn-primary btn-primary-default btn-block" data-toggle="modal" data-target="#participate-modal">
+                <%= t(apply_feedback('views.challenges.show.buttons.join')) %>
+              </a>
+            </div>
+          <% end %>
+        <% end %>
+        <!-- media -->
+        <div class="media">
+          <img src="<%= @challenge.image.url %>" alt="<%= @challenge.title %>" width="100%">
+        </div>
+        <!--/ media -->
+
+      </div>
+    </div>
+    <h2 class="publication-headline text-center">
+        <%= t '.publications_headline' %>
+      </h2>
+      <hr>
+    <div class="row">
+      <% @challenge_users_groups.each_with_index do |group, group_index| %>
+        <div class="col-xs-12 col-sm-6">
+          <% group.each_with_index do |challenge_user, i| %>
+            <!-- thumbnail -->
+            <div class="panel attending">
+              <div class="panel-body pt0 pr0 pl0 pb0">
+                <div class="thumbnail thumbnail-album animation animating delay fadeInLeft">
+                  <div class="caption mt10">
+                    <ul class="list-table">
+                      <li class="text-left pos-relative valign-top" style="width:60px;">
+                        <% if challenge_user.user.admin_current_domain %>
+                          <i class="ico-crown default-user-admin-ico" title="Admin"></i>
+                        <% end %>
+                        <%= link_to user_path(challenge_user.user) do %>
+                          <%= image_tag challenge_user.user.avatar.url(:s50x50),
+                                        size: '50x50',
+                                        class: 'img-circle',
+                                        alt: challenge_user.user.name
+                          %>
+                        <% end %>
+                      </li>
+                      <li class="text-left">
+                        <h5 class="semibold mt0 mb5"><%= challenge_user.user.name %></h5>
+                        <p class="text-muted mb5 ellipsis">
+                          <% if challenge_user.status == "pending" %>
+                            <i class="ico-time " title="<%= t(apply_feedback('views.challenges.show.status.waiting_approval')) %>"></i>
+                            <%= t(apply_feedback('views.challenges.show.status.waiting_approval')) %><br>
+
+                          <% elsif challenge_user.status == "approved" %>
+                            <i class="ico-ok-circle text-success" title="<%= t(apply_feedback('views.challenges.show.status.approved')) %>"></i>
+                            <%= t(apply_feedback('views.challenges.show.status.approved')) %><br>
+                          <% end %>
+
+                          <i class="ico-calendar"></i>
+                          <%= t(apply_feedback('views.challenges.show.submitted_at')) %>: <%= l(challenge_user.created_at, format: :short) %>
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="panel-body">
+                    <div class="challenge-post-message images-full-width-wrapper">
+                      <% if can?(:read_submissions, @challenge) %>
+                        <% if challenge_user.description.present? %>
+                          <div class="mb10"><%= challenge_user.description.html_safe %></div>
+                        <% end %>
+                        <div><%= challenge_user.file_content %></div>
+                      <% else %>
+                        <%= t('views.challenges.show.challenge_joined') %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/ thumbnail -->
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="fixed-sidebar">
+      <%= render partial: "comments/widget", locals: {commentable: @challenge} %>
+    </div>
+  </div>
+
+</div>
+
+
+
+<script id="challenge_user_template" type="x-tmpl-mustache">
+  <div class="modal-header text-center">
+      <button type="button" class="close" data-dismiss="modal">×</button>
+      <img src="{{user_avatar}}" alt="{{user_name}}" class="img-circle">
+      <h3 class="semibold modal-title">{{user_name}}</h3>
+  </div>
+
+  <div class="modal-body">
+    <h4 class="semibold"><%= t '.submission' %></h4>
+    <p>
+      {{{description}}}
+    </p>
+
+    {{#feedback}}
+    <div class="alert {{submission_alert_class}} fade in">
+        <h4 class="semibold"><%= t '.feedback' %></h4>
+        <p class="mb10">{{feedback}}</p>
+    </div>
+    {{/feedback}}
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.challenges.show.buttons.close') %></button>
+  </div>
+</script>
+
+<!-- START participate-modal -->
+<div id="submission-modal" class="modal fade">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<!-- START participate-modal -->
+<div id="participate-modal" class="modal fade">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3 class="semibold modal-title text-success"><%= t(apply_feedback('views.challenges.show.join_challenge')) %></h3>
+        <p class="text-muted"><%= t(apply_feedback('views.challenges.show.how_to_join_message')) %></p>
+      </div>
+      <%= form_for(@challenge_user, url: challenge_challenge_users_path(@challenge, @challenge_user), html: {class: "form-horizontal"}) do |f| %>
+        <div class="modal-body">
+          <% if f.object.errors.present? %>
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <h2 class="panel-title">
+                  <%= t(apply_feedback('views.challenges.show.form.errors.title')) %>
+                </h2>
+              </div>
+              <div class="panel-body">
+                <ul class="nm list-unstyled">
+                  <% f.object.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="form-group">
+            <div class="col-lg-12">
+              <% if @challenge.recommendation %>
+                <div>
+                  <%= @challenge.recommendation.html_safe %>
+                </div>
+              <% end %>
+              <%= f.label :description, t(apply_feedback('views.challenges.show.form.fields.description.title')), class: 'control-label' %>
+              <%= f.text_area :description, type: 'text', placeholder: t(apply_feedback('views.challenges.show.form.fields.description.placeholder')), class: 'form-control', rows: 10 %>
+
+
+              <div class="challenge_user_file_preview mt10 mb15"></div>
+              <div class="input-group">
+                <input type="text" class="form-control" readonly="">
+                <span class="input-group-btn">
+                  <div class="btn btn-primary btn-file">
+                    <span class="ico ico-upload22"></span>
+                    <%= t(apply_feedback('views.challenges.show.form.or_send_file')) %>
+                    <%= f.file_field :file %>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.challenges.show.buttons.discard') %></button>
+          <button type="submit" class="btn btn-primary"><%= t(apply_feedback('views.challenges.show.buttons.submit')) %></button>
+        </div>
+      <% end %>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<!-- START terms-modal -->
+<div id="terms-modal" class="modal fade">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3 class="semibold modal-title text-success"><%= t(apply_feedback('views.challenges.show.challenge_agreement_terms')) %></h3>
+      </div>
+      <div class="modal-body">
+        <%= (@challenge.terms || "").html_safe %>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t(apply_feedback('views.challenges.show.buttons.close')) %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<!--/ END terms-modal -->
+
+<% @current_user_submissions.where(status: "declined").each do |challenge_user| %>
+
+  <!-- START participate-ok -->
+  <div id="denied-explanation-<%= challenge_user.id %>" class="modal fade">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <div class="ico-remove-circle" style="font-size:36px;"></div>
+          <h3 class="semibold modal-title text-danger"><%= t(apply_feedback('views.challenges.show.not_accepted_submission.title')) %></h3>
+        </div>
+        <div class="modal-body">
+          <p class=""><%= t(apply_feedback('views.challenges.show.not_accepted_submission.message')) %></p>
+
+          <p class="">
+            <%= t(apply_feedback('views.challenges.show.reasons')) %>: <span class="bold submition-feedback" ><%= challenge_user.feedback %></span>
+          </p>
+
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t(apply_feedback('views.challenges.show.buttons.close')) %></button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  <!--/ END participate-ok -->
+
+<% end %>
+
+<%= content_for :footer do %>
+  <script>
+    $('#challenge_user_description').summernote({
+      placeholder: '<%= t(apply_feedback('views.challenges.show.form.fields.description.placeholder'))%>',
+      height: 150,
+      toolbar: [
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['insert', ['link', 'picture', 'video']],
+        ['misc', ['codeview']]
+      ]
+    });
+
+    // Listen to submission file selection
+    $(document).on('change', 'input:file', function() {
+      var input = $(this),
+          inputFileArr = input.val().split(/\\/),
+          inputFileName = inputFileArr[inputFileArr.length - 1];
+          label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+
+      input.trigger('fileselect', inputFileName);
+    });
+
+    // Show submission filename in input text
+    $(document).ready(function() {
+      $('input:file').on('fileselect', function(event, fileName) {
+        var input = $(this).parents('.input-group').find('input:text');
+        input.val(fileName);
+      });
+    });
+
+
+    // Add submission file preview for image and video types
+    document.getElementById('challenge_user_file').addEventListener('change', function(event) {
+      var file = event.target.files[0],
+          fileReader = new FileReader(),
+          $filePreviewContainer = document.getElementsByClassName('challenge_user_file_preview')[0];
+
+      $filePreviewContainer.innerHTML = '';
+
+      if (file.type.match('image')) {
+        fileReader.onload = function() {
+          var img = document.createElement('img');
+          img.src = fileReader.result;
+          $filePreviewContainer.appendChild(img);
+        };
+
+        fileReader.readAsDataURL(file);
+      } else if(file.type.match('video')) {
+        var ico = document.createElement('i');
+        ico.className = 'ico ico-play32 fsize112'
+        $filePreviewContainer.appendChild(ico);
+      }
+    });
+  </script>
+  <% if @show_submission_modal %>
+    <script>
+      $(function(){
+        $("#participate-modal").modal()
+      })
+    </script>
+  <% end %>
+
+
+  <% if @show_modal_nao_aceita_id %>
+    <script>
+      $(function(){
+        $("#denied-explanation-<%= @show_modal_nao_aceita_id %>").modal()
+      })
+    </script>
+  <% end %>
+
+<% end %>
+

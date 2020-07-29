@@ -1,0 +1,48 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <i class="ico-medal mr5"></i>
+      <%= t('views.dashboard.widgets.badges.title') %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <% if badge_users.size > 0 %>
+      <% badge_users.each_with_index do |badge_user, i| %>
+        <% if i > 0 %>
+        <hr>
+        <% end %>
+
+        <%
+          if badge_user.badge.nil?
+            next
+          end
+        %>
+        <ul class="list-table">
+          <li style="width:60px;">
+            <img class="img-rounded" src="<%= badge_user.badge.avatar.url(:s100x109) %>" alt="" width="50px" height="50px">
+          </li>
+          <li class="text-left">
+            <h5 class="semibold ellipsis nm">
+              <%= link_to badge_user.badge.name, badges_path %>
+            </h5>
+            <p>
+              <%= t('views.dashboard.widgets.badges.earned_at') %>
+              <%= distance_of_time_in_words_to_now(badge_user.created_at) %>
+            </p>
+          </li>
+        </ul>
+      <% end %>
+    <% else %>
+      <p><%= t('views.dashboard.widgets.badges.you_have_none') %></p>
+    <% end %>
+  </div>
+
+  <hr class="nm">
+
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar text-right">
+      <%= link_to t('views.dashboard.widgets.badges.see_all'), badges_path %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+@import "compass/css3/border-radius";
+
+.badge--dont-have {
+  color: gray !important;
+
+  img {
+    filter: grayscale(100%);
+  }
+
+  .badge_text {
+    color: gray !important;
+  }
+}
+
+.panel-badge {
+  .deassociate-wrapper {
+    display: none !important;
+  }
+
+  &.simple {
+    &.has-badge {
+      .associate-wrapper {
+        display: none !important;
+      }
+
+      .deassociate-wrapper {
+        display: table-cell !important;
+      }
+    }
+  }
+
+  &.reusable {
+
+    &.has-badge {
+      .deassociate-wrapper {
+        display: table-cell !important;
+      }
+    }
+
+  }
+
+  .reusable-badge-counter {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background: #DE5D5D;
+    color: white;
+    @include border-radius(50%);
+    display: block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+  }
+}
+

@@ -1,0 +1,136 @@
+<!-- START Template Main -->
+<section id="main" role="main">
+    <!-- START Template Container -->
+    <section class="container login-container">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Brand -->
+          <div class="text-center" style="margin-bottom:40px;">
+            <% if @domain.dashboard_login_image.exists? %>
+              <%= image_tag @domain.dashboard_login_image.url(:logo), class: 'mb20' %>
+            <% end %>
+
+            <h5 class="semibold text-muted mt-5">Complete seus dados!</h5>
+          </div>
+          <!--/ Brand -->
+
+        </div>
+      </div>
+
+      <!-- START row -->
+      <div class="row">
+        <div class="col-sm-7">
+          <!-- Alert message -->
+          <% flash.each do |key, value| %>
+            <div class="alert alert-<%= key %>">
+              <%= value %>
+            </div>
+          <% end %>
+
+          <% @hide_voucher = (not @franchisee and not @voucher_code) ? 'hide' : '' %>
+          <%= form_tag(payment_complete_registration_index_path, {
+            class: "form-login #{@hide_voucher}" ,
+            id: 'voucher-fieldset'}) do |f| %>
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <h2 class="panel-title">
+                  Cupom de desconto
+                </h2>
+              </div>
+
+              <div class="panel-body">
+                <div class="form-group">
+                  <%= label :voucher, 'Código do cupom', class: 'control-label' %>
+                  <% if @franchisee %>
+                    <div class="voucher-description">
+                      <%= @franchisee.decorate.formatted_description %>
+                    </div>
+                  <% else %>
+                    <%= text_field_tag :voucher, nil, class: 'form-control' %>
+                  <% end %>
+                </div>
+
+                <% if @franchisee %>
+                  <%= link_to "Não quero este voucher", clear_voucher_complete_registration_index_path, class: 'btn btn-default' %>
+                <% else %>
+                  <%= submit_tag 'Quero meu desconto!', class: 'btn btn-success' %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="panel">
+            <div class="panel-body">
+
+              <%= form_for(@user, url: {controller: :complete_registration, action: :index}, html: {class: 'form-login new-user-complete-registration'}) do |f| %>
+                <% if f.object.errors.present? %>
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                      <h2 class="panel-title">
+                        Erros não deixaram prosseguir
+                      </h2>
+                    </div>
+                    <div class="panel-body">
+                      <ul class="nm list-unstyled">
+                        <% f.object.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                <% end %>
+
+                <div class="form-group">
+                  <%= f.label :name, "Nome *", class: 'control-label' %>
+                  <%= f.text_field :name, type: 'text', class: 'form-control', required: true %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :email, "Email *", class: 'control-label' %>
+                  <%= f.text_field :email, type: 'text', class: 'form-control', required: true %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :birthdate, "Data de nascimento *", class: 'control-label' %>
+                  <%
+                    birthdate_value = ""
+                    if f.object.birthdate.present?
+                      birthdate_value = f.object.birthdate.strftime("%d/%m/%Y")
+                    end
+                  %>
+                  <%= f.text_field :birthdate, type: 'text', value: birthdate_value, placeholder: 'DD/MM/YYYY', class: 'form-control', required: true, data: {maskedinput: "99/99/9999"} %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :phone, "Telefone *", class: 'control-label' %>
+                  <%= f.text_field :phone, type: 'text', placeholder: 'Digite seu telefone', class: 'form-control', required: true, data: {maskedinput: '(99) 99999999?9'} %>
+                </div>
+
+                <%= f.submit 'Enviar', class: 'btn btn-success btn-block' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-5 hidden-xs">
+          <%= image_tag 'site/first-doll.png', width: "210px" %>
+        </div>
+      </div>
+
+    </section>
+    <!--/ END Template Container -->
+</section>
+<!--/ END Template Main -->
+
+<script>
+  if (!('ontouchstart' in window)) {
+    var elements = document.querySelectorAll('.change-to-text-desktop');
+    Array.prototype.forEach.call(elements, function(el){
+      el.setAttribute('type', 'text');
+    });
+  }
+</script>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag "site_payment.js" %>
+<% end %>

@@ -1,0 +1,44 @@
+<div class="indicator show" data-ng-if="loading">
+  <span class="spinner"></span>
+</div>
+
+<div class="row">
+  <div class="col-sm-12" id="courses-list">
+
+    <p>
+      <a href="/dashboard/admin/" class="btn btn-primary">
+        <span ng-bind="('views.dashboard.admin.buttons.back' | i18next)"></span>
+      </a>
+      <a href="/dashboard/admin/{{ domain_id }}/courses/new" class="btn btn-success">
+        <span ng-bind="('views.dashboard.admin.courses.buttons.add' | i18next)"></span>
+      </a>
+      <a href="/dashboard/admin/{{ domain_id }}/courses/new/alleatory" class="btn btn-success">
+        <span ng-bind="('views.dashboard.admin.courses.buttons.add_from_template' | i18next)"></span>
+      </a>
+    </p>
+
+    <div class="panel panel-default mb20" data-ng-repeat="course in courses">
+      <div class="panel-heading handle">
+        <div class="panel-title">
+          {{ course.name }}
+        </div>
+
+        <div class="panel-toolbar text-right">
+          <a href="/dashboard/admin/{{ domain_id }}/courses/{{ course.id }}/edit" class="btn btn-primary">
+            <span ng-bind="('views.dashboard.admin.buttons.edit' | i18next)"></span>
+          </a>
+          <a href="#" class="btn btn-danger" data-ng-click="deleteCourse(course)">
+            <span ng-bind="('views.dashboard.admin.buttons.delete' | i18next)"></span>
+          </a>
+        </div>
+      </div>
+      <div class="panel-collapse collapse out" id="collapse{{ course.id }}">
+        <div class="panel-body">
+          {{ course.description }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

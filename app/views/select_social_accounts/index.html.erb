@@ -1,0 +1,193 @@
+<%= form_tag(select_social_accounts_index_path, method: :post, class: :select_social_accounts) do |form| %>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h4 class="title"><%= t('.title') %></h4>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Facebook</h2>
+        </div>
+        <div class="panel-body">
+          <%
+            if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'true'
+              facebook_authorize_url = user_omniauth_authorize_session_url(:facebook, subdomain: false)
+            else
+              facebook_authorize_url = user_omniauth_authorize_url(:facebook)
+            end
+          %>
+          <% if @fb_user_has_no_token %>
+            <a href="<%= facebook_authorize_url %>" class="btn btn-block btn-facebook">
+              <i class="ico ico-facebook"></i>
+              <%= t '.facebook_login_title' %>
+            </a>
+          <% elsif @fb_user_has_no_permission %>
+            <p><%= t '.facebook_no_permission' %></p>
+
+            <a href="<%= facebook_authorize_url %>" class="btn btn-block btn-facebook">
+              <i class="ico ico-facebook"></i>
+              <%= t '.facebook_login_title' %>
+            </a>
+          <% elsif @user_has_changed_password_exception %>
+            <p><%= t '.facebook_changed_password' %></p>
+
+            <a href="<%= facebook_authorize_url %>" class="btn btn-block btn-facebook">
+              <i class="ico ico-facebook"></i>
+              <%= t '.facebook_login_title' %>
+            </a>
+          <% elsif @fb_user_has_no_pages %>
+            <p><%= t '.facebook_no_pages' %></p>
+
+            <a href="<%= settings_path %>" class="btn btn-block btn-default">
+              <%= t '.settings' %>
+            </a>
+          <% elsif @fb_exception %>
+            <p><%= t '.facebook_exception' %></p>
+          <% else %>
+            <div class="control-group">
+              <select
+                id="select-facebook-page"
+                name="facebook_page_id_to_monitor"
+                placeholder="<%= t('views.social_accounts.facebook.select_page') %>"
+              >
+                <option value=""><%= t('views.social_accounts.facebook.select_page') %></option>
+                <% @fb_pages.each do |page| %>
+                  <option
+                    value="<%= page['id'] %>"
+                    <%= 'selected' if current_user.facebook_page_id_to_monitor == page['id'] %>
+                    data-data='{"picture": "https://graph.facebook.com/<%= page['id'] %>/picture"}'
+                  ><%= page['name'] %></option>
+                <% end %>
+              </select>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Youtube</h2>
+        </div>
+        <div class="panel-body">
+          <%
+            if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'true'
+              youtube_authorize_url = user_omniauth_authorize_session_url(:google_oauth2, subdomain: false)
+            else
+              youtube_authorize_url = user_omniauth_authorize_url(:google_oauth2)
+            end
+          %>
+          <% if @yt_user_has_no_token %>
+            <a href="<%= youtube_authorize_url %>" class="btn btn-block btn-youtube">
+              <i class="ico ico-youtube"></i>
+              <%= t '.youtube_login_title' %>
+            </a>
+          <% elsif @yt_user_has_no_permission %>
+            <p><%= t '.youtube_no_permission' %></p>
+
+            <a href="<%= youtube_authorize_url %>" class="btn btn-block btn-youtube">
+              <i class="ico ico-youtube"></i>
+              <%= t '.youtube_login_title' %>
+            </a>
+          <% elsif @yt_authorization_error %>
+            <p><%= t '.youtube_no_auth' %></p>
+
+            <a href="<%= youtube_authorize_url %>" class="btn btn-block btn-youtube">
+              <i class="ico ico-youtube"></i>
+              <%= t '.youtube_login_title' %>
+            </a>
+          <% elsif @yt_user_has_no_channels %>
+            <p><%= t '.youtube_no_channels' %></p>
+
+            <a href="<%= settings_path %>" class="btn btn-block btn-default">
+              <%= t '.settings' %>
+            </a>
+          <% elsif @yt_exception %>
+            <p><%= t '.youtube_exception' %></p>
+          <% else %>
+            <div class="control-group">
+              <select
+                id="select-youtube-channel"
+                name="youtube_channel_id_to_monitor"
+                placeholder="<%= t('views.social_accounts.youtube.select_channel') %>"
+              >
+                <option value=""><%= t('views.social_accounts.youtube.select_channel') %></option>
+                <% @yt_channels.each do |channel| %>
+                  <option
+                    value="<%= channel['id'] %>"
+                    <%= 'selected' if current_user.youtube_channel_id_to_monitor == channel['id'] %>
+                    data-data='{"picture": "<%= channel['thumbnails']['default']['url'] %>"}'
+                  ><%= channel['title'] %></option>
+                <% end %>
+              </select>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Instagram</h2>
+        </div>
+        <div class="panel-body">
+        <%
+          if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'true'
+            instagram_authorize_url = user_omniauth_authorize_session_url(:instagram, subdomain: false)
+          else
+            instagram_authorize_url = user_omniauth_authorize_url(:instagram)
+          end
+        %>
+          <%
+            if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'true'
+              identities = current_user.identities.where(provider: :instagram)
+              authorize_url = user_omniauth_authorize_session_url(:instagram, subdomain: false)
+            else
+              identities = current_user.identities.where(provider: :instagram, domain: @domain.master_domain_or_self_for_provider(:instagram))
+              authorize_url = user_omniauth_authorize_url(:instagram)
+            end
+          %>
+
+          <% unless identities.any? %>
+            <a href="<%= instagram_authorize_url %>" class="btn btn-block btn-instagram">
+              <i class="ico ico-instagram"></i>
+              <%= t '.instagram_login_title' %>
+            </a>
+          <% end %>
+          <% identities.each do |identity| %>
+            <ul class="list-table">
+              <li style="width:70px;">
+                  <%= image_tag identity.json['info']['image'],
+                                class: 'img-circle img-bordered',
+                                width: '65px', height: '65px'
+                  %>
+              </li>
+              <li class="text-left">
+                  <h5 class="semibold ellipsis">
+                      <%= identity.json['info']['name'] %><br>
+                      <small class="text-muted">@<%= identity.json['info']['nickname'] %></small>
+                  </h5>
+              </li>
+              <!-- <li class="text-right"><button class="btn btn-info"><span class="ico-twitter"></span> Follow</button></li> -->
+              <li class="text-right">
+                <%= link_to t('views.social_accounts.buttons.revoke'), identity, method: :delete, class: "btn btn-default btn-sm" %>
+              </li>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <button type="submit" class="btn btn-primary">
+          <%= t 'views.general.buttons.save' %>
+        </button>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag "social_accounts.css" %>
+<% end %>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag 'social_accounts' %>
+<% end %>

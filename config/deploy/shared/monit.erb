@@ -1,0 +1,13 @@
+check process unicorn_<%= fetch :full_app_name %>
+  with pidfile <%= current_path %>/tmp/pids/unicorn.pid
+  group <%= fetch :full_app_name %>
+
+  start program = "/usr/bin/env /etc/init.d/unicorn_<%= fetch :full_app_name %> start"
+  stop program = "/usr/bin/env /etc/init.d/unicorn_<%= fetch :full_app_name %> stop"
+
+check process sidekiq_<%= fetch :full_app_name %>
+  with pidfile <%= current_path %>/tmp/pids/sidekiq.pid
+  group <%= fetch :full_app_name %>
+
+  start program = "/usr/bin/env /etc/init.d/sidekiq_<%= fetch :full_app_name %> start"
+  stop program = "/usr/bin/env /etc/init.d/sidekiq_<%= fetch :full_app_name %> stop"

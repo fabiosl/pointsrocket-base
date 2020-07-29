@@ -1,0 +1,26 @@
+pt-BR:
+  tags:
+    onrocket:
+      name: 'On Rocket'
+      question_select: 'Fazer pergunta na On Rocket'
+      asked_in: 'Perguntado na On Rocket'
+    motiva:
+      name: 'Motiva'
+      question_select: 'Fazer pergunta no Motiva'
+      asked_in: 'Perguntado no Motiva'
+    metta:
+      name: 'Metta'
+      question_select: 'Fazer pergunta no Metta'
+      asked_in: 'Perguntado no Metta'
+    cbfa:
+      name: 'CBFA'
+      question_select: 'Fazer pergunta no CBFA'
+      asked_in: 'Perguntado no CBFA'
+    fabio:
+      name: 'Fábio'
+      question_select: 'Fazer pergunta no Fábio'
+      asked_in: 'Perguntado no Fábio'
+    loreal:
+      name: 'Loreal'
+      question_select: 'Fazer pergunta no Loreal'
+      asked_in: 'Perguntado no Loreal'

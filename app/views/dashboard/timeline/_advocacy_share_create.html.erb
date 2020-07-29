@@ -1,0 +1,85 @@
+<div class="modal-dialog">
+  <div class="modal-content hide createShareError">
+    <div class="modal-header text-center">
+      <button type="button" class="close" data-dismiss="modal">×</button>
+      <div class="ico-{{ social_network }} mb15 mt15" style="font-size:36px; color: #29a9e1;"></div>
+      <h3 class="semibold modal-title text-primary"><%= t('views.employee_advocacy.share_post_on') %> {{ social_network }}</h3>
+    </div>
+
+    <div class="modal-body">
+      <p>
+        <%= t('views.employee_advocacy.create_error') %>: <br>
+        <b class="fsize16">{{ errorMessage }}</b><br>
+
+        <div>
+          Você pode tentar <a href="{{ getSocialNetworksLoginUrl(new_share.social_network) }}" class="btn btn-primary btn-sm"><%= t('views.employee_advocacy.reauthenticate') %></a> <%= t('views.employee_advocacy.on_social_network') %>. <br>
+          <%= t('views.employee_advocacy.error_again') %>
+        </div>
+      </p>
+    </div>
+  </div>
+  <div class="modal-content" class="createShareContent">
+    <div class="indicator loadingCreateShare">
+      <span class="spinner"></span>
+    </div>
+
+    <div class="modal-header text-center">
+      <button type="button" class="close" data-dismiss="modal">×</button>
+      <div class="ico-{{ social_network }} mb15 mt15" style="font-size:36px; color: {{ social_network_color }}"></div>
+      <h3 class="semibold modal-title text-primary"><%= t('views.employee_advocacy.share_post_on') %> {{ social_network }}</h3>
+    </div>
+    <div class="modal-body">
+      <p><%= t('views.employee_advocacy.write_to_followers') %>:</p>
+      <textarea
+        id="share-content-{{ id }}" cols="30" rows="4" class="form-control share-content" required maxlength="{{ contentMaxLength }}"
+      >{{ title }}</textarea>
+
+      {{#isFacebook}}
+      <select name="where_to_publish" id="" class="form-control where_to_publish">
+        <option value="">Onde publicar?</option>
+        <%=
+          pages = []
+
+          opts = current_user \
+                .get_facebook_pages_withou_access_token \
+                .map do |item|
+                  [item["name"], item["id"]]
+                end
+
+          options_for_select(opts).html_safe
+        %>
+      </select>
+      {{/isFacebook}}
+
+      {{#isInstagram}}
+        <p><%= t('views.dashboard.employee_advocacy.share_instagram_explanation_html') %></p>
+      {{/isInstagram}}
+
+      <div class="text-right mt5 hide">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="errorMessage text-danger mb15"></div>
+      <button
+        type="button"
+        class="btn btn-primary btn-{{ social_network }} create-share-btn pos-relative"
+        data-network="{{ social_network }}"
+        data-share-id="{{ id }}"
+        data-image-url="{{ imageUrl }}"
+        data-content-max-length="{{ contentMaxLength }}"
+      >
+        <div class="indicator loadingCreateShare">
+          <span class="spinner"></span>
+        </div>
+        <i class="ico-{{ social_network }}"></i>
+        {{#isInstagram}}
+          <%= t('views.general.buttons.open_app') %>
+        {{/isInstagram}}
+
+        {{^isInstagram}}
+          <%= t('views.general.buttons.share') %>
+        {{/isInstagram}}
+      </button>
+    </div>
+  </div>
+</div>

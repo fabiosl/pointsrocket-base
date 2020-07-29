@@ -1,0 +1,53 @@
+<div class="trivias">
+  <div class="row" data-ng-app="trivias">
+    <div class="col-lg-12" data-ng-controller="TriviasQuestionController" data-ng-init="setPlayId(<%= @play.id %>)">
+
+
+
+      <!-- <div class="panel-body" data-ng-if="!question">
+        Carregando pergunta
+      </div> -->
+      <div  data-ng-if="question" data-ng-cloak>
+        <div class="question-wrapper">
+          {{ counter }}. {{ question.name }}
+        </div>
+
+        <div class="timeout-wrapper">
+          <div class="circle">
+            <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+              <g>
+                <circle id="circle" class="circle_animation" r="13" cy="15" cx="15" stroke-width="3" stroke="#ffd800" fill="none" data-circle-animator data-dasharray="81" data-percentage="{{ circlePercentage }}"></circle>
+              </g>
+            </svg>
+
+            <div class="seconds">
+              {{ seconds }}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <a href="javascript:void(0);" class="answer-option" data-ng-repeat="option in question.options" data-ng-class="{'btn-success': option.correct === true, 'btn-danger': option.correct === false}" data-ng-click="selectAnswer(option)">
+            <div class="indicator show" data-ng-if="option.answering"><span class="spinner"></span></div>
+            {{ option.option.name }}
+          </a>
+        </div>
+      </div>
+
+      <div class="panel-body" data-ng-if="sync" data-ng-cloak>
+        Sincronizando
+      </div>
+
+      <%= render 'trivias/trivias/modal/acerto' %>
+      <%= render 'trivias/trivias/modal/interception' %>
+      <%= render 'trivias/trivias/modal/erro_interno' %>
+      <%= render 'trivias/trivias/modal/sem_perguntas' %>
+      <%= render 'trivias/trivias/modal/tempo_esgotado' %>
+    </div>
+  </div>
+
+
+</div>
+<% content_for :footer do %>
+  <%= javascript_include_tag "trivias/trivia.js" %>
+<% end %>

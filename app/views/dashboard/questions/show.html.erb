@@ -1,0 +1,137 @@
+<div class="row question">
+  <div class="col-md-12">
+    <div class="well well-default">
+      <div class="vote-container">
+        <%= link_to '', 'javascript://', id: 'upvote-question',
+            class: @question.upvote_class(current_user),
+            data: {question_id: @question.id,
+                   url: question_upvote_path(@question)} %>
+        <div class="points text-info semibold question-votes mb5" data-question-id="<%= @question.id %>">
+          <%= @question.total_votes %>
+        </div>
+      </div>
+      <div class="media-list">
+        <div class="media-object pull-left" style="width: 50px;">
+          <div class="pos-relative">
+            <% if @question.user.present? %>
+              <%= link_to user_path(@question.user) do %>
+                <% if @question.user.admin_current_domain %>
+                  <i class="ico-crown large-user-admin-ico" title="Admin"></i>
+                <% end %>
+                <%= image_tag @question.user.avatar.url(:s50x50), :class => "img-circle" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <div class="media-body" id="edit_question">
+          <div class="col-md-12">
+            <ul class="list-table">
+              <li>
+                <h3 class="mt0" style="margin: 0px;"><%= @question.title %></h3>
+                <div class="text-muted">
+                  <% if @question.user.present? %>
+                    <%= @question.user.name %>
+                  <% end %>
+                  <%= @question.formatted_date %>
+                </div>
+              </li>
+
+            </ul>
+
+            <h5>
+              <%= @question.linked_content.html_safe %>
+            </h5>
+
+            <% if @question.archive.present? %>
+              <%= link_to @question.archive.url(), class: 'btn btn-default mb20' do %>
+                <i class="ico-file-download"></i> <%= @question.archive.file.filename %>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="col-sm-12 col-md-12">
+            <ul class="list-table">
+              <% if can? :update, @question %>
+                <li id="<%= "edit_answer" %>">
+                  <%= link_to t('views.general.buttons.edit'), edit_question_path(@question),
+                    remote: true, class: "btn btn-sm btn-primary" %>
+                  <%= link_to t('views.general.buttons.delete'), @question, method: :delete,
+                    data: { confirm: t('views.general.are_you_sure?') }, class: "btn btn-sm btn-danger" %>
+                </li>
+              <% end %>
+
+              <% unless @question.step.nil? %>
+                <li class="text-right">
+                  <%= @question.tag_link(@question.step.chapter.course.name,
+                    @question.step.chapter.course.id, params[:filter], params[:tag]) %>
+                  <%= @question.tag_link(@question.step.name, params[:course],
+                    params[:filter], @question.step.id) %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <%= t('views.questions.show.answers.answers') %>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <div class="media-list media-list-bubble">
+          <% if @question.answers.any? %>
+            <%= render @question.answers.sort_by(&:created_at).select {|a| not current_user.block_users.pluck("blocked_id").include? a.user_id }
+            %>
+          <% else %>
+            <%= t('views.questions.show.answers.no_answers') %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <%= t('views.questions.show.answers.add') %>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <div class="media-list">
+          <div class="media np">
+            <div class="media-object pull-left answer-user-image">
+              <div class="pos-relative">
+              <%= link_to user_path(current_user) do %>
+                <% if current_user.admin_current_domain %>
+                  <i class="ico-crown large-user-admin-ico" title="Admin"></i>
+                <% end %>
+                <%= image_tag current_user.avatar.url(:s50x50), :class => "img-circle" %>
+              <% end %>
+
+              </div>
+            </div>
+            <div class="media-body">
+              <%= render partial: 'dashboard/answers/form' %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

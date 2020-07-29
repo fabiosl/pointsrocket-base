@@ -1,0 +1,168 @@
+
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-file4 mr5"></i> <%= t('views.timeline.index.post') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <li class="text-right" style="width:50px;">
+          <a
+            class="text-default timeline-post-views-button"
+            title="Views" alt="Views count"
+            href="#" data-toggle="modal"
+            data-target="#post-views"
+            data-post-id="{{ timelineable.id }}"
+          >
+            <i class="ico-eye mr5" ></i> {{ timelineable.viewer_ids.length }}
+          </a>
+        </li>
+
+        {{ #pinned }}
+        <li class="text-right" style="width:30px;">
+          <div class="btn-group">
+            <i class="ico-pushpin2"></i>
+          </div>
+        </li>
+        {{ /pinned }}
+
+        <li class="text-right" style="width:30px;">
+          <div class="btn-group">
+            <button type="button" class="btn btn-link dropdown-toggle text-default pl10 pr10" data-toggle="dropdown" aria-expanded="false"><i class="ico-menu2"></i></button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              {{ #timelineable.can_manage }}
+              <li>
+                <a
+                  href="/dashboard/posts/{{ timelineable.id }}"
+                  data-modal-method="delete"
+                  data-modal-confirm="<%= t('views.general.are_you_sure?') %>"
+                  class="text-danger"
+                ><%= t('views.general.buttons.delete') %> post</a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-default btn-edit-post"
+                  data-post-id="{{ timelineable.id }}"
+                ><%= t('views.general.buttons.edit') %> post</a>
+              </li>
+              {{ /timelineable.can_manage }}
+
+              <% if can?(:manage_timeline, current_domain) %>
+                <li>
+                  <a
+                    href="/api/timeline_items/{{ id }}/hide"
+                    data-method="patch"
+                    class="text-default"
+                  ><%= t('views.general.buttons.hide') %></a>
+                </li>
+
+                {{ ^pinned }}
+                <li>
+                  <a
+                    href="/api/timeline_items/{{ id }}/pin"
+                    data-method="patch"
+                    class="text-default"
+                  ><%= t('views.general.buttons.pin') %></a>
+                </li>
+                {{ /pinned }}
+
+                {{ #pinned }}
+                <li>
+                  <a
+                    href="/api/timeline_items/{{ id }}/remove_pin"
+                    data-method="patch"
+                    class="text-default"
+                  ><%= t('views.general.buttons.remove_pin') %></a>
+                </li>
+                {{ /pinned }}
+              <% end %>
+
+              <% if can?(:report_content, current_domain) %>
+                <li>
+                  <a
+                    href="javascript://"
+                    data-toggle="modal"
+                    data-target="#modal-report"
+                    data-timeline-item-id="{{ id }}"
+                    class="text-default timeline-item-report-button"
+                  ><%= t('views.general.buttons.report') %></a>
+                </li>
+
+                <li data-ng-if="block_user_id">
+                  <a
+                    href="javascript://"
+                    data-toggle="modal"
+                    data-target="#modal-block"
+                    data-user-id="{{ block_user_id }}"
+                    class="text-default timeline-item-block-button"
+                  ><%= t('views.general.buttons.block') %></a>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    class="panel-body on-screen-element"
+    data-post-viewer-ids="{{ timelineable.viewer_ids }}"
+    data-post-id="{{ timelineable.id }}"
+  >
+    <ul class="list-table mb10">
+      <li class="text-center pos-relative" style="width:60px;">
+        {{ #timelineable.user.admin }}
+          <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+        {{ /timelineable.user.admin }}
+        <a href="<%= users_path %>/{{ timelineable.user.id }}">
+          <img
+            src="{{ timelineable.user.avatar_timeline }}"
+            alt="{{timelineable.user.name}}"
+            class="img-circle" width="50" height="50"
+          >
+        </a>
+      </li>
+      <li class="text-left">
+        <p class="semibold nm">
+          <a href="<%= users_path %>/{{ timelineable.user.id }}" class="text-default">
+            {{timelineable.user.name}}
+          </a>
+        </p>
+        <p class="nm">
+          <%= t('views.timeline.index.wrote_post') %>
+        </p>
+      </li>
+    </ul>
+
+    <div class="images-full-width-wrapper timeline-post-content break-word">
+      <div id="timeline-post-content-{{ timelineable.id }}" style="display: none;">
+        {{{ timelineable.content }}}
+      </div>
+      <div id="timeline-post-linked-content-{{ timelineable.id }}">
+        {{{ timelineable.linked_content }}}
+      </div>
+      <div
+        id="timeline-post-{{ timelineable.id }}-actions"
+        class="mt10 text-right"
+        style="display: none;"
+      >
+        <div class="text-danger text-left mt10 error-message"></div>
+        <button
+          class="btn btn-sm btn-default btn-cancel-post"
+          data-post-id="{{ timelineable.id }}"
+        >
+          <%= t('views.general.buttons.cancel') %>
+        </button>
+        <button
+          class="btn btn-sm btn-primary btn-save-post"
+          data-post-id="{{ timelineable.id }}"
+        >
+          <%= t('views.general.buttons.save') %>
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>

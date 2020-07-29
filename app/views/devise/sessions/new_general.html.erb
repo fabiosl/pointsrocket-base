@@ -1,0 +1,99 @@
+<div class="container login-container" id="login-content">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+
+      <div class="v-middle-full">
+
+        <% if @domain.dashboard_login_image_file_name %>
+          <%= image_tag(@domain.dashboard_login_image.url, class:'login-logo')%>
+        <% end %>
+        
+        <!-- Login form -->
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'login-form', autocomplete: :off}) do |f| %>
+
+          <input style="display:none" type="text" name="user[email]"/>
+          <input style="display:none" type="password" name="user[password]"/>
+
+          <h2 class="login-page-title mb30"><%= t '.title' %></h2>
+
+          <div class="panel">
+            <div class="panel-body">
+              <!-- Alert message -->
+              <% flash.each do |key, value| %>
+                <div class="alert alert-<%= key %>">
+                  <%= value %>
+                </div>
+              <% end %>
+
+              <%= f.hidden_field :remember_me, value: true %>
+
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                  <%= f.email_field :email, required: false, autofocus: true, class: 'form-control', placeholder: t('.email.placeholder') %>
+                  <i class="ico-user2 form-control-icon"></i>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                  <%= f.password_field :password, required: false, class: 'form-control', placeholder: t('.password.placeholder') %>
+                  <i class="ico-lock2 form-control-icon"></i>
+                </div>
+              </div>
+
+              <div class="form-group nm">
+                <button type="submit" class="btn btn-block btn-success"><span class="semibold">Login</span></button>
+              </div>
+
+            </div>
+          </div>
+          <%- if get_login_permited_providers_for_current_domain.length > 0 %>
+            <div class="centered-lined">
+              <span class="centered-content">
+                <%= t '.or_login_with' %>
+              </span>
+            </div>
+            <hr><!-- horizontal line -->
+          <% end -%>          
+
+          <!-- Social button -->
+          <ul class="list-table">
+            <%- if devise_mapping.omniauthable? %>
+              <%- get_login_permited_providers_for_current_domain.each do |provider| %>
+                <li>
+                  <% provider_slug = provider.to_sym == :google_oauth2 ? :youtube : provider %>
+                  <!-- <button type="button" class="btn btn-block btn-facebook">Entrar com <i class="ico-facebook2 ml5"></i></button> -->
+                  <a href="<%= omniauth_authorize_path(resource_name, provider) %>" class="btn btn-block btn-<%= provider.to_s %>">
+                    <i class="ico-<%= provider_slug.to_s %> mr5"></i> <%= provider_slug.to_s.titleize %>
+                  </a>
+                </li>
+              <% end -%>
+            <% end -%>
+          </ul>
+          <!-- Social button -->
+
+          <hr class="mb10">
+          <ul class="list-table">
+            <% if not @domain.only_invited %>
+              <li>
+                <%= link_to t('.create_account'), new_user_registration_path %>
+              </li>
+            <% end %>
+
+            <%- if devise_mapping.recoverable? %>
+              <li class="text-right">
+                <%= link_to t('.forgot_your_password'), new_user_password_path %>
+              </li>
+            <% end -%>
+          </ul>
+
+        <% end %>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<%= render partial: "devise/sessions/android" %>

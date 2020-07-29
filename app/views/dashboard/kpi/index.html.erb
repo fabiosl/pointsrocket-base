@@ -1,0 +1,142 @@
+<!-- START row -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- START panel -->
+        <div class="panel panel-primary">
+            <!-- panel heading/header -->
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="panel-icon mr5"><i class="ico-table22"></i></span> Kpi</h3>
+            </div>
+            <!--/ panel heading/header -->
+
+            <!-- panel body with collapse capabale -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table1">
+                    <thead>
+                        <tr>
+                            <th width="200px">Agente</th>
+                            <th class="text-right">Pontos</th>
+                            <th class="text-right">First Resol...</th>
+                            <th class="text-right">First Reply</th>
+                            <th class="text-right">Customer Sat..</th>
+                            <th class="text-right">Agent Wait</th>
+                            <th class="text-right">Full Res..</th>
+                            <th class="text-right">Calls H..</th>
+                            <th class="text-right">Average Han..</th>
+                            <th class="text-right">Time on System</th>
+                            <th class="text-right">Absenteísmo</th>
+                            <th class="text-right">Qlt</th>
+                        </tr>
+                    </thead>
+                    <%
+                        def s
+                            (60..100).to_a.sample
+                        end
+
+                        def o
+                            {
+                                score: s,
+                                first_resolution_time: s,
+                                first_reply_time: s,
+                                customer_satisfaction_rating: s,
+                                agent_wait_time: s,
+                                full_resolution_time: s,
+                                calls_handled: s,
+                                avg_handle_time: s,
+                                time_on_system: s,
+                                absenteismo: s,
+                                quality: s,
+                            }
+                        end
+
+                        data = [
+                            {
+                                avatar: image_url("avatar/avatar1.jpg"),
+                                name: "Manoel Quirino Neto",
+                            }.merge(o), {
+                                avatar: image_url("avatar/avatar2.jpg"),
+                                name: "Fábio Leal"
+                            }.merge(o), {
+                                avatar: image_url("avatar/avatar3.jpg"),
+                                name: "Alessandro Lima",
+                            }.merge(o), {
+                                avatar: image_url("avatar/avatar4.jpg"),
+                                name: "Júnior Dutra",
+                            }.merge(o), {
+                                avatar: image_url("avatar/avatar5.jpg"),
+                                name: "Michele Gaspar",
+                            }.merge(o), {
+                                avatar: image_url("avatar/avatar6.jpg"),
+                                name: "Maria Rita",
+                            }.merge(o), {
+                                avatar: image_url("avatar/avatar7.jpg"),
+                                name: "Eduardo Nash",
+                            }.merge(o), {
+                                avatar: image_url("avatar/avatar8.jpg"),
+                                name: "Renê Baunilha",
+                            }.merge(o), {
+                                avatar: image_url("avatar/avatar9.jpg"),
+                                name: "Renato Ribeiro",
+                            }.merge(o), {
+                                avatar: image_url("avatar/avatar1.jpg"),
+                                name: "João Agripino",
+                            }.merge(o)
+                        ].sort! { |a, b| a[:score] <=> b[:score] }.reverse
+
+                        def build number
+                            if number < 70
+                                html_class = 'text-danger'
+                            elsif number < 85
+                                html_class = 'text-warning'
+                            else
+                                html_class = 'text-success'
+                            end
+
+                            return "<span class='#{html_class}'>#{number}%</span>".html_safe
+                        end
+
+                        def c score
+                            return ""
+                            if score < 70
+                                'danger'
+                            elsif score < 85
+                                'warning'
+                            else
+                                'success'
+                            end
+                        end
+                    %>
+                    <tbody>
+                        <% data.each_with_index do |item, index| %>
+                        <tr class="<%= c item[:score] %> <% if index % 2 != 0 %>active<% end %>">
+                            <td>
+                                <div class="media">
+                                    <div class="media-object pull-left mr10 np">
+                                        <img src="<%= item[:avatar] %>" alt="<% item[:name] %>" class="img-circle">
+                                    </div>
+                                    <div class="media-body pt5">
+                                        <%= item[:name] %>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-right"><%= build item[:score] %></td>
+                            <td class="text-right"><%= build item[:first_resolution_time] %></td>
+                            <td class="text-right"><%= build item[:first_reply_time] %></td>
+                            <td class="text-right"><%= build item[:customer_satisfaction_rating] %></td>
+                            <td class="text-right"><%= build item[:agent_wait_time] %></td>
+                            <td class="text-right"><%= build item[:full_resolution_time] %></td>
+                            <td class="text-right"><%= build item[:calls_handled] %></td>
+                            <td class="text-right"><%= build item[:avg_handle_time] %></td>
+                            <td class="text-right"><%= build item[:time_on_system] %></td>
+                            <td class="text-right"><%= build item[:absenteismo] %></td>
+                            <td class="text-right"><%= build item[:quality] %></td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+            <!--/ panel body with collapse capabale -->
+        </div>
+    </div>
+</div>
+<!--/ END row -->

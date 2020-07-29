@@ -1,0 +1,77 @@
+<!-- START Template Main -->
+<section id="main" role="main">
+    <!-- START Template Container -->
+    <section class="container">
+        <!-- START row -->
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4">
+                <!-- Brand -->
+                <div class="text-center" style="margin-bottom:40px;">
+                    <span class="logo-figure inverse"></span>
+                    <span class="logo-text inverse"></span>
+                    <h5 class="semibold text-muted mt-5">Entre na sua conta.</h5>
+                </div>
+                <!--/ Brand -->
+
+                <!-- Social button -->
+                <ul class="list-table">
+                    <li><button type="button" class="btn btn-block btn-facebook">Entrar com <i class="ico-facebook2 ml5"></i></button></li>
+                </ul>
+                <!-- Social button -->
+
+                <hr><!-- horizontal line -->
+
+                <!-- Login form -->
+                <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'panel'}) do |f| %>
+                    <%= devise_error_messages! %>
+
+                    <div class="panel-body">
+                        <!-- Alert message -->
+                        <div class="alert alert-warning">
+                            <span class="semibold">Note :</span>&nbsp;&nbsp;Just put anything and hit 'sign-in' button.
+                        </div>
+                        <div class="form-group">
+                            <div class="form-stack has-icon pull-left">
+                                <%= f.text_field :email, required: false, autofocus: true, class: 'form-control input-lg', placeholder: 'Email' %>
+                                <i class="ico-user2 form-control-icon"></i>
+                            </div>
+                            <div class="form-stack has-icon pull-left">
+                                <%= f.text_field :name, required: false, class: 'form-control input-lg', placeholder: 'Nome' %>
+                                <i class="ico-lock2 form-control-icon"></i>
+                            </div>
+                        </div>
+
+                        <!-- Error container -->
+                        <div id="error-container"class="mb15"></div>
+                        <!--/ Error container -->
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="checkbox custom-checkbox">
+                                        <input type="checkbox" name="remember" id="remember" value="1">
+                                        <label for="remember">&nbsp;&nbsp;Remember me</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <a href="javascript:void(0);">Lost password?</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group nm">
+                            <button type="submit" class="btn btn-block btn-success"><span class="semibold">Sign In</span></button>
+                        </div>
+                    </div>
+                <% end %>
+                <!-- Login form -->
+
+                <hr><!-- horizontal line -->
+
+                <p class="text-muted text-center">Don't have any account? <a class="semibold" href="page-register.html">Sign up to get started</a></p>
+            </div>
+        </div>
+        <!--/ END row -->
+    </section>
+    <!--/ END Template Container -->
+</section>
+<!--/ END Template Main -->

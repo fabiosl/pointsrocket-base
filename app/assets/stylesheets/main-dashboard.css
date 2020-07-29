@@ -1,0 +1,118 @@
+/*
+ *
+ *= require selectize/css/selectize.css
+ *= require gritter/css/gritter.css
+ *= require flot/css/flot.css
+ *= require steps/css/jquery-steps.css
+
+ *= require bootstrap.css
+ *= require uielement.css
+ *= require layout.css
+ *= require custom.css
+ *= require steps.css
+ *= require questions.css
+ *= require campaign.css
+ *= require indications.css
+ *= require badges.css
+ *= require trivias.css
+ *= require trails.css
+ *= require dashboard.css
+ *= require broadcasts.css
+ *= require comments.css
+ *= require dashboard/conversations.css
+ *= require employee_advocacy.css
+
+ *= require themes/layouts/fixed-header.css
+ *= require jquery.atwho
+ *= require summernote
+ *= require lib/summernote/summernote
+ *= require lib/owl.carousel
+ *= require lib/owl.theme.default
+ *= require lib/ladda
+ */
+
+.custom-gritter {
+  margin-top: 50px;
+  border: 5px solid black;
+}
+
+.header-user-admin-ico, .default-user-admin-ico,
+.large-user-admin-ico, .comment-list-item-user-admin-ico {
+  position: absolute;
+  transform: rotate(-35deg);
+  color: goldenrod;
+}
+
+.header-user-admin-ico {
+  top: 6px;
+  left: 11px;
+  font-size: small;
+}
+
+.default-user-admin-ico {
+  top: -11px;
+  left: 2px;
+  font-size: large;
+}
+
+.large-user-admin-ico {
+  top: -11px;
+  left: -3px;
+  font-size: large;
+}
+
+.comment-list-item-user-admin-ico {
+  top: 4px;
+  left: 5px;
+  font-size: small;
+  transform: rotate(-40deg);
+}
+
+.timeline-user-admin-ico {
+  font-size: large;
+  top: 7px;
+  left: -14px;
+  color: goldenrod;
+  transform: rotate(-25deg);
+}
+
+.timeline-comment-user-admin-ico {
+  position: absolute;
+  top: -9px;
+  left: -3px;
+  font-size: small;
+  color: goldenrod;
+  transform: rotate(-35deg);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.post-box-form .user-mention,
+.atwho-inserted .user-mention {
+  font-weight: bold;
+}
+
+#loader {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+  display: none !important;
+}
+
+.comments_load-more-container {
+  /*background: #f7f7f7;*/
+  border-bottom: 1px solid #dde4e6;
+}

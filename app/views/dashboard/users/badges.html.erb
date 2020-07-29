@@ -1,0 +1,50 @@
+<div class="well well-default">
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Conquistas do usuário</h2>
+      <p>
+        <%= @user.name %>
+        -
+        <a href="mailto:<%= @user.email %>?Subject=Vem pra On Rocket, <%= @user.name.split(' ')[0] %>!" target="_top"><%= @user.email %></a>
+
+        <% if @user.phone.present? %>
+          -
+          <a href="tel:+55<%=@user.phone.gsub(/[^\d]/, '')%>">
+            <%= @user.phone %>
+          </a>
+        <% end %>
+      </p>
+    </div>
+    <div class="col-md-6">
+      <%= search_form_for @badge_query, url: user_badges_path do |f| %>
+        <div class="col-xs-10 np">
+          <%= f.search_field :name_cont, class: "form-control" %>
+        </div>
+
+        <div class="col-xs-2 pr0">
+          <%= button_tag(type: "submit", class: "form-control btn btn-default nm") do %>
+            <i class="ico-search"></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <% @badges.each_with_index do |badge, index| %>
+    <%= render badge %>
+
+    <% if (index + 1) % 4 == 0 %>
+      <div class="clearfix visible-lg"></div>
+    <% end %>
+
+    <% if (index + 1) % 3 == 0 %>
+      <div class="clearfix visible-md"></div>
+    <% end %>
+
+    <% if (index + 1) % 2 == 0 %>
+      <div class="clearfix visible-sm"></div>
+    <% end %>
+  <% end %>
+</div>

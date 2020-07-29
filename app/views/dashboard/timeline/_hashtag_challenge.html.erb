@@ -1,0 +1,77 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-pencil"></i><%= t('views.timeline.index.hashtag_created_challenge') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel-body break-word">
+    <p class="title semibold">
+      <a href="<%= hashtag_challenges_path %>/{{timelineable.id}}">
+        {{#timelineable.approved}}
+          <i class="ico-ok-circle" style="color: green;"></i>
+        {{/timelineable.approved}}
+        {{timelineable.title}}
+      </a>
+    </p>
+
+    <p class="info-list text-default">
+      <span>
+        <i class="ico-calendar3"></i> <%= t('views.general.time_from') %> {{timelineable.formatted_date_start}} <%= t('views.general.time_to') %> {{timelineable.formatted_date_end}}
+      </span>
+
+      {{#timelineable.badge}}
+      <span>
+        <i class="ico-medal"></i> {{name}}
+      </span>
+      {{/timelineable.badge}}
+
+      <span>
+        <i class="ico-trophy"></i> {{timelineable.points}} <%= t('views.general.points') %>
+      </span>
+    </p>
+
+    {{{timelineable.description}}}
+  </div>
+
+  <hr class="nm">
+
+  <a href="<%= hashtag_challenges_path %>/{{timelineable.id}}">
+    <img src="{{timelineable.timeline_image}}" alt="{{timelineable.title}}" width="100%">
+  </a>
+
+  <hr class="nm">
+
+  <div class="panel-toolbar-wrapper pa10">
+    <div class="panel-toolbar">
+      <span class="img-group img-group-stack">
+        {{#timelineable.hashtag_challenge_users_info.users}}
+          <a href="<%= users_path %>/{{ id }}">
+            <img src="{{ avatar }}" alt="{{ name }}" class="img-circle">
+          </a>
+        {{/timelineable.hashtag_challenge_users_info.users}}
+
+        {{#remaining_count}}
+          <span class="more img-circle">{{remaining_count}}+</span>
+        {{/remaining_count}}
+      </span>
+
+      {{#timelineable.hashtag_challenge_users_info.count}}
+      <a href="<%= hashtag_challenges_path %>/{{timelineable.id}}" class="semibold">{{timelineable.hashtag_challenge_users_info.participating_title}}</a>
+      {{/timelineable.hashtag_challenge_users_info.count}}
+
+      {{^timelineable.hashtag_challenge_users_info.count}}
+      <a href="<%= hashtag_challenges_path %>/{{timelineable.id}}" class="semibold">
+        <%= t('views.timeline.index.first_to_join_with_hashtag') %>
+      </a>
+      {{/timelineable.hashtag_challenge_users_info.count}}
+    </div>
+  </div>
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>

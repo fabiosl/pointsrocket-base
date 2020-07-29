@@ -1,0 +1,5 @@
+<tr>
+  <td style="color:#999999;font-size:13px;line-height:15px;font-family:arial,Arial,sans-serif;letter-spacing:0px;word-wrap:break-word;padding-top: 40px;">
+    <%= t '.message_html', domain_name: @domain.name, click_here: link_to(t('.click_here'), "#{@domain.get_url}#{stop_mailing_path(Rails.application.message_verifier(:unsubscribe).generate(@user.id))}", style: "color:#1b7fcc;text-decoration:none") %>
+  </td>
+</tr>

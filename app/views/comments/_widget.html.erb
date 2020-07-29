@@ -1,0 +1,149 @@
+<!-- comments widget -->
+<div
+  class="panel panel-comment"
+  data-commentable-id="<%= commentable.id %>"
+  data-commentable-type="<%= commentable.class.name %>"
+  data-comments-count="<%= Comment.where(commentable: commentable).count %>"
+  data-new-comments-count="0"
+>
+  <% comments = Comment.where(commentable: commentable).order("created_at desc").page(1) %>
+  <div class="panel-body">
+    <h4 class="semibold nm">
+      <i class="ico-comments"></i>
+      <%= t('views.challenges.show.comments') %>
+    </h4>
+
+    <hr class="mt10 mb0">
+
+    <% if comments.next_page %>
+    
+    <div class="comments_load-more-container pos-relative text-center pt5 pb5">
+      <a
+        href="#"
+        class="comments_load-more"
+        data-commentable-id="<%= commentable.id %>"
+        data-commentable-type="<%= commentable.class.name %>"
+        data-total-comments="<%= commentable.comments.size %>"
+        data-total-pages="<%= comments.total_pages %>"
+        data-current-page="<%= comments.current_page %>"
+        data-per-page="<%= comments.per_page %>"
+        data-has-next-page="<%= !!comments.next_page %>"
+      >
+        <div class="indicator"><span class="spinner"></span></div>
+        <%= t('views.general.buttons.load_more_comments') %>
+      </a>
+    </div>
+    <% end %>
+    
+    <div
+      class="comments-list"
+      id="comments-list"
+      data-commentable-id="<%= commentable.id %>"
+      data-commentable-type="<%= commentable.class.name %>"
+    >
+      <% if comments.count > 0 %>
+        <% comments.sort_by(&:created_at).each_with_index do |comment, index| %>
+          <% if index > 0 %>
+            <!-- <hr class="mt10 mb10"> -->
+          <% end %>
+
+          <ul class="list-table comment-item mt5 mb5" id="comment-id-<%= comment.id %>">
+            <li class="text-left pos-relative valign-top comment-profile-image-wrapper">
+              <% if comment.user.admin_current_domain %>
+                <i class="ico-crown comment-list-item-user-admin-ico" title="Admin"></i>
+              <% end %>
+              <a href="<%= "#{users_path}/#{comment.user.id}" %>">
+                <%= image_tag comment.user.avatar.url(:s50x50),
+                              size: '50x50',
+                              class: 'img-circle comment-profile-image mt10',
+                              alt: comment.user.name
+                %>
+              </a>
+            </li>
+            <li class="text-left">
+              <a 
+                href="#"
+                class="text-default pull-right comment-delete-button"
+                data-comment-id="<%= comment.id %>"
+                data-comment-user-id="<%= comment.user.id %>"
+                title="<%= t('views.general.buttons.delete') %>" 
+              >
+                <i class="ico ico-trash"></i>
+              </a>
+              <p class="ellipsis nm">
+                <a class="text-default" href="<%= "#{users_path}/#{comment.user.id}" %>">
+                  <span class="semibold"><%= comment.user.name %></span>
+                </a>
+              </p>
+              <p class="text-muted nm break-word"><%= comment.linked_content.html_safe %></p>
+            </li>
+          </ul>
+        <% end %>
+      <% else %>
+        <p class="first-comment mt10"><%= t('views.general.comments_sentences.be_the_first_to_comment') %></p>
+      <% end %>
+    </div>
+
+    <form class="comment-form mt20">
+      <ul class="list-table">
+        <li class="text-left pos-relative valign-top" style="width:60px;">
+          <% if current_user.admin_current_domain %>
+            <i class="ico-crown large-user-admin-ico" title="Admin"></i>
+          <% end %>
+          <a href="<%= "#{users_path}/#{current_user.id}" %>">
+            <%= image_tag current_user.avatar.url(:s50x50),
+                          size: '50x50',
+                          class: 'img-circle',
+                          alt: current_user.name
+            %>
+          </a>
+        </li>
+        <li class="text-left">
+          <div contenteditable="true"
+            class="comment-content form-control" style="min-height: 60px;height: auto;"
+            placeholder="<%= t('views.comments.type_here') %>"></div>
+        </li>
+      </ul>
+      <input type="submit" class="btn btn-primary pull-right mt10" value="<%= t('views.challenges.show.buttons.send') %>">
+    </form>
+
+  </div>
+</div>
+<!-- end comments widget -->
+
+<script id="template-comment" type="x-tmpl-mustache">
+  <ul class='list-table comment-item mt5 mb5' id='comment-id-{{ id }}'>
+    <li class='text-left pos-relative valign-top comment-profile-image-wrapper'>
+      <a href="/dashboard/usuarios/{{ user.id }}">
+        {{ # user.admin_current_domain }}
+          <i class="ico-crown comment-list-item-user-admin-ico" title="Admin"></i>
+        {{ /user.admin_current_domain }}
+        <image src='{{ user.avatar_timeline }}' class='comment-profile-image img-circle mt10'>
+      </a>
+    </li>
+    <li class='text-left'>
+      <a 
+        href='#'
+        class='text-default pull-right comment-delete-button'
+        data-comment-id='{{ id }}'
+        data-comment-user-id='{{ user.id }}'
+        title='<%= t('views.general.buttons.delete') %>'
+      >
+        <i class="ico ico-trash"></i>
+      </a>
+      <p class='ellipsis nm'>
+        <a class="text-default" href="/dashboard/usuarios/{{ user.id }}">
+          <span class='semibold'>{{ user.name }}</span>
+        </a>
+      </p>
+      <p class='text-muted nm comment break-word'>{{{ linked_content }}}</p>
+    </li>
+  </ul>
+</script>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag "comments" %>
+  <%= javascript_tag do %>
+    window.bindPanelComments()
+  <% end %>
+<% end %>

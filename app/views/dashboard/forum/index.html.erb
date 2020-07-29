@@ -1,0 +1,43 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.forum.index.forum') %>
+  </span>
+</h2>
+
+<hr>
+
+<div class="row">
+  <div class="col-lg-9">
+    <% if @questions.size < 1 %>
+      <div class="well">
+        <%= t('views.forum.index.no_records') %>. 
+        <%= link_to timeline_path do %>
+          <%= t('views.general.see_timeline') %> 
+        <% end %>
+      </div>
+    <% else %>
+      <div class="mb10">
+        <span><%= t('views.forum.index.filters') %>:</span>
+        <a href="<%= forum_path(course: params[:course], filter: :answered, tag: params[:tag]) %>"
+            class="btn btn-default btn-sm">
+          <%= t('views.forum.index.buttons.answered') %>
+        </a>
+        <a href="<%= forum_path(course: params[:course], filter: :not_answered, tag: params[:tag]) %>"
+            class="btn btn-default btn-sm">
+          <%= t('views.forum.index.buttons.unanswered') %>
+        </a>
+        <a href="<%= forum_path(course: params[:course], filter: :new, tag: params[:tag]) %>"
+            class="btn btn-default btn-sm">
+          <%= t('views.forum.index.buttons.new') %>
+        </a>
+      </div>
+
+      <%= render @questions %>    
+    <% end %>
+
+    <%= render partial: 'question_form' %>
+  </div>
+
+  <%= render partial: "filter_sidebar" %>
+
+</div>

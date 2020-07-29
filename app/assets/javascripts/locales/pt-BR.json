@@ -1,0 +1,772 @@
+{
+  "controllers": {
+    "general": {
+      "block": {
+        "success": "Usuário bloqueado com sucesso. Recarregando página ..."
+      },
+      "general": {
+        "sent_by": "Enviado por",
+        "at": "em",
+        "in_challenge": "no desafio",
+        "in_feedback": "no feedback",
+        "unsupported_image_type": "Tipo do arquivo de imagem não suportado"
+      },
+      "actions": {
+        "confirm_delete": "Tem certeza que quer deletar o item?",
+        "confirm_exit": "Tem certeza que quer sair? Perderá todas as modificações",
+        "confirm_delete_answer": "Para confirmar a exclusão, responda"
+      },
+      "statuses": {
+        "approved": "Aprovado",
+        "declined": "Não Aprovado",
+        "pending": "Pendente",
+        "created": "Criado"
+      },
+      "creating": {
+        "title": "Criando, aguarde ..."
+      },
+      "success": {
+        "title": "Sucesso",
+        "create": "Criado com sucesso.",
+        "save": "Salvo com sucesso.",
+        "update": "Atualizado com sucesso",
+        "delete": "Deletado com sucesso."
+      },
+      "error": {
+        "title": "Erro",
+        "loading": "Houve um erro ao tentar carregar as metas, tente mais tarde.",
+        "block": "House um erro ao tentar bloquear usuário, tente mais tarde.",
+        "save": "Houve um erro ao salvar.",
+        "update": "Houve um erro ao atualizar.",
+        "delete": "Houve um erro ao deletar, tente novamente.",
+        "select_options": "Opções do select não pode ser carregada, tente atualizar o navegador.",
+        "confirm_delete_answer": "Resposta errada, {{ resource }} não será removido",
+        "paste_images": "Você não pode colar imagens aqui"
+      }
+    },
+    "courses": {
+      "course": "Curso",
+      "edit": {
+        "fields": {
+          "main_image": "Imagem principal",
+          "question_hint": "Dica da Questão",
+          "description": "Descrição",
+          "random_name": "Curso aleatório",
+          "random_description": "Descrição aleatória",
+          "step": {
+            "name": "Nome do passo",
+            "question": "Questão",
+            "wrong_answer": "Resposta errada",
+            "correct_answer": "Resposta certa"
+          }
+        }
+      }
+    },
+    "badges": {
+      "badge": "Badge"
+    },
+    "broadcasts": {
+      "reward": {
+        "earned_points": "Você ganhou mais {{ points }} pontos",
+        "watched_broadcast": "por assistir '{{ broadcast_title }}'"
+      }
+    },
+    "comments": {
+      "save": {
+        "success": "Comentário criado com sucesso"
+      },
+      "no_content": "Você deve informar um conteúdo antes de publicar seu comentário"
+    },
+    "news_timeline": {
+      "save": {
+        "success": "Post criado com sucesso"
+      }
+    }
+  },
+  "views": {
+    "general": {
+      "medal": "Badge",
+      "medals": "Badges",
+      "select_image": "Selectionar imagem...",
+      "select_file": "Selectionar arquivo...",
+      "are_you_sure?": "Você tem certeza?",
+      "write_post": "Escreva algo para a comunidade",
+      "required_fields": "campos obrigatórios",
+      "buttons": {
+        "read_more": "Ler mais",
+        "close": "Fechar"
+      },
+      "delete": "Deletar"
+    },
+    "dashboard": {
+      "peer_recognition": {
+        "give_count_points": "Dar {{ count }} pontos",
+        "give_one_point": "Dar 1 ponto",
+        "give_points": "Dar pontos"
+      },
+      "campaign_users": {
+        "redeem": {
+          "success": "Resgatou com sucesso",
+          "success_text": "Administradores entrarão em contato com você em breve. Fique ligado!."
+        }
+      },
+      "employee_advocacy": {
+        "files": "Arquivos",
+        "links": "Links",
+        "back_to_folders": "Voltar para pastas",
+        "new_share": "Novo compartilhamento",
+        "error_on_loading_people_who_shared": "Houve um erro ao carregar os compartilhamentos, tente mais tarde.",
+        "people_who_shared": "Pessoas que compartilharam",
+        "preview": "Pré-visualização",
+        "image_url": "Apenas URL da imagem",
+        "share_error": "Algo deu errado. Por favor, <a href='/dashboard/configuracoes'>reautentique</a> sua conta de {{socialNetwork}} e tente novamente.",
+        "share_instagram_error": "Algo deu errado. Por favor tente novamente.",
+        "limit_reached": "Você estourou a quota de compartilhamento diário. A quota atualmente é de {{limit}} post(s) por dia",
+        "share_hr": "Compartilhar",
+        "expired_hr": "Post expirado",
+        "type_url": "Informe a URL aqui",
+        "reauthenticate": "Reautenticar",
+        "new": "Compartilhar um novo link com a comunidade",
+        "update_image": "Atualizar imagem/vídeo",
+        "save_image": "Salvar imagem/vídeo",
+        "close": "Fechar",
+        "cancel": "Cancelar",
+        "title_required": "Título obrigatório",
+        "create": "Criar post",
+        "update": "Atualizar post",
+        "edit": "Editar post",
+        "delete": "Deletar post",
+        "or": "ou",
+        "connect": "Conectar",
+        "connect_account": "Conecte sua conta",
+        "open_in_app": "Abrir no app",
+        "success_share": "O post foi compartilhado com sucesso.",
+        "points": "pontos",
+        "you_won": "Você ganhou",
+        "post_shared": "Post compartilhado",
+        "write_to_followers": "Escreva algo para seus seguidores",
+        "share_post_on": "Compartilhe o post no",
+        "personal_or_pages": "Onde você deseja compartilhar?",
+        "personal": "Feed pessoal",
+        "pages": "Páginas gerenciadas",
+        "create_error": "Houve um erro ao tentar criar seu post na rede social",
+        "error_again": "Caso o erro persista mesmo assim, entre em contato com os administradores.",
+        "can_try": "Você pode tentar",
+        "did_not_connect_account": "Você não conectou sua conta do",
+        "did_not_run_in_app": "Você deve abrir a aplicação pelo app",
+        "please_connect_account": "Por favor, conecte sua conta para então você poder compartilhar este post na sua rede",
+        "and_win_points": "e ganhar pontos!",
+        "url_working?": "Essa URL realmente está funcionando?",
+        "url_error": "Houve um erro ao carregar a url",
+        "try_again": "Tente novamente",
+        "all": "Todos",
+        "share_instagram_explanation": "Clicando em abrir app, o diálogo de compartilhamento será aberto e você deve escolher instagram. O texto que você digitou será colocado na área de transferencia e para você colar lá.",
+        "instagram_not_installed": "Instagram não está instalado",
+        "instagram_not_installed_text": "Você deve instalar o instagram para continuar",
+        "loadMore": "Carregar mais",
+        "noMorePosts": "Sem novas news para mostrar",
+        "updated_at": "atualizado há",
+        "people_share": {
+          "zero": "Seja o primeiro a compartilhar",
+          "one": "1 pessoa compartilhou",
+          "other": "pessoas compartilharam"
+        },
+        "share": {
+          "title": "Título",
+          "content": "Conteúdo",
+          "select_image": "Selecionar imagem/vídeo",
+          "notify_users": "Notificar usuários",
+          "publish_on_timeline": "Timeline",
+          "folder": "Seção (não obrigatório)",
+          "valid_until": "Data de divulgação (não obrigatório)"
+        },
+        "buttons": {
+          "tweet": "Tweet",
+          "post": "Postar",
+          "open_app": "Abrir Aplicativo"
+        }
+      },
+      "coins": {
+        "not_enough": "Pontos insuficientes",
+        "sorry": "Desculpa",
+        "title": "Pontos",
+        "you_sent_to": "Você deu {{ points }} pontos para {{ name }}"
+      },
+      "posts": {
+        "new": "Escreva algo para a comunidade"
+      },
+      "courses": {
+        "show": {
+          "answers": {
+            "got_correct": "Parabéns, você acertou! :D",
+            "got_wrong": "Resposta errada. Reveja os vídeos, as alternativas e no caso de dúvida, você pode utilizar o Forum."
+          }
+        }
+      },
+      "admin": {
+        "complete_account_questions": {
+          "index": {
+            "title": "Perguntas (Completar Dados)"
+          },
+          "edit": {
+            "title": "Edição da Pergunta"
+          },
+          "buttons": {
+            "add": "Adicionar nova Pergunta",
+            "edit": "Editar Pergunta"
+          },
+          "fields": {
+            "title": "Título"
+          }
+        },
+        "complete_account_question_options": {
+          "index": {
+            "title": "Opções (Completar Dados)"
+          },
+          "edit": {
+            "title": "Edição da Opção",
+            "inline_title": "Opções"
+          },
+          "buttons": {
+            "add": "Adicionar nova Opção",
+            "edit": "Editar Opção",
+            "delete": "Remover"
+          },
+          "fields": {
+            "name": "Nome"
+          }
+        },
+        "menu": {
+          "add_domain": "Adicionar domínio",
+          "edit": "Editar",
+          "courses": "Cursos",
+          "challenges": "Desafios",
+          "feedbacks": "Feedbacks",
+          "hashtag_challenges": "Desafios de Hashtag",
+          "badges": "Badges",
+          "submissions": "Submissões",
+          "publications": "Publicações",
+          "broadcasts": "Livestreams",
+          "rewards": "Recompensas",
+          "invites": "Convites",
+          "community_invites": "Convites de Comunidade",
+          "complete_account_questions": "Perguntas (completar dados)",
+          "campaign_users": "Resgates (Prêmios)"
+        },
+        "buttons": {
+          "back": "Voltar",
+          "save": "Salvar",
+          "generate": "Gerar",
+          "delete": "Deletar",
+          "edit": "Editar",
+          "approve": "Aprovar",
+          "decline": "Reprovar",
+          "discard": "Descartar"
+        },
+        "form": {
+          "errors": "Erros não deixaram salvar",
+          "numeric_error": "É necessário digitar um valor numérico",
+          "choose_option": "Escolha uma opção",
+          "loading_options": "Carregando opções",
+          "required_field": "Campo obrigatório",
+          "select_correct_option": "Selecione pelo menos uma opção correta",
+          "image": "Imagem",
+          "current_image": "Imagem atual",
+          "no_image": "Não contém Imagem",
+          "new_image": "Nova Imagem",
+          "remove_image": "Remover Imagem",
+          "no_selected_image": "Nenhuma Imagem Selecionada",
+          "current_file": "Arquivo atual",
+          "no_file": "Sem arquivo",
+          "new_file": "Novo arquivo",
+          "remove_file": "Remover arquivo",
+          "no_selected_file": "Sem arquivo selecionado",
+          "reason_to_decline": "Informe o motivo de reprovar",
+          "reason": "Motivo",
+          "invite_modal": {
+            "title": "Convidar",
+            "invites": "Convites"
+          }
+        },
+        "domains": {
+          "form": {
+            "advocacy_posts_limit_by_day": "Limite diário de compartilhamentos por usuário (0 é ilimitado)",
+            "share_link_in_advocacy": "Compartilhar link (desabilite se quiser compartilhar apenas foto)",
+            "share_in_personal": "Habilitar compartilhamento na timeline do usuário",
+            "share_in_fanpage": "Habilitar compartilhamento nas fanpages administradas pelo usuário",
+            "name": "Nome",
+            "description": "Descrição",
+            "url": "Url",
+            "css": "CSS",
+            "layout": "Layout",
+            "from_mail": "Enviar e-mail como",
+            "employee_advocacy": "Employee Advocacy",
+            "after_login": "Depois do login",
+            "after_login_placeholder": "Digite aqui para onde o usuário será redirecionado após o login",
+            "homepage": "Homepage",
+            "indication": "Indicação",
+            "points": "Pontos",
+            "community": "Comunidade",
+            "dashboard": "Dashboard",
+            "courses": "Cursos",
+            "only_invited": "Apenas convidados?",
+            "enabled": "Habilitado",
+            "courses_list_image": "Imagem da Listagem de Cursos",
+            "courses_list_image_help": "Imagem em formato png, tamanho fixo de 220px de largura, altura variável entre 0 a 300px",
+            "expanded_menu_logo": "Logo do menu expandido",
+            "expanded_menu_logo_help": "Imagem em formato png, com fundo transparente, largura até 210px, altura fixa de 50px",
+            "android_api_key": "Firebase API Key (Android)",
+            "apn_key": "Chave push notification (pem)",
+            "apn_key_help": "Arquivo pem, conseguido no apple developer",
+            "compact_menu_logo": "Logo do menu contraído",
+            "compact_menu_logo_help": "Imagem em formato png, com fundo transparente, largura até 60px, altura fixa até 50px",
+            "login_page_logo": "Logo da página de login",
+            "mail_share_logo": "Logo do e-mail do Compartilhamento",
+            "default_image_help": "Imagem em formato png, com fundo transparente, sem tamanho definido",
+            "facebook_api": "Facebook API",
+            "linkedin_api": "Linkedin API",
+            "youtube_api": "Youtube API",
+            "instagram_api": "Instagram API",
+            "twitter_api": "Twitter API",
+            "rules": "Regras",
+            "how_to_score": "Como pontuar",
+            "css_text": "Css (customizável)",
+            "challenges_enabled": "Desafios Habilitado",
+            "feedbacks_enabled": "Feedbacks Habilitado",
+            "hashtag_challenges_enabled": "Desafios de Hashtags Habilitado",
+            "broadcasts_enabled": "Livestream Habilitado",
+            "campaigns_enabled": "Recompensas Habilitada",
+            "peer_recognition_enabled": "Elogios Habilitado",
+            "any_user_can_post": "Qualquer usuário pode postar",
+            "pass_domains_select_and_log_here_directly": "Logar aqui",
+            "pass_domains_select_and_log_here_directly_help": "Habilite quando você tem um domínio de influenciador e você quer logar logo nele sem passar pelo select de domains",
+            "challenge_localize_key": "Challenge I18n chave",
+            "login_terms_url": "Url do termos (login)",
+            "social_network_permiteds": "Redes sociais permitidas",
+            "login_providers": "Redes sociais (login)",
+            "weekly_user_coins": "Pontos semanais dos usuários",
+            "only_registered_hashtags": "Permitir apenas elogios que contém hashtags cadastradas",
+            "peer_recognition_hashtags": "Hashtags de Elogio",
+            "peer_recognition_hashtags_help": "Insira os termos separados por vírgula ou espaço"
+          },
+          "buttons": {
+            "new_way_to_point": "Nova forma de pontuar",
+            "restore_rule": "Clique aqui para restaurar a regra",
+            "remove_rule": "Remover regra",
+            "select_image": "Selectionar Imagem...",
+            "select_file": "Selectionar Arquivo...",
+            "new_rule": "Nova regra"
+          }
+        },
+        "broadcasts": {
+          "index": {
+            "title": "Livestreams"
+          },
+          "edit": {
+            "title": "Edição de livestream"
+          },
+          "buttons": {
+            "add": "Adicionar nova livestream",
+            "edit": "Editar livestream"
+          },
+          "fields": {
+            "title": "Título",
+            "url": "Url",
+            "description": "Descrição",
+            "points": "Pontos",
+            "start_datetime": "Data/Hora de Início"
+          },
+          "helpers": {
+            "create_youtube_broadcast": "Link para criação de livestream: https://www.youtube.com/my_live_events?action_create_live_event=1",
+            "embed_url": "Embed URL de Youtube. Ex: http://www.youtube.com/embed/VIDEO_ID"
+          }
+        },
+        "submissions": {
+          "feedback": {
+            "placeholder": "Informe o motivo de reprovar essa submissão"
+          }
+        },
+        "challenges": {
+          "index": {
+            "title": "Desafios"
+          },
+          "edit": {
+            "title": "Edição do Desafio"
+          },
+          "buttons": {
+            "add": "Adicionar novo desafio",
+            "edit": "Editar desafio"
+          },
+          "fields": {
+            "title": "Título",
+            "privacy": "Privacidade",
+            "url": "Url",
+            "description": "Descrição",
+            "recommendation": "Recomendações do Formulário de Submissão",
+            "points": "Pontos",
+            "date_start": "Início",
+            "date_end": "Final",
+            "terms": "Termos",
+            "image": "Imagem",
+            "slug": "Slug (url)",
+            "hashtag": "Hashtag",
+            "social_interactions_multiplier": "Interações/pontos"
+          },
+          "privacy_statuses": {
+            "all": "Todos os usuários podem visualizar as submissões",
+            "admin": "Apenas usuários administradores podem visualizar as submissões"
+          }
+        },
+        "campaign_users": {
+          "index": {
+            "title": "Resgastes"
+          },
+          "edit": {
+            "title": "Editar resgate"
+          },
+          "buttons": {
+            "add": "Adicionar novo resgate",
+            "edit": "Editar resgate"
+          },
+          "fields": {
+            "user_name": "Nome do usuário",
+            "campaign_title": "Nome do prêmio"
+          }
+        },
+        "feedbacks": {
+          "index": {
+            "title": "Feedbacks"
+          },
+          "edit": {
+            "title": "Edição do Feedback"
+          },
+          "buttons": {
+            "add": "Adicionar novo Feedback",
+            "edit": "Editar Feedback"
+          },
+          "fields": {
+            "title": "Título",
+            "privacy": "Privacidade",
+            "url": "Url",
+            "description": "Descrição",
+            "recommendation": "Recomendações do Formulário de Submissão",
+            "points": "Pontos",
+            "date_start": "Início",
+            "date_end": "Final",
+            "terms": "Termos",
+            "image": "Imagem",
+            "slug": "Slug (url)",
+            "hashtag": "Hashtag",
+            "social_interactions_multiplier": "Interações/pontos"
+          },
+          "privacy_statuses": {
+            "all": "Todos os usuários podem visualizar as submissões",
+            "admin": "Apenas usuários administradores podem visualizar as submissões"
+          }
+        },
+        "challenges_users": {
+          "index": {
+            "title": "Submissões dos Desafios"
+          },
+          "edit": {
+            "title": "Edição da Submissão"
+          },
+          "buttons": {
+            "add": "Adicionar nova Submissão do Desafio",
+            "edit": "Editar desafio"
+          },
+          "fields": {
+            "user": "Usuário",
+            "challenge": "Desafio",
+            "status": "Status",
+            "url": "Url",
+            "description": "Descrição",
+            "points": "Pontos",
+            "feedback": "Feedback"
+          },
+          "statuses": {
+            "approved": "Aprovado",
+            "pending": "Pendente",
+            "declined": "Não aprovado"
+          }
+        },
+        "feedbacks_users": {
+          "index": {
+            "title": "Submissões dos Feedbacks"
+          },
+          "edit": {
+            "title": "Edição da Submissão"
+          },
+          "buttons": {
+            "add": "Adicionar nova Submissão de Feedback",
+            "edit": "Editar Feedback"
+          },
+          "fields": {
+            "user": "Usuário",
+            "challenge": "Feedback",
+            "feedback": "Feedback",
+            "status": "Status",
+            "url": "Url",
+            "description": "Descrição",
+            "points": "Pontos"
+          },
+          "statuses": {
+            "approved": "Aprovado",
+            "pending": "Pendente",
+            "declined": "Não aprovado"
+          }
+        },
+        "hashtag_challenges": {
+          "index": {
+            "title": "Desafios de Hashtag"
+          },
+          "edit": {
+            "title": "Edição do Desafio de Hashtag"
+          },
+          "buttons": {
+            "add": "Adicionar novo desafio de hashtag",
+            "edit": "Editar desafio de hashtag"
+          },
+          "fields": {
+            "title": "Título",
+            "url": "Url",
+            "description": "Descrição",
+            "points": "Pontos",
+            "date_start": "Início",
+            "date_end": "Final",
+            "terms": "Termos",
+            "image": "Imagem",
+            "slug": "Slug (url)",
+            "hashtag": "Hashtag",
+            "social_interactions_multiplier": "Interações/pontos"
+          }
+        },
+        "hashtag_challenges_users": {
+          "index": {
+            "title": "Submissões dos Desafios"
+          },
+          "edit": {
+            "title": "Edição da Submissão"
+          },
+          "buttons": {
+            "add": "Adicionar nova Submissão de Desafio",
+            "edit": "Editar desafio"
+          },
+          "fields": {
+            "user": "Usuário",
+            "hashtag_challenge": "Desafio de hashtag",
+            "status": "Status",
+            "url": "Url",
+            "description": "Descrição",
+            "points": "Pontos",
+            "feedback": "Feedback"
+          },
+          "statuses": {
+            "approved": "Aprovado",
+            "pending": "Pendente",
+            "declined": "Não aprovado"
+          }
+        },
+        "courses": {
+          "index": {
+            "title": "Cursos"
+          },
+          "edit": {
+            "title": "Edição do curso"
+          },
+          "helpers": {
+            "image": "Imagem em formato png ou jpg, 220x244 px",
+            "main_image": "Imagem em formato png ou jpg, sendo um quadrado (todos os lados de tamanhos iguais) com tamanho mínimo de 150x150",
+            "medal": "Pontos ao ganhar esta badge",
+            "delete_medal": "Marque para deletar esta badge"
+          },
+          "buttons": {
+            "add": "Adicionar novo curso",
+            "add_from_template": "Criar novo curso baseado em template",
+            "edit": "Editar curso",
+            "delete_medal": "Deletar badge"
+          },
+          "fields": {
+            "user": "Usuário",
+            "name": "Nome",
+            "challenge": "Desafio",
+            "feedback": "Feedback",
+            "status": "Status",
+            "active": "Ativo",
+            "preview": "Pré-visualização",
+            "monitor_html": "HTML de monitoria",
+            "main_image": "Imagem Principal",
+            "url": "Url",
+            "description": "Descrição",
+            "points": "Pontos"
+          },
+          "placeholders": {
+            "name": "Insira aqui o nome do seu curso.",
+            "description": "O que será abordado nesse curso? Qual é o público alvo do curso?",
+            "preview": "Url embed do youtube ou vimeo"
+          },
+          "statuses": {
+            "approved": "Aprovado",
+            "pending": "Pendente",
+            "declined": "Não Aprovado"
+          }
+        },
+        "chapters": {
+          "chapter": "Capítulo",
+          "helpers": {
+            "image": "Imagem em formato png ou jpg, 220x244 px",
+            "main_image": "Imagem em formato png ou jpg, sendo um quadrado (todos os lados de tamanhos iguais) com tamanho mínimo de 150x150",
+            "medal": "Pontos ao ganhar esta badge",
+            "delete_medal": "Marque para deletar esta badge",
+            "delete": "Este capítulo será excluido.",
+            "delete_step": "Este passo será excluido",
+            "delete_question": "Esta questão será deletada",
+            "delete_option": "Essa opção será deletada",
+            "delete_file": "Este arquivo será deletado",
+            "delete_chapter": "O capítulo '{{ chapter_name }}' vai ser excluído, juntamente com suas aulas e quizes. Esta ação não pode ser desfeita."
+          },
+          "buttons": {
+            "add": "Criar Novo Capítulo",
+            "delete": "Deletar capítulo",
+            "collapse": "Expandir / Esconder",
+            "restore_chapter": "Clique aqui para restaurar o capítulo",
+            "add_step": "Adicionar passo",
+            "restore_step": "Restaurar passo",
+            "delete_step": "Excluir passo",
+            "add_question": "Adicionar questão",
+            "restore_question": "Restaurar Questão",
+            "delete_question": "Excluir Questão",
+            "add_file": "Adicionar arquivo",
+            "download_file": "Baixar arquivo",
+            "add_option": "Adicionar Opção",
+            "delete_file": "Excluir arquivo",
+            "restore_file": "Restaurar arquivo",
+            "undo_delete": "Desfazer exclusão"
+          },
+          "fields": {
+            "step_title": "Passo",
+            "user": "Usuário",
+            "name": "Nome do capítulo",
+            "challenge": "Desafio",
+            "feedback": "Feedbacks",
+            "active": "Ativo",
+            "main_image": "Imagem Principal",
+            "url": "Url",
+            "description": "Descrição",
+            "points": "Pontos",
+            "step": {
+              "name": "Nome",
+              "description": "Descrição",
+              "type": "Tipo",
+              "url": "Url",
+              "question": "Questão",
+              "title": "Titulo",
+              "hint": "Dica",
+              "options": "Opções",
+              "quiz": "Quiz",
+              "video": "Vídeo",
+              "file": "Arquivo"
+            }
+          },
+          "placeholders": {
+            "question_title": "Título da questão",
+            "option_content": "Conteúdo da resposta"
+          },
+          "statuses": {
+            "approved": "Aprovado",
+            "pending": "Pendente",
+            "declined": "Não Aprovado"
+          }
+        },
+        "badges": {
+          "edit": {
+            "image_help": "Imagem em formato png ou jpg, 220x244 px"
+          },
+          "buttons": {
+            "add": "Nova badge",
+            "delete": "Deletar badge"
+          },
+          "fields": {
+            "name": "Nome",
+            "points": "Pontos adicionais que o usuário ganha ao alcançar essa badge",
+            "hint": "Dica",
+            "type": "Tipo",
+            "main_image": "Imagem principal"
+          },
+          "types": {
+            "simple": "Simples",
+            "reusable": "Reutilizável"
+          },
+          "placeholders": {
+            "filter": "Filtrar badges"
+          }
+        },
+        "rewards": {
+          "fields": {
+            "title": "Título",
+            "subtitle": "Subtítulo",
+            "description": "Descrição",
+            "start_date": "Data Inicial",
+            "end_date": "Data Final",
+            "redeem_points": "Pontos para resgate",
+            "max_redeems": "Qtde máximo de resgate"
+          },
+          "helpers": {
+            "image": "Imagem em formato png ou jpg, 781x234 px"
+          },
+          "placeholders": {
+            "filter": "Filtrar recompensas",
+            "badges_filter": "Filtrar badges"
+          },
+          "buttons": {
+            "add": "Nova recompensa"
+          }
+        },
+        "community_invites": {
+          "index": {
+            "title": "Convites de Comunidade"
+          },
+          "fields": {
+            "user": {
+              "name": "Nome",
+              "email": "Email"
+            },
+            "status": "Status",
+            "created_at": "Criado em"
+          },
+          "buttons": {
+            "approve": "Aprovar",
+            "approve_manager": "Aprovar como Administrador",
+            "decline": "Recusar"
+          },
+          "statuses": {
+            "waiting_approval": "Aguardando aprovação",
+            "approved": "Aprovado",
+            "declined": "Recusado"
+          }
+        },
+        "invites": {
+          "index": {
+            "title": "Convites"
+          },
+          "edit": {
+            "title": "Convites"
+          },
+          "fields": {
+            "token": "Token",
+            "email": "Email",
+            "status": "Status",
+            "enter_emails": "Adicionar emails"
+          },
+          "buttons": {
+            "add": "Novo convite",
+            "generate": "Gerar convite"
+          },
+          "placeholders": {
+            "invites": "Digite aqui e-mails separados por vírgula, espaço ou enter."
+          }
+        }
+      }
+    }
+  }
+}

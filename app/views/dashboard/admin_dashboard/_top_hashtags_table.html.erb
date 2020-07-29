@@ -1,0 +1,18 @@
+<table class="table table-striped top-hashtags-table">
+  <thead>
+    <tr>
+      <th><%= t '.hashtag' %></th>
+      <th><%= t '.count' %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% table_data.each do |item|%>
+      <tr>
+        <td>
+          <%= item[:hashtag] %>
+        </td>
+        <td><%= item[:count] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

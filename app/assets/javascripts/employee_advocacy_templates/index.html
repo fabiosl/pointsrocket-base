@@ -1,0 +1,657 @@
+
+
+<div class="indicator show" data-ng-if="loading">
+  <span class="spinner"></span>
+</div>
+
+<div class="row" data-ng-if="currentUserAdmin">
+  <div class="col-sm-12">
+    <form name="editing_post_form" data-ng-submit="sync()">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item active">
+          <a class="nav-link active" id="file-tab" data-toggle="tab" data-target="#file" role="tab" aria-controls="file" aria-selected="true" aria-expanded="true">
+            <span ng-bind="('views.dashboard.employee_advocacy.files' | i18next)"></span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="link-tab" data-toggle="tab" data-target="#link" role="tab" aria-controls="link" aria-selected="false">
+            <span ng-bind="('views.dashboard.employee_advocacy.links' | i18next)"></span>
+          </a>
+        </li>
+      </ul>
+      <div class="panel panel-default employee-advocacy-post">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <span ng-bind="('views.dashboard.employee_advocacy.new' | i18next)"></span>
+          </div>
+        </div>
+        <div class="panel-body" style="padding-bottom: 0;">
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane active" id="file" role="tabpanel" aria-labelledby="file-tab">
+              <div class="link-field" data-ng-if="editing_post_link_state == 'awaiting_url'">
+                <button type="button" class="btn btn-block btn-primary" data-ng-click="openNewShare()">
+                  <span ng-bind="('views.dashboard.employee_advocacy.new_share' | i18next)"></span>
+                </button>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="link" role="tabpanel" aria-labelledby="link-tab">
+              <div class="link-field">
+                <input type="text" class="form-control" placeholder="{{('views.dashboard.employee_advocacy.type_url' | i18next)}}" data-ng-model="editing_post.url">
+                <div data-ng-if="editing_post_link_state == 'error_loading'" class="alert alert-danger mt10" >
+                  <strong><span ng-bind="('views.dashboard.employee_advocacy.url_working?' | i18next)"></span></strong> <span ng-bind="('views.dashboard.employee_advocacy.url_error' | i18next)"></span>.<a href="#" data-ng-click="loadUrl()"><span ng-bind="('views.dashboard.employee_advocacy.try_again' | i18next)"></span></a>
+                </div>
+              </div>
+            </div>
+          </div>              
+          <div class="editing-post" style="position: relative;" data-ng-class="{mb20: editing_post_link_state == 'loaded' || editing_post_link_state == 'loading' || editing_post_link_state == 'change_image'}" data-ng-if="editing_post_link_state == 'loaded' || editing_post_link_state == 'loading' || editing_post_link_state == 'change_image'">
+
+            <div class="indicator show" data-ng-if="editing_post_link_state == 'loading'"><span class="spinner"></span></div>
+
+            <div class="details row">
+              <div class="col-md-4">
+                <img src="http://placehold.it/192x150" data-ng-src="{{ editing_post.image }}" data-ng-if="!editing_post.video" alt="" class="post-img" style="display: block;width: 192px; margin: 0 auto;">
+                <video src="{{ editing_post.video }}" style="width: 100%;" data-ng-if="editing_post.video && ! editing_post.video_src" controls></video>
+                <video src="{{ editing_post.video_src }}" style="width: 100%;" data-ng-if="editing_post.video_src" controls></video>
+                <a href="#" class="btn btn-default mb10" data-ng-click="changeImageState()" data-ng-if="editing_post_link_state != 'change_image'" style="display: block;width: 192px; margin: 0 auto;">
+                  <span ng-bind="('views.dashboard.employee_advocacy.update_image' | i18next)"></span>
+                </a>
+                <a href="#" class="btn btn-default mb10" data-ng-click="changeImageState('loaded')" data-ng-if="editing_post_link_state == 'change_image'" style="display: block;width: 192px; margin: 0 auto;">
+                  <span ng-bind="('views.dashboard.employee_advocacy.close' | i18next)"></span>
+                </a>
+              </div>
+
+              <div class="post-content col-md-8" data-ng-if="editing_post_link_state == 'change_image'">
+                <input type="text" class="post-title form-control" placeholder="{{ ('views.dashboard.employee_advocacy.image_url' | i18next) }}" data-ng-model="editing_post.new_image_url" required name="new_image_url">
+
+                <div class="text-center">
+                  <span ng-bind="('views.dashboard.employee_advocacy.or' | i18next)"></span>
+                </div>
+
+                <span class="input-group-btn">
+                  <div class="btn btn-primary btn-file btn-block mt20">
+                    <span class="icon iconmoon-file-3"></span>
+                    <span ng-bind="('views.dashboard.employee_advocacy.share.select_image' | i18next)"></span>
+                    <input type="file" name="avatar" onchange="angular.element(this).scope().setImageFile(this.files)">
+                  </div>
+                </span>
+
+                <div class="text-center mt20" data-ng-if="next_image_src">
+                  <img data-ng-src="{{ next_image_src }}" style="width: 150px;" alt="">
+                </div>
+
+                <div class="text-center mt20" data-ng-if="next_video_src">
+                  <video controls width="200">
+                    <source src="{{ next_video_src }}" type="{{ next_video_type }}">
+                  </video>
+                </div>
+
+                <hr class="hr">
+
+                <a href="#" class="btn btn-primary" data-ng-click="saveImage()" data-ng-if="next_image_src || next_video_src">
+                  <span ng-bind="('views.dashboard.employee_advocacy.save_image' | i18next)"></span>
+                </a>
+              </div>
+
+              <div class="post-content col-md-8" data-ng-if="editing_post_link_state != 'change_image'">
+                <input type="text" class="post-title form-control input-lg" placeholder="{{ ('views.dashboard.employee_advocacy.share.title' | i18next) }}" data-ng-model="editing_post.title" required name="title">
+
+                <div class="alert alert-danger mt10" ng-show="editing_post_form.title.$dirty && editing_post_form.title.$invalid">
+                  <span ng-show="editing_post_form.title.$error.required">
+                  <span ng-bind="('views.dashboard.employee_advocacy.title_required' | i18next)"></span>.
+                  </span>
+                </div>
+
+                <div class="social-count-wrapper" ng-hide="currentDomain.score_disabled">
+                  <div class="social-count social-count-facebook" >
+                    <span class="social-icon social-icon-facebook">
+                      <span class="ico-facebook"></span>
+                    </span>
+                    <div class="reward-wrapper">
+                      +
+                      <input type="text" class="form-control point" data-ng-model="editing_post.facebook_points">
+                      <i class="ico-trophy"></i>
+                    </div>
+                  </div>
+                  <div class="social-count social-count-twitter" >
+                    <span class="social-icon social-icon-twitter">
+                      <span class="ico-twitter"></span>
+                    </span>
+                    <div class="reward-wrapper">
+                      +
+                      <input type="text" class="form-control point" data-ng-model="editing_post.twitter_points">
+                      <i class="ico-trophy"></i>
+                    </div>
+                  </div>
+                  <div class="social-count social-count-linkedin" >
+                    <span class="social-icon social-icon-linkedin">
+                      <span class="ico-linkedin"></span>
+                    </span>
+                    <div class="reward-wrapper">
+                      +
+                      <input type="text" class="form-control point" data-ng-model="editing_post.linkedin_points">
+                      <i class="ico-trophy"></i>
+                    </div>
+                  </div>
+                  <div class="social-count social-count-instagram" >
+                    <span class="social-icon social-icon-instagram">
+                      <span class="ico-instagram"></span>
+                    </span>
+                    <div class="reward-wrapper">
+                      +
+                      <input type="text" class="form-control point" data-ng-model="editing_post.instagram_points">
+                      <i class="ico-trophy"></i>
+                    </div>
+                  </div>
+                  <div class="social-count social-count-download" >
+                    <span class="social-icon social-icon-download">
+                      <span class="ico-download"></span>
+                    </span>
+                    <div class="reward-wrapper">
+                      +
+                      <input type="text" class="form-control point" data-ng-model="editing_post.download_points">
+                      <i class="ico-trophy"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <textarea class="form-control content-input mb10" placeholder="{{ ('views.dashboard.employee_advocacy.share.content' | i18next) }}" data-ng-model="editing_post.content" required></textarea>
+
+                <input type="text" data-ng-model="editing_post.folder" class="post-title form-control" placeholder="{{ ('views.dashboard.employee_advocacy.share.folder' | i18next) }}" name="folder">
+                <input type="text" data-date-picker data-ng-model="editing_post.valid_until" class="post-title form-control" placeholder="{{ ('views.dashboard.employee_advocacy.share.valid_until' | i18next) }}" name="valid_until">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer" data-ng-if="editing_post_link_state == 'loaded'">
+          <div class="panel-toolbar-wrapper">
+            <div class="panel-toolbar">
+              <ul class="list-table">
+                <li>
+                  <span data-ng-if="!editing_post.id" class="checkbox custom-checkbox custom-checkbox-inverse" style="padding: 7px 0; display: inline-block">
+                    <input type="checkbox" name="notify_users" id="notify_users_checkbox" ng-model="editing_post.notify_users">
+                    <label for="notify_users_checkbox">
+                      &nbsp;&nbsp;<span ng-bind="('views.dashboard.employee_advocacy.share.notify_users' | i18next)"></span>
+                    </label>
+                  </span>
+                  <span data-ng-if="!editing_post.id" class="checkbox custom-checkbox custom-checkbox-inverse" style="padding: 7px 0; display: inline-block">
+                    <input type="checkbox" name="publish_on_timeline" id="publish_on_timeline_checkbox" ng-model="editing_post.publish_on_timeline">
+                    <label for="publish_on_timeline_checkbox">
+                      &nbsp;&nbsp;<span ng-bind="('views.dashboard.employee_advocacy.share.publish_on_timeline' | i18next)"></span>
+                    </label>
+                  </span>
+                </li>
+                <li class="text-right">
+                  <a href="#" class="btn" data-ng-click="cancel()">
+                    <span ng-bind="('views.dashboard.employee_advocacy.cancel' | i18next)"></span>
+                  </a>
+                  <button type="submit" class="btn btn-primary" data-ng-disabled="editing_post_form.$invalid" data-ng-if="!editing_post.id">
+                    <span ng-bind="('views.dashboard.employee_advocacy.create' | i18next)"></span>
+                  </button>
+                  <button type="submit" class="btn btn-primary" data-ng-disabled="editing_post_form.$invalid" data-ng-if="editing_post.id">
+                    <span ng-bind="('views.dashboard.employee_advocacy.update' | i18next)"></span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="row" data-ng-if="!foo.selectedTab && tabs.length > 1">
+  <div class="indicator show" data-ng-if="loadingAll"><span class="spinner"></span></div>
+
+  <div class="col-sm-4 col-xs-12 folder-new" data-ng-repeat="tab in tabs">
+    <div class="panel">
+      <a href="javascript://" data-ng-click="selectTab(tab)">
+        <div class="folder-title">
+          {{ tab.folder }}
+        </div>
+
+        <span class="text-muted">
+          {{ tab.count }} news <span data-ng-if="tab.diff_update">
+            - <span ng-bind="('views.dashboard.employee_advocacy.updated_at' | i18next)"></span> {{ tab.diff_update }}
+          </span>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row" data-ng-if="!!foo.selectedTab">
+  <div class="col-sm-12 mb20" data-ng-if="tabs.length > 1">
+    <button class="btn btn-primary" data-ng-click="selectTab(null)">
+      <span ng-bind="('views.dashboard.employee_advocacy.back_to_folders' | i18next)"></span>
+    </button>
+  </div>
+
+  <div class="indicator show" data-ng-if="loadingAll"><span class="spinner"></span></div>
+  <div class="col-sm-12">
+    <div>
+      <div>
+        <div class="row">
+          <div class="col-sm-4" data-ng-repeat="post in getEmployeeAdvocacyPosts()">
+            <div class="panel post-to-share">
+                <!-- Thumbnail -->
+                <div class="thumbnail thumbnail-album">
+                    <!-- media -->
+                    <div class="media">
+                        <div data-ng-if="post.type == 'video'" class="media-image-container" style="height: 190px;">
+                          <video data-ng-src="{{ post.video }}"></video>
+                        </div>
+
+                        <div data-ng-if="post.type != 'video'" class="media-image-container" style="background-image: url({{ post.image_small }})"></div>
+
+                        <div class="title-overlay">
+                          <div class="title-content">
+                            {{ post.title }}
+                          </div>
+                        </div>
+
+                        <div class="actions-overlay" data-ng-if="currentUserAdmin">
+                          <a href="#" class="btn btn-primary" data-ng-click="editPost(post)">
+                            <span ng-bind="('views.dashboard.employee_advocacy.edit' | i18next)"></span>
+                          </a>
+                          <a href="#" class="btn btn-danger" data-ng-click="deletePost(post)">
+                            <span ng-bind="('views.dashboard.employee_advocacy.delete' | i18next)"></span>
+                          </a>
+                        </div>
+                    </div>
+                    <!--/ media -->
+                    <!-- meta -->
+                    <ul class="meta" data-ng-class="{'never-shared': post.people_shared_info.count == 0}">
+                        <li data-ng-if="post.people_shared_info.count > 0">
+                            <div class="img-group img-group-stack">
+                                <img ng-src="{{ share.user_avatar }}" class="img-circle" alt="" data-ng-repeat="share in post.people_shared_info.first_two">
+                                <span class="more img-circle" data-ng-if="post.people_shared_info.resting_count != 0" data-ng-click="openPeopleSharedInfo(post)" style="cursor: pointer;">{{ post.people_shared_info.resting_count }}+</span>
+                            </div>
+                        </li>
+                        <li>
+                            <p>
+                              <a href="#" data-ng-click="openPeopleSharedInfo(post)">
+                                <ng-pluralize count="post.people_shared_info.count" when="{'0': '{{ peopleShare.zero }}',
+                                 'one': '{{ peopleShare.one }}',
+                                 'other': '{} {{ peopleShare.other }}'}"></ng-pluralize>
+                              </a>
+
+                              <a href="{{ post.url }}" class="text-default pull-right ml5" target="_blank" title="external link" data-ng-if="post.url">
+                                <i class="ico ico-external-link"></i>
+                              </a>
+
+                              <a href="#" class="text-default pull-right ml5" title="Preview image" data-ng-click="previewImage(post)">
+                                <i class="ico ico-eye-open"></i>
+                              </a>
+                            </p>
+                        </li>
+                        <!-- <li style="width: 20px;">
+
+                        </li> -->
+                    </ul>
+                    <!--/ meta -->
+
+                    <div id="fb-root"></div>
+                    <script>
+                      window.fbAsyncInit = function() {
+                          FB.init({appId: '770320389786644', status: true, cookie: true,
+                          xfbml: true});
+                      };
+                      (function() {
+                          var e = document.createElement('script'); e.async = true;
+                          e.src = document.location.protocol +
+                          '//connect.facebook.net/en_US/all.js';
+                          document.getElementById('fb-root').appendChild(e);
+                      }());
+                    </script>
+
+                    <div class="share-bubble">
+                      <div class="share-bubble-title">
+                        <div class="title-place">
+                          <span ng-bind="('views.dashboard.employee_advocacy.share_hr' | i18next)" data-ng-if="!post.expires_in_text"></span>
+                          <span data-ng-if="post.expires_in_text">{{post.expires_in_text}}</span>
+                        </div>
+                      </div>
+
+                      <ul class="list-table share-buttons-row">
+
+                        <li data-ng-class="'share-button advocacy-button-{{ social }}'" data-ng-repeat="social in getButtons(post)">
+                          <a href="#" data-ng-click="share(post, social)">
+                            <span class="social-icon social-icon-{{ social }}">
+                              <span class="ico-{{ social }}"></span>
+
+                              <span class="ok" data-ng-if="currentUserHasSharedPost(post, social)">
+                                <span class="ico-ok"></span>
+                              </span>
+                            </span>
+                            <div class="reward-wrapper" >
+                              <span ng-hide="currentDomain.score_disabled">
+                                + {{ getPostPoint(post, social) }}
+                                <i class="ico-trophy"></i>
+                              </span>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                </div>
+                <!--/ Thumbnail -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-block btn-primary" ng-bind="('views.dashboard.employee_advocacy.loadMore' | i18next)" data-ng-click="loadMore()" data-ng-if="!bottom">
+            </button>
+            <p data-ng-if="bottom" ng-bind="('views.dashboard.employee_advocacy.noMorePosts' | i18next)" class="text-center text-muted">
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- START modal-preview-image -->
+<div id="modal-preview-image" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3 class="semibold modal-title text-primary">
+                  <span ng-bind="('views.dashboard.employee_advocacy.preview' | i18next)"></span>
+                </h3>
+            </div>
+            <div class="modal-body pa20">
+              <video data-ng-if="previewingPost.video" data-ng-src="{{ previewingPost.video }}" controls style="width: 100%;"></video>
+
+              <img data-ng-if="previewingPost.original_image" data-ng-src="{{ previewingPost.original_image }}" style="width: 100%;">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-preview-image -->
+
+
+<!-- START modal-people-shared -->
+<div id="modal-people-shared" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3 class="semibold modal-title text-primary">
+                  <span ng-bind="('views.dashboard.employee_advocacy.people_who_shared' | i18next)"></span>
+                </h3>
+            </div>
+            <div class="modal-body pa20">
+              <div class="indicator show" data-ng-if="shares_to_post_loading">
+                <span class="spinner"></span>
+              </div>
+
+              <div data-ng-if="shares_to_post_error_message" class="alert alert-danger nm" >
+                {{shares_to_post_error_message}}
+              </div>
+
+              <div class="media-list" data-ng-repeat="share in shares_to_post">
+                <div class="media">
+                  <span class="pull-left">
+                    <a href="<%= users_path %>/{{ share.user.id }}" class="text-default">
+                      <img src="{{ share.user.avatar }}" class="media-object img-circle" alt="" width="50px" height="50px;">
+                    </a>
+                  </span>
+                  <span class="media-body">
+                    <span class="media-heading">
+                      <a href="<%= users_path %>/{{ share.user.id }}" class="text-default">
+                        {{ share.user.name }}
+                      </a>
+                    </span>
+                    <span class="media-text ellipsis nm">{{ share.formatted_created_at }}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-people-shared -->
+
+<!-- START modal-facebook -->
+<div id="modal-auth" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-{{ connect_account.icon }} mb15 mt15" style="font-size:36px; color: {{ connect_account.color }};"></div>
+                <h3 class="semibold modal-title text-primary">
+                  <span ng-bind="('views.dashboard.employee_advocacy.connect_account' | i18next)"></span>
+                </h3>
+            </div>
+            <div class="modal-body">
+              <p>
+                <span ng-bind="('views.dashboard.employee_advocacy.did_not_connect_account' | i18next)"></span> {{ connect_account.name }}. <span ng-bind="('views.dashboard.employee_advocacy.please_connect_account' | i18next)"></span> <span ng-hide="currentDomain.score_disabled"><span ng-bind="('views.dashboard.employee_advocacy.and_win_points' | i18next)"></span></span>
+              </p>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ connect_account.auth_url }}" class="btn btn-primary btn-{{ connect_account.btn }}">
+                  <i class="ico-{{ connect_account.icon }}"></i> <span ng-bind="('views.dashboard.employee_advocacy.connect' | i18next)"></span>
+                </a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-facebook -->
+
+<!-- START modal-facebook -->
+<div id="modal-auth-no-publish" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-{{ connect_account.icon }} mb15 mt15" style="font-size:36px; color: {{ connect_account.color }};"></div>
+                <h3 class="semibold modal-title text-primary">
+                  <span ng-bind="('views.dashboard.employee_advocacy.connect_account' | i18next)"></span>
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                   <span ng-bind="('views.dashboard.employee_advocacy.did_not_connect_account' | i18next)"></span> {{ connect_account.name }}. <span ng-bind="('views.dashboard.employee_advocacy.please_connect_account' | i18next)"></span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ connect_account.auth_url }}" class="btn btn-primary btn-{{ connect_account.btn }}">
+                  <i class="ico-{{ connect_account.icon }}"></i> <span ng-bind="('views.dashboard.employee_advocacy.connect' | i18next)"></span>
+                </a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-facebook -->
+
+<!-- START modal-facebook -->
+<div id="instagram-no-app" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-{{ connect_account.icon }} mb15 mt15" style="font-size:36px; color: {{ connect_account.color }};"></div>
+                <h3 class="semibold modal-title text-primary">
+                  <span ng-bind="('views.dashboard.employee_advocacy.open_in_app' | i18next)"></span>
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                   <span ng-bind="('views.dashboard.employee_advocacy.did_not_run_in_app' | i18next)"></span>.
+                </p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-facebook -->
+<!-- START modal-facebook -->
+<div id="instagram-no-installed" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-{{ connect_account.icon }} mb15 mt15" style="font-size:36px; color: {{ connect_account.color }};"></div>
+                <h3 class="semibold modal-title text-primary">
+                  <span ng-bind="('views.dashboard.employee_advocacy.instagram_not_installed' | i18next)"></span>
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                   <span ng-bind="('views.dashboard.employee_advocacy.instagram_not_installed_text' | i18next)"></span>.
+                </p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-facebook --> 
+
+<!-- START modal-twitter -->
+<div id="modal-create-post" class="modal fade">
+    <div class="modal-dialog">
+        <!-- START modal error on create -->
+        <div class="modal-content" data-ng-if="createShareError">
+          <div class="modal-header text-center">
+              <button type="button" class="close" data-dismiss="modal">×</button>
+              <div class="ico-{{ new_share.social.icon }} mb15 mt15" style="font-size:36px; color: {{ new_share.social.color }}"></div>
+              <h3 class="semibold modal-title text-primary">
+                <span ng-bind="('views.dashboard.employee_advocacy.write_to_followers' | i18next)"></span> {{ new_share.social.name }}
+              </h3>
+          </div>
+
+          <div class="modal-body">
+              <p>
+                <span ng-bind="('views.dashboard.employee_advocacy.create_error' | i18next)"></span>:
+                <br>
+                <b class="fsize16">{{ errorMessage }}</b><br>
+
+                <div data-ng-if="showAuthButton">
+                  <span ng-bind="('views.dashboard.employee_advocacy.can_try' | i18next)"></span>
+                  <a href="{{ getSocialNetworksLoginUrl(new_share.social_network) }}" class="btn btn-primary btn-sm"><span ng-bind="('views.dashboard.employee_advocacy.reauthenticate' | i18next)"></span></a> <span ng-bind="('views.dashboard.employee_advocacy.on_social_network' | i18next)"></span>. <br>
+                  <span ng-bind="('views.dashboard.employee_advocacy.error_again' | i18next)"></span>.
+                </div>
+              </p>
+          </div>
+        </div>
+        <!-- END modal error on create -->
+
+        <!-- START modal de criação -->
+        <div class="modal-content" data-ng-if="!createShareError">
+            <div class="indicator show" data-ng-if="loadingCreateShare">
+              <span class="spinner"></span>
+            </div>
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-{{ new_share.social.icon }} mb15 mt15" style="font-size:36px; color: {{ new_share.social.color }}"></div>
+                <h3 class="semibold modal-title text-primary">
+                  <span ng-bind="('views.dashboard.employee_advocacy.share_post_on' | i18next)"></span>
+                  {{ new_share.social.name }}
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p><span ng-bind="('views.dashboard.employee_advocacy.write_to_followers' | i18next)"></span>:</p>
+                <textarea name="" id="" cols="30" rows="4" class="form-control" data-ng-model="new_share.user_content" required></textarea>
+                <div class="text-right mt5" data-ng-class="{'text-danger': passedLength()}">
+                  {{ new_share.social.maxlength - new_share.user_content.length }}
+                </div>
+
+                <div data-ng-if="new_share.social_network == 'facebook'">
+                  <select class="select-fb-page-to-publish form-control" data-ng-model="new_share.where_to_publish" placeholder="Onde publicar?" data-ng-options="option.name for option in facebook_pages track by option.id">
+                  </select>
+                </div>
+
+                <div data-ng-if="new_share.social_network == 'instagram'">
+                  <p ng-bind-html="('views.dashboard.employee_advocacy.share_instagram_explanation' | i18next)" class=""></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-{{ new_share.social.btn }}" data-ng-click="createShare()">
+                  <i class="ico-{{ new_share.social.icon }}"></i> {{ new_share.social.action_name }}
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+        <!-- END modal de criação -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-twitter -->
+
+<!-- START modal-ok -->
+<div id="modal-share-ok" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-{{ share_ok.social_slug }} mb15 mt15" style="font-size:36px; color: {{ share_ok.color }};"></div>
+                <h3 class="semibold modal-title text-primary">
+                  <span ng-bind="('views.dashboard.employee_advocacy.post_shared' | i18next)"></span>
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p><span ng-bind="('views.dashboard.employee_advocacy.success_share' | i18next)"></span> <span ng-hide="currentDomain.score_disabled"><span ng-bind="('views.dashboard.employee_advocacy.you_won' | i18next)"></span> {{ share_ok.points }} <span ng-bind="('views.dashboard.employee_advocacy.points' | i18next)"></span></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                  <span ng-bind="('views.dashboard.employee_advocacy.close' | i18next)"></span>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-ok -->
+
+<!-- START modal-ok -->
+<div id="modal-share-ok-no-points" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-{{ share_ok.social_slug }} mb15 mt15" style="font-size:36px; color: {{ share_ok.color }};"></div>
+                <h3 class="semibold modal-title text-primary">
+                  <span ng-bind="('views.dashboard.employee_advocacy.post_shared' | i18next)"></span>
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p><span ng-bind="('views.dashboard.employee_advocacy.success_share' | i18next)"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                  <span ng-bind="('views.dashboard.employee_advocacy.close' | i18next)"></span>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-ok -->
+<div id="modal-select-where-to-publish" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <div class="ico-{{ socialOptions['facebook'].icon }} mb15 mt15" style="font-size:36px; color: {{ socialOptions['facebook'].color }}"></div>
+        <h3 class="semibold modal-title text-primary">
+          <span ng-bind="('views.dashboard.employee_advocacy.share_post_on' | i18next)"></span>
+          Facebook
+        </h3>
+      </div>
+
+      <div class="modal-body text-center">
+        <span ng-bind="('views.dashboard.employee_advocacy.personal_or_pages' | i18next)"></span>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-{{ new_share.social.btn }} mr-auto" data-dismiss="modal" data-ng-click="shareInFacebookDialog(new_share.post, 'facebook')">
+          <i class="ico-{{ new_share.social.icon }}"></i>
+          <span ng-bind="('views.dashboard.employee_advocacy.personal' | i18next)"></span>
+        </button>
+        <button type="button" class="btn btn-primary btn-{{ new_share.social.btn }}" data-dismiss="modal" data-ng-click="shareDefault(new_share.post, 'facebook')">
+          <i class="ico-{{ new_share.social.icon }}"></i>
+          <span ng-bind="('views.dashboard.employee_advocacy.pages' | i18next)"></span>
+        </button>
+      </div>
+    </div>    
+  </div>
+</div>

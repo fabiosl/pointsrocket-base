@@ -1,0 +1,93 @@
+<%= form_for(@user, html: { class: 'form-horizontal form-bordered' }) do |f| %>
+  <fieldset class="">
+
+    <% if f.object.errors.any? %>
+      <div class="form-group header bgcolor-default">
+          <div class="col-sm-5 col-sm-offset-3">
+              <h4 class="semibold text-danger mt0 mb5">Erros não permitiram salvar o usuário</h4>
+              <p class="text-default nm">Por favor, verifique todos.</p>
+          </div>
+      </div>
+
+      <div id="error_explanation" class="form-group">
+        <% f.object.errors.full_messages.each do |message| %>
+          <div class="col-sm-5 col-sm-offset-3">
+            <div class="alert alert-danger"><%= message %></div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="form-group header bgcolor-default">
+        <div class="col-sm-5 col-sm-offset-3">
+            <h4 class="semibold text-primary mt0 mb5"><%= t('views.users.form.required_fields') %></h4>
+            <p class="text-default nm"><%= t('views.users.form.fill_all') %></p>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :name, class: 'col-sm-3 control-label text-right' %>
+      <div class="col-sm-5">
+        <%= f.text_field :name, class: 'form-control' %>
+        <p class="help-block"><%= t('views.users.form.helpers.name') %></p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :email, class: 'col-sm-3 control-label text-right' %>
+      <div class="col-sm-5">
+        <%= f.text_field :email, class: 'form-control' %>
+        <p class="help-block"><%= t('views.users.form.helpers.email') %></p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password, class: 'col-sm-3 control-label text-right' %>
+      <div class="col-sm-5">
+        <%= f.text_field :password, class: 'form-control' %>
+        <p class="help-block"><%= t('views.users.form.helpers.password') %></p>
+      </div>
+    </div>
+
+    <div class="form-group header bgcolor-default">
+        <div class="col-sm-5 col-sm-offset-3">
+            <h4 class="semibold text-primary mt0 mb5"><%= t('views.users.form.other_fields') %></h4>
+            <p class="text-default nm"><%= t('views.users.form.fill_all') %></p>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :phone, class: 'col-sm-3 control-label text-right' %>
+      <div class="col-sm-5">
+        <%= f.text_field :phone, class: 'form-control' %>
+        <p class="help-block"><%= t('views.users.form.helpers.phone') %></p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :birthdate, class: 'col-sm-3 control-label text-right' %>
+      <div class="col-sm-5">
+        <%= f.text_field :birthdate, class: 'form-control' %>
+        <p class="help-block"><%= t('views.users.form.helpers.birthdate') %></p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :locale, t('views.settings.form.language'), class: 'col-sm-3 control-label' %>
+      <div class="col-sm-5">
+          <%= f.select(:locale, Locale::AVAILABLE_LOCALES, {}, { class: 'form-control' }) %>
+          <% if f.object.errors.include?(:locale) %>
+            <p class="help-block">
+              <%= f.object.errors[:locale].join(' - ') %>
+            </p>
+          <% end %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-5 col-sm-offset-3">
+        <%= f.submit class: 'btn btn-success' %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

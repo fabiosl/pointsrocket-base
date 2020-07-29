@@ -1,0 +1,35 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <i class="ico-medal mr5"></i> Comentário - <%= t "views.time_ago_with_time" %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <ul class="list-table mb10">
+      <li class="text-center" style="width:60px;">
+        <a href="<%= users_path %>/{{ timelineable.user.id }}" class="text-default">
+          <img src="{{timelineable.user.avatar_timeline}}" alt="{{timelineable.user.name}}" class="img-circle">
+        </a>
+      </li>
+      <li class="text-left">
+        <p class="nm">
+          <a href="<%= users_path %>/{{ timelineable.user.id }}" class="text-default">
+            {{timelineable.user.name}}
+          </a>
+        </p>
+
+        <p class="nm">
+          Fez um comentário: {{commentable_short_description}}
+        </p>
+
+      </li>
+    </ul>
+
+    <p class="title semibold nm">
+      <a href="{{url}}">
+        {{timelineable.content}}
+      </a>
+    </p>
+  </div>
+</div>

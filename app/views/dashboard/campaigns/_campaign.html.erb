@@ -1,0 +1,21 @@
+<div class="well well-default">
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <a href="<%= campaign_path(campaign) %>"><h2 class="mb0"><%= campaign.title %></h2></a>
+      <div class="mb10">
+        <i class="ico-time"></i> <%= t('views.general.time_from') %> <%= campaign.start_date.strftime("%d/%m/%Y") %> <%= t('views.general.time_to') %> <%= campaign.end_date.strftime("%d/%m/%Y") %>
+      </div>
+      <p><%= campaign.description %></p>
+
+      <% if params['action'] == 'index' %>
+        <a href="<%= campaign_path(campaign) %>" class="btn btn-default btn-sm mt10">
+          <%= t('views.general.more_details') %>
+        </a>
+      <% end %>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <img data-toggle="unveil" src="<%= campaign.image.url(:campaign_index) %>" class="border-radius-5" width="100%">
+    </div>
+  </div>
+
+</div>

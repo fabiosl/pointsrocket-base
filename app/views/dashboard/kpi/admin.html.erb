@@ -1,0 +1,413 @@
+<!-- START row -->
+<div class="row">
+  <div class="col-lg-6">
+    <div class="table-layout">
+      <!-- START Widget Panel -->
+      <div class="col-sm-4 widget panel panel-minimal bgcolor-inverse">
+        <!-- panel body -->
+        <div class="panel-body">
+          <h1 class="semibold text-center mt0">256</h1>
+          <h4 class="semibold text-center nm">Vendas</h4>
+        </div>
+        <!--/ panel body -->
+      </div>
+      <!--/ END Widget Panel -->
+      <div class="col-sm-4 widget panel panel-minimal">
+        <div class="panel-body bgcolor-white">
+          <div class="progress progress-striped active">
+            <div class="progress-bar progress-bar-danger" style="width: 25%">
+              <span class="sr-only">25% Complete (danger)</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body bgcolor-danger pl0">
+          <ul class="list-table">
+            <li class="text-center">
+              <p class="nm">%</p>
+              <p class="nm">25</p>
+            </li>
+            <li class="text-center">
+              <i class="ico-flag5"></i>
+              <p class="nm">&gt; 1000</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-4 widget panel panel-minimal">
+        <div class="panel-body bgcolor-white">
+          <!-- chart -->
+          <div class="chart" style="height:101px;" id="stats1"></div>
+          <!--/ chart -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2">
+    <div class="table-layout">
+      <!-- START Widget Panel -->
+      <div class="col-sm-6 widget panel panel-minimal bgcolor-success">
+        <!-- panel body -->
+        <div class="panel-body">
+          <h1 class="semibold text-center nm">4</h1>
+          <h4 class="semibold text-center nm">Qualidade</h4>
+          <div class="clearfix">
+            <p class="text-center semibold nm mt10">
+              <i class="ico-flag5"></i> &gt; 4,5
+            </p>
+          </div>
+        </div>
+        <!--/ panel body -->
+      </div>
+      <!--/ END Widget Panel -->
+    </div>
+  </div>
+  <div class="col-lg-2">
+    <div class="table-layout">
+      <!-- START Widget Panel -->
+      <div class="col-sm-6 widget panel panel-minimal bgcolor-warning">
+        <!-- panel body -->
+        <div class="panel-body pl0 pr0">
+          <h1 class="semibold text-center nm">30%</h1>
+          <h4 class="semibold text-center nm fsize16">Reso. 1 contato</h4>
+          <div class="clearfix">
+            <p class="text-center semibold nm mt10">
+              <i class="ico-flag5"></i> &gt; 60%
+            </p>
+          </div>
+        </div>
+        <!--/ panel body -->
+      </div>
+      <!--/ END Widget Panel -->
+    </div>
+  </div>
+  <div class="col-lg-2">
+    <div class="table-layout">
+      <!-- START Widget Panel -->
+      <div class="col-sm-6 widget panel panel-minimal bgcolor-warning">
+        <!-- panel body -->
+        <div class="panel-body pl0 pr0">
+          <h1 class="semibold text-center nm">5min</h1>
+          <h4 class="semibold text-center nm fsize16">tempo 1 reso.</h4>
+          <div class="clearfix">
+            <p class="text-center semibold nm mt10">
+              <i class="ico-flag5"></i> &lt; 4min
+            </p>
+          </div>
+        </div>
+        <!--/ panel body -->
+      </div>
+      <!--/ END Widget Panel -->
+    </div>
+  </div>
+</div>
+<!-- END row -->
+<!-- START row -->
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel">
+      <div class="panel-body">
+        <ul class="list-table">
+          <li>
+            <h4 class="semibold nm text-left"><i class="ico-chart mr5"></i>Evolução</h4>
+          </li>
+        </ul>
+
+        <hr>
+
+        <div class="chart" style="height:101px;" id="stats2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END row -->
+
+<!-- START row -->
+<div class="row">
+  <div class="col-md-12">
+    <!-- START panel -->
+    <div class="panel panel-primary">
+
+      <!-- panel body with collapse capabale -->
+      <div class="table-responsive panel-body">
+        <ul class="list-table">
+          <li>
+            <h4 class="semibold nm text-left"><i class="ico-table mr5"></i>Kpi</h4>
+          </li>
+        </ul>
+
+        <hr>
+
+        <div class="panel nm">
+          <table class="table table-bordered table-hover" id="table1">
+            <thead>
+              <tr>
+                <th width="200px">Agente</th>
+                <th class="text-right">Pontos</th>
+                <th class="text-right">Vendas</th>
+                <th class="text-right">Qualidade</th>
+                <th class="text-right">Resolução 1 contato</th>
+                <th class="text-right">Tempo 1 resolução</th>
+              </tr>
+            </thead>
+            <%
+              def s
+                  (60..100).to_a.sample
+              end
+
+              # não esta sendo utilizada, éra pra gerar dados randomico
+              # esta gerando em cada usuário, para facilitar caso precise de hardcoded
+              def o
+                  {
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }
+              end
+
+              data = [
+                  {
+                      avatar: image_url("avatar/avatar1.jpg"),
+                      name: "Manoel Quirino Neto",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }, {
+                      avatar: image_url("avatar/avatar2.jpg"),
+                      name: "Fábio Leal",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }, {
+                      avatar: image_url("avatar/avatar3.jpg"),
+                      name: "Alessandro Lima",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }, {
+                      avatar: image_url("avatar/avatar4.jpg"),
+                      name: "Júnior Dutra",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }, {
+                      avatar: image_url("avatar/avatar5.jpg"),
+                      name: "Michele Gaspar",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }, {
+                      avatar: image_url("avatar/avatar6.jpg"),
+                      name: "Maria Rita",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }, {
+                      avatar: image_url("avatar/avatar7.jpg"),
+                      name: "Eduardo Nash",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }, {
+                      avatar: image_url("avatar/avatar8.jpg"),
+                      name: "Renê Baunilha",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }, {
+                      avatar: image_url("avatar/avatar9.jpg"),
+                      name: "Renato Ribeiro",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s,
+                  }, {
+                      avatar: image_url("avatar/avatar1.jpg"),
+                      name: "João Agripino",
+                      score: s,
+                      quality: s,
+                      sales: s,
+                      resolution_first_contact: s,
+                      first_resoluction_time: s
+                  }
+              ].sort! { |a, b| a[:score] <=> b[:score] }.reverse
+
+              def build number, percent: '%'
+                  if number < 70
+                      html_class = 'text-danger'
+                  elsif number < 85
+                      html_class = 'text-warning'
+                  else
+                      html_class = 'text-success'
+                  end
+
+                  return "<span class='#{html_class}'>#{number}#{percent}</span>".html_safe
+              end
+
+              def c score
+                  return ""
+                  if score < 70
+                      'danger'
+                  elsif score < 85
+                      'warning'
+                  else
+                      'success'
+                  end
+              end
+              %>
+            <tbody>
+              <% data.each_with_index do |item, index| %>
+              <tr class="<%= c item[:score] %> <% if index % 2 != 0 %>active<% end %>">
+                <td>
+                  <div class="media">
+                    <div class="media-object pull-left mr10 np">
+                      <img src="<%= item[:avatar] %>" alt="<% item[:name] %>" class="img-circle">
+                    </div>
+                    <div class="media-body pt5">
+                      <%= link_to item[:name], kpi_colaborador_path %>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right"><%= build item[:score], percent: '' %></td>
+                <td class="text-right"><%= build item[:sales], percent: '' %></td>
+                <td class="text-right"><%= build item[:quality] %></td>
+                <td class="text-right"><%= build item[:first_resoluction_time] %></td>
+                <td class="text-right"><%= build item[:resolution_first_contact] %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--/ panel body with collapse capabale -->
+    </div>
+  </div>
+</div>
+<!--/ END row -->
+<!-- END row -->
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel">
+      <div class="panel-body">
+        <ul class="list-table">
+          <li>
+            <h4 class="semibold nm text-left"><i class="ico-list mr5"></i>Top 5</h4>
+          </li>
+        </ul>
+
+        <% data.first(5).each_with_index do |item, index| %>
+          <hr>
+          <ul class="list-table">
+            <li style="width:60px;">
+              <img class="img-circle" src="<%= item[:avatar] %>" alt="" width="50px" >
+            </li>
+            <li class="text-left">
+              <h5 class="semibold ellipsis nm">
+                <%= link_to item[:name], kpi_colaborador_path %>
+              </h5>
+            </li>
+            <li class="text-right <% if index == 0 %>fsize24<% end %>">
+              <i class="ico-trophy mr5"></i>
+              <%= item[:score] %> pontos
+            </li>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="panel">
+      <div class="panel-body">
+        <ul class="list-table">
+          <li>
+            <h4 class="semibold nm text-left"><i class="ico-list mr5"></i>Bottom 5</h4>
+          </li>
+        </ul>
+
+        <% data.last(5).each_with_index do |item, index| %>
+          <hr>
+          <ul class="list-table">
+            <li style="width:60px;">
+              <img class="img-circle" src="<%= item[:avatar] %>" alt="" width="50px" >
+            </li>
+            <li class="text-left">
+              <h5 class="semibold ellipsis nm">
+                <%= link_to item[:name], kpi_colaborador_path %>
+              </h5>
+            </li>
+            <li class="text-right <% if index == 0 %>fsize24<% end %>">
+              <i class="ico-trophy mr5"></i>
+              <%= item[:score] %> pontos
+            </li>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% content_for :footer do %>
+<!-- para carregar os gráficos -->
+<%= javascript_include_tag "dashboard.js" %>
+<script>
+  var option = {
+      series: {
+          lines: { show: false },
+          splines: {
+              show: true,
+              tension: 0.4,
+              lineWidth: 2,
+              fill: 0.5
+          },
+          points: {
+              show: true,
+              radius: 4
+          }
+      },
+      grid: {
+          borderColor: '#eee',
+          borderWidth: 1,
+          hoverable: true,
+          backgroundColor: '#fcfcfc'
+      },
+      tooltip: true,
+      tooltipOpts: { content: '%x : %y' },
+      xaxis: {
+          tickColor: '#fcfcfc',
+          mode: 'categories'
+      },
+      yaxis: { tickColor: '#eee' },
+      shadowSize: 0
+  };
+
+  $.plot('#stats1', [{
+      color: '#DC554F',
+      data: [ ['Mon', 5], ['Tue', 8], ['Wed', 15], ['Thu', 6], ['Fri', 10] ]
+  }], option);
+
+  $.plot('#stats2', [{
+      color: '#DC554F',
+      data: [ ['Mon', 5], ['Tue', 8], ['Wed', 15], ['Thu', 6], ['Fri', 10] ]
+  }], option);
+</script>
+<% end %>

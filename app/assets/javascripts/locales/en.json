@@ -1,0 +1,781 @@
+{
+  "controllers": {
+    "general": {
+      "block": {
+        "success": "User blocked successfully. Reloading page ..."
+      },
+      "general": {
+        "sent_by": "Sent by",
+        "at": "at",
+        "in_challenge": "in challenge",
+        "in_feedback": "no feedback",
+        "unsupported_image_type": "Image type not supported"
+      },
+      "actions": {
+        "confirm_delete": "Are you sure that you want to delete?",
+        "confirm_exit": "Are you sure that you want to exit? You will lose your changes",
+        "confirm_delete_answer": "To confirm deletion, answer"
+      },
+      "statuses": {
+        "approved": "Approved",
+        "declined": "Declined",
+        "pending": "Pending",
+        "created": "Created"
+      },
+      "creating": {
+        "title": "Creating, wait a moment ..."
+      },
+      "success": {
+        "title": "Success",
+        "create": "Created successfully",
+        "save": "Saved successfully",
+        "update": "Updated successfully",
+        "delete": "Deleted successfully"
+      },
+      "error": {
+        "title": "Error",
+        "loading": "Error when trying to load",
+        "block": "Error when trying to block user. Try again later.",
+        "save": "Error when trying to save",
+        "update": "Error when trying to update",
+        "delete": "Error when trying to delete. Try again",
+        "select_options": "Select options could not be loaded. Try to update your browser.",
+        "confirm_delete_answer": "Wrong answer, {{ resource }} will not be deleted",
+        "paste_images": "You can`t paste files and images here"
+      }
+    },
+    "courses": {
+      "course": "Course",
+      "edit": {
+        "fields": {
+          "main_image": "Main Image",
+          "question_hint": "Question Hint",
+          "description": "Description",
+          "random_name": "Random course",
+          "random_description": "Random description",
+          "step": {
+            "name": "Step name",
+            "question": "Question",
+            "wrong_answer": "Wrong answer",
+            "correct_answer": "Correct answer"
+          }
+        }
+      }
+    },
+    "badges": {
+      "badge": "Badge"
+    },
+    "broadcasts": {
+      "reward": {
+        "earned_points": "You've got {{ points }} more points",
+        "watched_broadcast": "for watching '{{ broadcast_title }}'"
+      }
+    },
+    "comments": {
+      "save": {
+        "success": "Comment has been created successfully"
+      },
+      "no_content": "Make sure your comment's content is not blank"
+    },
+    "news_timeline": {
+      "save": {
+        "success": "Post has been created successfully"
+      }
+    }
+  },
+  "views": {
+    "general": {
+      "medal": "Medal",
+      "medals": "Medals",
+      "select_image": "Select image...",
+      "select_file": "Select file...",
+      "are_you_sure?": "Are you sure?",
+      "write_post": "Write something to the community",
+      "required_fields": "required fields",
+      "buttons": {
+        "read_more": "Read more",
+        "close": "Close"
+      },
+      "delete": "Delete"
+    },
+    "dashboard": {
+      "peer_recognition": {
+        "give_count_points": "Give {{ count }} points",
+        "give_one_point": "Give 1 point",
+        "give_points": "Give points"
+      },
+      "campaign_users": {
+        "redeem": {
+          "success": "Redeemed successfully",
+          "success_text": "Community managers will contact you soon."
+        }
+      },
+      "employee_advocacy": {
+        "files": "Files",
+        "links": "Links",
+        "back_to_folders": "Back to folders",
+        "new_share": "New share",
+        "error_on_loading_people_who_shared": "There was an error loading shared info. Please try again later.",
+        "people_who_shared": "People who shared",
+        "preview": "Preview",
+        "image_url": "Only Image URL",
+        "share_error": "Somenthing went wrong. Please, <a href='/dashboard/configuracoes'>reauthenticate</a> your {{socialNetwork}} account and try again.",
+        "share_instagram_error": "Somenthing went wrong. Please try again.",
+        "limit_reached": "You reached share limit. Currently is {{limit}} post(s) by day.",
+        "share_hr": "Share",
+        "expired_hr": "Expired post",
+        "type_url": "Type URL here",
+        "reauthenticate": "Reauthenticate",
+        "new": "Share a new link with the community",
+        "update_image": "Update image/video",
+        "save_image": "Save image/video",
+        "close": "Close",
+        "cancel": "Cancel",
+        "title_required": "Title required",
+        "create": "Create post",
+        "update": "Update post",
+        "edit": "Edit post",
+        "delete": "Delete post",
+        "or": "or",
+        "connect": "Connect",
+        "connect_account": "Connect your account",
+        "open_in_app": "Open in app",
+        "success_share": "Post has been shared successfully.",
+        "points": "points",
+        "you_won": "You won",
+        "post_shared": "Post shared",
+        "personal": "Personal feed",
+        "pages": "Managed pages",
+        "write_to_followers": "Write something to your followers",
+        "share_post_on": "Share post on",
+        "personal_or_pages": "Where do you want to share?",
+        "create_error": "There was an error while trying to create post",
+        "on_social_network": "on social network",
+        "error_again": "If you are still getting an error, please contact our admin.",
+        "can_try": "You can try",
+        "did_not_connect_account": "You have not connected your account on",
+        "did_not_run_in_app": "You must open through the app",
+        "please_connect_account": "Please connect your account to share this post",
+        "and_win_points": "and win points!",
+        "url_working?": "Is this URL really correct?",
+        "url_error": "There was an error while trying to load URL",
+        "try_again": "Try again",
+        "all": "All",
+        "share_instagram_explanation": "By cliking in open app, you'll open share dialog from your device. You must choose instagram. The text you've typed will be <b>put in your clipboard</b> to you paste there.",
+        "instagram_not_installed": "Instagram isn't installed",
+        "instagram_not_installed_text": "You must install instagram to continue.",
+        "loadMore": "Load More",
+        "noMorePosts": "No news to show",
+        "updated_at": "updated at",
+        "people_share": {
+          "zero": "Be the first to share",
+          "one": "1 person shared",
+          "other": "people shared"
+        },
+        "share": {
+          "title": "Title",
+          "content": "Content",
+          "select_image": "Select image/video",
+          "notify_users": "Notify users",
+          "publish_on_timeline": "Timeline",
+          "folder": "Section (not required)",
+          "valid_until": "Divulgation date (not required)"
+        },
+        "buttons": {
+          "tweet": "Tweet",
+          "post": "Post",
+          "open_app": "Open app"
+        }
+      },
+      "coins": {
+        "not_enough": "Not enough points",
+        "sorry": "Sorry",
+        "title": "Points",
+        "you_sent_to": "You have given {{ points }} points to {{ name }}"
+      },
+      "posts": {
+        "new": "Write something to the community"
+      },
+      "courses": {
+        "show": {
+          "answers": {
+            "got_correct": "Congratulations, you got it right! :D",
+            "got_wrong": "Wrong answer. Check out the videos and alternatives again. If there is still any doubts, you can go to Forum."
+          }
+        }
+      },
+      "admin": {
+        "complete_account_questions": {
+          "index": {
+            "title": "Question (Complete data)"
+          },
+          "edit": {
+            "title": "Question edit"
+          },
+          "buttons": {
+            "add": "Add new question",
+            "edit": "Edit question"
+          },
+          "fields": {
+            "title": "Title"
+          }
+        },
+        "complete_account_question_options": {
+          "index": {
+            "title": "Options (Complete Data)"
+          },
+          "edit": {
+            "title": "Edit option",
+            "inline_title": "Options"
+          },
+          "buttons": {
+            "add": "New option",
+            "edit": "edit option",
+            "delete": "Remove"
+          },
+          "fields": {
+            "name": "Name"
+          }
+        },
+        "menu": {
+          "add_domain": "Add domain",
+          "edit": "Edit",
+          "courses": "Courses",
+          "challenges": "Challenges",
+          "feedbacks": "Feedbacks",
+          "hashtag_challenges": "Hashtag Challenges",
+          "badges": "Badges",
+          "submissions": "Submissions",
+          "publications": "Publications",
+          "broadcasts": "Livestreams",
+          "rewards": "Rewards",
+          "invites": "Invites",
+          "community_invites": "Community Invites",
+          "complete_account_questions": "Question (Complete data)",
+          "campaign_users": "Redeens"
+        },
+        "buttons": {
+          "back": "Back",
+          "save": "Save",
+          "generate": "Generate",
+          "delete": "Delete",
+          "edit": "Edit",
+          "approve": "Approve",
+          "decline": "Decline",
+          "discard": "Discard"
+        },
+        "form": {
+          "errors": "Errors preventing from saving",
+          "numeric_error": "It needs to be a numeric value",
+          "choose_option": "Choose an option",
+          "loading_options": "Loading options",
+          "required_field": "Required field",
+          "select_correct_option": "Select at least one correct option",
+          "image": "Image",
+          "current_image": "Current image",
+          "no_image": "No image",
+          "new_image": "New Image",
+          "remove_image": "Remove Image",
+          "no_selected_image": "No selected image",
+          "current_file": "Current file",
+          "no_file": "No file",
+          "new_file": "New file",
+          "remove_file": "Remove file",
+          "no_selected_file": "No selected file",
+          "reason_to_decline": "Tell the reasons to decline",
+          "reason": "Reason",
+          "invite_modal": {
+            "title": "Invitation",
+            "invites": "Invites"
+          }
+        },
+        "domains": {
+          "form": {
+            "advocacy_posts_limit_by_day": "Daily limit shares by user (0 is unlimited)",
+            "share_link_in_advocacy": "Share link (disable to only share photo)",
+            "share_in_personal": "Enable sharing on user timeline",
+            "share_in_fanpage": "Enable sharing on user-managed fanpages",
+            "name": "Name",
+            "description": "Description",
+            "url": "Url",
+            "css": "CSS",
+            "layout": "Layout",
+            "from_mail": "Send e-mail as",
+            "employee_advocacy": "Employee Advocacy",
+            "after_login": "After login",
+            "after_login_placeholder": "Type here to where the user will be redirected after logging in",
+            "homepage": "Homepage",
+            "indication": "Indication",
+            "points": "Points",
+            "community": "Community",
+            "dashboard": "Dashboard",
+            "courses": "Courses",
+            "only_invited": "Only invited",
+            "enabled": "Enabled",
+            "courses_list_image": "Courses Image List",
+            "courses_list_image_help": "Image PNG format, transparent,  width up to 220px, height between 0 and 300px",
+            "expanded_menu_logo": "Expanded menu logo",
+            "expanded_menu_logo_help": "Image PNG format, transparent,  width up to 210px, height up to 50px",
+            "android_api_key": "Firebase API Key (Android)",
+            "apn_key": "Push notification key (pem)",
+            "apn_key_help": "Pem file, get it in apple developer",
+            "compact_menu_logo": "Compact menu logo",
+            "compact_menu_logo_help": "Image PNG format, transparent, width up to 60px, height up to 50px",
+            "login_page_logo": "Login page logo",
+            "mail_share_logo": "Mail Share logo",
+            "default_image_help": "Image PNG format, transparent, with any size",
+            "facebook_api": "Facebook API",
+            "linkedin_api": "Linkedin API",
+            "youtube_api": "Youtube API",
+            "instagram_api": "Instagram API",
+            "twitter_api": "Twitter API",
+            "rules": "Rules",
+            "how_to_score": "How to score",
+            "css_text": "Css (custom)",
+            "challenges_enabled": "Challenges Enabled",
+            "feedbacks_enabled": "Feedbacks Enabled",
+            "hashtag_challenges_enabled": "Hashtags Challenges Enabled",
+            "broadcasts_enabled": "Livestreams enabled",
+            "campaigns_enabled": "Rewards Enabled",
+            "peer_recognition_enabled": "Praises Enabled",
+            "any_user_can_post": "Any user can post",
+            "pass_domains_select_and_log_here_directly": "Log in here",
+            "pass_domains_select_and_log_here_directly_help": "Enable here when you have 1 influencer domain an don`t want to pass through community select",
+            "challenge_localize_key": "Challenge I18n Key",
+            "login_terms_url": "Login terms url",
+            "social_network_permiteds": "Allowed social networks",
+            "login_providers": "Allowed social networks (Login)",
+            "weekly_user_coins": "Weekly user points",
+            "only_registered_hashtags": "Only allow praises containing registered hashtags",
+            "peer_recognition_hashtags": "Peer Recognition Hashtags",
+            "peer_recognition_hashtags_help": "Insert terms separated by comma or whitespace"
+          },
+          "buttons": {
+            "new_way_to_point": "New way to score",
+            "restore_rule": "Click here to restore a rule",
+            "remove_rule": "Remove rule",
+            "select_image": "Select Image...",
+            "select_file": "Select File...",
+            "new_rule": "New rule"
+          }
+        },
+        "broadcasts": {
+          "index": {
+            "title": "Livestreams"
+          },
+          "edit": {
+            "title": "Edit livestream"
+          },
+          "buttons": {
+            "add": "Add new livestream",
+            "edit": "Edit livestream"
+          },
+          "fields": {
+            "title": "Title",
+            "url": "Url",
+            "description": "Description",
+            "points": "Points",
+            "start_datetime": "Start Datetime"
+          },
+          "helpers": {
+            "create_youtube_broadcast": "Link to create youtube livestream: https://www.youtube.com/my_live_events?action_create_live_event=1",
+            "embed_url": "Youtube embed URL. Ex: http://www.youtube.com/embed/VIDEO_ID"
+          }
+        },
+        "submissions": {
+          "feedback": {
+            "placeholder": "Tell the reasons to decline this submission"
+          }
+        },
+        "challenges": {
+          "index": {
+            "title": "Challenges"
+          },
+          "edit": {
+            "title": "Edit challenge"
+          },
+          "buttons": {
+            "add": "Add new challenge",
+            "edit": "Edit challenge"
+          },
+          "fields": {
+            "title": "Title",
+            "privacy": "Privacy",
+            "url": "Url",
+            "description": "Description",
+            "recommendation": "Submisson form recommendations",
+            "points": "Points",
+            "date_start": "Start",
+            "date_end": "End",
+            "terms": "Terms",
+            "image": "Image",
+            "slug": "Slug (url)",
+            "hashtag": "Hashtag",
+            "social_interactions_multiplier": "Interactions/points"
+          },
+          "privacy_statuses": {
+            "all": "All users can view submissions",
+            "admin": "Only admin users can view submissions"
+          }
+        },
+        "campaign_users": {
+          "index": {
+            "title": "Redeems"
+          },
+          "edit": {
+            "title": "Edit redeem"
+          },
+          "buttons": {
+            "add": "Add new redeem",
+            "edit": "Edit redeem"
+          },
+          "fields": {
+            "user_name": "User name",
+            "campaign_title": "Reward name"
+          }
+        },
+        "feedbacks": {
+          "index": {
+            "title": "Feedbacks"
+          },
+          "edit": {
+            "title": "Edit Feedback"
+          },
+          "buttons": {
+            "add": "Add new Feedback",
+            "edit": "Edit Feedback"
+          },
+          "fields": {
+            "title": "Title",
+            "privacy": "Privacy",
+            "url": "Url",
+            "description": "Description",
+            "points": "Points",
+            "date_start": "Start",
+            "date_end": "End",
+            "terms": "Terms",
+            "image": "Image",
+            "slug": "Slug (url)",
+            "hashtag": "Hashtag",
+            "social_interactions_multiplier": "Interactions/points"
+          },
+          "privacy_statuses": {
+            "all": "All users can view submissions",
+            "admin": "Only admin users can view submissions"
+          }
+        },
+        "challenges_users": {
+          "index": {
+            "title": "Challenges submissons"
+          },
+          "edit": {
+            "title": "Edit submission"
+          },
+          "buttons": {
+            "add": "Add new challenge submission",
+            "edit": "Edit challenge"
+          },
+          "fields": {
+            "user": "User",
+            "challenge": "Challenge",
+            "status": "Status",
+            "url": "Url",
+            "description": "Description",
+            "points": "Points",
+            "feedback": "Feedback"
+          },
+          "statuses": {
+            "approved": "Approved",
+            "pending": "Pending",
+            "declined": "Declined"
+          }
+        },
+        "feedbacks_users": {
+          "index": {
+            "title": "Feedbacks submissons"
+          },
+          "edit": {
+            "title": "Edit submission"
+          },
+          "buttons": {
+            "add": "Add new Feedback submission",
+            "edit": "Edit Feedback"
+          },
+          "fields": {
+            "user": "User",
+            "challenge": "Feedback",
+            "feedback": "Feedback",
+            "status": "Status",
+            "url": "Url",
+            "description": "Description",
+            "points": "Points"
+          },
+          "statuses": {
+            "approved": "Approved",
+            "pending": "Pending",
+            "declined": "Declined"
+          }
+        },
+        "hashtag_challenges": {
+          "index": {
+            "title": "Hashtag Challenges"
+          },
+          "edit": {
+            "title": "Edit hashtag challenge"
+          },
+          "buttons": {
+            "add": "Add new hashtag challenge",
+            "edit": "Edit hashtag challenge"
+          },
+          "fields": {
+            "title": "Title",
+            "url": "Url",
+            "description": "Description",
+            "points": "Points",
+            "date_start": "Start",
+            "date_end": "End",
+            "terms": "Terms",
+            "image": "Image",
+            "slug": "Slug (url)",
+            "hashtag": "Hashtag",
+            "social_interactions_multiplier": "Interactions/points"
+          }
+        },
+        "hashtag_challenges_users": {
+          "index": {
+            "title": "Hashtag Challenges publications"
+          },
+          "edit": {
+            "title": "Edit publication"
+          },
+          "buttons": {
+            "add": "Add new hashtag challenge publication",
+            "edit": "Edit hashtag challenge"
+          },
+          "fields": {
+            "user": "User",
+            "hashtag_challenge": "Challenge",
+            "status": "Status",
+            "url": "Url",
+            "description": "Description",
+            "points": "Points",
+            "feedback": "Feedback"
+          },
+          "statuses": {
+            "approved": "Approved",
+            "pending": "Pending",
+            "declined": "Declined"
+          }
+        },
+        "courses": {
+          "index": {
+            "title": "Course"
+          },
+          "edit": {
+            "title": "Edit course"
+          },
+          "helpers": {
+            "image": "Image format PNG or JPG, 220x244px",
+            "main_image": "Image format PNG or JPG, must be square with minimum dimensions to 150x150",
+            "medal": "Medal points",
+            "delete_medal": "Check to delete this medal"
+          },
+          "buttons": {
+            "add": "Add new course",
+            "add_from_template": "Create a course from template",
+            "edit": "Edit course",
+            "delete_medal": "Delete medal"
+          },
+          "fields": {
+            "user": "User",
+            "name": "Name",
+            "challenge": "Challenge",
+            "feedback": "Feedback",
+            "status": "Status",
+            "active": "Active",
+            "preview": "Preview",
+            "monitor_html": "Monitor HTML",
+            "main_image": "Main Image",
+            "url": "Url",
+            "description": "Description",
+            "points": "Points"
+          },
+          "placeholders": {
+            "name": "Insert course name",
+            "description": "What will be covered in this course? What is its target audience?",
+            "preview": "Youtube or Vimeo embed URL"
+          },
+          "statuses": {
+            "approved": "Approved",
+            "pending": "Pending",
+            "declined": "Declined"
+          }
+        },
+        "chapters": {
+          "chapter": "Chapter",
+          "index": {
+            "title": "Challenges submissons"
+          },
+          "edit": {
+            "title": "Edit submission"
+          },
+          "helpers": {
+            "image": "Image format PNG or JPG, 220x244px",
+            "main_image": "Image format PNG or JPG, must be square with minimum dimensions to 150x150",
+            "medal": "Medal points",
+            "delete_medal": "Check to delete this medal",
+            "delete": "This chapter will be deleted",
+            "delete_step": "This step will be deleted",
+            "delete_question": "This question will  be deleted",
+            "delete_option": "This option will be deleted",
+            "delete_file": "This file will be deleted",
+            "delete_chapter": "The chapter '{{ chapter_name }}' will be deleted, alongside its lectures and quizes. This action cannot be undone."
+          },
+          "buttons": {
+            "add": "Create new chapter",
+            "delete": "Delete chapter",
+            "collapse": "Expand / Hide",
+            "restore_chapter": "Click here to restore chapter",
+            "add_step": "Add step",
+            "restore_step": "Restore step",
+            "delete_step": "Delete step",
+            "add_question": "Add question",
+            "restore_question": "Restore question",
+            "delete_question": "Delete question",
+            "add_file": "Add file",
+            "download_file": "Download file",
+            "add_option": "Add option",
+            "delete_file": "Delete file",
+            "restore_file": "Restore file",
+            "undo_delete": "Undo deletion"
+          },
+          "fields": {
+            "step_title": "Step",
+            "user": "User",
+            "name": "Chapter name",
+            "challenge": "Challenge",
+            "feedback": "Feedback",
+            "status": "Status",
+            "active": "Active",
+            "preview": "Preview",
+            "monitor_html": "Monitor HTML",
+            "main_image": "Main Image",
+            "url": "Url",
+            "description": "Description",
+            "points": "Points",
+            "step": {
+              "name": "Name",
+              "description": "Description",
+              "type": "Type",
+              "url": "Url",
+              "question": "Question",
+              "title": "Title",
+              "hint": "Hint",
+              "options": "Options",
+              "quiz": "Quiz",
+              "video": "Vídeo",
+              "file": "File"
+            }
+          },
+          "placeholders": {
+            "question_title": "Question title",
+            "option_content": "Answer content"
+          },
+          "statuses": {
+            "approved": "Approved",
+            "pending": "Pending",
+            "declined": "Declined"
+          }
+        },
+        "badges": {
+          "edit": {
+            "image_help": "Image format PNG or JPG, 220x244px"
+          },
+          "buttons": {
+            "add": "New badge",
+            "delete": "Delete badge"
+          },
+          "fields": {
+            "name": "Name",
+            "points": "Additional points that user get once he earns this badge",
+            "hint": "Hint",
+            "type": "Type",
+            "main_image": "Main image"
+          },
+          "types": {
+            "simple": "Simple",
+            "reusable": "Reusable"
+          },
+          "placeholders": {
+            "filter": "Filter badges"
+          }
+        },
+        "rewards": {
+          "fields": {
+            "title": "Title",
+            "subtitle": "Subtitle",
+            "description": "Description",
+            "start_date": "Start date",
+            "end_date": "End date",
+            "redeem_points": "Redeem Points",
+            "max_redeems": "Max Redeems"
+          },
+          "helpers": {
+            "image": "Image format PNG or JPG, 781x234px"
+          },
+          "placeholders": {
+            "filter": "Filter reward",
+            "badges_filter": "Filter badges"
+          },
+          "buttons": {
+            "add": "New reward"
+          }
+        },
+        "community_invites": {
+          "index": {
+            "title": "Community Invites"
+          },
+          "fields": {
+            "user": {
+              "name": "Name",
+              "email": "Email"
+            },
+            "status": "Status",
+            "created_at": "Created at"
+          },
+          "buttons": {
+            "approve": "Approve",
+            "approve_manager": "Approve as Manager",
+            "decline": "Decline"
+          },
+          "statuses": {
+            "waiting_approval": "Waiting Approval",
+            "approved": "Approved",
+            "declined": "Declined"
+          }
+        },
+        "invites": {
+          "index": {
+            "title": "Invites"
+          },
+          "edit": {
+            "title": "Invites"
+          },
+          "fields": {
+            "token": "Token",
+            "email": "Email",
+            "status": "Status",
+            "enter_emails": "Enter emails"
+          },
+          "buttons": {
+            "add": "New invite",
+            "generate": "Generate invite"
+          },
+          "placeholders": {
+            "invites": "Type here e-mails separated by comma, space or enter"
+          }
+        }
+      }
+    }
+  }
+}

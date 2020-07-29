@@ -1,0 +1,367 @@
+<%=
+  if is_mobile_request? and not request_device?(:ipad)
+    render partial: "dashboard/timeline/shared/mobile_activities"
+  end
+%>
+<%= render partial: "dashboard/timeline/shared/templates" %>
+
+<!-- POST VIEWS MODAL -->
+<div id="modal-confirm" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <h4 class="modal-title confirm-text"></h4>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="window.modalConfirmCallback()">
+            <%= t('views.yes') %>
+          </button>
+          <button type="button" class="btn btn-link" data-dismiss="modal">
+            <%= t('views.cancel') %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- POST VIEWS MODAL -->
+<div id="post-views" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="postViewsModal">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          <%= t('views.posts.who_viewed_post') %>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div id="viewers-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Report modal -->
+<div
+  id="modal-report"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="reportModal">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+          <%= t('views.general.report.title') %>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <form action="" style="display: table; width: 100%">
+          <input type="hidden" name="id" id="report-timeline-item-id">
+          <div class="form-group">
+            <label for="report-type" class="control-label">
+              <%= t('views.general.report.type') %>
+            </label>
+            <div>
+              <select name="report-type" id="report-type" class="form-control">
+                <option value="user"><%= t('views.general.report.types.user') %></option>
+                <option value="content"><%= t('views.general.report.types.content') %></option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="report-description" class="control-label">
+              <%= t('views.general.report.description') %>
+            </label>
+            <div>
+              <textarea
+                name="report-description" id="report-description"
+                rows="10" class="form-control mb15"
+              ></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-default pull-right report-submit-btn">
+            <%= t('views.general.buttons.send')%>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Report modal -->
+
+<!-- START modal-facebook -->
+<div id="instagram-no-app" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-instagram mb15 mt15" style="font-size:36px; color: #fb3958;"></div>
+                <h3 class="semibold modal-title text-primary">
+                  <%= t('views.dashboard.employee_advocacy.open_in_app') %>.
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                  <%= t('views.dashboard.employee_advocacy.did_not_run_in_app') %>.
+                </p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-facebook -->
+<!-- START modal-facebook -->
+<div id="instagram-no-installed" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-instagram mb15 mt15" style="font-size:36px; color: #fb3958;"></div>
+                <h3 class="semibold modal-title text-primary">
+                  <%= t('views.dashboard.employee_advocacy.instagram_not_installed') %>
+                </h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                  <%= t('views.dashboard.employee_advocacy.instagram_not_installed_text') %>.
+                </p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-facebook -->
+
+<!-- Block modal -->
+<div
+  id="modal-block"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="blockModal" >
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+          <%= t('views.general.block.title') %>
+        </h4>
+      </div>
+      <div class="modal-body loading-child">
+        <div class="show-on-loading">
+          <p><%= t('views.general.block.blocking') %></p>
+        </div>
+
+        <div class="hide-on-loading">
+          <p><%= t('views.general.block.confirm') %></p>
+
+          <a href="javascript://" class="btn btn-danger block-user-button" >
+            <%= t('views.general.block.block') %>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Report modal -->
+
+<div class="row" id="timeline-container">
+  <!-- modal-create-post -->
+  <div id="modal-create-post" class="modal fade" tabindex="-1" role="dialog"></div>
+
+  <!-- modal-people-shared-info -->
+  <div id="modal-people-shared-info" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3 class="semibold modal-title text-primary">
+                  Pessoas que compartilharam
+                </h3>
+            </div>
+            <div class="modal-body pa20">
+              <div class="indicator show loading">
+                <span class="spinner"></span>
+              </div>
+
+              <div class="error-message alert alert-danger nm">
+                Houve um erro ao carregar
+              </div>
+
+              <div class="media-list">
+              </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+
+  <!-- modal-share-success -->
+  <div id="modal-share-success" class="modal fade" tabindex="-1" role="dialog"></div>
+
+  <!-- AUTH Modals -->
+  <div id="modal-auth-facebook" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <div class="ico-facebook mb15 mt15" style="font-size:36px; color: #3b5a9a;"></div>
+          <h3 class="semibold modal-title text-primary"><%= t('views.employee_advocacy.connect_account') %></h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            <%= t('views.employee_advocacy.connect_account_help', provider: 'Facebook') %>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <a href="/users/auth/facebook" class="btn btn-primary btn-facebook">
+            <i class="ico-facebook"></i> <%= t('views.employee_advocacy.connect') %>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-auth-twitter" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <div class="ico-twitter mb15 mt15" style="font-size:36px; color: #29a9e1;"></div>
+          <h3 class="semibold modal-title text-primary"><%= t('views.employee_advocacy.connect_account') %></h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            <%= t('views.employee_advocacy.connect_account_help', provider: 'Twitter') %>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <a href="/users/auth/twitter" class="btn btn-primary btn-twitter">
+            <i class="ico-twitter"></i> <%= t('views.employee_advocacy.connect') %>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-auth-linkedin" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <div class="ico-linkedin mb15 mt15" style="font-size:36px; color: #117bb8;"></div>
+          <h3 class="semibold modal-title text-primary"><%= t('views.employee_advocacy.connect_account') %></h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            <%= t('views.employee_advocacy.connect_account_help', provider: 'Linkedin') %>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <a href="/users/auth/linkedin" class="btn btn-primary btn-linkedin">
+            <i class="ico-linkedin"></i> <%= t('views.employee_advocacy.connect') %>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- /AUTH Modals -->
+
+  <div class="col-md-7 mb20">
+    <%= render partial: 'post_form', locals: { domain: current_domain, post: @timeline_data[:post] } %>
+
+    <div id="timeline-items"></div>
+
+    <div class="timeline-loading pos-relative hidden-sm hidden-xs" style="height: 50px;">
+      <div class="indicator show">
+        <span class="spinner"></span>
+      </div>
+    </div>
+
+    <div class="visible-xs-block visible-sm-block">
+      <div class="timeline-loading-mobile pos-relative" style="height: 50px;">
+        <div class="indicator show">
+          <span class="spinner"></span>
+        </div>
+      </div>
+
+      <a href="javascript://" class="btn btn-block btn-primary mobile-load-more">
+        <%= t('views.timeline.index.load_more') %>
+      </a>
+    </div>
+
+    <div class="timeline-bottom-reached hide text-center text-muted mt10 mb20">
+      <span>
+        <%= t('views.dashboard.timeline.end') %>
+      </span>
+
+      <hr>
+    </div>
+  </div>
+
+  <div class="visible-xs-block visible-sm-block">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+
+  <!--/ 1/2 Grid -->
+
+  <!--/ 1/2 Grid -->
+  <div class="col-md-5">
+    <div class="fixed-sidebar">
+      <% if @domain.campaigns_enabled %>
+        <%= render partial: "dashboard/widgets/rewards",
+                   locals: { rewards: @timeline_data[:rewards] }
+        %>
+      <% end %>
+
+      <% if not (is_mobile_request? and not request_device?(:ipad)) %>
+        <%= render partial: "dashboard/widgets/activities",
+                   locals: {
+                      domain: @domain,
+                      activities: @activities,
+                      for_mobile: false,
+                      pending: false
+                   }
+        %>
+      <% end %>
+    </div>
+  </div>
+  <!--/ Right side / bottom side -->
+</div>
+<!--/ END Row -->
+
+<!-- END row -->
+
+<% content_for :css do %>
+  <%= stylesheet_link_tag "timeline.css" %>
+<% end %>
+
+<% content_for :footer do %>
+  <script>
+    window.currentUserAdmin = <%= current_user.admin %>;
+    window.socialNetworks = {
+      facebook: <%= not current_user.get_social_account("facebook", @domain).nil? %>,
+      twitter: <%= not current_user.get_social_account("twitter", @domain).nil? %>,
+      linkedin: <%= not current_user.get_social_account("linkedin", @domain).nil? %>,
+      instagram: <%= not current_user.get_social_account("instagram", @domain).nil?%>
+    };
+
+    window.socialNetworksLoginUrl = {
+      <%- available_providers.each do |provider| %>
+        <%= "#{provider}: \"#{user_omniauth_authorize_path(provider)}\",".html_safe %>
+      <% end -%>
+    };
+
+  </script>
+<% end %>
+

@@ -1,0 +1,44 @@
+<base href="/dashboard/admin/">
+
+<div class="dash_admin" data-ng-app="dash_admin">
+
+  <div data-ng-view></div>
+
+</div>
+
+<% content_for :footer do %>
+  <script>
+    var adminOptions = {
+      'franchisee': <%= FranchiseesHelper.admin_options.to_json.html_safe %>,
+      'plan': <%= PlansHelper.admin_options.to_json.html_safe %>,
+      'trail': <%= TrailsHelper.admin_options.to_json.html_safe %>,
+      'category': <%= CategoriesHelper.admin_options.to_json.html_safe %>,
+      <% if not current_domain.challenge_localize_key.present? %>
+        'challenge': <%= ChallengesHelper.admin_options.to_json.html_safe %>,
+        'challenge_user': <%= ChallengeUsersHelper.admin_options.to_json.html_safe %>,
+      <% else %>
+        'challenge': <%= FeedbackChallengesHelper.admin_options.to_json.html_safe %>,
+        'challenge_user': <%= FeedbackChallengeUsersHelper.admin_options.to_json.html_safe %>,
+      <% end %>
+      'campaign_user': <%= CampaignUsersHelper.admin_options.to_json.html_safe %>,
+      'hashtag_challenge': <%= HashtagChallengesHelper.admin_options.to_json.html_safe %>,
+      'hashtag_challenge_user': <%= HashtagChallengeUsersHelper.admin_options.to_json.html_safe %>,
+      'broadcast': <%= BroadcastsHelper.admin_options.to_json.html_safe %>,
+      'community_invite': <%= CommunityInvitesHelper.admin_options.to_json.html_safe %>,
+      'invite': <%= InvitesHelper.admin_options.to_json.html_safe %>,
+      'complete_account_question': <%= CompleteAccountQuestionsHelper.admin_options.to_json.html_safe %>,
+      'trivias_questions': <%= ENV['TRIVIAS_QUESTIONS'] == "true" %>,
+      'trails_active': <%= ENV['TRAILS_ACTIVE'] == "true" %>,
+      'franchisee_active': <%= ENV['FRANCHISEE_ACTIVE'] == 'true' %>,
+      'plans_active': <%= ENV['PLANS_ACTIVE'] == 'true' %>,
+      'category_active': <%= ENV['CATEGORY_ACTIVE'] == 'true' %>,
+      'goals_active': <%= ENV['GOALS_ACTIVE'] == 'true' %>,
+      'subdomain_as_communities': <%= ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'true' %>,
+    };
+
+    var challenge_as_feedback = <%= current_domain.challenge_localize_key.present? %>;
+    var DEFAULT_STEP_QUESTION_POINTS = <%= ENV['DEFAULT_STEP_QUESTION_POINTS'].to_i %>;
+  </script>
+  <%= stylesheet_link_tag "dash_admin.css" %>
+  <%= javascript_include_tag "dash_admin.js" %>
+<% end %>

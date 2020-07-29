@@ -1,0 +1,467 @@
+<div class="row">
+  <div class="col-md-3">
+    <ul class="list-group list-group-tabs">
+      <li class="list-group-item active">
+        <a href="#profile" data-toggle="tab">
+          <i class="ico-user2 mr5"></i><%= t('views.settings.profile') %>
+        </a>
+      </li>
+      <li class="list-group-item">
+        <a href="#account" data-toggle="tab">
+          <i class="ico-archive2 mr5"></i>
+          <%= t('views.settings.form.account') %>
+        </a>
+      </li>
+      <li class="list-group-item">
+        <a href="#password" data-toggle="tab">
+          <i class="ico-key2 mr5"></i>
+          <%= t('views.settings.form.password') %>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="list-table">
+      <li style="width:70px;">
+        <%= image_tag current_user.avatar.url(:s65x65), :class => "img-circle" %>
+      </li>
+      <li class="text-left">
+        <h5 class="semibold ellipsis mt0"><%= current_user.name %></h5>
+        <div style="max-width:200px;">
+          <p class="text-muted clearfix nm">
+            <span class="pull-left">
+              <%= "#{current_user.points.to_i} #{ t('views.settings.profile') }" %>
+            </span>
+          </p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-9">
+    <div class="tab-content">
+      <div class="tab-pane active" id="profile">
+        <%= form_for(current_user, url: settings_path, html: { method: :put, class: 'panel form-horizontal form-bordered', :enctype => "multipart/form-data", id: :edit_user_settings_form }) do |f| %>
+              <div class="panel-body pt0 pb0">
+                  <div class="form-group header bgcolor-default">
+                      <div class="col-md-12">
+                          <h4 class="semibold text-primary mt0 mb5"> <%= t('views.settings.profile') %></h4>
+                          <p class="text-default nm"> <%= t('views.settings.form.public_info') %></p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-3 control-label">
+                        <%= t('views.settings.form.photo') %>
+                      </label>
+                      <div class="col-sm-9">
+                          <div class="btn-group pr5">
+                            <%= image_tag current_user.avatar.url(:s34x34), :class => "img-circle" %>
+                          </div>
+                          <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <%= t('views.settings.change_photo') %>
+                                <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" role="menu">
+                                  <li>
+                                    <%= f.label :avatar, 'Enviar foto' %>
+                                    <%= f.file_field :avatar, class: 'hide', onchange: 'document.getElementById("edit_user_settings_form").submit()' %>
+                                  </li>
+                                  <% if current_user.avatar.present? %>
+                                  <li>
+                                    <%= f.label :delete_avatar, 'Remover', onclick: 'document.getElementById("edit_user_settings_form").submit()' do %>
+                                      <%= f.check_box :delete_avatar, hidden: true %> <%= t('views.settings.form.delete') %>
+                                    <% end %>
+                                  </li>
+                                  <% end %>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-3 control-label"><%= t('views.settings.form.name') %></label>
+                      <div class="col-sm-6">
+                          <%= f.text_field :name, class: 'form-control' %>
+                          <p class="help-block"><%= t('views.settings.form.full_name') %></p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-3 control-label"><%= t('views.settings.form.city') %></label>
+                      <div class="col-sm-6">
+                          <%= f.text_field :location, class: 'form-control' %>
+                          <p class="help-block"><%= t('views.settings.form.where_are_you?') %></p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-3 control-label"><%= t('views.settings.form.phone') %></label>
+                      <div class="col-sm-6">
+                          <%= f.text_field :phone, type: 'text', placeholder: t('views.settings.form.type_phone'), class: 'form-control' %>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-3 control-label"><%= t('views.settings.form.website') %></label>
+                      <div class="col-sm-6">
+                          <%= f.text_field :website, class: 'form-control', placeholder: 'http://' %>
+                          <p class="help-block"><%= t('views.settings.form.have_website?') %></p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-3 control-label"><%= t('views.settings.form.about_you') %></label>
+                      <div class="col-sm-6">
+                          <%= f.text_area :bio, class: 'form-control', rows: 3, placeholder: t('views.settings.form.describe_yourself') %>
+
+                          <p class="help-block"><%= t('views.settings.form.describe_yourself') %></p>
+                      </div>
+                  </div>
+                  <% if CompleteAccountQuestion.any? %>
+                    <div class="form-group header bgcolor-default">
+                        <div class="col-md-12">
+                            <h4 class="semibold text-primary nm">Topics</h4>
+                        </div>
+                    </div>
+
+                    <%= render partial: "partials/complete_account_question_options_form" %>
+                  <% end %>
+
+                  <div class="form-group header bgcolor-default">
+                      <div class="col-md-12">
+                          <h4 class="semibold text-primary nm"><%= t('views.settings.form.social') %></h4>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-sm-12">
+                        <%- get_permited_providers_for_current_domain.each do |provider| %>
+                          <%
+                            ico = provider
+
+                            if provider == :google_oauth2
+                              ico = "youtube"
+                            end
+                          %>
+
+                          <%
+                            identities = current_user.identities.where(provider: provider, domain: @domain.master_domain_or_self_for_provider(provider))
+
+                            if ENV['SUBDOMAIN_AS_COMMUNITIES'] != 'false'
+                              authorize_url = user_omniauth_authorize_session_url(provider, subdomain: false)
+                            else
+                              if @domain.influencer?
+                                authorize_url = user_omniauth_authorize_session_url(provider, ref: complete_registration_url(edit_social_networks: 'yes'))
+                              else
+                                authorize_url = user_omniauth_authorize_session_url(provider, ref: request.original_url)
+                              end
+                            end
+                          %>
+
+                          <% if identities.count > 0 %>
+                            <% identities.decorate.each do |identity| %>
+
+                              <ul class="list-table" >
+                                <li style="width:70px;" class="pos-relative">
+                                  <img class="img-circle img-bordered-primary" src="<%= identity.avatar.url(:thumb) %>" >
+                                  <div class="social-attached-icon-wrapper">
+                                    <i class="ico ico-<%= ico %> social-attached-icon"></i>
+                                  </div>
+                                </li>
+                                <li class="text-left">
+                                  <h5 class="semibold ellipsis nm">
+                                    <%= identity.name %>
+                                  </h5>
+                                  <p class="text-muted nm"><%= distance_of_time_in_words_to_now identity.created_at %></p>
+                                </li>
+                                <li class="text-right">
+                                  <%= link_to t('views.settings.revoke'), identity, method: :delete, class: "btn btn-default btn-sm" %>
+                                  <%= link_to "#{t('views.settings.open_on')} #{I18n.t provider, scope: ["omniauth"]}", identity.social_url, class: "btn btn-#{ico} btn-sm", target: :_blank %>
+                                </li>
+                              </ul>
+
+                              <hr>
+                            <% end %>
+                          <% else %>
+
+                            <a href="<%= authorize_url %>" class="btn btn-<%= ico.to_s %>">
+                              <i class="ico ico-<%= ico %>"></i>
+                              <%= t('views.general.buttons.connect_with') %> <%= I18n.t provider, scope: ["omniauth"] %>
+                            </a>
+
+                            <hr>
+                          <% end %>
+                        <% end -%>
+                      </div>
+                  </div>
+              </div>
+              <div class="panel-footer">
+                  <button type="reset" class="btn btn-default"><%= t('views.settings.reset') %></button>
+                  <button type="submit" class="btn btn-primary"><%= t('views.settings.save') %></button>
+              </div>
+        <% end %>
+      </div>
+
+      <div class="tab-pane" id="account">
+          <!-- form account -->
+        <%= form_for(current_user, url: settings_path, html: { method: :put, class: 'panel form-horizontal form-bordered', :enctype => "multipart/form-data" }) do |f| %>
+          <div class="panel-body pt0 pb0">
+              <div class="form-group header bgcolor-default">
+                  <div class="col-md-12">
+                      <h4 class="semibold text-primary mt0 mb5"><%= t('views.settings.form.account') %></h4>
+                      <p class="text-default nm"><%= t('views.settings.form.change_account') %></p>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <%= f.label :username, t('views.settings.form.username'), class: 'col-sm-3 control-label' %>
+                  <div class="col-sm-4">
+                      <%= f.text_field :username, class: 'form-control' %>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <%= f.label :email, t('views.settings.form.email'), class: 'col-sm-3 control-label' %>
+                  <div class="col-sm-5">
+                      <%= f.text_field :email, class: 'form-control' %>
+                      <% if f.object.errors.include?(:email) %>
+                        <p class="help-block">
+                          <%= f.object.errors[:email].join(' - ') %>
+                        </p>
+                      <% end %>
+                      <p class="help-block"><%= t('views.settings.form.email_warning') %></p>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <%= f.label :locale, t('views.settings.form.language'), class: 'col-sm-3 control-label' %>
+                  <div class="col-sm-5">
+                      <%= f.select(:locale, Locale::AVAILABLE_LOCALES, {}, { class: 'form-control' }) %>
+                      <% if f.object.errors.include?(:locale) %>
+                        <p class="help-block">
+                          <%= f.object.errors[:locale].join(' - ') %>
+                        </p>
+                      <% end %>
+                  </div>
+              </div>
+
+              <% if can?(:report_content, current_domain) %>
+              <div class="form-group header bgcolor-default">
+                <div class="col-md-12">
+                    <h4 class="semibold text-primary mt0 mb5"><%= t('views.settings.blocked_users') %></h4>
+                    <p class="text-default nm"></p>
+                </div>
+              </div>
+
+              <div class="form-group text-center">
+                <%= link_to t('views.settings.block_users'), block_users_path, class: 'btn btn-primary' %>
+              </div>
+              <% end %>
+
+
+              <% if not @domain.is_points %>
+              <div class="form-group header bgcolor-default">
+                  <div class="col-md-12">
+                      <h4 class="semibold text-primary mt0 mb5"><%= t('views.settings.form.plan') %></h4>
+                      <p class="text-default nm"><%= t('views.settings.form.plan_help') %></p>
+                      <p class="text-default nm"></p>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <%= f.label :plano, t('views.settings.form.plan'), class: 'col-sm-3 control-label' %>
+                  <div class="col-sm-4">
+                      <%= text_field :user, :plano, class: 'form-control', readonly: true, value: f.object.get_plan_name %>
+                  </div>
+              </div>
+              <% end %>
+
+              <% if false %>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label"><%= t('views.settings.form.language') %></label>
+                  <div class="col-sm-5">
+                  <%= f.select :lang, options_from_collection_for_select(LanguageList::COMMON_LANGUAGES, "iso_639_1", "name", current_user.lang), {}, { class: 'form-control' } %>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label">Timezone</label>
+                  <div class="col-sm-5">
+                    <%= time_zone_select('user', :timezone, nil, { default: current_user.timezone || 'Brasilia' }, class: 'form-control') %>
+                  </div>
+              </div>
+              <% end %>
+
+              <div class="form-group header bgcolor-default">
+                  <div class="col-md-12">
+                      <h4 class="semibold text-primary mt0 mb5"><%= t('views.settings.form.content') %></h4>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label"><%= t('views.settings.form.country') %></label>
+                  <div class="col-sm-5">
+                    <%= country_select :user, :country, {priority_countries: ["br", "us"], selected: current_user.country}, class: 'form-control' %>
+                  </div>
+              </div>
+
+              <% if current_user.subscriptions.real_active.any? %>
+                <div class="form-group header bgcolor-default">
+                    <div class="col-md-12">
+                        <h4 class="semibold text-primary mt0 mb5"><%= t('views.settings.form.automatic_annual_renew') %></h4>
+                    </div>
+                </div>
+
+                <div class="form-group hide-after">
+                  <div class="col-sm-5 col-sm-offset-3">
+                    <a href="#" class="btn btn-primary hide-after-toggle-button"><%= t('views.settings.form.show_options') %></a>
+                  </div>
+                </div>
+
+                <div class="form-group show-after">
+                    <label class="col-sm-3 control-label"><%= t('views.settings.form.want_to_cancel') %></label>
+                    <div class="col-sm-5">
+                      <a href="<%= cancel_path %>" class="btn btn-danger cancel-button"><%= t('views.settings.form.want_to_cancel_automatic_renew') %></a>
+
+                      <p class="help-block">Você continuará acessando a plataforma normalmente, mas ao fim do ciclo anual, sua conta será suspensa.</p>
+                    </div>
+                </div>
+
+                <div class="form-group show-after">
+                    <%= f.label :cancel_reason, 'Motivo', class: 'col-sm-3 control-label' %>
+                    <div class="col-sm-4">
+                        <%= f.text_field :cancel_reason, class: 'form-control' %>
+                        <p class="help-block">Por favor, descreva os motivos do cancelamento para que possamos melhorar nossa ferramenta :(.</p>
+
+                    </div>
+                </div>
+
+              <% elsif current_user.subscriptions.trial.any? %>
+                <div class="form-group header bgcolor-default">
+                    <div class="col-md-12">
+                        <h4 class="semibold text-primary mt0 mb5">Cancelamento</h4>
+                    </div>
+                </div>
+
+                <div class="form-group hide-after">
+                  <div class="col-sm-5 col-sm-offset-3">
+                    <a href="#" class="btn btn-primary hide-after-toggle-button"><%= t('views.settings.form.show_options') %></a>
+                  </div>
+                </div>
+
+                <div class="form-group show-after">
+                    <label class="col-sm-3 control-label"><%= t('views.settings.form.want_to_cancel') %></label>
+                    <div class="col-sm-5">
+                      <a href="<%= cancel_path %>" class="btn btn-danger cancel-button">Quero cancelar minha conta</a>
+
+                      <p class="help-block">Ainda faltam <%= distance_of_time_in_words_to_now(current_user.subscriptions.trial.first.trial_end_time) %> de período de testes, você pode cancelar a qualquer momento sem pagar nada mais por isso.</p>
+                    </div>
+                </div>
+
+                <div class="form-group show-after">
+                    <%= f.label :cancel_reason, 'Motivo', class: 'col-sm-3 control-label' %>
+                    <div class="col-sm-4">
+                        <%= f.text_field :cancel_reason, class: 'form-control' %>
+                        <p class="help-block">Por favor, descreva os motivos do cancelamento para que possamos melhorar nossa ferramenta :(.</p>
+
+                    </div>
+                </div>
+              <% elsif current_user.subscriptions.active_not_renew.any? %>
+                <div class="form-group header bgcolor-default">
+                    <div class="col-md-12">
+                        <h4 class="semibold text-primary mt0 mb5">Renovação automática</h4>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"><%= t('views.settings.form.reactivate') %></label>
+                  <div class="col-sm-5">
+                    <a href="<%= activate_path %>" class="btn btn-success" data-method="post">Quero reativar</a>
+                  </div>
+                </div>
+              <% elsif current_user.subscriptions.suspended.any? %>
+                <div class="form-group header bgcolor-default">
+                    <div class="col-md-12">
+                        <h4 class="semibold text-primary mt0 mb5">
+                          <%= t('views.settings.form.account') %></h4>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"><%= t('views.settings.form.reactivate') %></label>
+                  <div class="col-sm-5">
+                    <a href="<%= activate_path %>" class="btn btn-success" data-method="post">Quero reativar</a>
+
+                    <p class="help-block">Você ainda tem <%= distance_of_time_in_words_to_now(current_user.subscriptions.suspended.first.trial_end_time) %> de uso de teste, reativando a renovacão lhe dara acesso ilimitado e voltará com a cobrança mensal apos o teste.</p>
+                  </div>
+                </div>
+              <% end %>
+
+              <% if false %>
+              <div class="form-group">
+                  <label class="col-sm-3 control-label"><%= t('views.settings.form.media') %></label>
+                  <div class="col-sm-9">
+                      <div class="row">
+                          <div class="col-sm-12">
+                              <span class="checkbox custom-checkbox">
+                                  <%= f.check_box :see_sensitive_media %>
+                                  <%= f.label :see_sensitive_media, '&nbsp;&nbsp;You will see all photos or videos even if they contain sensitive media.'.html_safe %>
+                              </span>
+                              <p class="help-block">You will see all photos or videos even if they contain sensitive media.</p>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-12">
+                              <span class="checkbox custom-checkbox">
+                                  <%= f.check_box :mark_sensitive_media %>
+                                  <%= f.label :mark_sensitive_media, '&nbsp;&nbsp;Mark media containing material that may be sensitive'.html_safe %>
+                              </span>
+                              <p class="help-block">Please check this box so that users can be informed prior to viewing.</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <% end %>
+          </div>
+          <div class="panel-footer">
+              <button type="reset" class="btn btn-default"><%= t('views.settings.form.reset') %></button>
+              <button type="submit" class="btn btn-primary"><%= t('views.settings.form.save') %></button>
+          </div>
+        <% end %>
+          <!--/ form account -->
+      </div>
+
+      <div class="tab-pane" id="password">
+          <!-- form password -->
+        <%= form_for(current_user, url: settings_path, html: { method: :put, class: 'panel form-horizontal form-bordered', :enctype => "multipart/form-data" }) do |f| %>
+
+            <div class="panel-body pt0 pb0">
+                <div class="form-group header bgcolor-default">
+                    <div class="col-md-12">
+                        <h4 class="semibold text-primary mt0 mb5"><%= t('views.settings.form.password') %></h4>
+                        <p class="text-default nm"><%= t('views.settings.form.change_password') %></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><%= t('views.settings.form.current_password') %></label>
+                    <div class="col-sm-5">
+                        <%= f.password_field :current_password, class: "form-control", autocomplete: "off" %>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><%= t('views.settings.form.new_password') %></label>
+                    <div class="col-sm-5">
+                        <%= f.password_field :password, class: "form-control", autocomplete: "off" %>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><%= t('views.settings.form.repeat_password') %></label>
+                    <div class="col-sm-5">
+                        <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "off" %>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="reset" class="btn btn-default"><%= t('views.settings.form.reset') %></button>
+                <button type="submit" class="btn btn-primary"><%= t('views.settings.form.save') %></button>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% content_for :footer do %>
+    <script>
+      $('[data-maskedinput]').each(function(){
+        var $this = $(this);
+        $this.mask($this.data('maskedinput'));
+      });
+    </script>
+  <% end %>
+</div>

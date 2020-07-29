@@ -1,0 +1,70 @@
+<li class="wrapper">
+  <div class="figure bgcolor-success"><i class="ico-pencil"></i></div>
+  <!-- panel -->
+  <div class="panel">
+    <div class="panel-body">
+      <ul class="list-table">
+        <li class="text-center" style="width:60px;">
+          {{ #timelineable.user.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.user.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.user.id }}">
+            <img src="{{ timelineable.user.avatar_timeline }}" alt="{{ timelineable.user.name }}" class="img-circle" width="50">
+          </a>
+        </li>
+        <li class="text-left">
+          <p class="nm">
+            <span class="semibold">{{ timelineable.user.name }}</span> 
+            <%= t('views.dashboard.timeline.profile.hashtag_challenge_publication') %>
+            <a
+              class="text-default"
+              href="/dashboard/hashtag-challenges/{{ timelineable.hashtag_challenge.slug }}"
+            >
+              <b>{{ timelineable.hashtag_challenge.title }}</b>
+            </a>
+          </p>
+        </li>
+      </ul>
+    </div>
+    <hr class="nm"><!-- horizontal line -->
+    <!-- Thumbnail -->
+    <div class="thumbnail thumbnail-album">
+      <!-- media -->
+      <div class="media">
+        {{#timelineable.json._source.picture}}
+          <div class="panel-body">
+            <div class="challenge-post-message">
+              {{ timelineable.json._source.message }}
+            </div>
+          </div>
+          <div class="pos-relative">
+            <div class="share-overlay-hashtag_challenge-user">
+              <a href="{{ timelineable.json._source.link }}" target="_blank">
+                <div class="ico-external-link"></div>
+              </a>
+            </div>
+            <img src="{{ timelineable.json._source.picture }}" title="{{ timelineable.json._source.message }}" width="100%">
+          </div>
+        {{/timelineable.json._source.picture}}
+
+        {{^timelineable.json._source.picture}}
+        <div class="placeholder-{{ timelineable.json._source.social_network }}">
+          {{timelineable.json._source.message}}
+        </div>
+        {{/timelineable.json._source.picture}}
+      </div>
+      <!--/ media -->
+    </div>
+    <!--/ Thumbnail -->
+    <!-- Toolbar -->
+    <!-- <div class="panel-footer">
+        <div class="panel-toolbar">
+            <a href="javascript:void(0);" class="semibold text-default">Comment</a>
+            <span class="text-muted mr5 ml5">•</span>
+            <a href="javascript:void(0);" class="semibold text-default">Share</a>
+        </div>
+    </div> -->
+    <!--/ Toolbar -->
+  </div>
+  <!--/ panel -->
+</li>

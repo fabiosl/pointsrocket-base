@@ -1,0 +1,150 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "analysis": {
+      "char_filter": {
+        "space_hashtags": {
+          "type": "mapping",
+          "mappings": [
+            "#=>|#"
+          ]
+        }
+      },
+      "filter": {
+        "hashtag_as_alphanum": {
+          "type": "word_delimiter",
+          "type_table": [
+            "# => ALPHANUM",
+            "@ => ALPHANUM"
+          ]
+        }
+      },
+      "analyzer": {
+        "hashtag": {
+          "type": "custom",
+          "char_filter": "space_hashtags",
+          "tokenizer": "whitespace",
+          "filter": [
+            "lowercase",
+            "hashtag_as_alphanum"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "timeline": {
+      "properties": {
+        "json": {
+          "type": "keyword",
+          "index": false,
+          "ignore_above": 256
+        },
+        "created_time": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        "timelineable_id": {
+          "type": "keyword"
+        },
+        "timelineable_type": {
+          "type": "keyword"
+        },
+        "tenant": {
+          "type": "keyword"
+        }
+      }
+    },
+    "post": {
+      "properties": {
+        "id": {
+          "type": "keyword",
+          "index": "not_analyzed"
+        },
+        "page_id": {
+          "type": "keyword",
+          "index": "not_analyzed"
+        },
+        "message": {
+          "type": "keyword",
+          "fields": {
+            "hashtags": {
+              "type": "keyword",
+              "analyzer": "hashtag"
+            }
+          }
+        },
+        "description": {
+          "type": "keyword"
+        },
+        "created_time": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        "collected_time": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        "updated_time": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        "type": {
+          "type": "keyword",
+          "index": "not_analyzed"
+        },
+        "status_type": {
+          "type": "keyword",
+          "index": "not_analyzed"
+        },
+        "social_network": {
+          "type": "keyword",
+          "index": "not_analyzed"
+        },
+        "link": {
+          "type": "keyword"
+        },
+        "engagement": {
+          "type": "float"
+        },
+        "cost": {
+          "type": "float"
+        },
+        "author": {
+          "properties": {
+            "name": {
+              "type": "keyword"
+            },
+            "id": {
+              "type": "keyword",
+              "index": "not_analyzed"
+            },
+            "followers_count": {
+              "type": "integer"
+            },
+            "following_count": {
+              "type": "integer"
+            },
+            "picture": {
+              "type": "keyword",
+              "index": false
+            }
+          }
+        },
+        "metrics": {
+          "type": "nested",
+          "properties": {
+            "name": {
+              "type": "keyword",
+              "index": "not_analyzed"
+            },
+            "value": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  }
+}

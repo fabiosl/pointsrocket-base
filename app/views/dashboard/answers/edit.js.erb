@@ -1,0 +1,3 @@
+$('<%= "#edit_answer_#{params[:id]}" %>')
+  .hide()
+  .after('<%= j render("form", locals: { question: @question }) %>');

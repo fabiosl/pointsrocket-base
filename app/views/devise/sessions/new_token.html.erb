@@ -1,0 +1,129 @@
+<div class="container login-container" id="login-content">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+
+      <div class="v-middle-full">
+        <!-- Login form -->
+        <%= form_for(resource, as: resource_name, url: users_token_login_path, html: {class: 'login-form', autocomplete: :off}) do |f| %>
+
+          <input style="display:none" type="text" name="user[email]"/>
+          <input style="display:none" type="password" name="user[password]"/>
+
+          <h2 class="login-page-title mb30"><%= t 'devise.sessions.new_general.title' %></h2>
+
+          <div class="panel">
+            <div class="panel-body">
+              <!-- Alert message -->
+              <% flash.each do |key, value| %>
+                <div class="alert alert-<%= key %>">
+                  <%= value %>
+                </div>
+              <% end %>
+
+              <%= f.hidden_field :remember_me, value: true %>
+
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                  <%= f.email_field :email, required: false, autofocus: true, class: 'form-control', placeholder: t('devise.sessions.new_general.email.placeholder') %>
+                  <i class="ico-user2 form-control-icon"></i>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="has-icon pull-left">
+                  <%= f.password_field :password, required: false, class: 'form-control', placeholder: t('devise.sessions.new_general.password.placeholder') %>
+                  <i class="ico-lock2 form-control-icon"></i>
+                </div>
+              </div>
+
+              <div class="form-group nm">
+                <button type="submit" class="btn btn-block btn-success"><span class="semibold">Login</span></button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="centered-lined">
+            <span class="centered-content">
+              <%= t 'devise.sessions.new_general.or_login_with' %>
+            </span>
+          </div>
+          <hr><!-- horizontal line -->
+
+          <!-- Social button -->
+          <ul class="list-table">
+            <li>
+              <a href="<%= user_omniauth_authorize_multi_login_path(:facebook) %>" class="btn btn-block btn-facebook">
+                <i class="ico-facebook mr5"></i> Facebook
+              </a>
+            </li>
+            <li>
+              <a href="<%= user_omniauth_authorize_multi_login_path(:instagram) %>" class="btn btn-block btn-instagram">
+                <i class="ico-instagram mr5"></i> Instagram
+              </a>
+            </li>
+          </ul>
+          <!-- Social button -->
+
+          <hr class="mb10">
+          <ul class="list-table">
+            <!-- <li>
+              <a href="#" id="tokenBtn">
+                <%= t('devise.sessions.enter_token') %>
+              </a>
+            </li> -->
+
+            <%- if devise_mapping.recoverable? %>
+              <li class="text-right">
+                <%= link_to t('devise.sessions.new_general.forgot_your_password'), new_user_password_path(password_search_in_tenants: true) %>
+              </li>
+            <% end -%>
+          </ul>
+
+        <% end %>
+
+        <div class="panel mt20 tokenContainer hide">
+          <h2 class="login-page-title">
+            <%= t('devise.sessions.new_token_login.title') %>
+          </h2>
+          <div class="panel-body">
+            <%= form_tag('/token_confirm', method: :post, class: 'login-form') do %>
+              <div class="form-group has-icon pull-left">
+                <%= text_field_tag :token, '', class: 'form-control', placeholder: 'Token' %>
+                <i class="ico-key form-control-icon"></i>
+              </div>
+              <div class="form-group">
+                <%= submit_tag t('views.general.buttons.confirm'), class: 'btn btn-block btn-success' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= content_for :footer do %>
+  <script>
+  (function(){
+    var $tokenBtn = $('#tokenBtn'),
+        $tokenContainer = $('.tokenContainer');
+
+    $tokenBtn.click(function(event) {
+      event.preventDefault();
+      toggleDisplay($tokenContainer);
+
+    });
+
+    function toggleDisplay($element) {
+      if ($element.hasClass('hide')) {
+        $element.removeClass('hide');
+      }
+      else {
+        $element.addClass('hide');
+      }
+    }
+  }());
+  </script>
+<% end %>
+
+<%= render partial: "devise/sessions/android" %>

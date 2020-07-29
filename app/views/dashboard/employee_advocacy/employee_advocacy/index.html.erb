@@ -1,0 +1,31 @@
+<base href="/dashboard/compartilhamentos/">
+
+<div class="employee_advocacy" data-ng-app="employee_advocacy">
+
+  <div data-ng-view></div>
+
+</div>
+
+<% content_for :footer do %>
+  <script>
+    window.currentUserAdmin = <%= current_user.admin %>;
+    window.socialNetworks = {
+      facebook: <%= not current_user.get_social_account("facebook", @domain).nil? %>,
+      twitter: <%= not current_user.get_social_account("twitter", @domain).nil? %>,
+      linkedin: <%= not current_user.get_social_account("linkedin", @domain).nil? %>,
+      instagram: <%=not current_user.get_social_account("instagram", @domain).nil?%>
+    };
+
+    window.facebook_pages = <%=
+      current_user.get_facebook_pages_withou_access_token.to_json.html_safe
+    %>
+
+    window.socialNetworksLoginUrl = {
+      <%- available_providers.each do |provider| %>
+        <%= "#{provider}: \"#{user_omniauth_authorize_path(provider)}\",".html_safe %>
+      <% end -%>
+    };
+  </script>
+  <%= stylesheet_link_tag "employee_advocacy.css" %>
+  <%= javascript_include_tag "employee_advocacy.js" %>
+<% end %>

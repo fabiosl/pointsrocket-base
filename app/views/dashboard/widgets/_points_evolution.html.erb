@@ -1,0 +1,20 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <i class="ico-chart mr5"></i>
+      <%= t('views.dashboard.widgets.points.title') %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <div class="chart" style="height:101px;" id="stats2"></div>
+  </div>
+
+  <hr class="nm">
+
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar text-right">
+      <%= link_to t('views.dashboard.widgets.points.statement'), points_path %>
+    </div>
+  </div>
+</div>

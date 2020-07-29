@@ -1,0 +1,29 @@
+<li class="wrapper">
+  <div class="figure bgcolor-info"><i class="ico-question"></i></div>
+  <!-- panel -->
+  <div class="panel">
+    <div class="panel-body">
+      <ul class="list-table">
+        <li class="text-center" style="width:60px;">
+          {{ #timelineable.user.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.user.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.user.id }}">
+            <img src="{{ timelineable.user.avatar_timeline }}" alt="{{ timelineable.user.name }}" class="img-circle" width="50">
+          </a>
+        </li>
+        <li class="text-left">
+          <p class="nm">
+            <span class="semibold">{{ timelineable.user.name }}</span> 
+            <%= t('views.dashboard.timeline.profile.asked_question') %>
+            <a href="/dashboard/perguntas/{{ timelineable.id }}">{{ timelineable.title }}</a>
+          </p>
+        </li>
+      </ul>
+      <blockquote class="mb0 text-center">
+        <p>{{{ timelineable.linked_content }}}</p>
+      </blockquote>
+    </div>
+  </div>
+  <!--/ panel -->
+</li>

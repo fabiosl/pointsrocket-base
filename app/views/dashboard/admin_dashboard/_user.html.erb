@@ -1,0 +1,17 @@
+<ul class="list-table">
+  <li style="width: 5%;">
+    <h5 class="semibold ellipsis nm"><%= position %></h5>
+  </li>
+  <li style="width:70px;">
+    <%= image_tag user_h[:user].avatar.url(:s50x50), class: 'img-circle', size: '50x50' %>
+  </li>
+  <li class="text-left">
+    <%= link_to user_path(user_h[:user]) do %>
+      <h5 class="semibold ellipsis nm"><%= user_h[:user].name %></h5>
+    <% end %>
+  </li>
+  <li class="text-right">
+    <i class="ico-trophy mr5"></i>
+      <%= "#{user_h[:total]} interactions" %>
+  </li>
+</ul>

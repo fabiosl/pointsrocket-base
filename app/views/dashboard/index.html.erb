@@ -1,0 +1,161 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.courses.index.title').capitalize %>
+    <% if can? :manage_community, current_domain %>
+      <a href="/dashboard/admin/courses" class="btn btn-xs btn-primary">
+        <%= t('views.general.buttons.edit').downcase %>
+      </a>
+    <% end %>
+  </span>
+</h2>
+
+<hr>
+
+<% if @courses.size < 1 %>
+  <div class="well">
+    <%= t('views.courses.index.no_records') %>. 
+    <%= link_to timeline_path do %>
+      <%= t('views.general.see_timeline') %> 
+    <% end %>
+  </div>
+<% end %>
+
+<% if @courses %>
+  <ul class="course-list row">
+    <% @courses.each_with_index do |course, index| %>
+      <% if current_user.initialized_course?(course) %>
+        <li class="course-list-item col-md-6">
+          <div class="course-panel panel panel-default">
+            <div class="panel-body">
+              <div class="course-panel-thumb">
+                <%= image_tag course.avatar.url(:medium) %>
+              </div>
+              <div class="course-panel-info">
+                <h4><%= course.name %></h4>
+                <p><%= course.description.truncate(275) %></p>
+                <p class="stats">
+                  <span class="points">
+                    <span class="points-value text-success">
+                      <%= course.points %>
+                      <i class="ico-trophy mr5"></i>
+                    </span>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div class="v-table">
+                <div class="v-table-cell text-left" style="width:60%;">
+                  <div class="progress progress-xs mb0">
+                    <div class="progress-bar progress-bar-success" style="width: <%= (current_user.get_percentage_for_course(course) * 100).round %>%">
+                      <span class="sr-only"><%= (current_user.get_percentage_for_course(course) * 100).round %>%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="v-table-cell text-center" style="width:10%">
+                  <%= (current_user.get_percentage_for_course(course) * 100).round %>%
+                </div>
+                <div class="v-table-cell text-right" style="width:30%;">
+                  <%= link_to t('views.dashboard.index.buttons.continue'), course, class: "btn btn-success" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <% if false %>
+        <!-- <li class="course-list-item col-md-6 col-height">
+          <div class="course-panel panel panel-default">
+            <div class="panel-body">
+              <div class="course-panel-thumb">
+                <%= image_tag course.avatar.url(:medium) %>
+              </div>
+              <div class="course-panel-info">
+                <h4><%= course.name %></h4>
+                <p class="stats">
+                  <span class="points">
+                    <i class="ico-trophy mr5"></i>
+                    <span class="points-value text-success"><%= get_course_points(course.id) %></span>
+                  </span>
+                  <span class="links">
+                    <a href="" title="Ver certificado"><i class="ico-certificate mr5"></i>Ver certificado</a>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div class="v-table">
+                <div class="v-table-cell text-left" style="width:60%;">
+                  <div class="progress progress-xs mb0">
+                    <div class="progress-bar progress-bar-success" style="width: 100%">
+                      <span class="sr-only">100%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="v-table-cell text-center" style="width:10%">
+                  <i class="ico-checkmark text-success"></i>
+                </div>
+                <div class="v-table-cell text-right" style="width:30%;">
+                  <%= link_to "Visualizar", course, class: "btn btn-success" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li> -->
+        <% end %>
+
+
+      <% else %>
+        <li class="course-list-item col-md-6">
+          <div class="course-panel panel panel-success">
+            <div class="panel-body">
+              <div class="course-panel-thumb">
+                <%= image_tag course.avatar.url(:medium) %>
+              </div>
+              <div class="course-panel-info">
+                <h4><%= course.name %></h4>
+                <p><%= course.description %></p>
+                <p class="stats">
+                  <span class="points">
+                    <span class="points-value text-success">
+                      <%= course.points %>
+                      <i class="ico-trophy mr5"></i>
+                    </span>
+                  </span>
+                </p>
+                <%= link_to t('views.dashboard.index.buttons.start'), course, class: "btn btn-success pull-right" %>
+              </div>
+            </div>
+          </div>
+        </li>
+      <% end %>
+
+      <% if (index + 1) % 2 == 0 %>
+        <div class="clearfix visible-md visible-lg"></div>
+      <% end %>
+    <% end %>
+
+    <% @courses_comming_soon.each do |course| %>
+      <li class="course-list-item comming-soom col-md-6 col-height">
+        <div class="course-panel panel panel-success">
+          <div class="panel-body">
+            <div class="course-panel-thumb">
+              <%= image_tag course.avatar.url(:medium) %>
+            </div>
+            <div class="course-panel-info">
+              <h4><%= course.name %></h4>
+              <p><%= course.description %></p>
+              <%= link_to t('views.dashboard.index.buttons.coming_soon'), "javascript://", class: "btn btn-info pull-right" %>
+            </div>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if @domain.dashboard_image_down.exists? %>
+  <div class="row text-center" >
+    <%= image_tag @domain.dashboard_image_down.url(:down), id: "doll-footer" %>
+  </div>
+<% end %>

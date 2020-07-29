@@ -1,0 +1,10 @@
+- name: Installs ruby building dependencies
+  apt: name={{ item }} state=installed update-cache=yes
+  with_items: ruby_deps
+  sudo: yes
+  tags:
+    - ruby
+    - ruby:install
+    - install
+
+

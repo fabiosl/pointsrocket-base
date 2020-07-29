@@ -1,0 +1,20 @@
+<div >
+  <ul class="list-table">
+    <li style="width:70px;">
+      <%= image_tag step_question.user.avatar.url(:s50x50),
+        :class => "img-circle" %>
+    </li>
+    <li class="text-left">
+      <h5 class="semibold ellipsis" style="padding-top: 10px;">
+        <p><a href="<%= question_path(step_question) %>">
+          <%= step_question.title %>
+        </a> <br>
+        <small class="text-muted">
+          <%= step_question.user.name %>
+          <%= step_question.formatted_date %>
+        </small> <br>
+        <small class="text-muted"><%= step_question.answers_quantity %></small> <br>
+      </h5>
+    </li>
+  </ul>
+</div>

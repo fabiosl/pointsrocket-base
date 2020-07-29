@@ -1,0 +1,321 @@
+<h2 class="mt0 mb25"><%= t('views.dashboard.sidebar.menu.dashboard') %></h2>
+<div class="row">
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-inverse text-center">
+        <div class="ico-file4 fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t('views.employee_advocacy.index.challenge_posts_count') %></h5> 
+          <h2 class="semibold nm"><%= @dashboard_data[:challenge_posts_count] %></h2>
+        </div> 
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-info text-center">
+        <div class="ico-cursor2 fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t('views.employee_advocacy.index.clicks_count') %></h5>
+          <h2 class="semibold nm">1.000</h2>
+        </div> 
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-12 panel">
+        <div class="panel-body text-center">
+          <h5><%= t('views.employee_advocacy.index.eemv') %></h5>
+          <h2 class="semibold nm text-primary badge_text">US$ 8.252</h2>
+        </div>
+        <a 
+          href="#"
+          class="panel-ribbon panel-ribbon-info pull-right"
+          data-html="true"
+          data-container="body"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-placement="left"
+          data-content="<ul class='list-group'><li class='list-group-item text-center'>Linkedin - US$ 3.463,2</li><li class='list-group-item text-center'>Facebook - US$ 3.264,24</li><li class='list-group-item text-center'>Twitter - US$ 2.025,36</li></ul>"
+        >
+          <i class="ico-info"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-inverse text-center">
+        <div class="ico-file4 fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t('views.employee_advocacy.index.posts_count') %></h5>
+          <h2 class="semibold nm">25</h2>
+        </div> 
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-teal text-center">
+        <div class="ico-people fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t('views.employee_advocacy.index.potential_reach') %></h5>
+          <h2 class="semibold nm">33 <small>people</small></h2>
+        </div> 
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-primary text-center">
+        <div class="ico-thumbs-up2 fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t('views.employee_advocacy.index.reactions') %></h5>
+          <h2 class="semibold nm"><%= @dashboard_data[:total_likes] %> <small>likes</small></h2>
+        </div> 
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-info text-center">
+        <div class="ico-cursor fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t('views.employee_advocacy.index.unique_clicks') %></h5>
+          <h2 class="semibold nm">150</h2>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default animation delay animating fadeInDown">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= t('views.employee_advocacy.index.points_evolution') %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="chart mt10" id="chart-points-evolution" style="height:250px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <h4><%= t('views.employee_advocacy.index.top_engagement_posts') %></h4>
+    <div class="row">
+      <% @dashboard_data[:top_engagement_posts].each do |hashtag_challenge_user| %>
+        <div class="col-sm-4">
+          <!-- thumbnail -->
+          <div class="panel attending">
+            <div class="panel-body pt0 pr0 pl0 pb0">
+              <div class="thumbnail thumbnail-album animation animating delay fadeInLeft">
+                <div class="caption mt10">
+                  <ul class="list-table">
+                    <li class="text-left pos-relative" style="width:60px;">
+                      <% if hashtag_challenge_user.user.admin_current_domain %>
+                        <i class="ico-crown default-user-admin-ico" title="Admin"></i>
+                      <% end %>
+                      <%= link_to user_path(hashtag_challenge_user.user) do %>
+                        <%= image_tag hashtag_challenge_user.user.avatar.url(:s50x50),
+                                      size: '50x50',
+                                      class: 'img-circle',
+                                      alt: hashtag_challenge_user.user.name
+                        %>
+                      <% end %>
+                      <span class="social-hashtag_challenge-ico">
+                        <i class="ico ico-<%= hashtag_challenge_user.get_post_social_network_icon %>"></i>
+                      </span>
+                    </li>
+                    <li class="text-left">
+                      <h5 class="semibold mt0 mb5"><%= hashtag_challenge_user.user.name %></h5>
+                      <p class="text-muted mb5 ellipsis">
+                        <span class="ico ico-calendar"></span>
+                        <%= hashtag_challenge_user.formatted_social_datetime %>
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+
+                <% if hashtag_challenge_user.get_post_message.present? %>
+                  <div class="panel-body">
+                    <div class="challenge-post-message">
+                      <%= hashtag_challenge_user.get_post_message %>
+                    </div>
+                  </div>
+                <% end %>
+
+                <!-- media -->
+                <div class="media pos-relative">
+                  <% if hashtag_challenge_user.get_post_picture.present? %>
+                    <!-- indicator -->
+                    <div class="indicator"><span class="spinner"></span></div>
+                    <!--/ indicator -->
+
+                    <!--/ toolbar overlay -->
+                    <img data-toggle="unveil" src="<%= hashtag_challenge_user.get_post_picture %>" data-src="<%= hashtag_challenge_user.get_post_picture %>" width="100%" class="unveiled">
+                  <% end %>
+
+                  <div class="share-overlay-hashtag_challenge-user">
+                    <a href="<%= hashtag_challenge_user.get_post_url %>" target="_blank">
+                      <div class="ico-external-link"></div>
+                    </a>
+                  </div>
+                </div>
+                <!--/ media -->
+
+                <% if hashtag_challenge_user.get_metrics.size > 0 %>
+                <div class="panel-toolbar-wrapper">
+                    <div class="panel-toolbar ellipsis">
+                      <%
+                      count = hashtag_challenge_user.get_metrics.size
+                      hashtag_challenge_user.get_metrics.each_with_index do |metric, i| %>
+                        <i class="ico-<%= hashtag_challenge_user.get_metric_icon metric["name"], hashtag_challenge_user.get_social_network %>"></i> <%= metric["value"] %>
+                        <% if i < count - 1%>
+                          <span class="text-muted mr5 ml5">•</span>
+                        <% end %>
+                      <% end %>
+                    </div>
+                </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <!--/ thumbnail -->
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel list-meta animation delay animating fadeInDown">
+      <div class="panel-body top-engaged-users">
+        <ul class="list-table mb30">
+          <li>
+            <h4 class="semibold nm text-left">
+              <%= t('views.employee_advocacy.index.top_engaged_users') %>
+            </h4> 
+          </li>
+        </ul>
+        <% @dashboard_data[:top_engaged_users].each_with_index do |user, index| %>
+          <ul class="list-table">
+            <li style="width: 5%;">
+              <h5 class="semibold ellipsis nm"><%= index + 1 %></h5>
+            </li>
+            <li style="width:70px;">
+              <%= image_tag user.avatar.url, class: 'img-circle', size: '50x50' %>
+            </li>
+            <li class="text-left">
+              <%= link_to user_path(user) do %>
+                <h5 class="semibold ellipsis nm"><%= user.name %></h5>
+              <% end %>
+            </li>
+            <li class="text-right">
+              <i class="ico-trophy mr5"></i>
+                <%= "#{user.sum_points} #{t('views.general.points')}" %>
+            </li>
+          </ul>
+          <hr class="list-item-hr">
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="widget panel panel-badge animation delay animating fadeInDown">
+      <div class="panel-body medal-panel">
+        <ul class="list-table mb30">
+          <li>
+            <h4 class="semibold nm text-left">
+              <%= t('views.employee_advocacy.index.least_engaged_users') %>
+            </h4>
+          </li>
+        </ul>
+        <% @dashboard_data[:least_engaged_users].each_with_index do |user, index| %>
+          <ul class="list-table">
+            <li style="width: 5%;">
+              <h5 class="semibold ellipsis nm"><%= index + 1 %></h5>
+            </li>
+            <li style="width:70px;">
+              <%= image_tag user.avatar.url, class: 'img-circle', size: '50x50' %>
+            </li>
+            <li class="text-left">
+              <%= link_to user_path(user) do %>
+                <h5 class="semibold ellipsis nm"><%= user.name %></h5>
+              <% end %>
+            </li>
+            <li class="text-right">
+              <i class="ico-trophy mr5"></i>
+                <%= "#{user.sum_points} #{t('views.general.points')}" %>
+            </li>
+          </ul>
+          <hr class="list-item-hr">
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag "challenge_posts.js" %>
+  <%= javascript_include_tag "dashboard.js" %>
+  <script>
+    var option = {
+      series: {
+        lines: { show: false },
+        splines: {
+          show: true,
+          tension: 0.2,
+          lineWidth: 2,
+          fill: 0.5
+        },
+        points: {
+          show: true,
+          radius: 4
+        }
+      },
+      grid: {
+        borderColor: '#eee',
+        borderWidth: 1,
+        hoverable: true,
+        backgroundColor: '#fcfcfc'
+      },
+      tooltip: true,
+      tooltipOpts: { content: '%x : %y' },
+      xaxis: {
+        tickColor: '#fcfcfc',
+        mode: 'categories'
+      },
+      yaxis: { tickColor: '#eee' },
+      shadowSize: 0
+    };
+
+    $.plot('#chart-points-evolution', [{
+      color: '#DC554F',
+      data: [
+            <% @dashboard_data[:points_evolution].keys.sort.each do |date| %>
+              ['<%= date.strftime("%b/%d") %>', <%= @dashboard_data[:points_evolution][date].to_i %>],
+            <% end %>
+        ]
+    }], option);
+  </script>
+<% end %>

@@ -1,0 +1,42 @@
+<!-- START modal-lg -->
+<div id="modal-acerto" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="td-modal-header">
+          <%= image_tag "cbfa/touchdown.png" %>
+        </div>
+
+        <div class="td-modal-footer">
+          +{{ pointsWon }} pontos
+        </div>
+
+        <div class="int-modal-footer-buttons">
+          <div class="row">
+            <div class="col-xs-6">
+              <a href="<%= trivias_path %>" class="btn btn-danger btn-lg">
+                Voltar
+              </a>
+            </div>
+
+            <div class="col-xs-6 text-right">
+              <a href="javascript:void" class="btn btn-success btn-lg" data-dismiss="modal">
+                Continuar
+              </a>
+            </div>
+          </div>
+
+        </div>
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-sm -->
+<!--
+<script>
+
+  var intl = setInterval(function(){
+    if (window.$) {
+      clearInterval(intl);
+      $('.modal').modal('show')
+    }
+  }, 1000);
+
+</script>
+ -->

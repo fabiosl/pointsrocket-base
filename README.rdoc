@@ -1,0 +1,27 @@
+= OnRocket
+
+== Arquivos principais
+
+No topo há um link pra ver os arquivos.
+
+  File List
+
+== Documentação
+
+=== Criando Arquivo avulso
+
+Basta criar qualquer arquivo (markdown ou rdoc) na pasta docs do projeto
+
+=== Rodando
+
+Pra rodar a documentação
+
+  yard server --reload
+
+Então acesse http://localhost:8808
+
+=== Compilando
+
+Sempre compile a documentação antes de enviar algum comit pra produção.
+
+  yard

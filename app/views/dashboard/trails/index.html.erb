@@ -1,0 +1,152 @@
+<% if @categories.any? %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="trails-category">
+      <ul class="list-table">
+        <li class="trails-category-item <% if not @category.present? %>active<% end %>">
+          <%= link_to main_app.trails_path do %>
+            <img src="http://placehold.it/50x50" alt="">
+            Todos
+          <% end %>
+        </li>
+        <% @categories.each do |category| %>
+        <li class="trails-category-item <% if @category.present? and @category == category %>active<% end %>">
+          <%= link_to main_app.trails_path(category_id: category) do %>
+            <%
+              if category.change_to_franchisee
+                begin
+                  logo_url = current_user.get_franchisee.logo.url(:thumb)
+                rescue ActiveRecord::RecordNotFound => e
+                  logo_url = category.logo.url(:thumb)
+                end
+              else
+                logo_url = category.logo.url(:thumb)
+              end
+            %>
+            <img src="<%= logo_url %>" alt="<%= category.name %>">
+            <%= category.name %>
+          <% end %>
+        </li>
+        <% end%>
+      </ul>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<% @trails.decorate.each_slice(3).each do |trails| %>
+<div class="row">
+  <% trails.each do |trail| %>
+  <div class="col-md-4">
+    <section class="trilha panel">
+      <div class="panel-body">
+        <h3 class="title mt0">
+          <%= trail.name %>
+        </h3>
+
+        <p class="mb20">
+          <%= trail.description %>
+        </p>
+
+        <div class="trilha-info mb20">
+          <div class="table-layout text-center nm">
+            <div class="trilha-info-points col-md-4">
+              <i class="ico-trophy"></i>
+              <%= trail.points %>
+            </div>
+            <div class="trilha-info-points col-md-4">
+              <i class="ico-clock"></i>
+              <%= trail.hours %>
+            </div>
+            <div class="trilha-info-points col-md-4">
+              <i class="ico-user-plus"></i>
+              <%= trail.age_group %>
+            </div>
+          </div>
+        </div>
+
+        <% trail.courses.each do |course| %>
+        <div class="panel trilha-course mb30">
+          <article>
+            <div class="panel-body">
+              <figure>
+                <a href="#" data-toggle="modal" data-target="#course-preview-modal-<%= course.id %>">
+                  <img src="<%= course.avatar.url(:trilha_preview) %>" alt="">
+                  <div class="play-wrapper">
+                    <div class="v-table">
+                      <div class="v-table-cell">
+                        <i class="ico-play3 play-button-icon"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="overlay">
+                    <div class="overlay-bottom">
+                      Clique e assista o preview
+                    </div>
+                  </div>
+                </a>
+              </figure>
+
+              <h4 class="trilha-course-title">
+                <%= course.name %>
+              </h4>
+
+              <p>
+                <%= course.description %>
+              </p>
+
+              <% if not current_user.initialized_course?(course) %>
+                <a href="<%= main_app.course_path(course) %>" class="btn btn-success">Iniciar</a>
+              <% else %>
+                <div class="panel-footer">
+                  <div class="v-table">
+                    <div class="v-table-cell text-left" style="width:60%;">
+                      <div class="progress progress-xs mb0">
+                        <div class="progress-bar progress-bar-success" style="width: <%= (current_user.get_percentage_for_course(course) * 100).round %>%">
+                          <span class="sr-only"><%= (current_user.get_percentage_for_course(course) * 100).round %>%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="v-table-cell text-center" style="width:10%">
+                      <%= (current_user.get_percentage_for_course(course) * 100).round %>%
+                    </div>
+                    <div class="v-table-cell text-right" style="width:30%;">
+                      <a class="btn btn-success" href="#">Continuar</a>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+
+            </div>
+          </article>
+        </div>
+
+          <!-- START course-preview-modal -->
+          <div id="course-preview-modal-<%= course.id %>" class="modal fade">
+              <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                      <div class="modal-body">
+                        <% if course.preview_url %>
+                          <iframe width="100%" height="400" src="<%= course.preview_url %>" frameborder="0" allowfullscreen></iframe>
+                        <% else %>
+                          <p>Ainda não temos o preview desse curso.</p>
+                        <% end %>
+                        <div class="text-right">
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                        </div>
+                      </div>
+                      <!-- <div class="modal-footer">
+                      </div> -->
+                  </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+          </div>
+          <!--/ END course-preview-modal -->
+        <% end %>
+      </div>
+
+    </section>
+  </div>
+  <% end %>
+
+</div>
+<% end %>

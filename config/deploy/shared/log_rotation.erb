@@ -1,0 +1,13 @@
+<%# Depois que alterar esse arquivo, alem do deploy:sertup_config, deve
+copiar ele e jogar em /etc/logrotate.d %>
+
+<%= fetch(:deploy_to) %>/shared/log/*.log {
+    daily
+    missingok
+    rotate 5
+    compress
+    delaycompress
+    notifempty
+    sharedscripts
+    copytruncate
+}

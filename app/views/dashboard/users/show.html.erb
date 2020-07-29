@@ -1,0 +1,245 @@
+<!-- START template-badge-user -->
+<script id="template-BadgeUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/badge_user" %>
+</script>
+<!-- END template-badge-user -->
+
+<!-- START template-campaign-user -->
+<script id="template-CampaignUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/campaign_user" %>
+</script>
+<!-- END template-campaign-user -->
+
+<!-- START template-challenge-user -->
+<script id="template-ChallengeUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/challenge_user" %>
+</script>
+<!-- END template-challenge-user -->
+
+<!-- START template-challenge-user -->
+<script id="template-CoinUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/coin_user" %>
+</script>
+<!-- END template-challenge-user -->
+
+<!-- START template-employee-advocacy-post -->
+<script id="template-EmployeeAdvocacyPost" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/employee_advocacy_post" %>
+</script>
+<!-- END template-employee-advocacy-post -->
+
+<!-- START template-employee-advocacy-share -->
+<script id="template-EmployeeAdvocacyShare" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/employee_advocacy_share" %>
+</script>
+<!-- END template-employee-advocacy-share -->
+
+<!-- START template-graduation -->
+<script id="template-Graduation" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/graduation" %>
+</script>
+<!-- END template-graduation -->
+
+<!-- START template-hashtag-challenge-user -->
+<script id="template-HashtagChallengeUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/hashtag_challenge_user" %>
+</script>
+<!-- END template-hashtag-challenge-user -->
+
+<!-- START template-post -->
+<script id="template-Post" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/post" %>
+</script>
+<!-- END template-post -->
+
+<!-- START template-question -->
+<script id="template-Question" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/users/templates/question" %>
+</script>
+<!-- END template-question -->
+
+<div class="row user-profile-page">
+  <!-- Left Side / Bottom side -->
+  <div class="col-md-3 sidebar-container mb20">
+    <div class="panel nm fixed-sidebar" id="profile-sidebar">
+      <!-- START Twitter Widget -->
+      <div class="panel-body pt0 pb0">
+        <ul class="list-unstyled">
+          <li class="text-center mt20">
+            <div class="pos-relative inline-block">
+              <% if @user.admin_current_domain %>
+                <i class="ico-crown default-user-admin-ico" title="Admin"></i>
+              <% end %>
+              <%= image_tag @user.avatar.url(:s65x65), :class => "img-circle img-bordered" %>
+            </div>
+          </li>
+          <li class="text-center mt10">
+            <h5 class="semibold ellipsis mt0"><%= @user.name%></h5>
+          </li>
+        </ul>
+      </div>
+      <ul class="nav nav-section nav-justified">
+          <li>
+            <div class="section">
+              <%= link_to user_points_path(@user) do %>
+                <h4 class="nm"><i class="ico-trophy"></i></h4>
+                <p class="nm"><%= @user.points.to_i %></p>
+                <span class="fsize10"><%= t('views.dashboard.users.show.see_points') %></span>
+              <% end %>
+            </div>
+          </li>
+          <li>
+            <div class="section">
+              <%= link_to user_badges_path(@user) do %>
+                <h4 class="nm"><i class="ico-medal"></i></h4>
+                <p class="nm"><%= @user.badges.size %></p>
+                <span class="fsize10"><%= t('views.dashboard.users.show.see_badges') %></span>
+              <% end %>
+            </div>
+          </li>
+          <% if current_domain.campaigns_enabled %>
+            <li>
+              <div class="section">
+                <%= link_to campaigns_path do %>
+                  <h4 class="nm"><i class="ico-gift22"></i></h4>
+                  <p class="nm"><%= @user.campaign_users.size %></p>
+                  <span class="fsize10"><%= t('views.dashboard.users.show.see_rewards') %></span>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <!--/ END Twitter Widget -->
+
+      <hr class="mt5 mb0"><!--horizontal line -->
+
+      <!-- START Bio -->
+      <div class="panel-toolbar-wrapper">
+        <div class="panel-toolbar">
+          <h5 class="semibold nm text-info"><i class="ico-info2 mr5"></i>About</h5>
+        </div>
+      </div>
+      <div class="panel-body pt0 pb0">
+        <ul class="list-unstyled text-break-all">
+          <% if current_user.admin %>
+            <li title="Email" class="mt10 mb5">
+              <span class="ico-envelop text-muted"></span>
+              <%= @user.email %>
+            </li>
+            <% if @user.phone && !@user.phone.empty? %>
+              <li title="Phone" class="mt10 mb5">
+                <span class="ico-phone3 text-muted"></span>
+                <%= @user.phone %>
+              </li>
+            <% end %>
+          <% end %>
+          
+          <% if @user.location && !@user.location.empty? %>
+            <li title="Location" class="mt10 mb5">
+              <span class="ico-location text-muted"></span>
+              <%= @user.location %>
+            </li>
+          <% end %>
+          <% if @user.website && !@user.website.empty? %>
+            <li title="Website" class="mt10 mb5">
+              <span class="ico-link text-muted"></span>
+              <%= @user.website %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <!--/ END Bio -->
+
+      <!-- START social profiles -->
+      <div class="panel-body pt0 pb0 text-center">
+        <div class="social-profiles">
+          <% unless @user.identities.empty? %>
+            <% @user.identities.decorate.each do |identity| %>
+              <a href="<%= identity.social_url %>" class="mr5" target="_blank">
+                <ul class="list-table" >
+                  <li style="width:40px;" class="pos-relative">
+                    <img class="img-circle img-bordered-primary" src="<%= identity.avatar.url(:thumb) %>" style="width:40px;min-height: 40px;">
+                    <div class="social-provider-ico-wrapper">
+                      <i class="ico ico-<%= identity.social_ico %> social-provider-ico"></i>
+                    </div>
+                  </li>
+                  <li class="text-left">
+                    <h5 class="semibold ellipsis nm ml15">
+                      /<%= identity.name %>
+                    </h5>
+                  </li>
+                </ul>
+              </a>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <!--/ END social profiles -->
+      <!-- START message button -->
+      <div class="panel-body text-center mt0">
+        <a class="btn btn-sm btn-info" href='<%= "#{conversations_path}?recipient_id=#{@user.id}" %>'>
+          <span class="ico-bubbles4"></span> 
+          <%= t('views.dashboard.users.show.buttons.send_message') %>
+        </a>
+        <% if can?(:manage_community, current_domain) && !session['previous_user_id'] %>
+          <button
+            id="btn-user-token"
+            class="btn btn-sm btn-primary ladda-button mt10 mb10" 
+            data-style="expand-right"
+            data-user-email="<%= @user.email %>"
+          >
+            <i class="ico-key"></i>
+            <span class="ladda-label"><%= t('views.dashboard.timeline.profile.buttons.token_login') %></span>
+            <span class="ladda-spinner"></span>
+          </button>
+          <% end %>
+      </div>
+      <!--/ START message button -->
+    </div>
+  </div>
+  <!--/ Left side / bottom side -->
+  <!-- Right side / top side -->
+  <div class="col-md-9">
+      <!-- START Timeline -->
+      <div id="emptyTimelineItems" class="well" style="display: none;">
+        <%= t('views.dashboard.timeline.profile.no_activities') %>
+      </div>
+      <ul class="timeline" id="profile-timeline"></ul>
+      <!--/ END Timeline -->
+      <div class="text-center btn-load-more" style="display: none;">
+        <button class="btn btn-sm btn-primary">
+          <%= t('views.dashboard.timeline.profile.buttons.load_more') %>
+        </button>
+      </div>
+  </div>
+  <!--/ Right side / top side -->
+</div>
+
+<%= content_for :footer do %>
+  <script>
+    window.USER_ID = <%= @user.id %>;
+
+    // Handle user token login
+    <% if can?(:manage_community, current_domain) && !session['previous_user_id'] %>
+      $btnUserToken = $('#btn-user-token');
+      laddaBtn = Ladda.create(document.querySelector("#btn-user-token"));
+
+      $btnUserToken.click(function (event) {
+        event.preventDefault();
+
+        laddaBtn.start();
+
+        $.post("/generate-token", {
+          email: $btnUserToken.data('user-email'),
+          subdomain: window.TENANT
+        }).done(function(data) {
+          window.location.href = data.token.url;
+        }).fail(function(error) {
+          laddaBtn.stop();
+          alert(error.responseText);
+        });
+      });
+    <% end %>
+  </script>
+  <%= javascript_include_tag 'profile_timeline.js' %>
+<% end %>

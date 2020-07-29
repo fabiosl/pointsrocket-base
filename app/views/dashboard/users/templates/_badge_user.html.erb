@@ -1,0 +1,29 @@
+<li class="wrapper">
+  <div class="figure bgcolor-success"><i class="ico-medal"></i></div>
+  <!-- panel -->
+  <div class="panel">
+    <div class="panel-body">
+      <ul class="list-table">
+        <li class="text-center" style="width:60px;">
+          {{ #timelineable.user.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.user.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.user.id }}">
+            <img src="{{ timelineable.user.avatar_timeline }}" alt="{{ timelineable.user.name }}" class="img-circle" width="50">
+          </a>
+        </li>
+        <li class="text-left">
+            <p class="mb5">
+              <span class="semibold">{{ timelineable.user.name }}</span>
+              <%= t('views.dashboard.timeline.profile.earned_badge') %>
+              <a href="/dashboard/conquistas">{{ timelineable.badge.name }}</a>
+            </p>
+        </li>
+      </ul>
+      <div class="text-center images-full-width-wrapper mt10">
+        <img width="300" src="{{ timelineable.badge.avatar }}" alt="Badge image">
+      </div>
+    </div>
+  </div>
+  <!--/ panel -->
+</li>

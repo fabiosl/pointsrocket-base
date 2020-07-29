@@ -1,0 +1,47 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.posts.index.title').capitalize %>
+  </span>
+</h2>
+<hr>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <% @posts.each do |post|%>
+      <div class="panel" id="post-<%= post.id %>">
+        <div class="panel-toolbar-wrapper">
+          <div class="panel-toolbar">
+            <i class="ico-file4 mr5"></i>
+          </div>
+        </div>
+
+        <div class="panel-body images-full-width-wrapper">
+          <ul class="list-table">
+            <li class="text-left">
+              <p>
+                <%= post.content.html_safe %>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="panel-footer">
+          <div class="panel-toolbar-wrapper">
+            <ul class="list-table">
+              <li class="text-left">
+                <%= post.created_at.strftime("%d/%m/%Y") %>
+                <%= t('views.general.time_at') %>
+                <%= post.created_at.strftime("%H:%M") %>
+              </li>
+              <li class="text-right">
+                <%= t('views.general.posted_by') %>
+                <span class="semibold">
+                  <%= post.user.name %>
+                </span>
+                <%= image_tag post.user.avatar.url, class: 'img-circle', size: '32x32' %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

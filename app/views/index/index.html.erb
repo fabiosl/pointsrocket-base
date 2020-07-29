@@ -1,0 +1,350 @@
+<%#= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
+
+<!-- Intro -->
+<section id="intro" class="intro">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-7">
+        <h2 class="title">Comece agora!</h2>
+        <p class="description">
+          Na On Rocket você aprende a criar jogos, apps e até mesmo a programar computadores a partir dos 7 anos de idade. E o melhor: de casa!
+        </p>
+        <p class="description">
+          Conheça já! :)
+        </p>
+
+        <a style="margin-right:20px"href="/users/auth/facebook" class="link btn btn-primary btn-lg has-shadow anchor"><i class="icon icon-facebook" ></i> Entrar com o Facebook!</a>
+        <a style="margin:10px;" href="<%= new_user_registration_path %>" class="link btn btn-success btn-lg has-shadow anchor"><i class="icon icon-mail"></i>Cadastrar com email!</a>
+      </div>
+      <div class="col-sm-5 clearfix">
+        <figure>
+
+          <%= image_tag 'site/first-doll.png', class: 'img-responsive img-intro', alt: 'img intro' %>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hidden" />
+
+<!-- Features -->
+<section id="features" class="features bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="features-item col-sm-4 item">
+        <div class="icon">
+          <figure>
+            <%= image_tag 'site/icons/rocket.png', alt: 'Quem somos' %>
+          </figure>
+        </div>
+        <h2 class="title">Quem somos?</h2>
+        <p class="description">Tecnologia e diversão são a essência da On Rocket. Não importa se você tem sete ou dezoito anos - se você é apaixonado por tecnologia, temos o curso certo para você! Oferecemos aulas virtuais nas áreas de criação de jogos, apps e empreendedorismo.</p>
+      </div>
+      <div class="features-item col-sm-4 item">
+        <div class="icon">
+          <figure>
+            <%= image_tag 'site/icons/ico-43.png',  alt: 'Aprenda brincando' %>
+          </figure>
+        </div>
+        <h2 class="title">Aprenda brincando!</h2>
+        <p class="description">Na On Rocket cada aluno pode aprender no seu próprio ritmo. Oferecemos acesso ilimitado aos nossos cursos para todos os nossos assinantes. Acesse nossa plataforma a partir de seu computador ou tablet e tire dúvidas diretamente com nossos professores virtuais.</p>
+      </div>
+      <div class="features-item col-sm-4 item">
+        <div class="icon">
+          <figure>
+            <%= image_tag 'site/icons/certificate.png', alt: 'Certificado' %>
+          </figure>
+        </div>
+        <h2 class="title">Certificado</h2>
+        <p class="description">Nossos assinantes desenvolvem habilidades essenciais para o século XXI, como  colaboração e resolução de problemas. Ao final de cada módulo são desenvolvidos diferentes projetos (jogos, sites, apps)  utilizando o conteúdo do curso. Ao final, os alunos recebem ainda o certificado OnRocket!</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="hidden" />
+
+<!-- Pricing -->
+<section id="pricing" class="pricing bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <header class="pricing-header">
+          <h2 class="title">Nossos cursos</h2>
+          <p class="subtitle">Várias áreas, um só lugar. Novos cursos novos todos os meses!</p>
+        </header>
+      </div>
+    </div>
+
+    <div class="row">
+      <% @curso_landings.each do |curso_landing| %>
+        <div class="col-sm-4">
+          <article class="pricing-item">
+            <div class="thumb">
+              <div class="info">
+                <% if curso_landing.id == 1 %>
+                <span><i class="glyphicon glyphicon-user"></i> <%= curso_landing.reservas.size + 83 %></h3> alunos registrados!</span>
+                <% end %>
+                <% if curso_landing.id == 2 %>
+                <span><i class="glyphicon glyphicon-user"></i> <%= curso_landing.reservas.size + 64 %></h3> alunos registrados!</span>
+                <% end %>
+                <% if curso_landing.id == 3 %>
+                <span><i class="glyphicon glyphicon-user"></i> <%= curso_landing.reservas.size + 49 %></h3> alunos registrados!</span>
+                <% end %>
+                <span><!-- <i class="glyphicon glyphicon-time"></i> 6 dias --></span>
+              </div>
+              <%= image_tag curso_landing.image.url(:list), class: :image %>
+            </div>
+            <div class="content">
+              <h3 class="title"><%= curso_landing.name %></h3>
+              <%= curso_landing.description.html_safe if curso_landing.description %>
+              <!-- <a class="btn btn-info has-shadow" data-toggle="modal" data-target="#price<%= curso_landing.id %>" ng-href="#" ng-click='changeSelectedCourse(course)'><i class="glyphicon glyphicon-share"></i> Reservar vaga</a> -->
+              <a class="btn btn-info has-shadow" data-toggle="modal" href="<%= new_user_registration_path %>" ><i class="glyphicon glyphicon-share"></i>Começar agora!</a>
+            </div>
+          </article>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="row">
+
+      <!-- Modal -->
+      <% @curso_landings.each do |curso_landing| %>
+        <div class="modal fade" id="price<%= curso_landing.id %>" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="pricing-modal-title" style="">Pre-inscrição - <%= curso_landing.name %></h3>
+              </div>
+              <div class="modal-body">
+                <%= form_for(Reserva.new(curso_landing: curso_landing), url: api_reservas_path, html: {class: 'price ajax-form'}) do |f| %>
+                  <%= f.hidden_field :curso_landing_id %>
+                  <div class='alert alert-info alert-submiting'>Carregando</div>
+                  <div class='alert alert-success'>Pré-inscrito com sucesso.</div>
+                  <div class='alert alert-danger'>Houve um erro ao te inscrever.</div>
+                  <fieldset>
+                    <div class="form-group" style="bottom: 0px;">
+                      <div class="left-inner-addon">
+                        <i class="icon-user"></i>
+                        <%= f.text_field :name, placeholder: 'Digite seu nome...', class: 'form-control input-lg', required: true %>
+                      </div>
+                    </div>
+
+                    <div class="form-group" style="bottom: 0px;">
+                      <div class="left-inner-addon">
+                        <i class="icon-mail"></i>
+                        <%= f.text_field :email, placeholder: 'Digite seu email...', class: 'form-control input-lg', required: true %>
+                      </div>
+                    </div>
+                    <div class="form-group" style="bottom: 0px;">
+                      <div class="left-inner-addon">
+                        <i class="icon-phone"></i>
+                        <%= f.text_field :phone, placeholder: 'Digite seu telefone...', class: 'form-control input-lg telephone', required: true %>
+                      </div>
+                    </div>
+                    <!-- Indicates caution should be taken with this action -->
+                    <button class="btn btn-warning btn-lg" type="submit" style="bottom: 0px;" onclick="_gaq.push(['_trackEvent', 'Reserva', 'Curso', '<%= curso_landing.name %>']);"><i class="icon-ok"></i>Enviar</button>
+                  </fieldset>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+<% if false %>
+<!--
+<hr class="hidden" />
+
+<section id="pricing" class="bg-color">
+  <div class="container text-center">
+      <h2 class="">Ready to start?</h2>
+
+      <div class="row">
+        <% @plans.each do |plan| %>
+          <div class="col-sm-<%= (12 / @plans.size).to_i %>">
+            <div class="item">
+              <h3><%= plan.name %></h3>
+              <ul>
+                <li><i class="icon-globe"></i> Todos os cursos, uma única assinatura!</li>
+                <li><i class="icon-code"></i> Criação de Jogos, Apps e Programação.</li>
+                <li><i class="icon-trophy"></i> Assista as aulas, vença os desafios, ganhe prêmios!</li>
+                <li><i class="icon-rocket"></i> Novos cursos todos os meses.</li>
+                <li><i class="icon-star"></i> Acesse ofertas exclusivas de parceiros para assinantes.</li>
+              </ul>
+              <%= link_to "Por #{plan.price}", new_user_registration_path(plano: plan.moip_code), class: 'btn btn-warning has-shadow' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+</section>
+-->
+<% end %>
+
+<hr class="hidden" />
+
+<!-- Newsletter -->
+<section id="newsletter" class="newsletter bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <header class="newsletter-header">
+          <h2 class="title">Assine nossa newsletter</h2>
+          <p class="subtitle">Receba novidades e conteúdo exclusivo no seu e-mail. É grátis!</p>
+        </header>
+      </div>
+    </div>
+    <form id="newsletter-form" class="newsletter-form ajax-form" action="/api/newsletters.json" method="post" >
+      <div class='alert alert-info alert-submiting'>Loading</div>
+      <div class='alert alert-success'>Email cadastrado com sucesso!</div>
+      <div class='alert alert-danger'>Desculpe. Não conseguimos registrar o seu email.</div>
+      <div class="row">
+        <div class="col-sm-4">
+           <div class="form-group">
+              <label class="hidden">Nome</label>
+              <div class="left-inner-addon">
+                <i class="icon-user"></i>
+                <input name="newsletter[name]" type="text" placeholder="Digite seu nome..." class="form-control input-lg" required>
+              </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="hidden">Email</label>
+            <div class="left-inner-addon">
+              <i class="icon-mail"></i>
+              <input name="newsletter[email]" type="email" placeholder="Digite seu email..." class="form-control input-lg" required>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <button class="btn btn-success btn-lg has-shadow" type="submit" onclick="_gaq.push(['_trackEvent', 'Inscricao', 'Newsletter', 'Assinatura']);">Receber novidades!</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<hr class="hidden" />
+
+<!-- Video -->
+<section id="videos" class="videos bg-color">
+  <div class="container">
+    <header class="videos-header">
+      <h2 class="title">Get On Rocket!</h2>
+      <p class="subtitle">Seja inspirado por vídeos que falam sobre a importância da programação. </p>
+    </header>
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner ">
+        <div class="item active">
+            <div class="row">
+              <div class="col-sm-5">
+                <h3>Por que aprender a programar?</h3>
+                <div class="cont">
+                  <p> Você já conhece as <a href="http://blog.onrocket.com.br/2015/08/12/4-razoes-para-ensinar-programacao-para-criancas-e-adolescentes/" target="_blank"> 4 razões para ensinar programação para crianças e adolescentes</a>? O vídeo a seguir, criado pela ONG code.org, mostra um pouco da motivação por trás da On Rocket. Assine já e seja nosso mais novo "Superhero"!</p>
+                </div>
+              </div>
+              <div class="col-sm-7">
+                <div class="video-frame">
+                    <div class="video">
+                      <iframe width="560" height="315" src="https://www.youtube.com/embed/pVxy2_GiOp0" allowfullscreen></iframe>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <!-- end item -->
+
+        <div class="item">
+            <div class="row">
+              <div class="col-sm-5">
+                <h3>Um programador de 12 anos!</h3>
+                <div class="cont">
+                  <p>Muitos meninos de 12 anos adoram jogar video-games. Thomas Suarez também é um deles, com uma diferença: ele também gosta de FAZER novos jogos! Confira sua trajetória no vídeo ao lado. </p>
+                </div>
+              </div>
+              <div class="col-sm-7">
+                <div class="video-frame">
+                    <div class="video">
+                      <iframe width="560" height="315" src="https://www.youtube.com/embed/bEm6ymuW5Yo" allowfullscreen></iframe>
+                    </div>
+                  </div>
+              </div>
+        </div>
+        </div>
+        <!-- end item -->
+      </div>
+
+      <!-- Controls -->
+      <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="hidden" />
+
+<!-- Subscribe Form -->
+<section id="suscribe" class="subscribe bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-5">
+        <figure>
+          <%= image_tag 'site/contato.png', class: 'img-responsive' %>
+        </figure>
+      </div>
+      <div class="col-sm-7">
+        <header class="subscribe-header">
+          <h2 class="title">Fale conosco</h2>
+          <!-- <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p> -->
+        </header>
+        <form id="suscribe-form" class="subscribe-form ajax-form" action="/api/contacts.json" method="post" role="form">
+          <div class='alert alert-info alert-submiting'>Loading</div>
+          <div class='alert alert-success'>Contact sended successfully</div>
+          <div class='alert alert-danger'>Sorry. We couldn`t send your message</div>
+          <fieldset>
+            <div class="form-group">
+              <label class="hidden">Name</label>
+              <div class="left-inner-addon">
+                <i class="icon-user"></i>
+                <input name="contact[name]" class="form-control input-lg" type="text" placeholder="Digite seu nome" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label  class="hidden">Email</label>
+              <div class="left-inner-addon">
+                <i class="icon-mail"></i>
+                <input name="contact[email]" class="form-control input-lg" type="email" placeholder="Digite seu email" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="hidden">Phone number</label>
+              <div class="left-inner-addon">
+                <i class="icon-phone"></i>
+                <input type="text"  placeholder="Digite seu telefone" class="form-control input-lg telephone" name="contact[phone]" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="hidden">Message</label>
+              <div class="left-inner-addon">
+                <textarea name="contact[message]" class="form-control input-lg" type="text" placeholder="Como podemos lhe ajudar?"></textarea>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-warning btn-lg has-shadow"><i class="icon glyphicon glyphicon-send"></i> Enviar</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+
+<%= form_for(@user_trivia, url: user_trivia_path(@user_trivia)) do |f| %>
+
+  <% @trivia.questions.each_with_index do |question, question_index| %>
+    <article class="trivia-question">
+      <h2><%= question_index + 1 %>. <%= question.name %></h2>
+      <% if has_answered_question_correct?(@user_trivia, question) %>
+        <h3>Resposta correta! :D</h3>
+      <% elsif has_answered_question_wrong?(@user_trivia, question) %>
+        <h3>Resposta errada! :(</h3>
+      <% end %>
+
+      <% user_answer = @user_trivia.user_answers.where(question: question).first_or_create! %>
+
+      <%= hidden_field "user_trivia", "user_answers_attributes[#{question_index}]id", value: user_answer.id %>
+
+      <% question.options.each_with_index do |option, option_index| %>
+        <div>
+          <label>
+            <% checked = user_answer.option_id == option.id %>
+            <%= radio_button_tag "user_trivia[user_answers_attributes[#{question_index}]option_id]", option.id, checked %>
+            <%= option_index + 1 %>. <%= option.name %> <br>
+          </label>
+        </div>
+      <% end %>
+
+    </article>
+  <% end %>
+
+  <%= f.submit %>
+
+<% end %>
+

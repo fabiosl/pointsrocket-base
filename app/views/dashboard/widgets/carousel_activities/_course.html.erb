@@ -1,0 +1,28 @@
+<!-- owl-item -->
+<% if domain.courses_enabled %>
+<div class="carousel-item" style="margin: 0 auto;">
+  <%= link_to activity, style: 'display: block;width: 90%' do %>
+  <div class="panel no-border" style="width: 110px;">
+    <div class="panel-body text-center carousel-item-body">
+      <div class="pos-relative carousel-item__image-container w50 h50">
+        <div
+          class="widget-image-container img-circle"
+          style="background-image:url('<%= activity.avatar.url(:small) %>');" 
+        ></div>
+        <span class="item-status-ico">
+            <% if activity.done_by_user?(current_user) %>
+                <i class="ico ico-checkmark text-success"></i>
+            <% else %>
+                <i class="ico ico-circle text-danger"></i>
+            <% end %>
+        </span>
+      </div>
+      <div class="mt10 text-default ellipsis"><%= activity.name %></div>
+      <div class="mt5 text-default">
+        <i class="ico-trophy"></i> <%= activity.points %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+<% end %>

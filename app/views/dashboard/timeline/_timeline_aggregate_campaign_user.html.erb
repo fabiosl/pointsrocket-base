@@ -1,0 +1,110 @@
+<div class="panel">
+  <div class="panel-body">
+    <ul class="list-table">
+      <li class="text-left">
+        <p class="nm semibold">
+          <a href="{{ timelineable.url }}" >
+            {{ timelineable.item_title }}
+          </a>
+        </p>
+        <p>
+          {{{ timelineable.subtitle }}}
+        </p>
+
+
+        <p class="info-list text-default">
+          <span>
+            {{^timelineable.campaign.redeem_points?}}
+              <i class="ico-calendar3"></i>
+              <%= t('views.general.time_from') %> {{ timelineable.campaign.formatted_start_date }}
+              <%= t('views.general.time_to') %> {{ timelineable.campaign.formatted_end_date }}
+            {{/timelineable.campaign.redeem_points?}}
+
+            {{# timelineable.campaign.redeem_points? }}
+              <i class="ico-trophy"></i> {{ timelineable.campaign.redeem_points }}
+            {{/ timelineable.campaign.redeem_points? }}
+          </span>
+        </p>
+
+        {{#timelineable.campaign.redeem_points?}}
+          <a href="<%= campaigns_path %>" style="display: block;" class="text-center mb15">
+            <img src="{{timelineable.campaign.image_url_redeem}}" alt="" width="100px" >
+          </a>
+        {{/timelineable.campaign.redeem_points?}}
+
+        <p>
+          {{ timelineable.campaign.description }}
+        </p>
+      </li>
+    </ul>
+  </div>
+
+
+  {{^timelineable.campaign.redeem_points?}}
+    <hr class="nm">
+
+    <a href="<%= campaigns_path %>/{{timelineable.campaign.id}}">
+      <img src="{{timelineable.campaign.image_url_campaign_index}}" alt="" width="100%" >
+    </a>
+  {{/timelineable.campaign.redeem_points?}}
+
+  <hr class="nm" style="margin-top: -20px;">
+
+  <div class="panel-toolbar-wrapper pa10">
+    <div class="panel-toolbar">
+      <span class="img-group img-group-stack">
+        {{ #timelineable.campaign.participants.items }}
+          <a href="<%= users_path %>/{{ id }}" class="text-default">
+            <img src="{{ avatar }}" alt="{{ name }}" class="img-circle">
+          </a>
+        {{ /timelineable.campaign.participants.items }}
+       <!--  {{#remaining_count}}
+          <span class="more img-circle">{{remaining_count}}+</span>
+        {{/remaining_count}} -->
+      </span>
+
+      {{#timelineable.campaign.redeem_points?}}
+        {{ #timelineable.campaign.participants.count }}
+          <a href="<%= campaigns_path %>" class="semibold">
+            {{ timelineable.campaign.participants.label }}
+          </a>
+        {{ /timelineable.campaign.participants.count }}
+
+        {{^timelineable.campaign.participants.count}}
+          <a href="<%= campaigns_path %> " class="semibold">
+            {{^timelineable.campaign.redeem_points?}}
+              <%= t('views.timeline.index.first_to_join') %>
+            {{/timelineable.campaign.redeem_points?}}
+
+            {{#timelineable.campaign.redeem_points?}}
+              <%= t('views.timeline.index.first_to_redeem') %>
+            {{/timelineable.campaign.redeem_points?}}
+          </a>
+        {{/timelineable.campaign.participants.count}}
+      {{/timelineable.campaign.redeem_points?}}
+
+      {{^timelineable.campaign.redeem_points?}}
+        {{ #timelineable.campaign.participants.count }}
+          <a href="<%= campaigns_path %>/{{timelineable.campaign.id}}" class="semibold">
+            {{ timelineable.campaign.participants.label }}
+          </a>
+        {{ /timelineable.campaign.participants.count }}
+
+        {{^timelineable.campaign.participants.count}}
+          <a href="<%= campaigns_path %>/{{ timelineable.campaign.id}} " class="semibold">
+            {{^timelineable.campaign.redeem_points?}}
+              <%= t('views.timeline.index.first_to_join') %>
+            {{/timelineable.campaign.redeem_points?}}
+
+            {{#timelineable.campaign.redeem_points?}}
+              <%= t('views.timeline.index.first_to_redeem') %>
+            {{/timelineable.campaign.redeem_points?}}
+          </a>
+        {{/timelineable.campaign.participants.count}}
+
+      {{/timelineable.campaign.redeem_points?}}
+    </div>
+  </div>
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>

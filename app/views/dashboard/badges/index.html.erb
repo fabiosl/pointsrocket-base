@@ -1,0 +1,77 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.badges.index.title') %>
+    <% if can? :manage_community, current_domain %>
+      <a href="/dashboard/admin/badges" class="btn btn-xs btn-primary">
+        <%= t('views.general.buttons.edit').downcase %>
+      </a>
+    <% end %>
+  </span>
+</h2>
+
+<hr>
+
+<% if @badges.size < 1 %>
+  <div class="well">
+    <%= t('views.badges.index.no_records') %>. 
+    <%= link_to timeline_path do %>
+      <%= t('views.general.see_timeline') %> 
+    <% end %>
+  </div>
+<% end %>
+
+<div>
+  <div class="row">
+    <% @badges.order("badge_points DESC").each_with_index do |badge, index| %>
+      <%= render badge %>
+
+      <% if (index + 1) % 4 == 0 %>
+        <div class="clearfix visible-lg"></div>
+      <% end %>
+
+      <% if (index + 1) % 3 == 0 %>
+        <div class="clearfix visible-md"></div>
+      <% end %>
+
+      <% if (index + 1) % 2 == 0 %>
+        <div class="clearfix visible-sm"></div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<!-- Badge hint modal -->
+<div
+  id="modal-badge-hint"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="aboutModal"
+>
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+          <%= t('views.badges.index.badge_hint') %>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div id="badge-hint-text"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Badge hint modal -->
+<% content_for :footer do %>
+<script>
+  // Show badge hint on modal
+  $(document).ready(function () {
+    $('.ico-badge-hint').click(function (event) {
+      $('#modal-badge-hint').modal();
+      $('#badge-hint-text').text($(this).data('original-title'));
+    });
+  });
+</script>
+
+<% end %>

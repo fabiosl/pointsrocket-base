@@ -1,0 +1,13 @@
+# WARNING: this file is created by ansible
+# DO NOT EDIT THIS HERE
+
+hostname: staging.onrocket.com.br
+
+files:
+  - /home/deploy/apps/onrocket_staging/shared/log/production.log
+  - /home/deploy/apps/onrocket_staging/shared/log/unicorn.log
+
+destination:
+  host: logs3.papertrailapp.com
+  port: 12691
+  protocol: tls

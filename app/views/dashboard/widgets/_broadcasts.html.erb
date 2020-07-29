@@ -1,0 +1,71 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <i class="ico-camera6 mr5"></i>
+      <%= t('views.dashboard.widgets.broadcasts.title') %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <% if broadcasts.present? %>
+      <% broadcasts.each_with_index do |broadcast, i| %>
+        <% if i > 0 %>
+        <hr>
+        <% end %>
+
+        <ul class="list-table">
+          <li style="width:60px;">
+            <a href="<%= broadcasts_path %>">
+              <img
+                class="img-rounded"
+                src="<%= broadcast.image_url(:thumb) %>"
+                alt=""
+                width="50px"
+                height="50px"
+              >
+            </a>
+          </li>
+          <li class="text-left">
+            <a href="<%= broadcasts_path %>">
+              <h5 class="semibold ellipsis nm">
+                <%= link_to broadcast.title, broadcast %>
+              </h5>
+              <p class="info-list text-default ellipsis">
+                <span>
+                  <i class="ico-calendar3"></i> <%= broadcast.schedule_time_str %>
+                </span>
+                <% if broadcast.badge %>
+                  <span>
+                    <i class="ico-medal"></i> <%= broadcast.badge_name %>
+                  </span>
+                <% end %>
+                <% if broadcast.points %>
+                <span>
+                  <i class="ico-trophy"></i> <%= broadcast.points %> <%= t('views.general.points') %>
+                </span>
+                <% end %>
+                <br>
+                <span>
+                  <i class="ico-users"></i>
+                  <%= t('views.general.views', count: broadcast.visualizations.size) %>
+                </span>
+              </p>
+            </a>
+          </li>
+        </ul>
+      <% end %>
+    <% else %>
+      <p class="nm"> <%= t('views.dashboard.widgets.broadcasts.no_broadcast_yet') %></p>
+    <% end %>
+
+  </div>
+
+  <hr class="nm">
+
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar text-right">
+      <%= link_to t('views.dashboard.widgets.broadcasts.see_all'), broadcasts_path %>
+    </div>
+  </div>
+</div>
+

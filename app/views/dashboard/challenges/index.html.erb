@@ -1,0 +1,119 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t(apply_feedback('views.challenges.index.title')).capitalize %>
+    <% if can? :manage_community, current_domain %>
+      <a href="/dashboard/admin/challenges" class="btn btn-xs btn-primary">
+        <%= t('views.general.buttons.edit').downcase %>
+      </a>
+    <% end %>
+  </span>
+</h2>
+
+<hr>
+
+<!-- TO-DO: Create a kind of helper to remove this duplacation for all models -->
+<% if @challenges.size < 1 %>
+  <div class="well">
+    <%= t('views.challenges.index.no_records') %>. 
+    <%= link_to timeline_path do %>
+      <%= t('views.general.see_timeline') %> 
+    <% end %>
+  </div>
+<%end%>
+
+<% @challenges.each_with_index do |challenge, i| %>
+<% if i % 2 == 0 %>
+<div class="row">
+<% end %>
+  <div class="col-sm-6">
+    <div class="panel">
+
+      <!-- Thumbnail -->
+      <div class="thumbnail thumbnail-album">
+        <a href="<%= challenge_path(challenge) %>">
+          <!-- media -->
+          <div class="media">
+            <img src="<%= challenge.image.url %>" alt="<%= challenge.title %>" width="100%">
+          </div>
+          <!--/ media -->
+        </a>
+      </div>
+      <!--/ Thumbnail -->
+
+      <hr class="nm"><!-- horizontal line -->
+
+      <!-- User info -->
+      <ul class="list-table pa15 pb0">
+        <li class="text-left">
+          <p class="nm">
+            <a href="<%= challenge_path(challenge) %>">
+              <%= challenge.title %>
+            </a>
+          </p>
+        </li>
+      </ul>
+      <!--/ User info -->
+
+      <%
+        participating_people = User.where(id: challenge.user_ids_visible.pluck("user_id")).limit(2)
+        participating_people_count = challenge.user_ids_visible.count.size
+      %>
+
+      <!-- Panel body -->
+      <div class="panel-body pb0">
+        <p class="nm">
+          <i class="ico-calendar3"></i>
+          <%= t('views.general.time_from') %>
+          <%= challenge.date_start.strftime("%d/%m/%Y") %>
+          <%= t('views.general.time_to') %>
+          <%= challenge.date_end.strftime("%d/%m/%Y") %>
+
+          <% if challenge.badge %>
+          <p class="nm">
+            <span>
+              <i class="ico-medal"></i> <%= challenge.badge.name %>
+            </span>
+          </p>
+          <% end %>
+
+          <% if challenge.points %>
+          <p class="nm">
+            <span>
+              <i class="ico-trophy"></i> <%= challenge.points %>
+              <%= t('views.general.points') %>
+            </span>
+          </p>
+          <% end %>
+        </p>
+      </div>
+      <!--/ Panel body -->
+
+      <div class="panel-toolbar-wrapper pa10">
+        <div class="panel-toolbar">
+          <span class="img-group img-group-stack">
+            <% participating_people.each do |user| %>
+              <%= link_to user_path(user) do %>
+                <%= image_tag user.avatar.url(:s50x50),
+                              size: '50x50',
+                              class: 'img-circle',
+                              alt: user.name
+                %>
+              <% end %>
+            <% end %>
+
+            <% if participating_people_count > 2 %>
+              <span class="more img-circle"><%= participating_people_count - 2 %>+</span>
+            <% end %>
+          </span>
+
+          <%= t apply_feedback("views.challenges.index.have_joined"), count: participating_people_count %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <% if (i + 1) % 2 == 0 or challenge == @challenges.last %>
+  </div>
+  <% end %>
+<% end %>

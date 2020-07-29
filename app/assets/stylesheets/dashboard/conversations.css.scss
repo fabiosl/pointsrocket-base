@@ -1,0 +1,53 @@
+// Place all the styles related to the dashboard/conversations controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#vue-conversations {
+  min-height: 200px;
+}
+
+.conversation-container {
+  display: table;
+  width: 100%;
+  min-height: 100px;
+}
+
+.conversation-selectedUser {
+  background-color: #ffffff !important;
+
+  &:hover {
+    background-color: #ffffff !important;
+  }
+}
+
+.conversation-message-content {
+  min-height: 34px;
+  height: auto;
+}
+
+.conversation-user-item {
+  position: relative;
+  display: table;
+  width: 100%;
+  padding: {
+    top: 2px;
+    right: 5px;
+    bottom: 2px;
+    left: 5px;
+  }
+  text-align: center;
+}
+
+.conversation-user-item__badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  
+}
+
+.VueCarousel-navigation-button {
+  display: none;
+  @media (min-width: 769px) {
+    display: block;
+  }
+}

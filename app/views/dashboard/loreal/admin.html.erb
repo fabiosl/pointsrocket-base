@@ -1,0 +1,263 @@
+<div class="row mb20">
+  <div class="col-sm-12">
+    <div>
+      Período
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Mês <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu">
+          <% months = 12.times.map { |i| (Date.today - (i + 1).month).beginning_of_month } %>
+          <% months.each do |d| %>
+            <li><a href="javascript:void(0);"><%= d.strftime("%B / %Y") %></a></li>
+          <% end %>
+        </ul>
+      </div><!-- /btn-group -->
+
+      <button type="button" class="pull-right btn btn-default dropdown-toggle" data-toggle="dropdown">Download <i class="ico-download-alt"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- START row -->
+<div class="row">
+  <div class="col-lg-3">
+    <!-- START Widget Panel -->
+    <div class="widget panel panel-minimal bgcolor-inverse">
+      <!-- panel body -->
+      <div class="panel-body">
+        <h1 class="semibold text-center mt0">R$ 256K</h1>
+        <h4 class="semibold text-center nm">Faturamento Serviços</h4>
+      </div>
+      <!--/ panel body -->
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <!-- START Widget Panel -->
+    <div class="widget panel panel-minimal bgcolor-inverse">
+      <!-- panel body -->
+      <div class="panel-body">
+        <h1 class="semibold text-center mt0">R$ 50K</h1>
+        <h4 class="semibold text-center nm">Faturamento Revenda</h4>
+      </div>
+      <!--/ panel body -->
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <!-- START Widget Panel -->
+    <div class="widget panel panel-minimal bgcolor-inverse">
+      <!-- panel body -->
+      <div class="panel-body">
+        <h1 class="semibold text-center mt0">R$ 316K</h1>
+        <h4 class="semibold text-center nm">Faturamento Total</h4>
+      </div>
+      <!--/ panel body -->
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <!-- START Widget Panel -->
+    <div class="widget panel panel-minimal bgcolor-inverse">
+      <!-- panel body -->
+      <div class="panel-body">
+        <h1 class="semibold text-center mt0">100</h1>
+        <h4 class="semibold text-center nm">Visitas</h4>
+      </div>
+      <!--/ panel body -->
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-3">
+    <!-- START Widget Panel -->
+    <div class="widget panel panel-minimal bgcolor-inverse">
+      <!-- panel body -->
+      <div class="panel-body">
+        <h1 class="semibold text-center mt0">256</h1>
+        <h4 class="semibold text-center nm">Cortes</h4>
+      </div>
+      <!--/ panel body -->
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <!-- START Widget Panel -->
+    <div class="widget panel panel-minimal bgcolor-inverse">
+      <!-- panel body -->
+      <div class="panel-body">
+        <h1 class="semibold text-center mt0">256</h1>
+        <h4 class="semibold text-center nm">Colorações</h4>
+      </div>
+      <!--/ panel body -->
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <!-- START Widget Panel -->
+    <div class="widget panel panel-minimal bgcolor-inverse">
+      <!-- panel body -->
+      <div class="panel-body">
+        <h1 class="semibold text-center mt0">256</h1>
+        <h4 class="semibold text-center nm">Relaxamentos</h4>
+      </div>
+      <!--/ panel body -->
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <!-- START Widget Panel -->
+    <div class="widget panel panel-minimal bgcolor-inverse">
+      <!-- panel body -->
+      <div class="panel-body">
+        <h1 class="semibold text-center mt0">256</h1>
+        <h4 class="semibold text-center nm">Tratamentos</h4>
+      </div>
+      <!--/ panel body -->
+    </div>
+  </div>
+</div>
+<!-- END row -->
+
+<!-- START row -->
+<div class="row">
+  <div class="col-md-12">
+    <!-- START panel -->
+    <div class="panel panel-primary">
+
+      <!-- panel body with collapse capabale -->
+      <div class="table-responsive panel-body">
+        <ul class="list-table">
+          <li>
+            <h4 class="semibold nm text-left"><i class="ico-table mr5"></i>Tabela</h4>
+          </li>
+        </ul>
+
+        <hr>
+
+        <div class="panel nm">
+          <table class="table table-bordered table-hover" id="table1">
+            <thead>
+              <tr>
+                <th width="200px">Colaborador</th>
+                <th class="text-right">Fat/Serviços</th>
+                <th class="text-right">Fat/Revendas</th>
+                <th class="text-right">Fat/Total</th>
+                <th class="text-right">Visitas</th>
+                <th class="text-right">Cortes</th>
+                <th class="text-right">Colorações</th>
+                <th class="text-right">Relaxamentos</th>
+                <th class="text-right">Tratamentos</th>
+              </tr>
+            </thead>
+            <%
+              def s
+                  (60..100).to_a.sample
+              end
+
+              # não esta sendo utilizada, éra pra gerar dados randomico
+              # esta gerando em cada usuário, para facilitar caso precise de hardcoded
+              def o
+                  {
+                      faturamento_servicos: s,
+                      faturamento_revendas: s,
+                      faturamento_total: s,
+                      visitas: s,
+                      cortes: s,
+                      coloracoes: s,
+                      relaxamentos: s,
+                      tratamentos: s,
+                  }
+              end
+
+              data = [
+                  {
+                      avatar: image_url("avatar/avatar1.jpg"),
+                      name: "Manoel Quirino Neto",
+                  }.merge(o), {
+                      avatar: image_url("avatar/avatar2.jpg"),
+                      name: "Fábio Leal",
+                  }.merge(o), {
+                      avatar: image_url("avatar/avatar3.jpg"),
+                      name: "Alessandro Lima",
+                  }.merge(o), {
+                      avatar: image_url("avatar/avatar4.jpg"),
+                      name: "Júnior Dutra",
+                  }.merge(o), {
+                      avatar: image_url("avatar/avatar5.jpg"),
+                      name: "Michele Gaspar",
+                  }.merge(o), {
+                      avatar: image_url("avatar/avatar6.jpg"),
+                      name: "Maria Rita",
+                  }.merge(o), {
+                      avatar: image_url("avatar/avatar7.jpg"),
+                      name: "Eduardo Nash",
+                  }.merge(o), {
+                      avatar: image_url("avatar/avatar8.jpg"),
+                      name: "Renê Baunilha",
+                  }.merge(o), {
+                      avatar: image_url("avatar/avatar9.jpg"),
+                      name: "Renato Ribeiro",
+                  }.merge(o), {
+                      avatar: image_url("avatar/avatar1.jpg"),
+                      name: "João Agripino",
+                  }.merge(o)
+              ].sort! { |a, b| a[:faturamento_total] <=> b[:faturamento_total] }.reverse
+
+              def build number, percent: '%'
+                  html_class = ''
+                  # if number < 70
+                  #     html_class = 'text-danger'
+                  # elsif number < 85
+                  #     html_class = 'text-warning'
+                  # else
+                  #     html_class = 'text-success'
+                  # end
+
+                  return "<span class='#{html_class}'>#{number}#{percent}</span>".html_safe
+              end
+
+              def c score
+                  return ""
+                  if score < 70
+                      'danger'
+                  elsif score < 85
+                      'warning'
+                  else
+                      'success'
+                  end
+              end
+              %>
+            <tbody>
+              <% data.each_with_index do |item, index| %>
+              <tr class="<%= c item[:score] %> <% if index % 2 != 0 %>active<% end %>">
+                <td>
+                  <div class="media">
+                    <div class="media-object pull-left mr10 np">
+                      <img src="<%= item[:avatar] %>" alt="<% item[:name] %>" class="img-circle">
+                    </div>
+                    <div class="media-body pt5">
+                      <%= link_to item[:name], loreal_colaborador_path %>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right"><%= build item[:faturamento_servicos], percent: '' %></td>
+                <td class="text-right"><%= build item[:faturamento_revendas], percent: '' %></td>
+                <td class="text-right"><%= build item[:faturamento_total], percent: '' %></td>
+                <td class="text-right"><%= build item[:visitas], percent: '' %></td>
+                <td class="text-right"><%= build item[:cortes], percent: '' %></td>
+                <td class="text-right"><%= build item[:coloracoes], percent: '' %></td>
+                <td class="text-right"><%= build item[:relaxamentos], percent: '' %></td>
+                <td class="text-right"><%= build item[:tratamentos], percent: '' %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--/ panel body with collapse capabale -->
+    </div>
+  </div>
+</div>
+<!--/ END row -->

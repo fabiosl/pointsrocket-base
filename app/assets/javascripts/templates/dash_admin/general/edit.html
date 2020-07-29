@@ -1,0 +1,248 @@
+<form name="generalEditForm" class="form-horizontal" novalidate ng-submit="generalEditForm.submited = true; (generalEditForm.$valid && save());">
+  <div class="row">
+    <div class="col-sm-12 clearfix mb20">
+      <a href="/dashboard/admin/{{ options.slug }}" class="btn btn-danger">
+        <span ng-bind="('views.dashboard.admin.buttons.back' | i18next)"></span>
+      </a>
+
+      <button type="submit" class="btn btn-primary pull-right" data-ng-disabled="generalEditForm.submited && !generalEditForm.$valid">
+        <i class="ico-upload3"></i>
+        <span ng-bind="('views.dashboard.admin.buttons.save' | i18next)"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 relative">
+
+      <div data-ng-if="errors" class="panel panel-danger" >
+        <div class="panel-heading">
+          <div class="panel-title">
+            <span ng-bind="('views.dashboard.admin.form.errors' | i18next)"></span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p data-ng-repeat="(key, value) in errors">
+            {{ getError(key) }}
+          </p>
+        </div>
+      </div>
+
+      <div class="indicator show" data-ng-if="loading">
+        <span class="spinner"></span>
+      </div>
+
+      <div class="panel">
+        <div class="panel-body">
+          <h4 class="semibold nm text-left" data-ng-if="creating">
+            <i class="{{ options.ico_class }} mr5"></i>
+            <span ng-bind="(options.edit.title_add | i18next)"></span>
+          </h4>
+          <h4 class="semibold nm text-left" data-ng-if="editing">
+            <i class="{{ options.ico_class }} mr5"></i>
+            <span ng-bind="(options.edit.title_edit | i18next)"></span>
+          </h4>
+
+          <hr>
+
+          <script type="text/ng-template" id="form.html">
+            <div class="form-group" data-ng-repeat="field in fields">
+              <div data-ng-if="field.type == 'nested'">
+                <div class="col-lg-12">
+                  <div class="panel">
+                    <div class="panel-body">
+                      <h4 class="semibold nm text-left">
+                        <i class="ico-flag2 mr5"></i>
+                        <span ng-bind="(field.display_name | i18next)"></span>
+                      </h4>
+
+                      <hr>
+
+                      <div data-ng-repeat="subItem in item[field.name]">
+                        <div data-ng-include="'form.html'" onload="fields = field.fields; item = subItem;"></div>
+                        <hr>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-10 col-sm-offset-2">
+                          <a href="#" class="btn btn-primary" data-ng-click="addNested(item, field)">
+                            <span ng-bind="(field.add_nested_button_name | i18next)"></span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div data-ng-if="field.type == 'reference'">
+                <label class="col-sm-2 control-label">
+                  <span ng-bind="(field.display_name | i18next)"></span>
+                </label>
+                <div class="col-sm-10" data-ng-init="loadSelectOptions(field, item)" data-ng-if="item">
+                  <select name="item_{{ $index }}_{{ field.name }}" class="form-control" data-ng-model="item[field.name]" data-ng-if="field.options && field.options.length > 0">
+                    <option value="">
+                      {{ 'views.dashboard.admin.form.choose_option' | i18next }}
+                    </option>
+                    <option value="{{ opt[field.option_value] }}" data-ng-repeat="opt in field.options">{{ opt[field.option_display] }}</option>
+                  </select>
+
+                  <p data-ng-if="!field.options || field.options.length == 0">
+                    <span ng-bind="('views.dashboard.admin.form.loading_options' | i18next)"></span>
+                  </p>
+
+                  <!-- <select name="item_{{ field.display_name }}_{{ index }}_{{ field.name }}" class="form-control" data-ng-options="option[field.option_display] for option in field.options track by option[field.option_value]" data-ng-model="item[field.name]" data-ng-init="loadSelectOptions(field)"></select> -->
+                </div>
+              </div>
+
+
+              <div data-ng-if="field.input == 'select' && showField(field)">
+                <label class="col-sm-2 control-label">
+                  <span ng-bind="(field.display_name | i18next)"></span>
+                </label>
+                <div class="col-sm-10" data-ng-if="item" data-ng-init="loadArrayOptions(item, field)">
+                  <select name="item_{{ $index }}_{{ field.name }}" class="form-control" data-ng-model="item[field.name]" data-ng-if="field.options && field.options.length > 0">
+                    <option value="">
+                      {{ 'views.dashboard.admin.form.choose_option' | i18next }}
+                    </option>
+                    <option value="{{ opt.value }}" data-ng-repeat="opt in field.options">{{ opt.label | i18next }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div data-ng-if="field.input == 'text' && showField(field)">
+                <label class="col-sm-2 control-label">
+                  <span ng-bind="(field.display_name | i18next)"></span>
+                </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" data-ng-model="item[field.name]" name="item_{{ field.name }}" data-ng-required="field.required" placeholder="{{ field.help | i18next }}" data-ng-readonly="field.readonly">
+                  <span class="help-block">
+                    <span ng-bind="(field.help_text | i18next)"></span>
+                  </span>
+                  <span class="text-danger" data-ng-if="generalEditForm['item_' + field.name].$invalid && (generalEditForm['item_' + field.name].$dirty || generalEditForm.submited)">
+                    <span data-ng-if="generalEditForm['item_' + field.name].$error.required">
+                      <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+
+              <div data-ng-if="field.input == 'datetime' && showField(field)">
+                <label class="col-sm-2 control-label">
+                  <span ng-bind="(field.display_name | i18next)"></span>
+                </label>
+                <div class="col-sm-10">
+                  <input ng-if="field.datetime_type == 'start'" type="text" class="form-control" data-ng-model="item[field.name]" name="item_{{ field.name }}" data-ng-required="field.required" placeholder="{{ field.help | i18next }}" data-ng-readonly="field.readonly" data-date-time-picker datetime-type="start">
+
+                  <input ng-if="field.datetime_type == 'end'" type="text" class="form-control" data-ng-model="item[field.name]" name="item_{{ field.name }}" data-ng-required="field.required" placeholder="{{ field.help | i18next }}" data-ng-readonly="field.readonly" data-date-time-picker datetime-type="end">
+
+                  <span class="text-danger" data-ng-if="generalEditForm['item_' + field.name].$invalid && (generalEditForm['item_' + field.name].$dirty || generalEditForm.submited)">
+                    <span data-ng-if="generalEditForm['item_' + field.name].$error.required">
+                      <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+              <div data-ng-if="field.input == 'textarea' && showField(field)">
+                <label class="col-sm-2 control-label">
+                <span ng-bind="(field.display_name | i18next)"></span>
+                </label>
+                <div class="col-sm-10">
+                  <textarea data-ng-model="item[field.name]" name="item_{{ field.name }}" class="form-control" data-ng-required="field.required" placeholder="{{ field.help | i18next }}" data-ng-readonly="field.readonly" data-ng-if="!field.summernote"></textarea>
+
+                  <summernote config="summernoteOptions" data-ng-if="field.summernote" data-ng-model="item[field.name]"></summernote>
+
+                  <span class="text-danger" data-ng-if="generalEditForm['item_' + field.name].$invalid && (generalEditForm['item_' + field.name].$dirty || generalEditForm.submited)">
+                    <span data-ng-if="generalEditForm['item_' + field.name].$error.required">
+                      <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+              <div data-ng-if="field.input == 'checkbox' && showField(field)">
+                <label class="col-sm-2 control-label">
+                  <span ng-bind="(field.display_name | i18next)"></span>
+                </label>
+                <div class="col-sm-10">
+                  <input type="checkbox" data-ng-model="item[field.name]" name="item_{{ field.name }}" class="form-control">
+                </div>
+              </div>
+
+              <div data-ng-if="field.input == 'image' && showField(field)">
+                <label class="col-sm-2 control-label">
+                <span ng-bind="(field.display_name | i18next)"></span>
+                </label>
+                <div class="col-sm-10">
+                  <div class="panel panel-primary">
+
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <span class="input-group-btn">
+                            <div class="btn btn-primary btn-file">
+                              <span class="icon iconmoon-file-3"></span>
+                              <span ng-bind="('views.general.select_image' | i18next)"></span>
+                              <input type="file" onchange="angular.element(this).scope().setImage(this)" data-ng-model-name="{{ field.name }}">
+                            </div>
+                          </span>
+                        </div>
+                        <div class="col-sm-4">
+                          <div>
+                            <span ng-bind="('views.dashboard.admin.form.current_image' | i18next)"></span>
+                          </div>
+
+                          <img data-ng-src="{{ item[field.name + '_url'] }}" data-ng-if="item[field.name + '_url']" style="width: 80px;">
+                          <div data-ng-if="!item[field.name + '_url']">
+                            <span ng-bind="('views.dashboard.admin.form.no_image' | i18next)"></span>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                          <div>
+                            <span ng-bind="('views.dashboard.admin.form.new_image' | i18next)"></span>
+                          </div>
+
+                          <img data-ng-src="{{ item['new_' + field.name + '_src'] }}" alt="" data-ng-if="item['new_' + field.name + '_src']" style="width: 100px;">
+                          <div data-ng-if="!item['new_' + field.name + '_src']">
+                            <span ng-bind="('views.dashboard.admin.form.no_selected_image' | i18next)"></span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="panel-footer" data-ng-if="field.help">
+                        <p>
+                          <span ng-bind="(field.help | i18next)"></span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </script>
+
+          <div data-ng-include="'form.html'" onload="fields = options.form.fields; item = item"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 clearfix mb20">
+      <a href="/dashboard/admin/{{ options.slug }}" class="btn btn-danger">
+        <span ng-bind="('views.dashboard.admin.buttons.back' | i18next)"></span>
+      </a>
+
+      <button type="submit" class="btn btn-primary pull-right" data-ng-disabled="generalEditForm.submited && !generalEditForm.$valid">
+        <i class="ico-upload3"></i>
+        <span ng-bind="('views.dashboard.admin.buttons.save' | i18next)"></span>
+      </button>
+    </div>
+  </div>
+</form>

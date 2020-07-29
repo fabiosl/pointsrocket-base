@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="well well-default">
+      <h2><%= t('views.indications.index.refer_friend') %></h2>
+      <p><%= t('views.indications.index.referral_message') %></p>
+
+      <p class="your-url text-center">
+        <%= request.protocol + request.host_with_port %>?i=<%= current_user.id %>
+      </p>
+
+      <p><%= t('views.indications.index.share') %></p>
+
+      <div class="fb-share-button" data-href="<%= request.protocol + request.host_with_port %>?i=<%= current_user.id %>" data-layout="button"></div>
+
+      <a href="<%= request.protocol + request.host_with_port %>?i=<%= current_user.id %>" class="twitter-share-button" data-url="<%= request.protocol + request.host_with_port %>?i=<%= current_user.id %>" data-text="Aprenda você também a criar jogos digitais na OnRocket" data-via="onrocket" data-count="none">Tweet</a>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel">
+      <div class="panel-body">
+        <h3 class="mt0"><%= t('views.indications.index.referred_friends') %></h3>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <% if current_user.indications.count > 0 %>
+    <% current_user.indications.each do |user| %>
+      <div class="col-sm-6 col-md-4 col-lg-3 shuffle">
+        <div class="panel widget">
+          <div class="table-layout nm">
+            <div class="col-xs-4 text-center"><%= image_tag "#{user.avatar}", class: 'img-circle' %></div>
+            <div class="col-xs-8 valign-middle">
+              <div class="panel-body">
+                <h5 class="semibold mt0 mb5"><%= link_to "#{user.name}", '' %></h5>
+                <p class="ellipsis text-muted mb5"><i class="ico-envelop mr5"></i> <%= user.email %></p>
+                <p class="text-muted nm"><i class="ico-phone mr5"></i><%= user.phone %></p>
+
+                <% if user.paid_authorized? %>
+                  <div class="ok-wrapper">
+                    <i class="ico-ok"></i>
+                  </div>
+                <% else %>
+                <div class="busy4-wrapper">
+                  <i class="ico-busy4"></i>
+                </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="col-sm-12">
+      <p><%= t('views.indications.index.no_referrals') %></p>
+    </div>
+  <% end %>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=793530497395460&version=v2.3";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>

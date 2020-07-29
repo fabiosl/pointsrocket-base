@@ -1,0 +1,49 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <i class="ico-graduation mr5"></i>
+      <%= t('views.dashboard.widgets.courses.title') %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <% if courses_info.size > 0 %>
+      <% courses_info.each_with_index do |info, i| %>
+        <% if i > 0 %>
+        <hr>
+        <% end%>
+        <ul class="list-table">
+          <li style="width:60px;">
+            <img class="img-rounded" src="<%= info[:course].avatar.url(:small) %>" alt="" width="50px" height="50px">
+          </li>
+          <li class="text-left">
+            <h5 class="semibold ellipsis nm">
+              <%= link_to info[:course].name, info[:course] %>
+            </h5>
+            <% if info[:percentage] == 100 %>
+              <p>
+                <%= t 'views.dashboard.widgets.courses.finished_course' %>
+              </p>
+            <% else %>
+              <div class="progress progress-striped mt10 mb0">
+                <div class="progress-bar progress-bar-success" style="width: <%= info[:percentage] %>%">
+                  <span class="sr-only"></span>
+                </div>
+              </div>
+            <% end %>
+          </li>
+        </ul>
+      <% end %>
+    <% else %>
+      <p><%= t('views.dashboard.widgets.courses.you_have_none') %></p>
+    <% end %>
+  </div>
+
+  <hr class="nm">
+
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar text-right">
+      <%= link_to t('views.dashboard.widgets.courses.see_all'), courses_path %>
+    </div>
+  </div>
+</div>

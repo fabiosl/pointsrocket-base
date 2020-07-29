@@ -1,0 +1,13 @@
+
+- name: papertrail (slaves)
+  gather_facts: False
+  hosts:
+    - landing
+  sudo: yes
+  sudo_user: "root"
+  roles:
+    - papertrail
+  tags:
+    - papertrail
+
+# vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:

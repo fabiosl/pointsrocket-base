@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: Db and Assets Import Export
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.Db_20and_20Assets_20Import_20Export.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: Db and Assets Import Export</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'>
+<h1 id="label-Db+and+Assets+import+export">Db and Assets import export</h1>
+
+<p>Serve pra enviar ou receber os assets/db de produção/staging pra local,
+muito cuidado com produção</p>
+
+<h2 id="label-Servidor+pra+Local">Servidor pra Local</h2>
+
+<h3 id="label-db">db</h3>
+
+<pre class="code ruby"><code class="ruby">bundle exec cap staging db:local:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user</code></pre>
+
+<h3 id="label-assets">assets</h3>
+
+<pre class="code ruby"><code class="ruby">bundle exec cap staging assets:local:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user</code></pre>
+
+<h3 id="label-db+e+assets">db e assets</h3>
+
+<pre class="code ruby"><code class="ruby">bundle exec cap staging app:local:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user</code></pre>
+
+<h2 id="label-Local+pra+o+servidor+-28cuidado-2C+n-C3-A3o+foi+testado-29">Local pra o servidor (cuidado, não foi testado)</h2>
+
+<h3 id="label-db">db</h3>
+
+<pre class="code ruby"><code class="ruby">bundle exec cap staging db:remove:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user</code></pre>
+
+<h3 id="label-assets">assets</h3>
+
+<pre class="code ruby"><code class="ruby">bundle exec cap staging assets:remove:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user</code></pre>
+
+<h3 id="label-db+e+assets">db e assets</h3>
+
+<pre class="code ruby"><code class="ruby">bundle exec cap staging app:remove:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user</code></pre>
+
+<h2 id="label-Mais+informa-C3-A7-C3-B5es">Mais informações</h2>
+
+<p><a
+href="https://github.com/sgruhier/capistrano-db-tasks">github.com/sgruhier/capistrano-db-tasks</a></p>
+</div></div>
+
+    <div id="footer">
+  Generated on Wed Oct 14 15:03:39 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.5).
+</div>
+
+  </body>
+</html>

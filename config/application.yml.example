@@ -1,0 +1,99 @@
+# Add configuration values here, as shown below.
+#
+# pusher_app_id: "2954"
+# pusher_key: 7381a978f7dd7f9a1117
+# pusher_secret: abdc3b896a0ffb85d373
+# stripe_api_key: sk_test_2J0l093xOyW72XUYJHE4Dv2r
+# stripe_publishable_key: pk_test_ro9jV5SNwGb1yYlQfzG17LHK
+#
+# production:
+#   stripe_api_key: sk_live_EeHnL644i6zo4Iyq4v1KdV9H
+#   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
+
+DATABASE_NAME: ''
+DATABASE_USERNAME: ''
+SECRET_KEY_BASE: ''
+
+# Social APPs
+FACEBOOK_APP_ID: '770320389786644'
+FACEBOOK_APP_SECRET: '0b1ec5d4dfd663b94298fe938b3e7f40'
+INSTAGRAM_APP_ID: '1ff1eee4424e41ab81766fd23fd23cbe'
+INSTAGRAM_APP_SECRET: '0d8450f8126c47159a863b1a1d43db67'
+YOUTUBE_APP_ID: '970587858060-up9okcfft6lhpniv9r6emaukpi9rcrgf.apps.googleusercontent.com'
+YOUTUBE_APP_SECRET: 'xLtlQD34rbfN0-UnCVVWOl6Z'
+
+PAGAR_ME_API_KEY: 'ak_test_7OPeZHAGF8qBRGfu2BpUIBplFYH6BP'
+PAGAR_ME_API_CRYPT: 'ek_test_nJzykfwYdMnSCu3IksYTYw6M9O2Qf0'
+
+# moip
+MOIP_SANDBOX: 'true'
+MOIP_TOKEN: 'HJK5NXPXSHSZANS0WEODBZCEH49GTHH0'
+MOIP_KEY: 'VS3VMMCWGB0LBASELYN0IR2XO42CVZ4GAANC60Z9'
+MOIP_HTTP_DEBUG: 'true'
+MOIP_PLAN_CODE: 'anual'
+MOIP_WEBHOOK_TOKEN: '01c3fa9890eb3a2a46ca43d5d43af74b'
+
+# points
+DEFAULT_STEP_POINTS: '20'
+DEFAULT_STEP_QUESTION_POINTS: '20'
+
+CREDIT_CARD_NUMBER_KEY: 'kljlsfl8834kjkl23l4kj23lk2j3483l2j4'
+
+# DATABASE_URL: 'postgres://manoel@localhost:5432/on_rocket_app'
+
+REDIS_HOST: 'redis://127.0.0.1:6379/1'
+
+VOTE_VALUE: '50'
+
+TRIVIAS_ENABLED: 'false'
+SEARCH_ENABLED: 'true'
+
+DEFAULT_URL_HOST: 'staging.onrocket.com.br'
+DEFAULT_MAIL_FROM: 'contato@pointsrocket.com'
+MAIL_PASSWORD: '9X0kqLP0RNmJcZiZdBWipQ'
+MAIL_USER_NAME: 'Points Rocket'
+MAIL_ADDRESS: 'smtp.mandrillapp.com'
+MAIL_DOMAIN: 'pointsrocket.com'
+MAIL_PORT: "587"
+
+NEW_RELIC_LICENSE_KEY: 4dc446aadc39a0545aa97d4587163e0798efa335
+NEW_RELIC_APP_NAME: buzzmonitor-advocacy
+NEW_RELIC_LOG: stdout
+
+FRANCHISEE_DEFAULT_PRICE: '4990'
+FRANCHISEE_DEFAULT_MOIP_CODE: 'franchisee'
+FRANCHISEE_DEFAULT_TRIAL_DAYS: '7'
+FRANCHISEE_DEFAULT_PLAN_DURATION: '1'
+SOCIAL_NETWORKS: 'facebook'
+FACEBOOK_SCOPE: "email,read_insights"
+
+SOCKET_JS_URL: "http://localhost:1111"
+SOCKET_URL: "http://localhost:1111/proxy"
+LINKEDIN_ENABLED: "false"
+INSTAGRAM_ENABLED: "true"
+TWITTER_DISABLED: "true"
+GOOGLE_ENABLED: "true"
+
+TRIVIAS_QUESTIONS: "false"
+TRAILS_ACTIVE: "false"
+FRANCHISEE_ACTIVE: "false"
+PLANS_ACTIVE: "false"
+CATEGORY_ACTIVE: "false"
+GOALS_ACTIVE: "false"
+HOME_ROUTE: "dashboard/timeline_HASHTAG_index"
+HOME_LINK_NAME: "Home"
+HOME_ICO: "ico-home"
+HOME_CONTROLLERS: 'dashboard/timeline'
+SHOW_COURSES_LINK: "true"
+
+TLD_LENGTH: 1
+MASTER_DOMAIN: "lvh.me"
+CRAWLER_URL: "http://localhost:8082"
+ES_URL: "http://localhost:9200"
+ES_INDEX: "manoel"
+INSTAGRAM_SCOPE: "basic"
+SUBDOMAIN_AS_COMMUNITIES: "true"
+
+POINTS_SHORTENER_URL: 'http://prck.co'
+POINTS_SHORTENER_USERNAME: 'points_shortener'
+POINTS_SHORTENER_PASSWORD: 'devPoints123Ftwyay!@'

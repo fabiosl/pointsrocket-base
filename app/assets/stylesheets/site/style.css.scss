@@ -1,0 +1,1114 @@
+/*
+ *
+ *= require site/bootstrap/bootstrap
+ *= require site/animate-custom
+ *= require site/helpers
+ *= require site/animate-custom
+ *= require site/media-queries
+ *= require site/media-queries
+ *= require site/fancy/jquery.fancybox
+ *
+ */
+
+//colors
+$color_pickled_bluewood_approx: #34495e;
+$color_tundora_approx: #444;
+$color_regent_gray_approx: #7f90a0;
+$color_bondi_blue_approx: #00a3b4;
+$white: #fff;
+$color_jungle_mist_approx: #bacada;
+$color_my_sin_approx: #ffb91b;
+$black_20: rgba(0, 0, 0, 0.2);
+$color_fuzzy_wuzzy_brown_approx: #c64e58;
+$color_hippie_blue_approx: #5a9fae;
+$color_gray_nurse_approx: #eaeaea;
+$color_casper_approx: #adc1d1;
+$color_regent_st_blue_approx: #a9dcdf;
+$color_gallery_approx: #f0f0f0;
+$color_celeste_approx: #cccccc;
+$black_10: rgba(0, 0, 0, 0.1);
+$color_morning_glory_approx: #a2dcde;
+$color_pickled_bluewood_50_approx: rgba(52, 73, 94, 0.5);
+$color_oxford_blue_approx: #333f50;
+$color_waterloo__approx: #798392;
+$color_ghost_approx: #cbccce;
+$color_tulip_tree_approx: #edb734;
+$black: black;
+$color_slate_gray_approx: #758594;
+$color_tapa_approx: #777;
+$black_70: rgba(0,0,0,0.7);
+
+//@extend-elements
+//original selectors
+//.owl-controls .owl-page, .owl-controls .owl-buttons div
+%extend_1 {
+  color: $color_celeste_approx;
+  cursor: pointer;
+  display: inline-block;
+  display: none;
+  font-size: 26px;
+}
+
+//original selectors
+//.pricing .pricing-item .thumb .info span:first-child, .pricing .pricing-item .thumb .info span:last-child
+%extend_2 {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  font-size: 14px;
+}
+
+%form-messages {
+  .alert {
+    display: none;
+  }
+
+  @each $state in submiting, success, danger {
+    &.#{$state} {
+      .alert-#{$state} {
+        display: block;
+      }
+    }
+  }
+}
+
+.align-right {
+  text-align: right;
+}
+@charset "utf-8";
+
+@import url(//fonts.googleapis.com/css?family=Raleway:400,700,800,900,600,500,300);
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+html {
+  font-size: 100%;
+  min-width: 318px;
+}
+body {
+  font-family: Open Sans, sans-serif;
+  font-size: 62.5%;
+  margin-top: 0;
+  min-width: 318px;
+  color: $color_pickled_bluewood_approx;
+  > section {
+    overflow: hidden;
+    padding: 46px 0;
+  }
+}
+a {
+  -webkit-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  -moz-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  -ms-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  -o-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+  transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  outline: 0 !important;
+  &:hover {
+    outline: 0 !important;
+  }
+  &:active {
+    outline: 0 !important;
+  }
+}
+h1 {
+  font-family: Raleway, sans-serif;
+}
+h2 {
+  font-family: Raleway, sans-serif;
+}
+h3 {
+  font-family: Raleway, sans-serif;
+}
+h4 {
+  font-family: Raleway, sans-serif;
+}
+h5 {
+  font-family: Raleway, sans-serif;
+}
+h6 {
+  font-family: Raleway, sans-serif;
+}
+p {
+  font-size: 14px;
+}
+.inline-list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    float: left;
+  }
+}
+.container {
+  max-width: 1207px;
+}
+.navbar-toggle {
+  background-color: #2D3E50 !important;
+  border-color: $color_tundora_approx !important;
+}
+.top-info {
+  background: #2D3E50;
+  * {
+    color: #7F90A0;
+  }
+}
+.contact-top {
+  margin: 0 -21px;
+  li {
+    font-size: 12px;
+    line-height: 43px;
+    padding: 0 20px;
+    i {
+      font-size: 1.5em;
+      margin-right: 10px;
+    }
+    a:hover {
+      color: #7F90A0;
+    }
+  }
+}
+header {
+  background: #34495E;
+  border-bottom: 3px solid #00A3B4;
+  &.fixed {
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 450;
+    //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 0 0 4px $black_70;
+    .navbar-default {
+      padding: 9px 0;
+    }
+    .top-info {
+      height: 0;
+      overflow: hidden;
+    }
+  }
+}
+.navbar-default {
+  background: none;
+  border: 0;
+  padding: 24px 0 26px;
+  .navbar-nav > li > a {
+    color: #FFFFFF;
+    border: 1px solid transparent;
+    &:hover {
+      color: $color_my_sin_approx;
+    }
+    &:focus {
+      border: 1px solid $color_my_sin_approx;
+      color: $color_my_sin_approx;
+    }
+  }
+}
+.navbar-brand {
+  padding: 0;
+}
+.navbar-nav {
+  float: right;
+  margin: 0;
+  > li {
+    float: left;
+    font-size: 15px;
+    > a {
+      margin-top: 11px;
+      padding: 7px 15px;
+      margin-left: 12px;
+    }
+  }
+}
+.intro {
+  background: image-url("site/bg-intro.jpg") repeat scroll center top transparent;
+  padding: 15px 0;
+  * {
+    color: $white;
+  }
+  .title {
+    margin: 50px 0 25px;
+    font-weight: 400;
+    font-size: 40px;
+  }
+  .description {
+    margin-bottom: 25px;
+    font-family: Raleway, sans-serif;
+    font-size: 18px;
+    color: $color_jungle_mist_approx;
+  }
+  .link {
+    padding: 20px 40px;
+    font-weight: 400;
+    font-size: 16px;
+    .icon {
+      font-size: inherit;
+    }
+  }
+}
+.btn {
+  //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+  border-radius: 3px 3px 3px 3px;
+  font-family: Raleway, sans-serif;
+  font-weight: 700;
+  padding: 23px 38px;
+  &.has-shadow {
+    //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 2px 2px 1px $black_20;
+  }
+  i {
+    margin-right: 6px;
+  }
+}
+.btn-lg {
+  //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+  border-radius: 3px 3px 3px 3px;
+  font-family: Raleway, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.33;
+  padding: 23px 38px;
+  i {
+    font-size: 20px;
+  }
+}
+.btn-danger {
+  background-color: #C64E58;
+  border-color: #C64E58;
+  &:hover {
+    background-color: #5A9FAE;
+    border-color: #5A9FAE;
+  }
+}
+.features {
+  background: none repeat scroll 0 0 #EAEAEA;
+  padding: 50px 0;
+  position: relative;
+  overflow: visible;
+  .features-item .icon {
+    display: table;
+    margin-bottom: 25px;
+    width: 100%;
+    height: 80px;
+    text-align: center;
+    figure {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+}
+#features {
+  &:after {
+    left: 50%;
+    bottom: -50px;
+    position: absolute;
+    content: "";
+    border: 25px solid;
+    border-color: #EAEAEA transparent transparent transparent;
+    display: block;
+    margin-left: -13.5px;
+  }
+  .features-item {
+    .title {
+      margin: 0 0 25px 0;
+      text-align: center;
+      font-weight: 400;
+      font-size: 24px;
+    }
+    .description {
+      font-size: 14px;
+    }
+  }
+  .item .icon img {
+    width: 20%;
+  }
+}
+
+.img-intro{
+  max-height:400px;
+}
+
+.subscribe {
+  padding: 50px 0 0;
+  background: $color_gray_nurse_approx;
+  .subscribe-header {
+    margin-bottom: 25px;
+    background: transparent;
+    border-bottom: none;
+    text-align: center;
+    .title {
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 28px;
+    }
+    .subtitle {
+      margin: 0;
+      font-weight: 300;
+      font-size: 20px;
+    }
+  }
+  .subscribe-form {
+    @extend %form-messages;
+    .form-group {
+      margin-bottom: 25px;
+      input {
+        height: 50px;
+        font-size: 14px;
+
+        &.error {
+          border-color: #ed5466;
+          outline: 0;
+          -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(237,84,102, 0.6);
+                  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(237,84,102, 0.6);
+        }
+      }
+      textarea {
+        height: 50px;
+        font-size: 14px;
+        height: 100px;
+        resize: vertical;
+      }
+    }
+    button {
+      width: 100%;
+      margin: 0 !important;
+      padding: 10px 0 !important;
+      font-weight: 400;
+      font-size: 14px !important;
+      .icon {
+        font-size: 14px;
+      }
+    }
+  }
+}
+.left-inner-addon {
+  position: relative;
+  input {
+    padding-left: 54px;
+  }
+  i {
+    color: #ADC1D1;
+    font-size: 19px;
+    left: 17px;
+    padding: 10px 12px;
+    pointer-events: none;
+    position: absolute;
+    top: 11.5555px;
+  }
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.btn-warning {
+  background-color: #FFB81B;
+  border-color: #FFB81B;
+  color: #FFFFFF;
+  -webkit-transition: background-color 0.7s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  -moz-transition: background-color 0.7s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  -ms-transition: background-color 0.7s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  -o-transition: background-color 0.7s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+  transition: background-color 0.7s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  &:hover {
+    -webkit-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    -moz-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    -ms-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    -o-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+  }
+}
+.form-control {
+  border: 2px solid #E8E8E8;
+  &:focus {
+    border: 2px solid #A9DCDF;
+  }
+  &:-moz-placeholder {
+    color: $color_casper_approx;
+  }
+}
+#gallery {
+  padding: 32px 0 86px;
+  h2 {
+    margin-bottom: 48px;
+  }
+  .item {
+    margin: 0 auto 20px;
+    max-width: 273px;
+    position: relative;
+    * {
+      color: #FFFFFF;
+    }
+    .icon {
+      border: 2px solid $white;
+      font-size: 25px;
+      height: 54px;
+      line-height: 30px;
+      margin: 62px auto 26px;
+      text-align: center;
+      width: 54px;
+    }
+    .hover {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      display: none;
+      left: 0;
+      background: #FFB91B;
+      i {
+        left: 0;
+        line-height: 35px;
+        position: relative;
+        text-align: center;
+        top: 7px;
+        width: 90px;
+      }
+    }
+    &:hover .hover {
+      display: block;
+    }
+  }
+}
+#twitter-sect {
+  background: image-url("site/bg-twitter.jpg") repeat scroll center top transparent;
+  padding: 76px 0 49px;
+  .ico-twitter {
+    background: image-url("site/ico-twitter.png") repeat scroll center top transparent;
+    display: block;
+    float: left;
+    height: 90px;
+    margin: -12px 23px 0 4px;
+    width: 90px;
+  }
+  .item {
+    * {
+      color: #FFFFFF;
+    }
+    p {
+      font-size: 24px;
+      overflow: hidden;
+      text-align: left;
+    }
+  }
+  .container {
+    max-width: 909px;
+  }
+}
+#cool-things {
+  padding: 90px 0 30px;
+  h2 {
+    margin-bottom: 41px;
+  }
+  .item {
+    background: none repeat scroll 0 0 #F0F0F0;
+    padding: 20px 29px;
+    margin-bottom: 25px;
+    cursor: default;
+    -webkit-transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.4s ease;
+    -moz-transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.4s ease;
+    -ms-transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.4s ease;
+    -o-transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.4s ease;
+    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.4s ease;
+    &:hover {
+      background: #FFB91B;
+      -webkit-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      -moz-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      -ms-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      -o-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+      transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      .icon {
+        color: #FFB91B;
+        background: #F0F0F0;
+      }
+      .cont {
+        h3 {
+          color: #FFFFFF;
+        }
+        p {
+          color: #FFFFFF;
+        }
+      }
+    }
+    .icon {
+      float: left;
+      width: 76px;
+      height: 76px;
+      background: #FFB91B;
+      margin-right: 25px;
+      color: $white;
+      font-size: 40px;
+      text-align: center;
+      line-height: 72px;
+      i {
+      }
+    }
+    &.right-icon {
+      .icon {
+        float: right;
+        margin-left: 25px;
+        margin-right: 0;
+      }
+      .cont {
+        h3 {
+          text-align: right;
+        }
+        p {
+          text-align: right;
+        }
+      }
+    }
+    .cont {
+      overflow: hidden;
+      h3 {
+        font-weight: 700;
+        margin: 1px 0 7px;
+      }
+      p {
+        line-height: 1.6em;
+        margin: 0;
+      }
+    }
+    &.left-icon {
+    }
+  }
+}
+#team {
+  padding: 46px 0 102px;
+  .item {
+    padding: 34px 45px;
+    background: #F0F0F0;
+    -webkit-transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    -moz-transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    -ms-transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    -o-transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: background-color 0.4s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    background: none repeat scroll 0 0 #F0F0F0;
+    margin: 0 15px;
+    padding: 34px 20px;
+    &:hover {
+      background: #FFB91B;
+      -webkit-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      -moz-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      -ms-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      -o-transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+      transition: background-color 0.9s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+      * {
+        color: $white;
+      }
+      ul {
+        visibility: visible;
+      }
+    }
+    h3 {
+      color: #FFB91B;
+      font-weight: bold;
+      margin: 14px 0 3px;
+      text-transform: uppercase;
+    }
+    p {
+      font-size: 14px;
+      line-height: 1.65em;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      visibility: hidden;
+      li {
+        display: inline-block;
+        font-size: 21px;
+      }
+    }
+    .thumb img {
+      margin: 0 auto;
+    }
+  }
+  h2 {
+    margin-bottom: 33px;
+  }
+}
+.owl-controls {
+  .owl-page {
+    @extend %extend_1;
+  }
+  .owl-buttons div {
+    @extend %extend_1;
+  }
+}
+
+.price {
+  @extend %form-messages;
+}
+
+.newsletter {
+  padding: 50px 0;
+  background: image-url("site/bg-twitter.jpg") repeat scroll center top transparent;
+
+  .newsletter-form {
+    @extend %form-messages;
+  }
+
+  .newsletter-header {
+    //Instead of the line below you could use @includetext-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    text-shadow: 0 0 10px $black_10;
+    margin-bottom: 25px;
+    background: transparent;
+    border-bottom: none;
+    text-align: center;
+    .title {
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 28px;
+      color: $white;
+    }
+    .subtitle {
+      margin: 0;
+      font-weight: 300;
+      font-size: 20px;
+      color: $white;
+    }
+  }
+  .form-group {
+    margin-bottom: 0;
+  }
+  input {
+    width: 100%;
+    height: 50px;
+    font-size: 14px;
+  }
+  button {
+    width: 100%;
+    height: 50px;
+    line-height: 0;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  .left-inner-addon i {
+    left: 16px;
+    top: 12px;
+  }
+}
+.videos {
+  padding: 50px 0;
+  .videos-header {
+    margin-bottom: 50px;
+    background: transparent;
+    border-bottom: none;
+    text-align: center;
+    .title {
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 28px;
+    }
+    .subtitle {
+      margin: 0;
+      font-weight: 300;
+      font-size: 20px;
+    }
+  }
+  .carousel {
+    padding: 0 104px;
+  }
+  .thumb {
+    float: left;
+    margin-right: 20px;
+  }
+}
+#videos {
+  .cont {
+    overflow: hidden;
+    p {
+    }
+  }
+  h3 {
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0 0 25px 0;
+  }
+}
+.video-frame {
+  border: 2px solid #EAEAEA;
+  //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+  border-radius: 3px;
+  padding: 10px;
+}
+.carousel-control {
+  background: none !important;
+  span {
+    background: image-url("site/arrows.png") repeat scroll 0 0 transparent;
+    display: block;
+    height: 52px;
+    left: 35px !important;
+    margin-top: -34px;
+    position: absolute;
+    text-indent: -9999px;
+    width: 28px;
+  }
+  &.right {
+    span {
+      background-position: 100% 0;
+      left: auto !important;
+      right: 35px !important;
+      margin-top: -34px;
+    }
+    &:hover span {
+      background-position: 100% 100%;
+    }
+  }
+  &.left:hover span {
+    background-position: 0 100%;
+  }
+}
+.pricing {
+  padding: 50px 0;
+  .pricing-header {
+    margin-bottom: 25px;
+    background: transparent;
+    border-bottom: none;
+    text-align: center;
+    .title {
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 28px;
+    }
+    .subtitle {
+      margin: 0;
+      font-weight: 300;
+      font-size: 20px;
+    }
+  }
+  .pricing-item {
+    //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+    border-radius: 4px;
+    border: 2px solid $color_gray_nurse_approx;
+    -webkit-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    -moz-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    -ms-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    -o-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+    &:hover {
+      border-color: $color_morning_glory_approx;
+      .btn {
+        background: #00A0B0;
+        border-color: #A2DCDE;
+      }
+    }
+    .thumb {
+      position: relative;
+      width: 100%;
+      height: auto;
+      .info {
+        //Instead of the line below you could use @includetext-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+        text-shadow: 1px 1px 0 $color_pickled_bluewood_approx;
+        background-image: linear-gradient(to top, $color_pickled_bluewood_50_approx 15%, transparent 30%);
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        color: $color_gray_nurse_approx;
+        span {
+          &:first-child {
+            @extend %extend_2;
+          }
+          &:last-child {
+            @extend %extend_2;
+            right: 5px;
+            left: initial;
+          }
+        }
+      }
+      .image {
+        position: relative;
+        z-index: 0;
+        display: block;
+        //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+        border-radius: 3px 3px 0 0;
+        width: 100%;
+        height: auto;
+      }
+    }
+    .content {
+      position: relative;
+      padding: 15px;
+      height: 300px;
+      .title {
+        margin: 0 0 10px 0;
+        font-weight: 400;
+        font-size: 18px;
+      }
+      p {
+        font-size: 12px;
+      }
+      ul {
+        margin: 0 0 10px 0;
+        padding: 0;
+        list-style: none;
+        font-size: 12px;
+        li {
+          margin-bottom: 3px;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+    .btn {
+      display: block;
+      position: absolute;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      padding: 10px 0;
+      //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+      border-radius: 4px;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+}
+.footer {
+  background: #333F50;
+  border-top: 3px solid #599EAE;
+  color: $white;
+  .item {
+    h3 {
+      margin-bottom: 20px;
+      font-size: 19px;
+      color: $white;
+    }
+    i {
+      font-size: 1.2em;
+    }
+    p {
+      margin-bottom: 20px;
+      line-height: 20px;
+      font-size: 13px;
+      color: $color_ghost_approx;
+      a {
+        color: #CBCCCE;
+        font-family: Arial, Helvetica, sans-serif;
+        &:hover {
+          color: #EDB734;
+        }
+      }
+    }
+  }
+  .container.generic-section {
+    padding: 50px 0;
+  }
+}
+ul.social-foot {
+  margin: 0;
+  padding: 0;
+  li {
+    display: inline-block;
+    padding: 0 1%;
+    a {
+      display: block;
+      width: 32px;
+      height: 32px;
+      text-indent: -9999px;
+      &:hover {
+        background-position: 0 100% !important;
+      }
+      &.in {
+        background: image-url("site/ico-social-in.png");
+      }
+      &.youtube {
+        background: image-url("site/ico-social-youtube.png");
+      }
+      &.facebook {
+        background: image-url("site/ico-social-facebook.png");
+      }
+      &.twitter {
+        background: image-url("site/ico-social-twitter.png");
+      }
+    }
+  }
+  .tooltip .tooltip-inner {
+    background: $white;
+    color: $black;
+  }
+}
+.tooltip-inner {
+  background: #FFB81B!important;
+  color: $white!important;
+}
+.tooltip-arrow {
+  border-top-color: #FFB81B!important;
+  border-bottom-color: #FFB81B!important;
+}
+.fcontainer {
+  max-width: 1150px;
+  position: relative;
+}
+.copy {
+  position: relative;
+  padding: 25px 0;
+  background: $color_pickled_bluewood_approx;
+  .totop {
+    background: url("//fonts.googleapis.com/css?family=Open+Sans:400,700")0 repeat scroll 0 0 transparent;
+    display: block;
+    height: 54px;
+    left: 50%;
+    margin-left: -27px;
+    position: absolute;
+    text-indent: -9999px;
+    top: -30px;
+    width: 54px;
+  }
+  p {
+    color: $color_slate_gray_approx;
+    font-size: 12px;
+    margin: 0;
+    line-height: 1em;
+  }
+  a {
+    color: $color_tapa_approx;
+  }
+}
+i[class^="icon-"] {
+  height: auto;
+  margin: 0 !important;
+  padding: 0;
+  width: auto;
+}
+.from-left {
+  position: relative;
+  left: -3000px;
+  -webkit-transition: all .6s;
+  //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+  transition: all .6s;
+}
+.from-right {
+  position: relative;
+  right: -3000px;
+  -webkit-transition: all .6s;
+  //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+  transition: all .6s;
+}
+.from-bottom {
+  position: relative;
+  bottom: -1000px;
+  -webkit-transition: all 1s;
+  //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+  transition: all 1s;
+}
+.rotate {
+  top: -3000px;
+  opacity: 0;
+  -moz-transform: rotate(-4000deg);
+  -o-transform: rotate(-4000deg);
+  -webkit-transform: rotate(-4000deg);
+  -webkit-transition: all 2s;
+  //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+  transition: all 2s;
+}
+.rotate-normal {
+  opacity: 1;
+  top: 0;
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+}
+.pace {
+  .pace-progress {
+    background-color: #C64E58 !important;
+  }
+  .pace-activity:before {
+    background-color: #34495E;
+    background-image: url("//fonts.googleapis.com/css?family=Open+Sans:400,700")1;
+    background-position: center center;
+    background-repeat: no-repeat;
+    content: "";
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 900;
+  }
+}
+.navbar {
+  z-index: 500;
+}
+.btns-group .btn {
+  margin-bottom: 14px;
+  margin-right: 22px;
+  width: 268px;
+}
+section h2 {
+  font-size: 54px;
+  font-weight: 700;
+  color: $color_pickled_bluewood_approx;
+}
+.form-control::-webkit-input-placeholder {
+  color: $color_casper_approx;
+}
+#suscribe .btn {
+  font-size: 19px;
+  margin-top: 14px;
+  padding: 22px 46px;
+}
+.video iframe {
+  border: 0;
+}
+footer * {
+  color: $color_waterloo__approx;
+}
+
+.form-group {
+  .i {
+    font-style: italic;
+    font-size: 12px;
+  }
+}
+
+.black-color{
+  color: black;
+}
+
+.alert{
+  margin:20px 0px 2px 0px;
+}
+
+.motivation-box{
+  padding-top: 29px;
+}
+
+.embeded-video {
+    position: relative;
+    max-width:500px;
+}
+
+.embeded-video .ratio-img {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+}
+
+.embeded-video IFRAME {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.points-table{
+  padding:0px;
+}
+
+.img-centered{
+  margin: 0 auto;
+  max-width: 300px;
+}

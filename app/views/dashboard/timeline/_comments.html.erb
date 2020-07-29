@@ -1,0 +1,64 @@
+<div
+  class="timeline-item-comments panel-comment"
+  data-commentable-id="{{ timelineable.id }}"
+  data-commentable-type="{{ timelineable.type }}"
+  data-comments-count="{{ timelineable.comments.count }}"
+  data-new-comments-count="0"
+  data-source="timeline"
+>
+  <div class="panel-body np">
+    {{ #timelineable.comments.has_next_page }}
+    <div class="comments_load-more-container pos-relative text-center pt5 pb5">
+      <a
+        href="#"
+        class="comments_load-more"
+        data-commentable-id="{{ timelineable.id }}"
+        data-commentable-type="{{ timelineable.type }}"
+        data-total-comments="{{ timelineable.comments.count }}"
+        data-total-pages="{{ timelineable.comments.total_pages }}"
+        data-current-page="{{  timelineable.comments.current_page }}"
+        data-per-page="{{  timelineable.comments.per_page }}"
+        data-has-next-page="{{ timelineable.comments.has_next_page }}"
+      >
+        <div class="indicator"><span class="spinner"></span></div>
+        <%= t('views.general.buttons.load_more_comments') %>
+      </a>
+    </div>
+    {{ /timelineable.comments.has_next_page }}
+    <!-- Comment list -->
+    <ul class="media-list comments-list mb0">
+      {{ #timelineable.comments.items }}
+      <%= render partial: "dashboard/timeline/comment_item" %>
+      {{ /timelineable.comments.items }}
+    </ul>
+
+    {{ #timelineable.comments.count }}
+    <hr class="nm">
+    {{ /timelineable.comments.count }}
+    <!--/ Comment list -->
+
+    <form class="comment-form pa10">
+      <ul class="list-table">
+        <li class="text-left pos-relative valign-top" style="width:40px;">
+          <% if user.admin_current_domain %>
+            <i class="ico-crown timeline-comment-user-admin-ico" title="Admin"></i>
+          <% end %>
+          <img
+            src="<%= user.avatar.url(:s34x34) %>"
+            title="<%= user.name %>"
+            alt="<%= user.name %>"
+            class="img-circle" width="30" height="30"
+          >
+        </li>
+        <li class="text-left">
+          <div contenteditable="true"
+            class="comment-content form-control"
+            placeholder="<%= t('views.comments.new') %>"></div>
+        </li>
+        <li style="width:60px;">
+          <input type="submit" class="btn btn-sm btn-primary btn-block" value="<%= t('views.dashboard.timeline.buttons.post') %>">
+        </li>
+      </ul>
+    </form>
+  </div>
+</div>

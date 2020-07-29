@@ -1,0 +1,59 @@
+<!-- COURSE -->
+<% if domain.courses_enabled %>
+  <hr class="mt10 mb10 activity-separator">
+
+  <ul class="list-table">
+    <li style="width:60px;">
+      <div class="pos-relative w50 h50">
+        <div
+          class="widget-image-container img-circle"
+          style="background-image:url('<%= activity.avatar.url(:small) %>');" 
+        ></div>
+        <span class="item-status-ico">
+        <% if activity.done_by_user?(current_user) %>
+          <i class="ico ico-checkmark text-success"></i>
+        <% else %>
+          <i class="ico ico-circle text-danger"></i>
+        <% end %>
+        </span>
+      </div>
+    </li>
+    <li class="text-left">
+      <h5 class="semibold ellipsis nm">
+        <%= link_to activity do %>
+          <i class="ico-graduation"></i> <%= activity.name %>
+        <% end %>
+      </h5>
+      <p class="info-list text-default ellipsis">
+        <span>
+          <%= t('views.dashboard.widgets.courses.videos', count: activity.steps.videos.size) %>
+        </span>
+        
+        <span>
+          <%= t('views.dashboard.widgets.courses.quizes', count: activity.steps.quizes.size) %>
+        </span>
+        <br>
+
+        <% if activity.points > 0 %>
+        <span>
+          <i class="ico-trophy"></i> <%= activity.points %> <%= t('views.general.points') %>
+        </span>
+        <br>
+        <% end %>
+
+        <span>
+          <i class="ico-users"></i>
+          <%= t('views.dashboard.widgets.courses.users_finished', count: activity.users_finished_count) %>
+        </span>
+
+        <% if activity.badge %>
+          <br>
+          <span>
+            <i class="ico-medal"></i> <%= activity.badge.name %>
+          </span>
+        <% end %>
+      </p>
+    </li>
+  </ul>
+<% end %>
+<!--/ COURSE -->

@@ -1,0 +1,30 @@
+<div class="container">
+<div class="col-md-6 col-md-offset-3">
+  <h3><%= t('views.domains.new.title') %></h3>
+  <% if @domain.errors.any? %>
+    <div class="alert alert-danger fade in">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <ul>
+        <% @domain.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form_for(@domain) do |f| %>
+    <div class="form-group">
+    <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control', placeholder: t('views.domains.fields.name') %>
+    </div>
+    <div class="form-group">
+      <%= f.label :url %>
+      <%= f.text_field :url, class: 'form-control', placeholder: t('views.domains.fields.url') %>
+    </div>
+    <div class="form-group">
+      <%= f.label :subdomain %>
+      <%= f.text_field :subdomain, class: 'form-control', placeholder: t('views.domains.fields.subdomain') %>
+    </div>
+    <%= f.submit t('views.general.buttons.save'), class: 'btn btn-primary pull-right' %>
+  <% end %>
+</div>
+</div>

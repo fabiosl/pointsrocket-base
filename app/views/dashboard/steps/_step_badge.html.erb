@@ -1,0 +1,20 @@
+<div class="badge-modal modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <div style="margin: 5px 0px;">
+          <%= image_tag step_badge.avatar.url(:s100x109) %>
+        </div>
+        <h3 class="semibold modal-title text-success"><%= step_badge.name %></h3>
+      </div>
+      <div class="modal-body">
+        <h4 class="semibold mt0"><%= t('views.steps.new_badge') %></h4>
+        <p><%= t('views.steps.congratulations') %> <%= t('views.steps.visit') %> <%= link_to t('views.steps.this_link'), badges_path %> <%= t('views.steps.badge_help') %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.general.buttons.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>

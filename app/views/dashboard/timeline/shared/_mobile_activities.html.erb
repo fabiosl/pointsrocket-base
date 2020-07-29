@@ -1,0 +1,36 @@
+<% if @timeline_data[:pending_activities_count] > 0 %>
+  <div class="mobile-activities-footer-wrapper down">
+    <div class="mobile-activities-footer bg-primary pr30">
+      <a href="javascript://" class="text-white text-center block" data-toggle="modal" data-target="#activities-modal">
+        <%= t "views.timeline.shared.activities.pending_html", count: @timeline_data[:pending_activities_count] %>
+      </a>
+      <a href="javascript://" class="close">x</a>
+    </div>
+  </div>
+
+  <a href="javascript://" class="down bg-primary mobile-activities-button text-white" data-toggle="modal" data-target="#activities-modal">
+    <%= @timeline_data[:pending_activities_count] %>
+  </a>
+
+  <!-- POST VIEWS MODAL -->
+  <div id="activities-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="activitiesModal">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body pt30">
+          <button type="button" class="close modal-activities-close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+          <%= render partial: "dashboard/widgets/activities",
+                     locals: {
+                        domain: @domain,
+                        activities: @activities,
+                        for_mobile: true,
+                        pending: true
+                     }
+          %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

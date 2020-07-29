@@ -1,0 +1,79 @@
+---
+- hosts: landing
+
+  roles:
+    - role: rbenv
+      tags: rbenv
+
+    - role: ruby-multi
+      tags: only_ruby
+
+- hosts: elasticsearch
+
+  vars_files:
+    - vars/defaults.yml
+
+  roles:
+    - role: elasticsearch
+      tags: elasticsearch
+
+- hosts: landing
+
+  vars_files:
+    - vars/defaults.yml
+
+  roles:
+    - role: commom
+      tags: commom
+
+    - role: webserver
+      tags: webserver
+
+    - role: nodejs
+      tags: nodejs
+
+    - role: redis
+      tags: redis
+
+    - role: database
+      tags: database
+
+    - role: monit
+      tags: monit
+      become: yes
+
+      monit_alert_address: manoelquirinoneto@gmail.com
+      monit_services:
+        - name: elasticsearch
+          type: process
+          target: "{{ ansible_env.HOME }}/elasticsearch.pid"
+          start: "/bin/su - {{ ansible_env.USER }} -c '{{ ansible_env.HOME }}/elasticsearch-5.3.0/bin/elasticsearch -d -p {{ ansible_env.HOME }}/elasticsearch.pid'"
+          stop: "/bin/bash -c '/bin/kill `/bin/cat {{ ansible_env.HOME }}/elasticsearch.pid`'"
+          rules:
+            - "if failed unixsocket /var/run/postgresql/.s.PGSQL.5432 protocol pgsql then restart"
+            - "if 5 restarts within 5 cycles then timeout"
+
+        - name: postgres
+          type: process
+          target: "/var/lib/postgresql/9.3/main/postmaster.pid"
+          start: "/etc/init.d/postgresql start"
+          stop: "/etc/init.d/postgresql stop"
+
+        - name: sshd
+          type: process
+          target: /var/run/sshd.pid
+          start: /usr/sbin/service sshd start
+          stop: /usr/sbin/service sshd stop
+    #     - name: localhost
+    #       type: system
+    #       rules:
+    #         - "if loadavg (1min) > 2 then alert"
+    #         - "if loadavg (5min) > 2 then alert"
+    #         - "if memory usage > 75% then alert"
+    #         - "if cpu usage (user) > 70% for 8 cycles then alert"
+    #         - "if cpu usage (system) > 40% for 8 cycles then alert"
+    #         - "if cpu usage (wait) > 20%  for 8 cycles then alert"
+
+  # handlers:
+  #   - name: Restart puma
+  #     action: service name=puma state=restarted

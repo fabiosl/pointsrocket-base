@@ -1,0 +1,2 @@
+collection @employee_advocacy_posts
+extends "api/employee_advocacy_posts/employee_advocacy_post"

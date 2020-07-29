@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-sm-12">
+    <a href="/dashboard/admin/" class="btn btn-danger">
+      Voltar
+    </a>
+  </div>
+</div>
+
+<form action="" name="editTriviasQuestionForm" class="form-horizontal">
+  <div class="row">
+    <div class="col-sm-12 chapters-list relative">
+
+      <div class="indicator show" data-ng-if="loading">
+        <span class="spinner"></span>
+      </div>
+
+
+      <div class="panel panel-primary mb20 question" data-ng-class="{'to-be-destroyed': question._destroy}" data-ng-repeat="(qIndex, question) in trivias_questions">
+        <div data-ng-if="question._destroy" class="indicator show pt10 text-center">
+          A questão <span class="text-uppercase">{{ question.name }}</span> vai ser excluída. Esta ação não pode ser desfeita. <br>
+          <a href="#" class="btn-primary btn mt10" data-ng-click="undelete(question)" data-ng-if="question._destroy"> Clique aqui para restaurar a questão</a>
+        </div>
+        <div class="panel-heading handle">
+          <div class="panel-title ellipsis">
+            {{ question.name }}
+          </div>
+
+          <div class="panel-toolbar text-right">
+            <a href="#" class="btn-primary btn" data-ng-click="undelete(question)" data-ng-if="question._destroy">
+              Restaurar pergunta
+            </a>
+            <a href="#" class="btn-danger btn" data-ng-click="delete(question)" data-ng-if="!question._destroy">
+              Excluir pergunta
+            </a>
+            <button class="btn btn-success" data-toggle="collapse" href="#collapse{{ qIndex }}">
+              <i class="arrow"></i>
+              Expandir / contrair
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-collapse collapse" id="collapse{{ qIndex }}">
+          <div class="row ml0 mr0 mt10" data-ng-if="question._destroy">
+            <div class="col-sm-12">
+              <p>Esta questão será excluida.</p>
+            </div>
+          </div>
+
+          <div class="row ml0 mr0 mt10" data-ng-if="!question._destroy">
+            <div class="col-sm-12 steps-list">
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Nome</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" data-ng-model="question.name" name="step_{{ qIndex }}_name" required>
+
+                  <span class="text-danger" data-ng-if="editTriviasQuestionForm['step_' + qIndex + '_name'].$invalid && editTriviasQuestionForm['step_' + qIndex + '_name'].$dirty">
+                    <span data-ng-if="editTriviasQuestionForm['step_' + qIndex + '_name'].$error.required">
+                      Campo obrigatório
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Opções</label>
+                <div class="col-sm-10">
+                  <div class="row relative" data-ng-repeat="(oIndex, option) in question.trivias_options">
+                    <div class="indicator show" data-ng-if="option._destroy">
+                      <div class="col-sm-8 text-right">
+                        Essa opção será deletada. <a href="#" class="btn btn-primary" data-ng-click="undelete(option)">Desfazer exclusão</a>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" data-ng-model="option.name" name="step_{{ qIndex }}{{ oIndex }}_name" placeholder="Conteúdo da resposta" required="true">
+                    </div>
+                    <div class="col-md-2">
+                      <span class="checkbox custom-checkbox custom-checkbox-inverse">
+                          <input type="checkbox" name="step_{{ qIndex }}{{ oIndex }}_correct" data-ng-model="option.correct" id="step_{{ qIndex }}{{ oIndex }}_correct" />
+                          <label for="step_{{ qIndex }}{{ oIndex }}_correct">&nbsp;&nbsp;Correta</label>
+                      </span>
+                    </div>
+                    <div class="col-md-2">
+                      <a href="#" class="btn btn-danger" data-ng-click="delete(option)">
+                        Excluir
+                      </a>
+                    </div>
+                  </div>
+
+                  <a href="#" class="btn btn-primary" data-ng-click="addOption(question)">Adicionar Opção</a>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <a href="#" class="btn btn-primary mb10" data-ng-click="addQuestion()">
+      Adiciona Questão
+    </a>
+
+    <a href="#" class="btn btn-success mb10" data-ng-click="sync()">
+      Salvar
+    </a>
+  </div>
+</form>

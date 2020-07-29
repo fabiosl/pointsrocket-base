@@ -1,0 +1,11 @@
+<div class="panel">
+  <div class="reward-widget text-center pt20 pb20">
+    <div class="reward-widget_header">
+      <ul class="list-table">
+        <li><i class="ico-gift22 reward-widget_header-ico" style="font-size: 40px;"></i></li>
+      </ul>
+    </div>
+    <div class="fsize16 mt5"><%= t('views.dashboard.widgets.rewards.redeem_tip', count: current_user.points.to_i) %></div>
+    <%= link_to t('views.dashboard.widgets.rewards.redeem'), campaigns_path, class: 'btn btn-default btn-rounded btn-sm reward-widget_choose-btn mt10' %>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+{
+  "course_title": "Introdução aos penteados",
+  "course_description": "Quer aprender a fazer penteados Half Bun usando toda a linha Redken Forceful? Esse curso é para você!",
+  "has_badge": true,
+  "tag_list": "loreal,fabio",
+  "badge_points": 100,
+  "category": {
+    "slug": "educacao",
+    "position": 1,
+    "name": "Educação"
+  },
+"chapters": [
+    {
+      "name": "Entendendo os cachos",
+      "description": "Nesse capítulo abordamos um pouco das estruturas dos cachos!",
+      "badge": {
+        "has_badge": false
+      },
+      "steps": [
+        {
+          "step_type": "video",
+          "step_title": "Big chop, o grande corte",
+          "video_url": "https://www.youtube.com/embed/yYFH1t5IMTE"
+        },
+        {
+          "step_type": "video",
+          "step_title": "Tratamento: blindagem com choque térmico",
+          "video_url": "https://www.youtube.com/embed/yYFH1t5IMTE"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: pintura de cabelos cacheados",
+          "questions": [
+            {
+              "question_title": "Os cabelos cacheados podem ser tratados com tintura permanente?",
+              "question_answer": "Não, cabelos cacheados exigem tinturas temporárias.",
+              "other_options": [
+                "Sim, sem problemas",
+                "A melhor opção é usar um tonalizante simples."
+              ]
+            }
+          ]
+        },
+        {
+          "step_type": "video",
+          "step_title": "Finalização: como estilizar o cabelo",
+          "video_url": "https://www.youtube.com/embed/yYFH1t5IMTE"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Como clarear cabelos crespos",
+          "questions": [
+            {
+              "question_title": "Qual a melhor abordagem para clarear cabelos crespos escuros?",
+              "question_answer": "Utilizar redken whitening ou produtos da linha white.",
+              "other_options": [
+                "Utilizar água oxigenada"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "O estudo das cores",
+      "badge": {
+        "has_badge": false
+      },
+      "steps": [
+        {
+          "step_type": "video",
+          "step_title": "Cores na coloração de capilares",
+          "video_url": "https://www.youtube.com/embed/yYFH1t5IMTE"
+        },
+        {
+          "step_type": "video",
+          "step_title": "Sugestões de cores para cada tipo de pele e cabelo",
+          "video_url": "https://www.youtube.com/embed/yYFH1t5IMTE"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: como clarear cabelos crespos",
+          "questions": [
+            {
+              "question_title": "Qual a melhor abordagem para clarear cabelos crespos escuros?",
+              "question_answer": "Utilizar redken whitening ou produtos da linha white.",
+              "other_options": [
+                "Utilizar água oxigenada"
+              ]
+            },
+            {
+              "question_title": "Qual a pior abordagem para clarear cabelos crespos loiros?",
+              "question_answer": "Utilizar água oxigenada",
+              "other_options": [
+               "Utilizar redken whitening ou produtos da linha white." 
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

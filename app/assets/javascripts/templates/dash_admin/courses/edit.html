@@ -1,0 +1,599 @@
+<!-- <script language="JavaScript">
+    window.onbeforeunload = confirmExit;
+    function confirmExit() {
+        return "You have attempted to leave this page. Are you sure?";
+    }
+</script> -->
+
+<div class="row">
+  <div class="col-sm-12">
+    <a href="{{ domainsCoursesPath() }}" id="back-button" class="btn btn-danger">
+      <span ng-bind="('views.dashboard.admin.buttons.back' | i18next)"></span>
+    </a>
+  </div>
+</div>
+
+<form name="editCourseForm" class="form-horizontal" data-ng-submit="sync()">
+  <div class="row">
+    <div class="col-sm-12 chapters-list relative">
+
+      <div class="indicator show" data-ng-if="loading">
+        <span class="spinner"></span>
+      </div>
+
+      <div data-ng-if="errors" class="panel panel-danger mt20" >
+        <div class="panel-heading">
+          <div class="panel-title">
+            <span ng-bind="('views.dashboard.admin.form.errors' | i18next)"></span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p data-ng-repeat="(key, value) in errors">
+            {{ getError(key) }}
+          </p>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="text-right mb10">
+            (*) <span ng-bind="('views.general.required_fields' | i18next)"></span>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              <span ng-bind="('views.dashboard.admin.courses.fields.name' | i18next)"></span>
+              (*)
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" data-ng-model="course.name" name="course_name" data-ng-required="true" placeholder="{{ 'views.dashboard.admin.courses.placeholders.name' | i18next}}">
+
+              <span class="text-danger" data-ng-if="editCourseForm['course_name'].$invalid && editCourseForm['course_name'].$dirty">
+                <span data-ng-if="editCourseForm['course_name'].$error.required">
+                  <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              <span ng-bind="('views.dashboard.admin.courses.fields.points' | i18next)"></span>
+            </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" data-ng-model="courseTotalPoints" disabled>
+
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+            <span ng-bind="('views.dashboard.admin.courses.fields.description' | i18next)"></span>
+            (*)
+            </label>
+            <div class="col-sm-10">
+              <textarea name="course_description" class="form-control" data-ng-model="course.description" placeholder="{{ 'views.dashboard.admin.courses.placeholders.description' | i18next}}" data-ng-required="true"></textarea>
+
+              <span class="text-danger" data-ng-if="editCourseForm['course_description'].$invalid && editCourseForm['course_description'].$dirty">
+                <span data-ng-if="editCourseForm['course_description'].$error.required">
+                  <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+            <span ng-bind="('views.dashboard.admin.courses.fields.active' | i18next)"></span>
+            </label>
+            <div class="col-sm-10">
+              <input type="checkbox" data-ng-model="course.active" name="course_active">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+              <span ng-bind="('views.dashboard.admin.courses.fields.main_image' | i18next)"></span>
+              <span ng-show="!course.avatar_url">(*)</span>
+            </label>
+            <div class="col-sm-10">
+              <div class="panel panel-primary">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <span class="input-group-btn">
+                        <div class="btn btn-primary btn-file">
+                          <span class="icon iconmoon-file-3"></span>
+                          <span ng-bind="('views.general.select_image' | i18next)"></span>
+                          <input type="file" name="avatar" onchange="angular.element(this).scope().setAvatar(this.files)" data-check-file-exists="" data-ng-model="course.avatar_file_exists" data-ng-required="!course.avatar_url">
+                        </div>
+                      </span>
+                    </div>
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.current_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ course.avatar_url }}" data-ng-if="course.avatar_url" style="width: 80px;">
+                      <div data-ng-if="!course.avatar_url">
+                        <span ng-bind="('views.dashboard.admin.form.no_image' | i18next)"></span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.new_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ newAvatarSrc }}" alt="" data-ng-if="newAvatarSrc" style="width: 100px;">
+                      <div data-ng-if="!newAvatarSrc">
+                        <span ng-bind="('views.dashboard.admin.form.no_selected_image' | i18next)"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="panel-footer">
+                    <p>
+                      <span ng-bind="('views.dashboard.admin.courses.helpers.main_image' | i18next)"></span>
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">
+            <span ng-bind="('views.general.medal' | i18next)"></span>
+            </label>
+            <div class="col-sm-10">
+              <div class="panel panel-default">
+                <div class="panel-body">
+
+                  <div class="form-group">
+                    <label class="col-sm-1 control-label">
+                      <span ng-bind="('views.dashboard.admin.courses.fields.points' | i18next)"></span>
+                    </label>
+                    <div class="col-sm-11">
+                      <input type="number" class="form-control" data-ng-model="course.finish_badge_points" min="0">
+                      <span class="help">
+                        <span ng-bind="('views.dashboard.admin.courses.helpers.medal' | i18next)"></span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-1 control-label">
+                      <span ng-bind="('views.dashboard.admin.form.image' | i18next)"></span>
+                      <span ng-show="!!course.finish_badge_points && !course.finished_course_badge_url">(*)</span>
+                    </label>
+                    <div class="col-sm-11">
+                      <div class="panel panel-primary">
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <span class="input-group-btn">
+                                <div class="btn btn-primary btn-file">
+                                  <span class="icon iconmoon-file-3"></span>
+                                  <span ng-bind="('views.general.select_image' | i18next)"></span>
+                                  <input type="file" name="avatar" onchange="angular.element(this).scope().setCourseFinishBadge(this.files)" data-check-file-exists="" data-ng-model="course.finish_badge_file_exists" data-ng-required="!!course.finish_badge_points && !course.finished_course_badge_url">
+                                </div>
+                              </span>
+                            </div>
+                            <div class="col-sm-4">
+                              <div>
+                                <span ng-bind="('views.dashboard.admin.form.current_image' | i18next)"></span>
+                              </div>
+
+                              <img data-ng-src="{{ course.finished_course_badge_url }}" data-ng-if="course.finished_course_badge_url" style="width: 80px;">
+                              <div data-ng-if="!course.finished_course_badge_url">
+                                <span ng-bind="('views.dashboard.admin.form.no_image' | i18next)"></span>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                              <div>
+                                <span ng-bind="('views.dashboard.admin.form.new_image' | i18next)"></span>
+                              </div>
+
+                              <img data-ng-src="{{ newCourseFinishBadgeSrc }}" alt="" data-ng-if="newCourseFinishBadgeSrc" style="width: 100px;">
+                              <div data-ng-if="!newCourseFinishBadgeSrc">
+                                <span ng-bind="('views.dashboard.admin.form.no_selected_image' | i18next)"></span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="panel-footer">
+                            <p>
+                              <span ng-bind="('views.dashboard.admin.courses.helpers.image' | i18next)"></span>
+                            </p>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" data-ng-if="course.finish_badge_id">
+                    <label class="col-sm-1 control-label">
+                      <span ng-bind="('views.dashboard.admin.courses.buttons.delete_medal' | i18next)"></span>
+                    </label>
+                    <div class="col-sm-11">
+                      <input type="checkbox" class="form-control" data-ng-model="course.delete_finish_badge_points">
+                      <span class="help">
+                        <span ng-bind="('views.dashboard.admin.courses.helpers.delete_medal' | i18next)"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- <div class="form-group" data-ng-if="course.avatar_url">
+        <label class="col-sm-2 control-label">Deletar Imagem</label>
+        <div class="col-sm-10">
+          <span class="checkbox custom-checkbox custom-checkbox-inverse">
+            <input type="checkbox" name="course_delete_avatar" data-ng-model="course.delete_avatar" id="course_delete_avatar" />
+            <label for="course_delete_avatar">&nbsp;&nbsp;Apagar Imagem</label>
+          </span>
+        </div>
+      </div> -->
+
+      <div class="panel panel-primary mb20 chapter" data-ng-class="{'to-be-destroyed': chapter._destroy}" data-ng-repeat="(cIndex, chapter) in course.chapters">
+        <div class="panel-heading handle">
+          <div class="panel-title ellipsis">
+            <span ng-bind="('views.dashboard.admin.chapters.chapter' | i18next)"></span>: {{ chapter.name }}
+          </div>
+
+          <div class="panel-toolbar text-right">
+            <a href="#" class="btn-danger btn" data-ng-click="deleteChapter(chapter)" data-ng-if="!chapter._destroy">
+              <span ng-bind="('views.dashboard.admin.chapters.buttons.delete' | i18next)"></span>
+            </a>
+            <button class="btn btn-success" data-toggle="collapse" href="#collapse{{ cIndex }}" aria-expanded="true">
+              <i class="arrow"></i>
+              <span ng-bind="('views.dashboard.admin.chapters.buttons.collapse' | i18next)"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-collapse collapse in" id="collapse{{ cIndex }}" data-ng-if="!chapter._destroy">
+          <!-- <div class="panel-toolbar-wrapper">
+            <div class="panel-toolbar">
+              <a href="#" class="btn-danger btn">
+                Excluir capítulo
+              </a>
+            </div>
+          </div> -->
+
+          <div class="row ml0 mr0 mt10" data-ng-if="chapter._destroy">
+            <div class="col-sm-12">
+              <p>
+                <span ng-bind="('views.dashboard.admin.chapters.helpers.delete' | i18next)"></span>
+              </p>
+            </div>
+          </div>
+
+          <div class="row ml0 mr0 mt10" data-ng-if="!chapter._destroy">
+            <div class="col-sm-12 steps-list">
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label">
+                  <span ng-bind="('views.dashboard.admin.chapters.fields.name' | i18next)"></span>
+                  (*)
+                </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" data-ng-model="chapter.name" name="step_{{ cIndex }}_name" required>
+
+                  <span class="text-danger" data-ng-if="editCourseForm['step_' + cIndex + '_name'].$invalid && editCourseForm['step_' + cIndex + '_name'].$dirty">
+                    <span data-ng-if="editCourseForm['step_' + cIndex + '_name'].$error.required">
+                      <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label">
+                  <span ng-bind="('views.dashboard.admin.chapters.fields.description' | i18next)"></span> (*)
+                </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" data-ng-model="chapter.description" name="step_{{ cIndex }}_description" required>
+                </div>
+              </div>
+
+              <div class="panel panel-default" data-ng-repeat="(sIndex, step) in chapter.steps">
+                <div class="panel-heading step-panel-heading">
+                  <div class="panel-title">
+                    <i class="ico-youtube-play" data-ng-if="step.step_type == 'Vídeo'"></i>
+                    <i class="ico-pen5" data-ng-if="step.step_type == 'Quiz'"></i>
+                    <span ng-bind="('views.dashboard.admin.chapters.fields.step_title' | i18next)"></span>: {{ step.name }}
+                  </div>
+
+                  <div class="panel-toolbar text-right">
+                    <a href="#" class="btn-primary btn" data-ng-click="undeleteStep(step)" data-ng-if="step._destroy">
+                      <span ng-bind="('views.dashboard.admin.chapters.buttons.restore_step' | i18next)"></span>
+                    </a>
+                    <a href="#" class="btn-danger btn" data-ng-click="deleteStep(step)" data-ng-if="!step._destroy">
+                      <span ng-bind="('views.dashboard.admin.chapters.buttons.delete_step' | i18next)"></span>
+                    </a>
+                    <button class="btn btn-success" data-toggle="collapse" href="#collapse{{ cIndex }}{{ sIndex }}" aria-expanded="true">
+                      <i class="arrow"></i>
+                      <span ng-bind="('views.dashboard.admin.chapters.buttons.collapse' | i18next)"></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="panel-collapse collapse in" id="collapse{{ cIndex }}{{ sIndex }}">
+                  <div class="panel-body" data-ng-if="step._destroy">
+                    <span ng-bind="('views.dashboard.admin.chapters.helpers.delete_step' | i18next)"></span>
+                  </div>
+                  <div class="panel-body" data-ng-if="!step._destroy">
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">
+                        <span ng-bind="('views.dashboard.admin.chapters.fields.step.name' | i18next)"></span> (*)
+                      </label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" data-ng-model="step.name" name="step_{{ cIndex }}{{ sIndex }}_name" required>
+
+                        <span class="text-danger" data-ng-if="editCourseForm['step_' + cIndex + '' + sIndex + '_name'].$invalid && editCourseForm['step_' + cIndex + '' + sIndex + '_name'].$dirty">
+                          <span data-ng-if="editCourseForm['step_' + cIndex + '' + sIndex + '_name'].$error.required">
+                            <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">
+                        <span ng-bind="('views.dashboard.admin.chapters.fields.step.description' | i18next)"></span>
+                      </label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" data-ng-model="step.description" name="step_{{ cIndex }}{{ sIndex }}_description">
+                      </div>
+                    </div>
+
+                    <div class="form-group" ng-show="step.step_type == 'Vídeo'">
+                      <label class="col-sm-2 control-label">
+                        <span ng-bind="('views.dashboard.admin.courses.fields.points' | i18next)"></span>
+                      </label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" data-ng-model="step.score" name="step_{{ cIndex }}{{ sIndex }}_score">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">
+                      <span ng-bind="('views.dashboard.admin.chapters.fields.step.type' | i18next)"></span>
+                      </label>
+                      <div class="col-sm-10">
+                        <select name="step_{{ cIndex }}{{ sIndex }}_step_type" id="" data-ng-model="step.step_type" class="form-control" ng-change="resetStepScore(step)">
+                          <option value="Quiz">
+                            {{ 'views.dashboard.admin.chapters.fields.step.quiz' | i18next }}
+                          </option>
+                          <option value="Vídeo">
+                            {{ 'views.dashboard.admin.chapters.fields.step.video' | i18next }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div data-ng-if="step.step_type == 'Vídeo'">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                        <span ng-bind="('views.dashboard.admin.chapters.fields.step.url' | i18next)"></span>
+                        </label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" data-ng-model="step.url" name="step_{{ cIndex }}{{ sIndex }}_url" data-ng-required="step.step_type == 'Vídeo'" placeholder="Ex: https://www.youtube.com/embed/yYFH1t5IMTE">
+
+                          <span class="text-danger" data-ng-if="editCourseForm['step_' + cIndex + '' + sIndex + '_url'].$invalid && editCourseForm['step_' + cIndex + '' + sIndex + '_url'].$dirty">
+                            <span data-ng-if="editCourseForm['step_' + cIndex + '' + sIndex + '_url'].$error.required">
+                              <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div data-ng-if="step.step_type == 'Quiz'">
+                      <div class="panel panel-success" data-ng-repeat="(sqIndex, step_question) in step.step_questions">
+                        <div class="panel-heading">
+                          <div class="panel-title">
+                            <span ng-bind="('views.dashboard.admin.chapters.fields.step.question' | i18next)"></span>
+                          </div>
+
+                          <div class="panel-toolbar text-right">
+                            <a href="#" class="btn-primary btn" data-ng-click="undeleteQuestion(step_question)" data-ng-if="step_question._destroy">
+                              <span ng-bind="('views.dashboard.admin.chapters.buttons.restore_question' | i18next)"></span>
+                            </a>
+                            <a href="#" class="btn-danger btn" data-ng-click="deleteQuestion(step_question)" data-ng-if="!step_question._destroy">
+                              <span ng-bind="('views.dashboard.admin.chapters.buttons.delete_question' | i18next)"></span>
+                            </a>
+                          </div>
+                        </div>
+
+                        <div class="panel-body" data-ng-if="step_question._destroy">
+                          <p>
+                            <span ng-bind="('views.dashboard.admin.chapters.helpers.delete_question' | i18next)"></span>
+                          </p>
+                        </div>
+
+                        <div class="panel-body" data-ng-if="!step_question._destroy">
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                              <span ng-bind="('views.dashboard.admin.chapters.fields.step.title' | i18next)"></span>
+                              (*)
+                            </label>
+                            <div class="col-sm-10">
+                              <input type="text" class="form-control" data-ng-model="step_question.question" name="step_{{ cIndex }}{{ sIndex }}{{ sqIndex }}_question" placeholder="{{ 'views.dashboard.admin.chapters.fields.step.title' | i18next }}" required="true">
+
+                              <span class="text-danger" data-ng-if="editCourseForm['step_' + cIndex + '' + sIndex + sqIndex + '_question'].$invalid && editCourseForm['step_' + cIndex + '' + sIndex + sqIndex + '_question'].$dirty">
+                                <span data-ng-if="editCourseForm['step_' + cIndex + '' + sIndex + sqIndex + '_question'].$error.required">
+                                  <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                              <span ng-bind="('views.dashboard.admin.chapters.fields.step.hint' | i18next)"></span>
+                            </label>
+                            <div class="col-sm-10">
+                              <input type="text" class="form-control" data-ng-model="step_question.hint" name="step_{{ cIndex }}{{ sIndex }}{{ sqIndex }}_hint" placeholder="{{ 'views.dashboard.admin.chapters.fields.step.hint' | i18next }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                              <span ng-bind="('views.dashboard.admin.courses.fields.points' | i18next)"></span>
+                            </label>
+                            <div class="col-sm-10">
+                              <input type="text" class="form-control" data-ng-model="step_question.score" name="step_{{ cIndex }}{{ sIndex }}{{ sqIndex }}_score" placeholder="{{ 'views.dashboard.admin.courses.fields.points' | i18next }}">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                              <span 
+                                class="text-danger"
+                                data-ng-hide="someStepQuestionOptionSelected(step_question)"
+                              >
+                                <span ng-bind="('views.dashboard.admin.form.select_correct_option' | i18next)"></span>
+                              </span>
+                            </div>
+                            <label class="col-sm-2 control-label">
+                              <span ng-bind="('views.dashboard.admin.chapters.fields.step.options' | i18next)"></span>
+                            </label>
+                            <div class="col-sm-10">
+                              <div class="row relative mb5" data-ng-repeat="(sqoIndex, step_question_option) in step_question.step_question_options">
+                                </span>
+                                <div class="indicator show" data-ng-if="step_question_option._destroy">
+                                  <div class="col-sm-8 text-right">
+                                    <span ng-bind="('views.dashboard.admin.chapters.helpers.delete_option' | i18next)"></span>
+                                    <a href="#" class="btn btn-primary" data-ng-click="undeleteOption(step_question_option)">
+                                      <span ng-bind="('views.dashboard.admin.chapters.buttons.undo_delete' | i18next)"></span>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" data-ng-model="step_question_option.content" name="step_{{ cIndex }}{{ sIndex }}{{ sqIndex }}{{ sqoIndex }}_content" placeholder="{{ 'views.dashboard.admin.chapters.placeholders.option_content' | i18next }}" ng-required="!step_question_option._destroy">
+                                </div>
+                                <div class="col-md-2">
+                                  <span class="checkbox custom-checkbox custom-checkbox-inverse">
+                                      <input type="checkbox" name="step_{{ cIndex }}{{ sIndex }}{{ sqIndex }}{{ sqoIndex }}_correct" data-ng-model="step_question_option.correct" id="step_{{ cIndex }}{{ sIndex }}{{ sqIndex }}{{ sqoIndex }}_correct" />
+                                      <label for="step_{{ cIndex }}{{ sIndex }}{{ sqIndex }}{{ sqoIndex }}_correct">&nbsp;&nbsp;Correta</label>
+                                  </span>
+                                </div>
+                                <div class="col-md-2">
+                                  <a href="#" class="btn btn-danger" data-ng-click="deleteOption(step_question_option)">
+                                    <span ng-bind="('views.dashboard.admin.buttons.delete' | i18next)"></span>
+                                  </a>
+                                </div>
+                              </div>
+
+                              <a href="#" class="btn btn-primary" data-ng-click="addOption(step_question)">
+                                <span ng-bind="('views.dashboard.admin.chapters.buttons.add_option' | i18next)"></span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <a href="#" class="btn btn-primary mb5" data-ng-click="addQuestion(step)">
+                      <span ng-bind="('views.dashboard.admin.chapters.buttons.add_question' | i18next)"></span>
+                      </a>
+                    </div>
+
+                    <div class="panel panel-success" data-ng-repeat="(aIndex, archive) in step.archives">
+                      <div class="panel-heading">
+                        <div class="panel-title">
+                          <span ng-bind="('views.dashboard.admin.chapters.fields.step.file' | i18next)"></span>
+                        </div>
+
+                        <div class="panel-toolbar text-right">
+                          <a href="#" class="btn-primary btn" data-ng-click="undeleteArchive(archive)" data-ng-if="archive._destroy">
+                            <span ng-bind="('views.dashboard.admin.chapters.buttons.restore_file' | i18next)"></span>
+                          </a>
+                          <a href="#" class="btn-danger btn" data-ng-click="deleteArchive(archive)" data-ng-if="!archive._destroy">
+                            <span ng-bind="('views.dashboard.admin.chapters.buttons.delete_file' | i18next)"></span>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div class="panel-body" data-ng-if="archive._destroy">
+                        <p>
+                          <span ng-bind="('views.dashboard.admin.chapters.helpers.delete_file' | i18next)"></span>
+                        </p>
+                      </div>
+
+                      <div class="panel-body" data-ng-if="!archive._destroy">
+
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">
+                          <span ng-bind="('views.dashboard.admin.chapters.fields.step.file' | i18next)"></span>
+                          </label>
+                          <div class="col-sm-10">
+                            <div class="input-group">
+                              <input type="text" class="form-control" readonly data-ng-model="archive.archive_name">
+                              <span class="input-group-btn">
+                                <a class="btn btn-info" target="_blank" href="{{ archive.archive_url }}" data-ng-if="archive.archive_url">
+                                  <span ng-bind="('views.dashboard.admin.chapters.buttons.download_file' | i18next)"></span>
+                                </a>
+                                <div class="btn btn-primary btn-file">
+                                  <span class="icon iconmoon-file-3"></span>
+                                  <span ng-bind="('views.general.select_image' | i18next)"></span>
+                                  <input type="file" name="step_{{ cIndex }}{{ sIndex }}{{ aIndex }}_archive_archive" onchange="angular.element(this).scope().setArchive(this.files)" data-ng-click="setCurrentArchiveForFile(archive)">
+                                </div>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <a href="#" class="btn btn-primary" data-ng-click="addArchive(step)">
+                      <span ng-bind="('views.dashboard.admin.chapters.buttons.add_file' | i18next)"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <a href="#" class="btn btn-primary mb10" data-ng-click="addStep(chapter)">
+                <span ng-bind="('views.dashboard.admin.chapters.buttons.add_step' | i18next)"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div data-ng-if="chapter._destroy" class="indicator show pt10 text-center">
+          <span ng-i18next="[i18next]({chapter_name: chapter.name})views.dashboard.admin.chapters.helpers.delete_chapter"></span><br>
+          <a href="#" class="btn-primary btn mt10" data-ng-click="undeleteChapter(chapter)" data-ng-if="chapter._destroy">
+            <span ng-bind="('views.dashboard.admin.chapters.buttons.restore_chapter' | i18next)"></span>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="mb20">
+        <b>
+          <span ng-bind="('views.dashboard.admin.courses.fields.points' | i18next)"></span>:
+          {{ courseTotalPoints }}
+        </b>
+      </div>
+
+      <a href="#" class="btn btn-primary mb10" data-ng-click="addChapter()">
+        <span ng-bind="('views.dashboard.admin.chapters.buttons.add' | i18next)"></span>
+      </a>
+
+      <button type="submit" class="btn btn-success mb10">
+        <span ng-bind="('views.dashboard.admin.buttons.save' | i18next)"></span>
+      </button>
+    </div>
+
+  </div>
+</form>

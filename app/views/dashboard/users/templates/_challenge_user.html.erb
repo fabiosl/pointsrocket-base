@@ -1,0 +1,37 @@
+<li class="wrapper">
+  <div class="figure bgcolor-success"><i class="ico-checkmark3"></i></div>
+  <!-- panel -->
+  <div class="panel">
+    <div class="panel-body">
+      <ul class="list-table">
+        <li class="text-center" style="width:60px;">
+          {{ #timelineable.user.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.user.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.user.id }}">
+            <img src="{{ timelineable.user.avatar_timeline }}" alt="{{ timelineable.user.name }}" class="img-circle" width="50">
+          </a>
+        </li>
+        <li class="text-left">
+          <p class="nm">
+            <span class="semibold">{{ timelineable.user.name }}</span> 
+            <%= t('views.dashboard.timeline.profile.sent_submission') %>
+            <a
+              class="text-default"
+              href="/dashboard/desafios/{{ timelineable.challenge.slug }}"
+            >
+              <b>{{ timelineable.challenge.title }}</b>
+            </a>
+          </p>
+        </li>
+      </ul>
+    </div>
+    <hr class="nm"><!-- horizontal line -->
+    <div class="panel-body">
+      <div class="images-full-width-wrapper">
+        {{{ timelineable.content }}}
+      </div>
+    </div>
+  </div>
+  <!--/ panel -->
+</li>

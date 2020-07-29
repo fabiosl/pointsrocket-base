@@ -1,0 +1,123 @@
+<% active_to_use_app ||= current_user.active_to_use_app? %>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <article class="course-summary">
+      <header class="course-summary-header">
+        <h2 class="header-title"><%= @course.name %></h2>
+        <p class="header-info text-muted">
+          <span><strong><i class="ico-puzzle"></i> <%= t('views.courses.index.total_challenges') %>:</strong> <%= @course.get_quizes.count %></span>
+          <span><strong><i class="ico-trophy"></i> <%= t('views.courses.index.available_points') %>:</strong> <%= @course.points %></span>
+          <span><strong><i class="ico-trophy"></i><%= t('views.courses.index.earned_points') %> :</strong> <%= current_user.get_points_for @course %></span>
+        </p>
+        <p class="header-description"><%= @course.description %></p>
+      </header>
+      <% @course.chapters.each_with_index do |chapter, chapter_index| %>
+        <ul class="course-summary-list">
+          <%# if current_user.initialized_chapter?(chapter) or get_next_chapter_available() == chapter_index %>
+          <% if current_user.completed_chapter?(chapter) or current_user.chapters_completeds_from_course(@course).count() == chapter_index  %>
+            <li class="course-summary-list-item">
+              <div class="chapter-well well well-success bordered">
+                <p class="chapter-number"><%= t('views.courses.index.chapter') %> <%= chapter_index + 1 %></p>
+                <h3 class="chapter-title"><%= chapter.name %></h3>
+                <p class="chapter-info text-muted">
+                  <span><strong><i class="ico-puzzle"></i> <%= t('views.courses.index.total_challenges') %>:</strong> <%= chapter.get_quizes.count %></span>
+                  <span><strong><i class="ico-trophy"></i> <%= t('views.courses.index.available_points') %>:</strong> <%= chapter.points %></span>
+                  <span><strong><i class="ico-trophy"></i> <%= t('views.courses.index.earned_points') %>:</strong> <%= current_user.get_points_for chapter %></span>
+                </p>
+              </div>
+
+              <% if chapter.steps.size > 0 %>
+                <ul class="chapter-list">
+                  <% chapter.steps.order(position: :asc).each_with_index do |step, step_index| %>
+                    <% if current_user.initialized_step?(step) %>
+                      <li class="chapter-list-item">
+                        <% if not active_to_use_app and not step.free and not @domain.is_points %>
+                          <i class="done ico-lock text-muted"></i>
+                        <% end %>
+                        <i class="done ico-checkmark-circle2 text-success"></i>
+                        <a href="<%= course_chapter_step_path(step.chapter.course.slug, step.chapter.slug, step.position) %>" title="<%= chapter_index + 1 %>.<%= step_index + 1 %> <%= step.name %>"><strong class="text-success"><%= chapter_index + 1 %>.<%= step_index + 1 %></strong> <%= step.name %></a>
+                      </li>
+                      <% set_next_step_available(step_index + 1) %>
+                      <% if chapter.steps.size == step_index + 1 %>
+                        <% set_next_chapter_available(chapter_index + 1) %>
+                      <% end %>
+                    <% elsif current_user.steps_completeds_from_chapter(chapter).count() == step_index %>
+                      <li class="chapter-list-item">
+                        <% if not active_to_use_app and not step.free and not @domain.is_points %>
+                          <i class="done ico-lock text-muted"></i>
+                        <% end %>
+                        <i class="doing ico-circle text-success"></i>
+                        <a href="<%= course_chapter_step_path(step.chapter.course.slug, step.chapter.slug, step.position) %>" title="<%= chapter_index + 1 %>.<%= step_index + 1 %> <%= step.name %>"><strong class="text-success"><%= chapter_index + 1 %>.<%= step_index + 1 %></strong> <%= step.name %></a>
+                      </li>
+                    <% else %>
+                      <li class="chapter-list-item text-muted">
+                        <% if not active_to_use_app and not step.free and not @domain.is_points %>
+                          <i class="done ico-lock text-muted"></i>
+                        <% end %>
+                        <i class="todo ico-circle-blank"></i>
+                        <a class="text-muted disabled" href="<%= course_chapter_step_path(step.chapter.course.slug, step.chapter.slug, step.position) %>" title="<%= chapter_index + 1 %>.<%= step_index + 1 %> <%= step.name %>"><strong><%= chapter_index + 1 %>.<%= step_index + 1 %></strong> <%= step.name %></a>
+                      </li>
+                    <% end %>
+                  <% end %>
+                </ul>
+              <% end %>
+            </li>
+          <% else %>
+            <li class="course-summary-list-item">
+              <div class="chapter-well well well-muted bordered disabled">
+                <p class="chapter-number"><%= t('views.courses.index.chapter') %> <%= chapter_index + 1 %></p>
+                <h3 class="chapter-title"><%= chapter.name %></h3>
+                <p class="chapter-info">
+                  <span><strong><i class="ico-puzzle"></i> <%= t('views.courses.index.total_challenges') %>:</strong> <%= chapter.get_quizes.count %></span>
+                  <span><strong><i class="ico-trophy"></i> <%= t('views.courses.index.available_points') %>:</strong> <%= chapter.points %></span>
+                </p>
+              </div>
+              <% if chapter.steps.size > 0 %>
+                <ul class="chapter-list">
+                  <% chapter.steps.order(position: :asc).each_with_index do |step, step_index| %>
+                    <li class="chapter-list-item text-muted">
+                      <% if not active_to_use_app and not step.free and not @domain.is_points %>
+                        <i class="done ico-lock text-muted"></i>
+                      <% end %>
+                      <i class="todo ico-circle-blank"></i>
+                      <a class="text-muted disabled" href="<%= course_chapter_step_path(step.chapter.course.slug, step.chapter.slug, step.position) %>" title="<%= chapter_index + 1 %>.<%= step_index + 1 %> <%= step.name %>"><strong><%= chapter_index + 1 %>.<%= step_index + 1 %></strong> <%= step.name %></a>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <% course_badge = @course.current_finished_course_badge %>
+      <% if course_badge.present? %>
+        <ul class="course-summary-list">
+          <li class="course-summary-list-item">
+            <div class="chapter-well well bordered <%= current_user.has_badge?(course_badge) ? "well-success" : "well-muted disabled" %>">
+              <ul class="list-table">
+                <li style="width: 110px;">
+                  <%= image_tag course_badge.avatar.url, width: "100px" %>
+                </li>
+                <li>
+                  <h3 class="chapter-title mb10"><%= course_badge.name %></h3>
+                  <p class="chapter-info mb0">
+                    <span><strong><i class="ico-trophy"></i><%= course_badge.badge_points %></span>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      <% end %>
+    </article>
+  </div>
+</div>
+
+<% if current_user.finished_course?(@course) && @finished_badges.empty? %>
+  <%= render partial: 'dashboard/steps/finished_course', locals: { course: @course } %>
+<% elsif !@finished_badges.empty? %>  
+  <%= render partial: 'dashboard/steps/step_badge', collection: @finished_badges %>
+<% end %>
+

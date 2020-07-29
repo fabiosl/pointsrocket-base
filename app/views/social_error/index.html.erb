@@ -1,0 +1,45 @@
+
+<!-- Subscribe Form -->
+<section id="suscribe" class="subscribe bg-color social_error">
+  <%= render 'partials/alerts' %>
+
+  <div class="container">
+
+    <div class="panel panel-default mt30">
+      <div class="panel-body">
+        <div class="alert alert-danger">
+            <span class="semibold">Note :</span>&nbsp;&nbsp;Erro em autenticação via rede social
+        </div>
+
+        <p>Você tentou autenticar uma conta do <%= params[:provider] %> para o usuário que esta logado agora. Porém, essa conta do <%= params[:provider] %> pertence a um outro usuário, cujo e-mail é <b><%= @email %></b>. Caso queira utilizar essa conta no usuário logado atual, é necessário desvincular esta conta do <%= params[:provider] %> do outro usuário.</p>
+
+        <p>Mas você pode associar essa conta do <%= params[:provider] %> à essa conta atual clicando em "Reassociar novamente".</p>
+
+        <ul class="list-table">
+          <%
+            if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'false'
+              authorize_url = user_omniauth_authorize_take_over_url(params[:provider])
+              back = dashboard_path
+            else
+              authorize_url = user_omniauth_authorize_take_over_url(params[:provider], subdomain: false)
+              back = domains_path
+            end
+          %>
+          <li>
+            <a href="<%= back %>" class="btn btn-block btn-primary">
+              Voltar para o dashboard
+            </a>
+          </li>
+          <li>
+            <a href="<%= authorize_url %>" class="btn btn-block btn-success">
+              Reassociar novamente
+            </a>
+          </li>
+        </ul>
+
+
+      </div>
+    </div>
+
+  </div>
+</section>

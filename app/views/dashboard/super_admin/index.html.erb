@@ -1,0 +1,33 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    Super Admin
+  </span>
+</h2>
+
+<hr>
+
+<div class="panel">
+  <div class="panel-body">
+    <table class="table table-bordered table-hover" id="table1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th width='160px'>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @domains.each do |domain| %>
+              <tr>
+                  <td><%= domain.id %></td>
+                  <td><%= domain.name %></td>
+                  <td>
+                    <a href="#" class="btn btn-default">Edit</a>
+                    <a href="#" class="btn btn-default">Delete</a>
+                  </td>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+  </div>
+</div>

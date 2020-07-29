@@ -1,0 +1,23 @@
+- include: nginx.yml
+  sudo: yes
+  sudo_user: "root"
+  tags:
+    - nginx
+
+- include: node.yml
+  sudo: yes
+  sudo_user: "root"
+  tags:
+    - node
+
+- include: jekyll.yml
+  sudo: yes
+  sudo_user: "root"
+  tags:
+    - jekyll
+
+- include: deploy.yml
+  sudo: yes
+  sudo_user: "deploy"
+  tags:
+    - deploy

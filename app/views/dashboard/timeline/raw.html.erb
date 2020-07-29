@@ -1,0 +1,343 @@
+<!-- START Row -->
+<div class="row">
+  <div class="col-lg-7">
+
+    <div class="panel">
+      <div class="panel-toolbar-wrapper">
+        <div class="panel-toolbar">
+          Desafio à vista!
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <p class="title semibold">
+          <a href="<%= challenges_path %>">
+            Desafio água Micelar
+          </a>
+        </p>
+
+        <p class="info-list text-default">
+          <span>
+            <i class="ico-calendar3"></i> De 15/01 até 20/01
+          </span>
+
+          <span>
+            <i class="ico-medal"></i> medalha loreal kerastase
+          </span>
+
+          <span>
+            <i class="ico-trophy"></i> 300 pontos
+          </span>
+        </p>
+
+        <p class="description">
+          Olá, para participar desse desafio você tem que seguir 3 passos: <br>
+          1 - Gravar o vídeo e submeter para sua rede social usando a hashtag #desafiokerastase; <br>
+          2 - Submeter no formulário abaixo dessa página
+        </p>
+      </div>
+
+      <hr class="nm">
+
+      <a href="<%= challenges_path %>">
+        <img src="<%= image_url "loreal/agua-micelar.jpg" %>" class="mb20 mt20" alt="Água Micelar" width="100%">
+      </a>
+
+      <hr class="nm">
+
+      <div class="panel-toolbar-wrapper pa10">
+        <div class="panel-toolbar">
+          <span class="img-group img-group-stack">
+            <img src="<%= image_url 'avatar/avatar3.jpg' %>" alt="" class="img-circle">
+            <img src="<%= image_url 'avatar/avatar4.jpg' %>" alt="" class="img-circle">
+            <span class="more img-circle">2+</span>
+          </span>
+
+          <a href="<%= challenges_path %>" class="semibold">4 pessoas</a> estão participando
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+
+      <div class="panel-toolbar-wrapper">
+        <div class="panel-toolbar">
+          Pergunta
+        </div>
+      </div>
+
+      <%
+        begin
+          Course.tagged_with(current_user.tags, any: true).find(params[:course])
+          result = Question.joins(step: :chapter).where("chapters.course_id" => params[:course])
+        rescue Exception => e
+          result = Question.all.tagged_with(current_user.tags, any: true)
+        end
+
+        if result.count > 0
+          the_question = {
+            path: question_path(result.first),
+            title: result.first.title,
+            author: result.first.user.name,
+            author_image: result.first.user.avatar.url(:s50x50),
+          }
+        else
+          the_question = {
+            path: /forum/,
+            title: "É verdade que eu consigo aplicar o kerastase no cabelo crespo, mesmo quando ele já tem agua?",
+            author: "Fábio Leal",
+            author_image: image_url("avatar/avatar5.jpg"),
+          }
+        end
+      %>
+
+      <ul class="list-table pa15">
+        <li class="text-left" style="width:60px;">
+          <img class="img-circle" src="<%= the_question[:author_image] %>" alt="" width="50px" height="50px">
+        </li>
+        <li class="text-left">
+          <p class="ellipsis nm"><span class="semibold"><%= the_question[:author] %></span></p>
+          <p class="text-muted nm">2 minutos atrás</p>
+        </li>
+      </ul>
+
+      <hr class="nm">
+
+
+      <div class="panel-body">
+        <h4 class="title semibold nm">
+          <a href="<%= the_question[:path] %>" class="text-black">
+            <%= the_question[:title] %>
+          </a>
+        </h4>
+      </div>
+
+      <hr class="nm">
+
+      <div class="panel-toolbar-wrapper pa10">
+        <div class="panel-toolbar">
+          <span class="img-group img-group-stack">
+            <img src="<%= image_url 'avatar/avatar3.jpg' %>" alt="" class="img-circle">
+            <img src="<%= image_url 'avatar/avatar4.jpg' %>" alt="" class="img-circle">
+          </span>
+
+          <a href="<%= the_question[:path] %>" class="semibold">2 respostas</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-toolbar-wrapper">
+        <div class="panel-toolbar">
+          Ao vivo: Começa em 2 horas
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <p class="title semibold">
+          <a href="<%= broadcasts_path %>">
+            Como conseguir followers?
+          </a>
+        </p>
+
+        <p class="info-list text-default">
+          <span>
+            <i class="ico-medal"></i> medalha loreal kerastase
+          </span>
+
+          <span>
+            <i class="ico-trophy"></i> 300 pontos
+          </span>
+        </p>
+
+        <p class="description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+      </div>
+
+      <hr class="nm">
+
+      <a href="<%= broadcasts_path %>">
+        <img src="<%= image_url "loreal/followers.jpg" %>" alt="Como conseguir followers" width="100%">
+      </a>
+
+      <hr class="nm">
+
+      <div class="panel-toolbar-wrapper pa10">
+        <div class="panel-toolbar">
+          <span class="img-group img-group-stack">
+            <img src="<%= image_url 'avatar/avatar3.jpg' %>" alt="" class="img-circle">
+            <img src="<%= image_url 'avatar/avatar4.jpg' %>" alt="" class="img-circle">
+            <span class="more img-circle">2+</span>
+          </span>
+
+          <a href="<%= broadcasts_path %>" class="semibold">4 pessoas</a> participarão
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-toolbar-wrapper">
+        <div class="panel-toolbar">
+          Resposta na sua pergunta
+        </div>
+      </div>
+
+      <ul class="list-table pa15">
+        <li class="text-left" style="width:60px;">
+          <img class="img-circle" src="http://template.onrocket.com.br/image/avatar/avatar9.jpg" alt="" width="50px" height="50px">
+        </li>
+        <li class="text-left">
+          <p class="ellipsis nm"><span class="semibold">Manoel Quirino Neto</span></p>
+          <p class="text-muted nm">Agora mesmo</p>
+        </li>
+      </ul>
+
+      <hr class="nm">
+
+      <div class="panel-body">
+        <p class="title semibold nm">
+          <a href="<%= the_question[:path] %>" class="text-black">
+            Sim, você consegue aplicar o produto em qualquer tipo de cabelo ...
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-toolbar-wrapper">
+        <div class="panel-toolbar">
+          Recompensa - 5 minutos atrás
+        </div>
+      </div>
+
+      <%
+        campaigns = Campaign.all
+        if campaigns.any?
+          the_campaign = {
+            title: campaigns.first.title,
+            description: campaigns.first.description,
+            path: campaign_path(campaigns.first),
+            time: "de #{campaigns.first.start_date.strftime("%d/%m/%Y")} à #{campaigns.first.end_date.strftime("%d/%m/%Y")}",
+            medals: pluralize(campaigns.first.campaign_badges.count, "medalha", "medalhas"),
+            image: campaigns.first.image.url(:campaign_index),
+          }
+        else
+          the_campaign = {
+            title: "kit kerastase.",
+            description: "Já imaginou ganhar um belo Kit Kerastase? Então participe agora mesmo!",
+            path: "/recompensas/",
+            time: "De 15/01 até 20/01",
+            medals: "3 medalhas",
+            image: image_url("loreal/kit-kerastase.jpg"),
+          }
+        end
+      %>
+
+      <div class="panel-body">
+        <p class="title semibold">
+          <a href="<%= the_campaign[:path] %>">
+            <%= the_campaign[:title] %>
+          </a>
+        </p>
+
+        <p class="info-list text-default">
+          <span>
+            <i class="ico-calendar3"></i> <%= the_campaign[:time] %>
+          </span>
+
+          <span>
+            <i class="ico-medal"></i> <%= the_campaign[:medals] %>
+          </span>
+        </p>
+
+        <p>
+          <%= the_campaign[:description] %>
+        </p>
+      </div>
+
+      <hr class="nm">
+
+      <a href="#">
+        <img src="<%= the_campaign[:image] %>" alt="" width="100%" >
+      </a>
+
+      <hr class="nm" style="margin-top: -20px;">
+
+      <div class="panel-toolbar-wrapper pa10">
+        <div class="panel-toolbar">
+          <span class="img-group img-group-stack">
+            <img src="<%= image_url 'avatar/avatar3.jpg' %>" alt="" class="img-circle">
+            <img src="<%= image_url 'avatar/avatar4.jpg' %>" alt="" class="img-circle">
+            <span class="more img-circle">2+</span>
+          </span>
+
+          <a href="<%= the_campaign[:path] %>" class="semibold">4 pessoas</a> estão concorrendo
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!--/ 1/2 Grid -->
+
+  <!--/ 1/2 Grid -->
+  <div class="col-md-5">
+
+    <%= render partial: "dashboard/widgets/challenges", locals: {challenges: @challenges } %>
+    <%= render partial: "dashboard/widgets/broadcasts", locals: {broadcasts: @broadcasts } %>
+    <%= render partial: "dashboard/widgets/points_evolution" %>
+    <%= render partial: "dashboard/widgets/rewards", locals: {rewards: @rewards } %>
+    <%= render partial: "dashboard/widgets/badges", locals: {badge_users: @badge_users } %>
+    <%= render partial: "dashboard/widgets/courses", locals: {courses_info: @courses_info } %>
+
+  </div>
+  <!--/ Right side / bottom side -->
+</div>
+<!--/ END Row -->
+
+<!-- END row -->
+<% content_for :footer do %>
+<!-- para carregar os gráficos -->
+<%= javascript_include_tag "dashboard.js" %>
+<script>
+  var option = {
+    series: {
+      lines: { show: false },
+      splines: {
+        show: true,
+        tension: 0.2,
+        lineWidth: 2,
+        fill: 0.5
+      },
+      points: {
+        show: true,
+        radius: 4
+      }
+    },
+    grid: {
+      borderColor: '#eee',
+      borderWidth: 1,
+      hoverable: true,
+      backgroundColor: '#fcfcfc'
+    },
+    tooltip: true,
+    tooltipOpts: { content: '%x : %y' },
+    xaxis: {
+      tickColor: '#fcfcfc',
+      mode: 'categories'
+    },
+    yaxis: { tickColor: '#eee' },
+    shadowSize: 0
+  };
+
+  $.plot('#stats2', [{
+    color: '#DC554F',
+    data: [
+          <% @points_evolution.keys.sort.each do |date| %>
+            ['<%= date.strftime("%b/%d") %>', <%= @points_evolution[date].to_i %>],
+          <% end %>
+      ]
+  }], option);
+</script>
+<% end %>
+

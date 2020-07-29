@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html class="backend login-page">
+    <!-- START Head -->
+    <head>
+        <!-- START META SECTION -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title><%#= @domain.name %></title>
+        <meta name="author" content="pampersdry.info">
+        <meta name="description" content="<%#= @domain.description %>">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../image/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../image/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../image/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="../image/touch/apple-touch-icon-57x57-precomposed.png">
+        <%= render partial: "partials/favicon" %>
+
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700">
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700">
+
+        <!--/ END META SECTION -->
+
+        <!-- START STYLESHEETS -->
+        <!-- Plugins stylesheet : optional -->
+        <!--/ Plugins stylesheet : optional -->
+
+        <!-- Application stylesheet : mandatory -->
+        <%= stylesheet_link_tag "adminre_login.css" %>
+        <%= stylesheet_link_tag "general_login.css" %>
+        <!--/ Application stylesheet -->
+
+        <%# if @domain.css.present? %>
+          <%#= stylesheet_link_tag @domain.css %>
+        <%# end %>
+
+        <!-- Theme stylesheet : optional -->
+        <!--/ Theme stylesheet : optional -->
+
+        <!-- modernizr script -->
+        <%= javascript_include_tag "modernizr/js/modernizr.js" %>
+        <!--/ modernizr script -->
+        <!-- END STYLESHEETS -->
+
+        <script>
+          window.locale = '<%= I18n.locale %>';
+        </script>
+    </head>
+    <!--/ END Head -->
+
+    <!-- START Body -->
+    <body>
+
+        <%= yield %>
+
+        <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
+        <!-- Application and vendor script : mandatory -->
+        <%= javascript_include_tag "adminre_login.js" %>
+        <!--/ Application and vendor script : mandatory -->
+        <!--/ END JAVASCRIPT SECTION -->
+
+        <%= yield :footer %>
+        <%= render 'partials/ganalytics' %>
+    </body>
+    <!--/ END Body -->
+</html>

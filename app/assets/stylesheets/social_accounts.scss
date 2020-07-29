@@ -1,0 +1,20 @@
+//= require selectize
+
+.wizard {
+  .list-table {
+    table-layout: auto;
+  }
+  .actions {
+    @media(max-width: 768px) {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      z-index: 2;
+    }
+  }
+
+  @media(max-width: 768px) {
+    padding-bottom: 20px;
+  }
+}
+

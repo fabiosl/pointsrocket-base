@@ -1,0 +1,129 @@
+{{ ^timelineable.redeem_points? }}
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-gift22"></i> <%= t('views.timeline.index.reward') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <p class="title semibold">
+      <a href="<%= campaigns_path %>/{{timelineable.id}}">
+        {{ timelineable.title }}
+      </a>
+    </p>
+
+    <p class="info-list text-default">
+      <span>
+        <i class="ico-calendar3"></i>
+        <%= t('views.general.time_from') %> {{ timelineable.formatted_start_date }}
+        <%= t('views.general.time_to') %> {{ timelineable.formatted_end_date }}
+      </span>
+    </p>
+
+    <p>
+      {{ timelineable.description }}
+    </p>
+  </div>
+
+  <hr class="nm">
+
+  <a href="<%= campaigns_path %>/{{timelineable.id}}">
+    <img src="{{timelineable.image_url_campaign_index}}" alt="" width="100%" >
+  </a>
+
+  <hr class="nm" style="margin-top: -20px;">
+
+  <div class="panel-toolbar-wrapper pa10">
+    <div class="panel-toolbar">
+      <span class="img-group img-group-stack">
+        {{ #timelineable.participants.items }}
+          <a href="<%= users_path %>/{{ id }}" class="text-default">
+            <img src="{{ avatar }}" alt="{{ name }}" class="img-circle">
+          </a>
+        {{ /timelineable.participants.items }}
+      </span>
+
+      {{ #timelineable.participants.count }}
+        <a href="<%= campaigns_path %>/{{timelineable.id}}" class="semibold">
+          {{ timelineable.participants.label }}
+        </a>
+      {{ /timelineable.participants.count }}
+
+      {{^timelineable.participants.count}}
+        <a href="<%= campaigns_path %>/{{ timelineable.id}} " class="semibold">
+          <%= t('views.timeline.index.first_to_join') %>
+        </a>
+      {{/timelineable.participants.count}}
+    </div>
+  </div>
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>
+{{ /timelineable.redeem_points? }}
+
+
+{{ #timelineable.redeem_points? }}
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-gift22"></i> <%= t('views.timeline.index.reward') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <div class="text-center">
+      <a href="<%= campaigns_path %>">
+        <img src="{{ timelineable.image_url_redeem }}" alt="" class="prize-image" width="100px">
+      </a>
+    </div>
+
+    <h3 class="prize-title text-center">
+      <a href="<%= campaigns_path %>">
+        {{ timelineable.title }}
+      </a>
+    </h3>
+
+    <p>
+      {{ timelineable.description }}
+    </p>
+  </div>
+
+  <hr class="nm">
+
+  <div class="panel-toolbar-wrapper pa10">
+    <div class="panel-toolbar">
+      <span class="img-group img-group-stack">
+        {{ #timelineable.participants.items }}
+          <a href="<%= users_path %>/{{ id }}" class="text-default">
+            <img src="{{ avatar }}" alt="{{ name }}" class="img-circle">
+          </a>
+        {{ /timelineable.participants.items }}
+      </span>
+
+      {{ #timelineable.participants.count }}
+        <a href="<%= campaigns_path %>" class="semibold">
+          {{ timelineable.participants.label }}
+        </a>
+      {{ /timelineable.participants.count }}
+
+      {{^timelineable.participants.count}}
+        <a href="<%= campaigns_path %>" class="semibold">
+          <%= t('views.timeline.index.first_to_redeem') %>
+        </a>
+      {{/timelineable.participants.count}}
+    </div>
+  </div>
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>
+{{ /timelineable.redeem_points? }}
+

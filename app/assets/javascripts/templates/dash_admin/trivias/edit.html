@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-sm-12">
+    <a href="{{ domainsPath() }}" class="btn btn-danger">
+      Voltar
+    </a>
+  </div>
+</div>
+
+<form action="" name="editDomainForm" class="form-horizontal">
+  <div class="row">
+    <div class="col-sm-12 chapters-list relative">
+
+      <div class="indicator show" data-ng-if="loading">
+        <span class="spinner"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Nome</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="domain.name" name="domain_name" required>
+
+          <span class="text-danger" data-ng-if="editDomainForm['domain_name'].$invalid && editDomainForm['domain_name'].$dirty">
+            <span data-ng-if="editDomainForm['domain_name'].$error.required">
+              Campo obrigatório
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Descrição</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" data-ng-model="domain.description" name="domain_decription"></textarea>
+
+          <span class="text-danger" data-ng-if="editDomainForm['domain_decription'].$invalid && editDomainForm['domain_decription'].$dirty">
+            <span data-ng-if="editDomainForm['domain_decription'].$error.required">
+              Campo obrigatório
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Url</label>
+        <div class="col-sm-10">
+          <textarea name="domain_url" class="form-control" data-ng-model="domain.url"></textarea>
+
+          <span class="text-danger" data-ng-if="editDomainForm['domain_url'].$invalid && editDomainForm['domain_url'].$dirty">
+            <span data-ng-if="editDomainForm['domain_url'].$error.required">
+              Campo obrigatório
+            </span>
+          </span>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">&nbsp;</label>
+        <div class="col-sm-10">
+          <span class="checkbox custom-checkbox custom-checkbox-inverse">
+            <input type="checkbox" name="domain_default" data-ng-model="domain.default" id="domain_default" />
+            <label for="domain_default">&nbsp;&nbsp;Padrão?</label>
+          </span>
+        </div>
+      </div>
+
+      <a href="#" class="btn btn-success mb10" data-ng-click="sync()">
+        Salvar Domínio
+      </a>
+    </div>
+
+  </div>
+</form>

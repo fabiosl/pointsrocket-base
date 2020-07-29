@@ -1,0 +1,25 @@
+// #main {
+//   background: black;
+// }
+ @import "compass/css3/opacity";
+
+html.login-page body {
+  background: black;
+}
+
+.navbar-header {
+  background: #000000 !important;
+}
+
+.topmenu li.active a > .figure > [class^="ico-"], .mainmenu li.active a > .figure > [class^="ico-"], .topmenu li.active a > .figure > [class*=" ico-"], .mainmenu li.active a > .figure > [class*=" ico-"] {
+  color: #ffb300;
+}
+
+a {
+  color: #ffb300;
+
+  &:hover {
+    color: #ffb300;
+    @include opacity(0.9);
+  }
+}

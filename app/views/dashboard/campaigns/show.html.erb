@@ -1,0 +1,73 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.campaigns.index.title').capitalize %>
+  </span>
+</h2>
+
+<hr>
+
+<%= render @campaign %>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel">
+      <div class="panel-heading" style="padding-left: 19px;">
+        <h3><%= t('views.campaigns.show.participants') %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="table-responsive panel-collapse pull out">
+            <table class="table table-hover" id="table1">
+              <tbody>
+                <% @campaign.users.not_admin.order('sum_points desc').each_with_index do |user, index| %>
+                <tr>
+                  <td style="width: 1%;"></td>
+                  <td class="text-info semibold fsize24" style="width: 5%;">
+                    <%= index + 1 %>
+                  </td>
+                  <td style="width: 5%;">
+                    <%= image_tag user.avatar.url(:s50x50), class: "img-circle" %>
+                  </td>
+                  <td>
+                    <%= user.name %>
+                  </td>
+                  <td style="width: 10%;" class="text-center">
+                    <span><i class="ico-trophy"></i> <%= user.sum_points %></span>
+                  </td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="panel">
+      <div class="panel-heading" style="padding-left: 19px;">
+        <h3 class="mb0"><%= t('views.campaigns.show.goals') %></h3>
+      </div>
+      <div class="panel-body">
+        <ul class="media-list badge-list media-list-feed nm">
+          <% @campaign.campaign_badges.each do |campaign_badge| %>
+            <li class="media">
+              <div class="media-object pull-left">
+                <% if current_user.has_badge? campaign_badge.badge %>
+                  <i class="ico-checkmark bgcolor-success"></i>
+                <% else %>
+                  <i class="ico-close bgcolor-danger doubt" data-toggle="tooltip" title="<%= campaign_badge.badge.hint%>"></i>
+                <% end %>
+              </div>
+              <div class="media-body">
+                <p class="media-heading"><%= campaign_badge.badge.name %></p>
+                <p class="media-text"><%= campaign_badge.description %></p>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

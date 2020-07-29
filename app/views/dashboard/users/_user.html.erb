@@ -1,0 +1,29 @@
+<div class="col-sm-6 col-md-4 col-lg-3 shuffle">
+  <div class="panel widget">
+    <div class="table-layout nm">
+      <div class="col-xs-4 text-center">
+        <div class="pos-relative inline-block">
+          <% if user.admin_current_domain %>
+            <i class="ico-crown default-user-admin-ico" title="Admin"></i>
+          <% end %>
+          <%= image_tag user.avatar.url(:s65x65), :class => "img-circle" %>
+        </div>
+      </div>
+      <div class="col-xs-8 valign-middle">
+        <div class="panel-body">
+          <h5 class="semibold mt0 mb5"><%= link_to "#{user.name}", user_path(user) %></h5>
+          <p class="ellipsis text-muted mb5 copy-me" data-clipboard-text="<%= user.email %>" data-clipboard-target="user-<%= user.id %>-email" id="user-<%= user.id %>-email">
+            <i class="ico-envelop mr5"></i> <%= user.email %>
+          </p>
+          <p class="text-muted nm copy-me" data-clipboard-text="<%= user.phone %>" data-clipboard-target="user-<%= user.id %>-phone" id="user-<%= user.id %>-phone"><i class="ico-phone mr5"></i><%= user.phone %></p>
+        </div>
+      </div>
+
+      <% if current_user.admin_current_domain %>
+        <%= link_to(user_path(user), {class: 'remove-user-button', method: 'delete', data: {confirm: t('.confirm_destroy_user')}}) do %>
+          <i class="ico-remove"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,168 @@
+<div id="vue-conversations">
+  <div class="indicator show" ref="loadingPage">
+    <span class="spinner"></span>
+  </div>
+  <div class="conversations-container" v-cloak>
+    <!-- Page Header -->
+    <div class="page-header page-header-block">
+      <div class="page-header-section">
+        <h4 class="title semibold"><%= t('views.conversations.index.title') %></h4>
+      </div>
+    </div>
+    <!-- Page Header -->
+    <div class="col-lg-12 valign-top panel panel-minimal">
+      <!-- panel heading -->
+      <div class="panel-heading">
+        <!-- panel toolbar -->
+        <div class="panel-toolbar">
+          <div class="input-group">
+            <div class="has-icon">
+              <input 
+                type="text"
+                class="form-control"
+                placeholder="<%= t('views.conversations.index.search_users') %>"
+                v-model="searchQuery"
+              >
+              <i class="ico-search form-control-icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ panel heading -->
+
+      <hr class="mt10 mb10"><!-- horizontal line -->
+
+      <!-- panel body -->
+      <div class="panel-body np">
+        <div class="col-md-12">
+          <carousel
+            :per-page="4"
+            :per-page-custom="[[768, 8]]"
+            :pagination-enabled="false"
+            :navigation-enabled="true"
+            :scroll-per-page="true"
+            v-show="filteredUsers.length > 0"
+          >
+            <slide v-for="user in filteredUsers">
+              <a 
+                href="javascript://"
+                class="conversation-user-item text-default"
+                :class="{ 'conversation-selectedUser': user.selected }"
+                v-on:click="startConversation(user)"
+              >
+                <img :src="user.avatar" class="media-object img-circle" alt="" width="50px" height="50px;">
+                <div>{{ user.name }}</div>
+                <span v-show="user.has_current_user_unread_messages" class="badge conversation-user-item__badge bgcolor-danger">
+                  {{ user.current_user_unread_messages_count }}
+                </span>
+              </a>
+            </slide>
+          </carousel>
+          <div class="text-default text-center" v-show="filteredUsers.length == 0">
+            <%= t('views.conversations.index.no_users') %>
+          </div>
+        </div>
+      </div>
+      <!--/ panel body -->
+    </div>
+
+    <!-- message content -->
+    <div class="conversation-container pos-relative">
+      <div class="indicator" :class="{ 'show': loading }">
+        <span class="spinner"></span>
+      </div>
+      <div 
+        class="col-lg-12 valign-top panel panel-default tab-pane np mb0"
+        id="conversation-messages"
+        ref="messages"
+        v-show="conversation.id"
+      >
+        <!-- panel heading -->
+        <div class="panel-heading">
+          <h5 class="panel-title">
+            <a :href="conversation.recipient.profile_url">
+              <img :src="conversation.recipient.avatar" class="media-object img-circle" alt="" width="25px" height="25px;">
+            </a>
+            <a :href="conversation.recipient.profile_url" class="text-default">
+              {{ conversation.recipient.name }}
+            </a>
+          </h5>
+        </div>
+        <!--/ panel heading -->
+
+        <!-- panel body -->
+        <div class="panel-body messages-container" style="max-height: 400px;overflow-y: auto">
+          <!-- message list -->
+          <ul class="media-list media-list-bubble message-list">
+            <li 
+              v-for="message in conversation.messages"
+              class="media"
+              :class="{ 'media-right': (message.user.id == window.CURRENT_USER.id) }"
+            >
+              <a href="javascript:void(0);" class="media-object">
+                <img :src="message.user.avatar" class="img-circle" alt="">
+              </a>
+              <div class="media-body">
+                <p class="media-text">{{ message.body }}</p>
+                <span class="clearfix"></span>
+                <p class="media-meta">{{ message.created_at_str }}</p>
+              </div>
+            </li>
+          </ul>
+          <div class="text-default text-center" v-if="conversation.messages.length == 0">
+            <%= t('views.conversations.index.no_messages') %>
+          </div>
+        </div>
+        <!-- panel body -->
+
+        <!-- panel footer -->
+        <div class="panel-footer">
+          <div class="panel-toolbar-wrapper">
+            <div class="panel-toolbar">
+              <div class="input-group" style="width:100%;">
+                <div
+                  contenteditable="true"
+                  class="form-control conversation-message-content"
+                  placeholder="<%= t('views.conversations.index.type_message') %>"
+                  v-on:keydown.enter="createMessage($event)"
+                ></div>
+                <textarea class="hide" v-model="newMessage.body"></textarea>
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="button" v-on:click="createMessage($event)">
+                    <i class="ico-paper-plane"></i>
+                    <span class="semibold"><%= t('views.general.buttons.send') %></span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- panel footer -->   
+      </div>
+    </div>  
+    <!--/ message content -->
+  </div>
+  <!--/ END Table layout -->
+  <div class="row">
+    <div class="col-sm-12">
+      <!-- example 1 -->
+      <div class="owl-carousel owl-theme" id="usersOwlCarousel">
+        <div class="item" v-for="user in filteredUsers">
+          <div class="panel no-border" style="width: 56px">
+            <div class="panel-body text-center" style="padding: 3px;">
+              <div class="pos-relative">
+                  <img :src="user.avatar" class="media-object img-circle" alt="" width="50px" height="50px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ example 1 -->
+    </div>
+  </div>
+</div>
+
+
+<% content_for :footer do %>
+  <%= javascript_include_tag "dashboard/conversations" %>
+<% end %>

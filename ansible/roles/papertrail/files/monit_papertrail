@@ -1,0 +1,11 @@
+check process papertrail
+  with pidfile /tmp/papertrail.pid
+
+  start program = "/bin/bash -l -c '/usr/local/sbin/remote_syslog -c /home/downloads/remote_syslog/papertrail_syslog.yml --pid-file=/tmp/papertrail.pid'"
+  stop program = "/bin/bash -c '/bin/kill `/bin/cat /tmp/papertrail.pid`'"
+
+check process papertrail_staging
+  with pidfile /tmp/papertrail_staging.pid
+
+  start program = "/bin/bash -l -c '/usr/local/sbin/remote_syslog -c /home/downloads/remote_syslog/papertrail_staging_syslog.yml --pid-file=/tmp/papertrail_staging.pid'"
+  stop program = "/bin/bash -c '/bin/kill `/bin/cat /tmp/papertrail_staging.pid`'"

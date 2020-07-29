@@ -1,0 +1,64 @@
+pt-BR:
+  models:
+    badges:
+      new_badge_earned: 'Novo bônus conquistado'
+  views:
+    mail:
+      badges:
+        see_badge_community: 'Ver bônus na comunidade'
+    general:
+      no_medals: 'Sem bônus'
+      medals: 'Bônus'
+      medal: 'Bônus'
+    dashboard:
+      widgets:
+        badges:
+          title: 'Últimos bônus'
+          see_all: 'Ver todos os bônus'
+          you_have_none: 'Você ainda não conquistou nenhuma bônus'
+      sidebar:
+        menu:
+          badges: 'Bônus'
+      index:
+        latest_badges:
+          title: 'Últimos bônus'
+          you_have_none: 'Você ainda não conquistou nenhum bônus'
+    broadcasts:
+      show:
+        info_message: 'Assista essa livestream para destravar o bônus e pontos'
+        complete_help_message: 'Continue assistindo até a barra completar para você destravar o bônus e ganhar seus pontos!'
+    badges:
+      earned_badge: 'Você conquistou um novo bônus'
+      when_earn_badge: 'Quando você ganhou esse bônus'
+      index:
+        title: 'Bônus'
+      show:
+        title: 'Bônus'
+      created:
+        title: 'Novo bônus cadastrado'
+    notifications:
+      new_badge: 'Novo bônus'
+      badge_earned: 'Você conquistou um bônus'
+    timeline:
+      index:
+        medal: 'Bônus'
+    steps:
+      new_badge: 'Novo bônus!'
+  controllers:
+    dashboard:
+      how_to_point:
+        badge: 'Bônus'
+  badge_user_mailer:
+    new_badge_email:
+      title: "Parabéns %{username}, você acabou de ganhar um bônus!"
+      title_with_points: "Parabéns %{username}, você acabou de ganhar um bônus e %{points} pontos!"
+  notification:
+    push_notification:
+      BadgeUser_create: "Você ganhou um bônus: %{name}"
+      Challenge_create: "Nova submissão: %{name}"
+      ChallengeUser_create: "Você fez uma submissão: %{challenge_name}"
+      ChallengeUser_approved: "Submissão aprovada: %{challenge_name}"
+      ChallengeUser_declined: "Sua submissão não foi aprovada: %{challenge_name}"
+  excel:
+    badges: "Bônus (Badges)"
+    challenges: "Feedbacks"

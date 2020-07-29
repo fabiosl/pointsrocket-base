@@ -1,0 +1,37 @@
+<li class="wrapper">
+  <div class="figure bgcolor-success"><i class="ico-thumbs-up2"></i></div>
+  <!-- panel -->
+  <div class="panel">
+    <div class="panel-body">
+      <ul class="list-table">
+        <li class="text-center" style="width:60px;">
+          {{ #timelineable.sender.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.sender.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.sender.id }}">
+            <img src="{{ timelineable.sender.avatar_timeline }}" alt="{{ timelineable.sender.name }}" class="img-circle" width="50">
+          </a>
+        </li>
+        <li class="text-left">
+          <p class="nm">
+            <span class="semibold">{{ timelineable.sender.name }}</span> 
+            {{{ timelineable.sender_action }}}
+          </p>
+        </li>
+      </ul>
+    </div>
+    <hr class="nm"><!-- horizontal line -->
+    <div class="panel-body">
+      <div class="images-full-width-wrapper">
+        <div class="peer-reconition-content">
+          <blockquote class="mb10 text-muted text-center">
+            <p>
+              {{{ timelineable.coin_give.content }}}
+            </p>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ panel -->
+</li>

@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-sm-12">
+        <!-- example 1 -->
+        <div class="owl-carousel owl-theme mobile-activities-carousel" id="owlCarousel" data-page="2" data-total-pages="<%= @total_pages %>">
+            <% if @activities.size < 1 %>
+            <div class="owl-item"></div>
+            <% end %>
+            
+            <% @activities.each do |activity| %>
+                <%= render partial: "dashboard/widgets/carousel_activities/#{activity.class.name.underscore}", locals: { domain: @domain, activity: activity }
+                %>
+            <% end %>
+        </div>
+        <!--/ example 1 -->
+    </div>
+</div>

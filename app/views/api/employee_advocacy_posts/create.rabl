@@ -1,0 +1,2 @@
+object @employee_advocacy_post
+extends "api/employee_advocacy_posts/employee_advocacy_post"

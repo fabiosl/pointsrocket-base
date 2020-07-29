@@ -1,0 +1,103 @@
+{
+  "course_title": "Futebol Americano: Entendendo o esporte",
+  "course_description": "No curso online Introdução ao Futebol Americano, profissionais e apaixonados por esportes poderão aprender em um único treinamento online, aquilo que levaria meses para compreender por conta própria.",
+  "has_badge": true,
+  "tag_list": "loreal,fabio",
+  "badge_points": 100,
+  "category": {
+    "slug": "educacao",
+    "position": 1,
+    "name": "Educação"
+  },
+"chapters": [
+    {
+      "name": "O status do esporte hoje nos EUA e no mundo",
+      "description": "Entenda como funciona atualmente o FA no mundo!",
+      "badge": {
+        "has_badge": false
+      },
+      "steps": [
+        {
+          "step_type": "video",
+          "step_title": "A bola oval",
+          "video_url": "https://www.youtube.com/embed/805UJvihSl0"
+        },
+        {
+          "step_type": "video",
+          "step_title": "Origens e curiosidades",
+          "video_url": "https://www.youtube.com/embed/805UJvihSl0"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: Como lançar a bola?",
+          "questions": [
+            {
+              "question_title": "Qual é a maneira correta para lançar a bola de FA?",
+              "question_answer": "Seu dedo indicador deve ficar em cima de uma costura formando um L com seu dedão.",
+              "other_options": [
+                "Basta arremessar, igual ao basquete.",
+                "Tanto faz, basta fazer o passe."
+              ]
+            }
+          ]
+        },
+        {
+          "step_type": "video",
+          "step_title": "Finalização: como estilizar o cabelo",
+          "video_url": "https://www.youtube.com/embed/805UJvihSl0"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Como clarear cabelos crespos",
+          "questions": [
+            {
+              "question_title": "Qual a melhor abordagem para clarear cabelos crespos escuros?",
+              "question_answer": "Utilizar redken whitening ou produtos da linha white.",
+              "other_options": [
+                "utilizar água oxigenada"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "O estudo das cores",
+      "badge": {
+        "has_badge": false
+      },
+      "steps": [
+        {
+          "step_type": "video",
+          "step_title": "Cores na coloração de capilares",
+          "video_url": "https://www.youtube.com/embed/805UJvihSl0"
+        },
+        {
+          "step_type": "video",
+          "step_title": "Sugestões de cores para cada tipo de pele e cabelo",
+          "video_url": "https://www.youtube.com/embed/805UJvihSl0"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: como clarear cabelos crespos",
+          "questions": [
+            {
+              "question_title": "Qual a melhor abordagem para clarear cabelos crespos escuros?",
+              "question_answer": "Utilizar redken whitening ou produtos da linha white.",
+              "other_options": [
+                "Utilizar água oxigenada"
+              ]
+            },
+            {
+              "question_title": "Qual a pior abordagem para clarear cabelos crespos loiros?",
+              "question_answer": "Utilizar água oxigenada",
+              "other_options": [
+               "Utilizar redken whitening ou produtos da linha white." 
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

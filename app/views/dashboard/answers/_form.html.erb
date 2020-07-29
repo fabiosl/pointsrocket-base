@@ -1,0 +1,24 @@
+<%= form_for(@answer, html: { class: 'form-async-editable' }) do |f| %>
+  <%= f.hidden_field :question_id, value: @question.id %>
+
+  <div class="form-group">
+    <%= f.text_area :content, class: "form-control textarea_content hide", rows: 3,
+        placeholder: t('views.answers.type') %>
+    <div
+      id="answer_content_editable"
+      class="form-control editable-content"
+      contenteditable="true"
+      placeholder="<%= t('views.answers.type') %>"
+    ></div>
+  </div>
+
+  <div class="form-group">
+    <%= f.file_field :archive, class: "form-control" %>
+  </div>
+
+  <% if params[:action] == "edit" %>
+    <%= f.submit t('views.general.buttons.edit'), class: "btn btn-sm btn-success" %>
+  <% else %>
+    <%= f.submit t('views.general.buttons.answer'), class: "btn btn-sm btn-success" %>
+  <% end %>
+<% end %>

@@ -1,0 +1,228 @@
+<aside class="sidebar sidebar-left sidebar-menu">
+  <section class="content slimscroll">
+    <% if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'true' %>
+    <ul class="topmenu topmenu-responsive mt15" data-toggle="menu">
+      <li>
+        <%= link_to domains_url(subdomain: false) + '?see_all=yes' do %>
+          <span class="figure">
+            <i class="ico-group"></i>
+          </span>
+          <span class="text"><%= t('views.general.all_communities') %></span>
+        <% end %>
+      </li>
+    </ul>
+    <% end %>
+    <h5 class="heading"><%= t('views.dashboard.sidebar.menu.main') %></h5>
+    <ul class="topmenu topmenu-responsive" data-toggle="menu">
+      <li class="<%= "active" if params['controller'] == 'dashboard/timeline' %>">
+        <%= link_to current_domain.homepage_path do %>
+          <span class="figure">
+            <i class="ico-home"></i>
+          </span>
+          <span class="text"><%= t('views.dashboard.sidebar.menu.homepage') %></span>
+        <% end %>
+      </li>
+
+      <%
+        if ENV['HOME_CONTROLLERS']
+          controllers_home = ENV['HOME_CONTROLLERS'].split("|")
+        else
+          controllers_home = ["dashboard", 'dashboard/courses', 'dashboard/steps']
+        end
+      %>
+
+
+      <% if @domain.hashtag_challenges_enabled %>
+        <li class="<%= "active" if params['controller'] == 'dashboard/hashtag_challenges' %>">
+          <a href="<%= main_app.hashtag_challenges_path %>" title="<%= t('views.dashboard.sidebar.menu.hashtag_challenges') %>">
+            <span class="figure">#</span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.hashtag_challenges') %></span>
+          </a>
+        </li>
+      <% end %>
+
+      <% if can? :badges, current_user %>
+        <li class="<%= "active" if params['controller'] == 'dashboard/badges' %>">
+          <a href="<%= main_app.badges_path %>" title="<%= t('views.dashboard.sidebar.menu.badges') %>">
+            <span class="figure">
+              <i class="ico-medal"></i>
+            </span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.badges') %></span>
+          </a>
+        </li>
+      <% end %>
+
+      <% if can?(:see_courses, @domain) %>
+        <li class="<%= "active" if params['controller'] == 'dashboard/courses' or params['controller'] == 'dashboard/steps' %>">
+          <a href="<%= main_app.courses_path %>" title="<%= t('views.dashboard.sidebar.menu.courses') %>">
+            <span class="figure">
+              <i class="ico-graduation"></i>
+            </span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.courses') %></span>
+          </a>
+        </li>
+      <% end %>
+
+      <% if @domain.broadcasts_enabled %>
+        <li class="<%= "active" if params['controller'] == 'dashboard/broadcasts' %>">
+          <a href="<%= main_app.broadcasts_path %>" title="<%= t('views.dashboard.sidebar.menu.broadcasts') %>">
+            <span class="figure">
+              <i class="ico-camera6"></i>
+            </span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.broadcasts') %></span>
+          </a>
+        </li>
+      <% end %>
+
+      <% if can? :see_forum, @domain %>
+      <li class="<%= "active" if params['controller'] == 'dashboard/forum' %>">
+        <a href="<%= main_app.forum_path %>" title="<%= t('views.dashboard.sidebar.menu.forum') %>">
+          <span class="figure">
+            <i class="ico-question2"></i>
+          </span>
+          <span class="text"><%= t('views.dashboard.sidebar.menu.forum') %></span>
+        </a>
+      </li>
+      <% end %>
+
+
+      <% if @domain.challenges_enabled %>
+        <li class="<%= "active" if params['controller'] == 'dashboard/challenges' %>">
+          <a href="<%= main_app.challenges_path %>" title="<%= t(apply_feedback('views.dashboard.sidebar.menu.challenges')) %>">
+            <span class="figure">
+              <i class="ico-pencil"></i>
+            </span>
+            <span class="text"><%= t(apply_feedback('views.dashboard.sidebar.menu.challenges')) %></span>
+          </a>
+        </li>
+      <% end %>
+
+      <% if current_domain.employee_advocacy_enabled %>
+      <li class="<%= "active" if params['controller'] == 'dashboard/employee_advocacy/employee_advocacy' %>">
+        <a href="/dashboard/compartilhamentos" title="<%= t('views.dashboard.sidebar.menu.advocacy') %>">
+          <span class="figure">
+            <i class="ico-share22"></i>
+          </span>
+          <span class="text"><%= t('views.dashboard.sidebar.menu.advocacy') %></span>
+        </a>
+      </li>
+      <% end %>
+
+      <% if false %>
+      <li class="<%= "active" if params['controller'] == 'dashboard/dashboard' and params['action'] == 'dashboard' %>">
+        <a href="<%= main_app.dashboard_dashboard_path %>" title="<%= t('views.dashboard.sidebar.menu.dashboard') %>">
+          <span class="figure">
+            <i class="ico-dashboard"></i>
+          </span>
+          <span class="text"><%= t('views.dashboard.sidebar.menu.dashboard') %></span>
+        </a>
+      </li>
+      <% end %>
+
+      <% unless current_domain.score_disabled %>
+      <h5 class="heading"><%= t('views.dashboard.sidebar.menu.rewards') %></h5>
+
+        <% if @domain.campaigns_enabled %>
+          <li class="<%= "active" if params['controller'] == 'dashboard/campaigns' %>">
+            <a href="<%= main_app.campaigns_path %>" title="<%= t('views.dashboard.sidebar.menu.rewards') %>">
+              <span class="figure">
+                <i class="ico-gift22"></i>
+              </span>
+              <span class="text"><%= t('views.dashboard.sidebar.menu.rewards') %></span>
+            </a>
+          </li>
+        <% end %>
+
+        <li class="<%= "active" if params['controller'] == 'dashboard/ranking' %>">
+          <a href="<%= main_app.ranking_path %>" title="<%= t('views.dashboard.sidebar.menu.ranking') %>">
+            <span class="figure">
+              <i class="ico-podium"></i>
+            </span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.ranking') %></span>
+          </a>
+        </li>
+
+
+        <% if can? :points, current_user %>
+        <li class="<%= "active" if params['controller'] == 'dashboard/points' %>">
+          <a href="<%= main_app.points_path %>" title="<%= t('views.dashboard.sidebar.menu.my_points') %>">
+            <span class="figure">
+              <i class="ico-trophy"></i>
+            </span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.my_points') %></span>
+          </a>
+        </li>
+        <% end %>
+
+        <% if can? :points, current_user %>
+        <li class="<%= "active" if params['controller'] == 'dashboard/how_to_point_items'%>">
+          <a href="<%= main_app.how_to_point_items_path %>" title="<%= t('views.dashboard.sidebar.menu.how_to_score') %>">
+            <span class="figure">
+              <i class="ico-crown"></i>
+            </span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.how_to_score') %></span>
+          </a>
+        </li>
+        <% end %>
+
+      <% end %>
+
+      <% if can?(:indication, current_user) and not @domain.is_points %>
+      <li class="<%= "active" if params['controller'] == 'dashboard/indication' %>">
+        <a href="<%= main_app.indication_path %>" title="<%= t('views.dashboard.sidebar.menu.indication') %>">
+          <span class="figure">
+            <i class="ico-plus"></i>
+          </span>
+          <span class="text"><%= t('views.dashboard.sidebar.menu.indication') %></span>
+        </a>
+      </li>
+      <% end %>
+    </ul>
+
+    <% if can? :manage_community, current_domain %>
+      <h5 class="heading"><%= t('views.dashboard.sidebar.menu.administration') %></h5>
+
+      <ul class="topmenu topmenu-responsive" data-toggle="menu">
+        <li class="<%= "active" if params['controller'] == 'dashboard/admin' %>">
+          <a href="<%= main_app.dash_admin_path %>" title="<%= t('views.dashboard.sidebar.menu.administration') %>">
+            <span class="figure">
+              <i class="ico-settings"></i>
+            </span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.administration') %></span>
+          </a>
+        </li>
+
+        <li class="<%= "active" if params['controller'] == 'dashboard/users' && params['action'] == 'index' %>">
+          <a href="<%= main_app.users_path %>" title="<%= t('views.dashboard.sidebar.menu.edit_users') %>">
+            <span class="figure">
+              <i class="ico-users"></i>
+            </span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.edit_users') %></span>
+          </a>
+        </li>
+
+        <li class="<%= "active" if params['controller'] == 'dashboard/employee_advocacy' %>">
+        <%= link_to main_app.dashboard_dashboard_path, title: t('views.dashboard.sidebar.menu.dashboard') do %>
+          <span class="figure">
+            <i class="ico-dashboard2"></i>
+          </span>
+          <span class="text"><%= t('views.dashboard.sidebar.menu.dashboard') %></span>
+        <% end %>
+        </li>
+      </ul>
+    <% end %>
+
+    <% if session['previous_user_id'] %>
+      <ul class="topmenu topmenu-responsive" data-toggle="menu">
+        <li class="mt15 mb15">
+          <%= link_to back_previous_user_users_path, title: t('views.dashboard.sidebar.menu.back_admin_user') do %>
+            <span class="figure">
+              <i class="ico-arrow-left"></i>
+            </span>
+            <span class="text"><%= t('views.dashboard.sidebar.menu.back_admin_user') %></span>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
+  </section>
+</aside>

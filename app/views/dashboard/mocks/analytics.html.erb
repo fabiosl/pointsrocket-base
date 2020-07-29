@@ -1,0 +1,329 @@
+<%= stylesheet_link_tag "lib/jquery-ui-1.11.4.custom/jquery-ui.css" %>
+
+<div class="page-header page-header-block">
+  <div class="page-header-section">
+    <h4 class="title semibold">
+      <%= t('views.analytics.analytics') %>
+    </h4>
+  </div>
+  <div class="page-header-section" style="width: 2%;">
+    <div class="toolbar">
+      <div class="col-md-6 pr15" id="custom_dates" style="visibility: <%= @period == "custom" ? "visible" : "hidden" %>">
+        <form class="row">
+          <div class="col-md-5 pl5 pr5">
+            <input type="text" class="form-control datepicker" placeholder="<%= t('views.analytics.start_date') %>" name="start_date" <%= @start_date.present? ? "value=\"#{l @start_date}\"".html_safe : "" %> >
+          </div>
+          <div class="col-md-5 pl5 pr5">
+            <input type="text" class="form-control datepicker" placeholder="<%= t('views.analytics.end_date') %>" name="end_date" <%= @end_date.present? ? "value=\"#{l @end_date}\"".html_safe : "" %>>
+          </div>
+
+          <input type="hidden" name="period" value="custom">
+
+          <div class="col-md-2 pl5 pr5">
+            <button class="btn btn-primary btn-block mt0 mb0" type="submit">
+              Ok
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6 pl15">
+        <select class="form-control" id="period_select" disabled="disabled">
+          <% AnalyticsInfo::PERIODS.each do |period| %>
+            <%
+              opts = [period]
+              if AnalyticsInfo::DEFAULT_PERIOD == period
+                opts += [nil, ""]
+              end
+            %>
+            <option value="<%= period %>" <%= "selected" if opts.include? @period %> ><%= t("views.analytics.#{period}") %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @has_no_fb_account %>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h2 class="panel-title">
+            <%= t '.no_facebook_account' %>
+          </h2>
+        </div>
+        <div class="panel-body">
+
+          <%
+            if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'true'
+              identities = current_user.identities.where(provider: :faecbook)
+              authorize_url = user_omniauth_authorize_session_url(:faecbook, subdomain: false)
+            else
+              identities = current_user.identities.where(provider: :faecbook, domain: @domain.master_domain_or_self_for_provider(:facebook))
+              authorize_url = user_omniauth_authorize_url(:faecbook)
+            end
+          %>
+
+          <a href="<%= authorize_url %>" class="btn btn-block btn-facebook">
+            <i class="ico ico-facebook"></i>
+            <%= t '.facebook_login_title' %>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% if @has_no_yt_account %>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h2 class="panel-title">
+            <%= t '.no_youtube_account' %>
+          </h2>
+        </div>
+        <div class="panel-body">
+          <%
+            if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'true'
+              identities = current_user.identities.where(provider: :google_oauth2)
+              authorize_url = user_omniauth_authorize_session_url(:google_oauth2, subdomain: false)
+            else
+              identities = current_user.identities.where(provider: :google_oauth2, domain: @domain.master_domain_or_self_for_provider(:google_oauth2))
+              authorize_url = user_omniauth_authorize_url(:google_oauth2)
+            end
+          %>
+
+          <a href="<%= authorize_url %>" class="btn btn-block btn-youtube">
+            <i class="ico ico-youtube"></i>
+            <%= t '.youtube_login_title' %>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% if not @has_error %>
+  <div class="row" id="loading_row">
+    <div class="col-sm-12">
+      <div class="panel panel-default" style="z-index: 0;">
+        <div class="panel-body" style="height: 200px;">
+          <!-- indicator -->
+          <div class="indicator show"><span class="spinner"></span></div>
+          <!--/ indicator -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row hidden" id="all_content_row">
+    <div class="col-sm-12">
+      <div class="panel">
+        <div class="panel-toolbar-wrapper">
+          <div class="panel-toolbar">
+            <i class="ico-chart mr5"></i>
+            <%= t('views.analytics.followers') %>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="chart" style="height:200px;" id="analytics_graph_followers"></div>
+          <hr class="mt10 mb10">
+          <div class="labels">
+            <span class="label-facebook">
+              Facebook
+            </span>
+            <span class="label-youtube">
+              Youtube
+            </span>
+            <span class="label-instagram">
+              Instagram
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="panel">
+        <div class="panel-toolbar-wrapper">
+          <div class="panel-toolbar">
+            <i class="ico-chart mr5"></i>
+            <%= t('views.analytics.reach') %>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="chart" style="height:200px;" id="analytics_graph_reach"></div>
+          <hr class="mt10 mb10">
+          <div class="labels">
+            <span class="label-facebook">
+              Facebook
+            </span>
+            <span class="label-youtube">
+              Youtube
+            </span>
+            <span class="label-instagram">
+              Instagram
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel">
+        <div class="panel-toolbar-wrapper">
+          <div class="panel-toolbar">
+            <i class="ico-chart mr5"></i>
+            <%= t('views.analytics.gender_facebook') %>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="chart" style="height:200px;" id="analytics_graph_gender_facebook"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel">
+        <div class="panel-toolbar-wrapper">
+          <div class="panel-toolbar">
+            <i class="ico-chart mr5"></i>
+            <%= t('views.analytics.gender_instagram') %>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="chart" style="height:200px;" id="analytics_graph_gender_instagram"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel">
+        <div class="panel-toolbar-wrapper">
+          <div class="panel-toolbar">
+            <i class="ico-chart mr5"></i>
+            <%= t('views.analytics.gender_youtube') %>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="chart" style="height:200px;" id="analytics_graph_gender_youtube"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="panel">
+        <div class="panel-toolbar-wrapper">
+          <div class="panel-toolbar">
+            <i class="ico-chart mr5"></i>
+            <%= t('views.analytics.interactions') %>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="chart" style="height:200px;" id="analytics_graph_interactions"></div>
+          <hr class="mt10 mb10">
+          <div class="labels">
+            <span class="label-facebook">
+              Facebook
+            </span>
+            <span class="label-youtube">
+              Youtube
+            </span>
+            <span class="label-instagram">
+              Instagram
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="panel">
+        <div class="panel-toolbar-wrapper">
+          <div class="panel-toolbar">
+            <i class="ico-chart mr5"></i>
+            <%= t('views.analytics.impact') %>
+          </div>
+        </div>
+
+        <div class="panel-body np">
+          <!-- panel body with collapse capabale -->
+          <div class="table-responsive panel-collapse pull out">
+            <table class="table table-bordered table-hover" id="table1">
+              <thead>
+                <tr>
+                  <th><%= t('views.analytics.social_network') %></th>
+                  <th><%= t('views.analytics.posts') %></th>
+                  <th><%= t('views.analytics.engagement') %></th>
+                  <th><%= t('views.analytics.reach') %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if not @has_no_fb_account %>
+                <tr>
+                  <td><div class="label-facebook">Facebook</div></td>
+                  <td><span id="facebook_posts_value"></span> <%= t('views.analytics.posts') %></td>
+                  <td><span id="facebook_reactions_comments_value"></span> <%= t('views.analytics.reactions') %> + <%= t('views.analytics.comments') %></td>
+                  <td><span id="facebook_reach_value"></span> <%= t('views.analytics.people') %></td>
+                </tr>
+                <% end %>
+                <% if not @has_no_yt_account %>
+                <tr>
+                  <td><div class="label-youtube">Youtube</div></td>
+                  <td><span id="youtube_posts"></span> <%= t('views.analytics.posts') %></td>
+                  <td><span id="youtube_engagement"></span> <%= t('views.analytics.interactions') %></td>
+                  <td><span id="youtube_reach"></span> <%= t('views.analytics.reach') %></td>
+                </tr>
+                <% end %>
+                <tr>
+                  <td><div class="label-instagram">Instagram</div></td>
+                  <td>10 <%= t('views.analytics.posts') %></td>
+                  <td>300 <%= t('views.analytics.reactions') %> + <%= t('views.analytics.comments') %></td>
+                  <td>13k <%= t('views.analytics.views') %></td>
+                </tr>
+                <tr class="active">
+                  <td>Total</td>
+                  <td>27 <%= t('views.analytics.posts') %></td>
+                  <td>480 <%= t('views.analytics.engagement') %></td>
+                  <td>10k <%= t('views.analytics.total_impact') %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--/ panel body with collapse capabale -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<% end %>
+<% content_for :footer do %>
+  <script>
+
+    <% if @has_error %>
+      window.has_error = true;
+    <% end %>
+
+    window.locale = "<%= I18n.locale %>";
+
+    window.analyticsOptions = {
+      period: "<%= @period %>",
+      <% if @start_date %>
+        start_date: "<%= @start_date.strftime("%F") %>",
+      <% end %>
+      <% if @end_date %>
+        end_date: "<%= @end_date.strftime("%F") %>",
+      <% end %>
+    };
+  </script>
+  <%= javascript_include_tag "dashboard.js" %>
+  <%= javascript_include_tag "analytics.js" %>
+<% end %>

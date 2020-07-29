@@ -1,0 +1,97 @@
+<% user = user || @user %>
+<% has_badge = user.has_badge?(badge) %>
+<!-- BADGE HISTORY MODAL -->
+<div id="badge-<%= badge.id %>-user-history" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="postViewsModal">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+          <%= t('views.badges.when_earn_badge') %>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div id="viewers-list"></div>
+        <div>
+          <% user.get_badge_users(badge).order(created_at: :desc).each do |badge| %>
+            <div class="media-list">
+              <div class="media">
+                <span class="pull-left">
+                  <i class="ico-medal"></i>
+                </span>
+                <span class="media-body">
+                  <%= badge.created_at.strftime("%d/%m/%Y #{I18n.t('views.general.time_at')} %Hh%M") %>
+                </span>
+              </div>
+            </div>
+          <% end%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+  <div class="widget panel panel-badge <%= has_badge ? 'has-badge' : 'badge--dont-have' %> <%= badge.badge_type %>">
+    <div class="panel-body medal-panel"  style="min-height: 180px;">
+      <ul class="list-unstyled">
+        <li class="text-center mb15" style="">
+          <%= image_tag badge.avatar.url, style: "width:50%;" %>
+        </li>
+        <li class="text-center mb10">
+          <h5 class="semibold nm text-default badge_text"><%= truncate(badge.name, length: 50) %></h5>
+        </li>
+      </ul>
+    </div>
+
+    <% if badge.badge_type == 'reusable' %>
+      <%
+        quantity = 0
+        quantity = user.get_badge_users(badge).size if has_badge
+      %>
+      <div
+        title="<%= t('views.general.more_details') %>"
+        class="reusable-badge-counter pointer"
+        data-counter="<%= quantity %>"
+        data-toggle="modal"
+        data-target="#badge-<%= badge.id%>-user-history"
+      >
+        <%= quantity %>
+      </div>
+    <% end %>
+
+
+    <div class="panel-footer text-center pt0">
+      <ul class="list-table mt15">
+        <% if badge.badge_points > 0 %>
+          <li class="text-center medal-badge">
+            <i class="ico-trophy fsize16"></i>
+            <p class="nm fsize12"><%= badge.badge_points %></p>
+          </li>
+        <% end %>
+
+        <% if user.has_badge?(badge) %>
+          <li
+            title="<%= t('views.general.more_details') %>"
+            class="text-center pointer"
+            data-toggle="modal" data-target="#badge-<%= badge.id%>-user-history"
+          >
+            <i class="ico-calendar3 fsize16"></i>
+            <p class="nm fsize12">
+              <%= user.decorate.formatted_badge_date(badge) %>
+            </p>
+          </li>
+
+        <% else %>
+
+          <% if badge.hint %>
+            <li class="text-center">
+              <i class="ico-question fsize16" data-toggle="tooltip" title="<%= badge.hint %>"></i>
+              <p class="nm fsize14"><%= t('views.badges.index.tip') %></p>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

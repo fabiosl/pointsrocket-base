@@ -1,0 +1,213 @@
+  <div class="col-xs-12">
+    <h2 class="mt0 mb25"><%= t 'views.dashboard.admin_dashboard.peer_recognition.title' %></h2>
+    <form id="peer_recognition_filter" data-remote="true" action="filter_peer_recognition">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-12">
+            <label class="control-label"><%= t 'views.dashboard.admin_dashboard.peer_recognition.table_time_range_filter' %></label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb10">
+            <input type="text" class="form-control" name="peer_recognition_date_start" data-mask="99/99/9999" placeholder=<%= t 'views.general.from' %>>
+          </div>
+          <div class="col-md-4 mb10">
+            <input type="text" class="form-control" name="peer_recognition_date_end" data-mask="99/99/9999" placeholder=<%= t 'views.general.to' %>>
+          </div>
+          <div class="col-md-4 mb10">
+            <button type="submit" class="btn mb5 btn-primary">
+              <span><%= t 'views.dashboard.admin_dashboard.peer_recognition.filter_button' %></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= t 'views.dashboard.admin_dashboard.peer_recognition.most_recognized_by_hashtag' %></h3>
+      </div>
+      <div class="panel-body">
+        <%
+          opts = [[(t 'views.dashboard.admin_dashboard.peer_recognition.all') , "all"]]
+          @domain.peer_recognition_hashtags.split(",").each do |hashtag|
+            opts << [hashtag, hashtag]
+          end
+        %>
+        <%= select_tag "hashtag", options_for_select(opts, "all"), :class => "form-control", :onchange => "selectHashtag()"%>
+        <hr>
+        <div id="most_recognized_by_hashtags_tables">
+          <%= render partial: "dashboard/admin_dashboard/most_recognized_by_hashtags_table", locals: {table_data: most_recognized_by_hashtags } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= t 'views.dashboard.admin_dashboard.peer_recognition.top_hashtags' %></h3>
+      </div>
+      <div class="panel-body">
+        <div id="top_hashtags_table">
+          <%= render partial: "dashboard/admin_dashboard/top_hashtags_table", locals: {table_data: top_hashtags } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-body">
+        <ul class="list-table">
+          <li>
+            <h4 class="semibold nm text-left">
+              <i class="ico-trophy22 mr5"></i>
+              <%= t 'views.dashboard.index.points_evolution_by_hashtag.title' %>
+            </h4>
+          </li>
+        </ul>
+        <div class="chart mt10" id="chart-points-evolution" style="height:250px;"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-header">
+        <h3><%= t 'views.dashboard.admin_dashboard.peer_recognition.extract.title' %></h3>
+      </div>
+      <form class="panel panel-default" action="generate_extract" method="get">
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-sm-12">
+                <label class="control-label"><%= t 'views.dashboard.admin_dashboard.peer_recognition.extract.select_time_range' %></label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 mb10">
+                <input type="text" class="form-control" name="extract_date_start" data-mask="99/99/9999" placeholder=<%= t 'views.general.from' %>>
+              </div>
+              <div class="col-sm-6 mb10">
+                <input type="text" class="form-control" name="extract_date_end" data-mask="99/99/9999" placeholder=<%= t 'views.general.to' %>>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-sm-6">
+                <label class="control-label"><%= t 'views.dashboard.admin_dashboard.peer_recognition.extract.select_content_type' %></label>
+                <select id="selectize-select" name="select_extract_content" class="form-control" placeholder="Select an option..." required>
+                  <option value=""><%= t 'views.dashboard.admin_dashboard.peer_recognition.extract.select_option' %></option>
+                  <option value="points_sent_by_hashtags">
+                    <%= t 'views.dashboard.admin_dashboard.peer_recognition.extract.option_points_sent_by_hashtag' %>
+                  </option>
+                  <option value="points_received_by_hashtags">
+                    <%= t 'views.dashboard.admin_dashboard.peer_recognition.extract.option_points_received_by_hashtag' %>
+                  </option>
+                  <option value="total_points_sent">
+                    <%= t 'views.dashboard.admin_dashboard.peer_recognition.extract.option_total_points_sent' %>
+                  </option>
+                  <option value="total_points_received">
+                    <%= t 'views.dashboard.admin_dashboard.peer_recognition.extract.option_total_points_received' %>
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <button type="submit" class="btn btn-primary mb5">
+            <span>
+              <i class="ico-file-download mr5"></i>
+              <%= t 'views.dashboard.admin_dashboard.peer_recognition.extract.download' %>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<% content_for :css do %>
+  <%= stylesheet_link_tag "new_dashboard_table.css" %>
+<% end %>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag "dashboard.js" %>
+  <%= javascript_include_tag "new_dashboard_table.js" %>
+
+  <% if @domain.peer_recognition_enabled %>
+    <script>
+      // Rename the id of the tables
+      (() => {
+        hashtags = "all, <%= @domain.peer_recognition_hashtags.html_safe %>"
+        hashtags.split(",").forEach( function (item) {
+          document.getElementById(item.trim() + '_wrapper_wrapper').id = item.trim() + '_wrapper';
+        })
+      })();
+
+      // Hide the tables that don't match with the hashtag selected
+      function hideElements() {
+        hashtags = "all, <%= @domain.peer_recognition_hashtags.html_safe %>"
+        hashtags.split(",").forEach( function (item) {
+          if (item !== document.getElementById("hashtag").value) {
+            document.getElementById(item.trim() + '_wrapper').style.display = "none";
+          }
+        })
+      }
+      hideElements();
+
+      // Show the tables that match with the hashtag selected
+      function selectHashtag() {
+        hideElements();
+        d = document.getElementById("hashtag").value;
+        document.getElementById(d.trim() + '_wrapper').style.display = "table"
+      }
+
+      var colors = ["#000000", "#800000", "#4363d8", "#ffe119", "#f58231", "#e6beff"];
+
+      $.plot('#chart-points-evolution', [
+        <% @dashboard_data[:hashtags_evolution].each do |hashtag_evo| %>
+          <% if !hashtag_evo[:data].empty? %>
+            {
+              label: '<%= hashtag_evo[:hashtag] %>',
+              color: colors.pop(),
+              data: [
+                <% hashtag_evo[:data].keys.sort.each do |date| %>
+                  ['<%= date.strftime("%d/%b/%Y") %>', <%= hashtag_evo[:data][date].to_i %>],
+                <% end %>
+              ]
+            },          
+          <% end %>
+        <% end %>
+      ], {
+        series: {
+          lines: {
+              show: true
+          },
+          splines: {
+            show: false,
+            tension: 0.4,
+            lineWidth: 2,
+            fill: 0.8
+          },
+          points: {
+            show: true,
+            radius: 4
+          }
+        },
+        grid: {
+          borderColor: 'rgba(0, 0, 0, 0.05)',
+          borderWidth: 1,
+          hoverable: true,
+          backgroundColor: 'transparent'
+        },
+        xaxis: {
+          tickColor: 'rgba(0, 0, 0, 0.05)',
+          mode: 'categories'
+        },
+        tooltip: true,
+        tooltipOpts: { content: '%s : %y' },
+        yaxis: {
+          tickColor: 'rgba(0, 0, 0, 0.05)'
+        },
+        shadowSize: 0
+      });
+    </script>
+  <% end %>
+<% end %>

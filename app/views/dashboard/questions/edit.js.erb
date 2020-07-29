@@ -1,0 +1,26 @@
+$('#edit_question')
+  .hide()
+  .after('<%= j render("form") %>');
+
+//TO-DO: Create a plugin/extension to remove this code duplication
+$('.editable-content').atwho({
+  at: '@',
+  displayTpl: "<li><img src='${avatar}' height='25' width='25'/> ${name} </li>",
+  insertTpl: "<span class='user-mention' data-mention-user-id=${id}>@${name}</span>",
+  callbacks: {
+    sorter: function(query, items, searchKey) {
+      return items;
+    },
+    remoteFilter: function(query, callback) {
+      if (query.length < 1) {
+        return false;
+      } else {
+        return $.getJSON('/dashboard/usuarios/members', {
+          search: query
+        }, function(data) {
+          return callback(data.users);
+        });
+      }
+    }
+  }
+});

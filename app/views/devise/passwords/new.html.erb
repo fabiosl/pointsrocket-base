@@ -1,0 +1,31 @@
+
+<!-- Subscribe Form -->
+<section id="suscribe" class="subscribe bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <header class="subscribe-header">
+          <h2 class="title">Esqueceu sua senha?</h2>
+          <!-- <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p> -->
+        </header>
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {class: 'subscribe-form devise-subscribe-form'}) do |f| %>
+          <fieldset>
+            <div class="form-group">
+              <label class="hidden">Email</label>
+              <div class="left-inner-addon">
+                <i class="icon-mail"></i>
+                <%= f.text_field :email, required: true, autofocus: true, class: 'form-control input-lg', placeholder: 'Email' %>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-warning btn-lg has-shadow"><i class="icon glyphicon glyphicon-send"></i> Enviar instruções de resetar senha</button>
+          </fieldset>
+        <% end %>
+
+        <div class="devise-shared-links">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,89 @@
+<div class="panel">
+
+  <div class="panel-body">
+    <ul class="list-table">
+      <li class="text-center pos-relative" style="width:60px;">
+        <a href="{{ timelineable.url }}" >
+          <span class="bg-cover block square-50 img-circle" style="background-image: url({{ timelineable.image }});"></span>
+        </a>
+      </li>
+      <li class="text-left">
+        <p class="nm semibold">
+          <a href="{{ timelineable.url }}" >
+            {{ timelineable.item_title }}
+          </a>
+        </p>
+        <p>
+          {{{ timelineable.subtitle }}}
+        </p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="owl-carousel owl-theme one-slide owl-nav-floating">
+    {{#timelineable.items}}
+      <div class="thumbnail thumbnail-album animation animating delay fadeInLeft" style="width: 100%;">
+        <!-- media -->
+        <div class="media">
+          <div class="pos-relative">
+            <div class="share-overlay-hashtag_challenge-user vertical">
+              <div class="bottom-positioned">
+                <ul class="list-table">
+                  <li class="text-center pos-relative" style="width:60px;">
+                    {{ #user.admin_current_domain }}
+                      <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+                    {{ /user.admin_current_domain }}
+
+                    <a href="<%= users_path %>/{{ user.id }}">
+                      <img src="{{user.avatar_timeline}}" alt="{{user.name}}" class="img-circle">
+                    </a>
+
+                    <span class="social-hashtag_challenge-ico">
+                      <i class="ico ico-{{json._source.social_network}}"></i>
+                    </span>
+                  </li>
+                  <li class="text-left" style="color: white;">
+                    <p class="nm mt20 semibold">
+                      <a href="<%= users_path %>/{{ user.id }}" >
+                        {{user.name}}
+                      </a>
+                    </p>
+                    <p class="challenge-post-message ellipsis">
+                      {{json._source.message}}
+                    </p>
+                  </li>
+                </ul>
+              </div>
+
+              <a href="{{external_link}}" target="_blank">
+                <div class="ico-external-link"></div>
+              </a>
+            </div>
+
+            {{#json._source.picture}}
+              <div class="quadratic-image-bg" style="background-image: url({{json._source.picture}});"></div>
+            {{/json._source.picture}}
+
+            {{^json._source.picture}}
+            <div class="pt-100p">
+              <div class="placeholder-{{json._source.social_network}} absolute-wrapper">
+                <div class="table-wrapper">
+                  <div class="table-cell-wrapper">
+                    {{json._source.message}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/json._source.picture}}
+          </div>
+
+        </div>
+        <!--/ media -->
+      </div>
+    {{/timelineable.items}}
+  </div>
+
+  <!--/ thumbnail -->
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>

@@ -1,0 +1,8 @@
+- name: "Install locales"
+  apt: pkg=locales state=latest
+
+# - name: locale­-gen pt_BR pt_BR.UTF-­8
+#   command: locale­-gen pt_BR pt_BR.UTF-­8
+
+# - name: dpkg­-reconfigure locales
+#   command: dpkg­-reconfigure locales

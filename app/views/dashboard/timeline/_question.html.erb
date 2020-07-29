@@ -1,0 +1,75 @@
+  <div class="panel">
+    <div class="panel-toolbar-wrapper">
+      <div class="panel-toolbar">
+        <ul class="list-table">
+          <li class="text-left">
+            <i class="ico-pencil"></i> <%= t('views.timeline.index.thread') %> - <%= t "views.time_ago_with_time" %>
+          </li>
+          <%= render(partial: 'options') %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <ul class="list-table">
+        <li class="text-center" style="width:60px;">
+          {{ #timelineable.user.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.user.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.user.id }}" class="text-default">
+            <img src="{{timelineable.user.avatar_timeline}}" alt="{{timelineable.user.name}}" class="img-circle">
+          </a>
+        </li>
+        <li class="text-left">
+          <p class="semibold">
+            <a href="<%= users_path %>/{{ timelineable.user.id }}" class="text-default">
+              {{timelineable.user.name}}
+            </a>
+          </p>
+
+          <p class="semibold nm">
+            <%= t('views.timeline.index.question') %>: <a href="<%= questions_path %>/{{timelineable.id}}" class="text-black">
+              {{timelineable.title}}
+            </a>
+          </p>
+        </li>
+      </ul>
+
+      <blockquote class="mt10 text-muted text-center">
+        <p>{{{ timelineable.linked_content }}}</p>
+      </blockquote>
+
+    </div>
+    <hr class="nm">
+    {{#timelineable.answers_info.count}}
+    <div class="panel-toolbar-wrapper pa10">
+      <div class="panel-toolbar">
+        <span class="img-group img-group-stack">
+          {{#timelineable.answers_info.users}}
+          <a href="<%= users_path %>/{{ id }}" class="text-default">
+            <img src="{{avatar}}" alt="{{name}}" class="img-circle">
+          </a>
+          {{/timelineable.answers_info.users}}
+          {{#remaining_count}}
+          <span class="more img-circle">{{remaining_count}}+</span>
+          {{/remaining_count}}
+        </span>
+
+        {{#timelineable.answers_info.count}}
+        <a href="<%= questions_path %>/{{timelineable.id}}" class="semibold">
+          {{ timelineable.answers_info.participating_title }}
+        </a>
+        {{/timelineable.answers_info.count}}
+      </div>
+    </div>
+    {{/timelineable.answers_info.count}}
+
+    <div class="panel-toolbar-wrapper pa10">
+      <div class="panel-toolbar">
+        <a href="<%= questions_path %>/{{timelineable.id}}" class="semibold">
+          <%= t('views.timeline.index.click_to_answer_question') %>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

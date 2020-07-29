@@ -1,0 +1,10 @@
+
+
+var owlItemsStr = '<%= escape_javascript(render(partial: "dashboard/widgets/carousel_activities/items", locals: { domain: @domain, activities: @activities}))%>';
+
+owlItemsStr.split("<!-- owl-item -->").slice(1).forEach(function (item) {
+  $('#owlCarousel').trigger(
+    'add.owl.carousel', [item]
+  ).trigger('refresh.owl.carousel')
+});
+

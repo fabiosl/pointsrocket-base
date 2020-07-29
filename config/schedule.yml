@@ -1,0 +1,42 @@
+
+advocacy_crawlers_cron_worker:
+  # a cada 20 minutos
+  cron: "*/20 * * * *"
+  class: "AdvocacyCronWorker"
+  queue: default
+
+crawlers_cron_worker:
+  # a cada 2 minutos
+  cron: "*/2 * * * *"
+  class: "CrawlersCronWorker"
+  queue: default
+
+expiration_user_coins_worker:
+  # every friday at 08:00
+  cron: "0 8 * * 5"
+  class: "UserCoinsExpirationWorker"
+  queue: default
+
+hashtag_challenge_cron_worker:
+  # a cada 5 minutos
+  cron: "*/5 * * * *"
+  class: "HashtagChallengeCronWorker"
+  queue: default
+
+suspend_subscription_not_renew:
+  # a cada 10 minutos
+  cron: "*/10 * * * *"
+  class: "SuspendSubscriptionNotRenewWorker"
+  queue: default
+
+user_coins_worker:
+  # every monday at 07:00 BRST
+  cron: "0 6 * * 1"
+  class: "UserCoinsWorker"
+  queue: default
+
+weekly_newsletter_worker:
+  # todas segundas às 10:00
+  cron: "0 10 * * 1"
+  class: WeeklyNewsletterMailWorker
+  queue: default

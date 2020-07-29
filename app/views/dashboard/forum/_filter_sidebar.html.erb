@@ -1,0 +1,11 @@
+<div class="col-lg-3">
+  <div class="row">
+    <div class="col-xs-12">
+      <h5 class="semibold mt0"><%= t('views.forum.index.course_filter') %></h5>
+      <div class="list-group">
+        <a href="<%= forum_path %>" class="list-group-item"><i></i><%= t('views.forum.index.all_courses') %></a>
+        <%= render partial: 'course_tag', collection: Course.all.tagged_with(@domain.tags, any: true).name_asc %>
+      </div>
+    </div>
+  </div>
+</div>

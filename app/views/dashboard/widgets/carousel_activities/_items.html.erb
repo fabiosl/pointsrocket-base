@@ -1,0 +1,5 @@
+<% activities.each do |activity| %>
+  <%= render partial: "dashboard/widgets/carousel_activities/#{activity.class.name.underscore}",
+             locals: { domain: domain, activity: activity }
+  %>
+<% end %>

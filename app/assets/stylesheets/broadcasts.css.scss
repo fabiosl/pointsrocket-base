@@ -1,0 +1,31 @@
+$default-font-color: #6a6a6a;
+$sucess-font-color: #4e7325;
+$danger-font-color: #e8263d;
+
+$default-border-color: #cfd9db;
+$sucess-border-color: #d2e8b8;
+$danger-border-color: #faccd1;
+
+
+.Broadcast-status {
+  margin: 0;
+  padding: 5px;
+  min-width: 70px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.Broadcast-status--upcoming {
+  border-color: $sucess-border-color;
+  color: $sucess-font-color !important;
+}
+
+.Broadcast-status--live {
+  border-color: $danger-border-color;
+  color: $danger-font-color;
+}
+
+.Broadcast-status--complete {
+  border-color: $default-border-color;
+  color: $default-font-color;
+}

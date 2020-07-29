@@ -1,0 +1,113 @@
+<div class="barra-preta" id="barra-preta">
+  <div class="row">
+    <div class="loreal-logo col-xs-6 text-left">
+      <div class="v-middle-full">
+        <%= image_tag "loreal/lorealinternational@2x.png", style: "margin-top: -10px;" %>
+      </div>
+    </div>
+
+    <div class="universidade-loreal-logo col-xs-6 text-right">
+      <div class="v-middle-full">
+        <b>Beauty Lovers</b>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-header">
+  <div class="universidade-loreal-logo col-sm-4 text-left">
+    <b>Beauty Lovers</b>
+  </div>
+</div>
+
+<div class="login-content" id="login-content">
+  <div class="row">
+    <div class="col-sm-12 col-form">
+
+      <div class="v-middle-full">
+        <!-- Login form -->
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'login-form', autocomplete: :off}) do |f| %>
+
+        <input style="display:none" type="text" name="fakeusernameremembered"/>
+        <input style="display:none" type="password" name="fakepasswordremembered"/>
+
+        <legend><%= t '.title' %></legend>
+
+        <!-- Alert message -->
+        <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>">
+            <%= value %>
+          </div>
+        <% end %>
+
+        <%= f.hidden_field :remember_me, value: true %>
+
+        <div class="form-group">
+          <div class="has-icon pull-left">
+            <%= f.email_field :email, required: false, autofocus: true, class: 'form-control', placeholder: 'Email' %>
+            <i class="ico-user2 form-control-icon"></i>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="has-icon pull-left">
+            <%= f.password_field :password, required: false, class: 'form-control', placeholder: 'Senha' %>
+            <i class="ico-lock2 form-control-icon"></i>
+          </div>
+        </div>
+
+        <div class="form-group nm">
+          <button type="submit" class="btn btn-block btn-success"><span class="semibold">Login</span></button>
+        </div>
+
+        <ul class="list-table mt10">
+          <% if not @domain.only_invited %>
+            <li>
+              <%= link_to t('.create_account'), new_user_registration_path %>
+            </li>
+          <% end %>
+
+          <%- if devise_mapping.recoverable? %>
+            <li class="text-right">
+              <%= link_to t('.forgot_your_password'), new_user_password_path %>
+            </li>
+          <% end -%>
+        </ul>
+
+        <hr>
+
+        <!-- Social button -->
+        <ul class="list-table">
+          <%- if devise_mapping.omniauthable? %>
+            <%- get_permited_providers_for_current_domain.each do |provider| %>
+            <li>
+
+              <!-- <button type="button" class="btn btn-block btn-facebook">Entrar com <i class="ico-facebook2 ml5"></i></button> -->
+              <a href="<%= omniauth_authorize_path(resource_name, provider) %>" class="btn btn-block btn-<%= provider.to_s %> btn-ellipsis">
+                <%= I18n.t provider, scope: ["omniauth"] %>
+              </a>
+            </li>
+            <% end -%>
+          <% end -%>
+        </ul>
+        <!-- Social button -->
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var loginContent = document.getElementById('login-content'),
+      barraPreta = document.getElementById('barra-preta');
+
+  // -1 da borda de baixo
+  loginContentHeight = window.innerHeight - barraPreta.scrollHeight;
+
+  loginContent.style.height = loginContentHeight + 'px';
+}());
+</script>
+
+
+<%= render partial: "devise/sessions/android" %>

@@ -1,0 +1,29 @@
+<% if false %>
+<%- if controller_name != 'sessions' %>
+  <%= link_to "Fazer login", new_session_path(resource_name) %><br />
+<% end -%>
+
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <%= link_to "Inscreva-se", new_registration_path(resource_name) %><br />
+<% end -%>
+<% end %>
+
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+  <%= link_to "Esqueceu sua senha?", new_password_path(resource_name) %><br />
+<% end -%>
+
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+  <%= link_to "Não recebeu instruções de confirmação?", new_confirmation_path(resource_name) %><br />
+<% end -%>
+
+<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+  <%= link_to "Não recebeu instruções de desbloqueio?", new_unlock_path(resource_name) %><br />
+<% end -%>
+
+<%- if devise_mapping.omniauthable? %>
+  <%- resource_class.omniauth_providers.each do |provider| %>
+    <a href="<%= omniauth_authorize_path(resource_name, provider) %>" class="btn btn-block btn-<%= provider.to_s %>">
+      Conecte com <%= provider.to_s.titleize %> <i class="icon-<%= provider.to_s %> ml5"></i>
+    </a>
+  <% end -%>
+<% end -%>

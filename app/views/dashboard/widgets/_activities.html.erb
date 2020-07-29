@@ -1,0 +1,31 @@
+<%
+  items_id = "activities"
+  if for_mobile
+    items_id = "activites_for_mobile"
+  end
+%>
+
+<div class="panel activities-widget <%= for_mobile ? "for-mobile" : "" %>" <%= pending ? "data-pending=true" : "" %> data-items-id="<%= items_id %>">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <% if pending %>
+        <i class="ico-bolt mr5"></i><%= t('views.dashboard.widgets.activities.pending') %>
+      <% else %>
+        <i class="ico-bolt mr5"></i><%= t('views.dashboard.widgets.activities.latest') %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="panel-body pos-relative">
+    <div class="indicator show activities-loading"><span class="spinner"></span></div>
+    <div id="<%= items_id %>"></div>
+  </div>
+</div>
+
+<div class="text-center">
+  <a class="pos-relative btn btn-primary load-more-activities mb15 hide <%= for_mobile ? "for-mobile" : "" %>" href="#" data-page="1">
+    <div class="indicator"><span class="spinner"></span></div>
+    <%= t('views.general.buttons.load_more') %>
+  </a>
+</div>
+

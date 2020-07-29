@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel">
+      <div class="panel-body bgcolor-danger pa10">
+        <p class="semibold">Lista de links navegáveis</p>
+        <div>
+          <a href="<%= broadcasts_path %>" class="btn btn-default">Broadcast index</a>
+          <a href="<%= broadcasts_path %>" class="btn btn-default">Broadcast principal</a>
+          <a href="<%= broadcasts_path(status: 'started') %>" class="btn btn-default">Broadcast acontecendo</a>
+          <a href="<%= broadcasts_path(status: 'ended') %>" class="btn btn-default">Broadcast já aconteceu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

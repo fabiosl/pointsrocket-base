@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-sm-12" id="campaigns-list">
+
+    <div class="indicator show" data-ng-if="loading">
+      <span class="spinner"></span>
+    </div>
+
+    <p>
+      <a href="/dashboard/admin/" class="btn btn-primary">
+      <span ng-bind="('views.dashboard.admin.buttons.back' | i18next)"></span>
+      </a>
+      <a href="/dashboard/admin/campaigns/new" class="btn btn-success">
+      <span ng-bind="('views.dashboard.admin.rewards.buttons.add' | i18next)"></span>
+      </a>
+    </p>
+
+    <p>
+      <input type="text" placeholder="{{ 'views.dashboard.admin.rewards.placeholders.filter' | i18next }}" data-ng-model="searchText" class="form-control">
+    </p>
+
+    <div class="panel panel-default mb20" data-ng-repeat="campaign in campaigns | filter:searchText ">
+      <div class="panel-heading handle">
+        <div class="panel-title">
+          {{ campaign.title }}
+        </div>
+
+        <div class="panel-toolbar text-right">
+          <a href="/dashboard/admin/campaigns/{{ campaign.id }}/edit" class="btn btn-primary">
+            <span ng-bind="('views.dashboard.admin.buttons.edit' | i18next)"></span>
+          </a>
+          <a href="javascript://" class="btn btn-danger" data-ng-click="delete(campaign)" >
+            <span ng-bind="('views.dashboard.admin.buttons.delete' | i18next)"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,176 @@
+upstream unicorn_<%= fetch(:full_app_name) %> {
+  server unix:/tmp/unicorn.<%= fetch(:full_app_name) %>.sock fail_timeout=0;
+}
+<% if fetch(:enable_ssl) %>
+  server {
+    server_name <%= fetch(:server_name) %> <%= fetch(:secondary_http_server_names, "") %>;
+    listen 80;
+    return 301 https://$host$request_uri;
+  }
+
+  server {
+    server_name www.<%= fetch(:server_name) %>;
+    listen 80;
+    return 301 https://<%= fetch(:server_name)%>$request_uri;
+  }
+
+  server {
+    server_name www.<%= fetch(:server_name) %>;
+    listen 433;
+
+    ssl on;
+    ssl_certificate <%= shared_path %>/secret/<%= fetch(:stage) %>/ssl-bundle.crt;
+    ssl_certificate_key <%= shared_path %>/secret/<%= fetch(:stage) %>/ssl.key;
+
+    #enables all versions of TLS, but not SSLv2 or 3 which are weak and now deprecated.
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+    #Disables all weak ciphers
+    ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
+
+    ssl_prefer_server_ciphers on;
+
+    rewrite ^(.*) https://<%= fetch(:server_name) %>$1 permanent;
+  }
+
+  server {
+    server_name <%= fetch(:server_name) %> <%= fetch(:secondary_http_server_names, "") %>;
+    listen 443;
+    root <%= fetch(:deploy_to) %>/current/public;
+
+    location ^~ /assets/ {
+      gzip_static on;
+      expires max;
+      add_header Cache-Control public;
+    }
+
+    location ^~ /system/ {
+      gzip_static on;
+      expires max;
+      add_header Cache-Control public;
+    }
+
+    location ^~ /doc/ {
+      gzip_static on;
+      alias <%= fetch(:deploy_to) %>/current/doc/;
+      auth_basic "Restricted";
+      auth_basic_user_file <%= shared_path %>/secret/<%= fetch(:stage) %>/doc_pass;
+    }
+
+    try_files $uri/index.html $uri @unicorn;
+    location @unicorn {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto https;
+      proxy_set_header Host $http_host;
+      proxy_redirect off;
+      proxy_read_timeout 120s;
+      proxy_pass http://unicorn_<%= fetch(:full_app_name) %>;
+    }
+
+    error_page 500 502 503 504 /500.html;
+    client_max_body_size 4G;
+    keepalive_timeout 10;
+    ssl on;
+    ssl_certificate <%= shared_path %>/secret/<%= fetch(:stage) %>/ssl-bundle.crt;
+    ssl_certificate_key <%= shared_path %>/secret/<%= fetch(:stage) %>/ssl.key;
+
+    #enables all versions of TLS, but not SSLv2 or 3 which are weak and now deprecated.
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+    #Disables all weak ciphers
+    ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
+
+    ssl_prefer_server_ciphers on;
+  }
+
+
+  <% if fetch(:secondary_only_http_server_names, nil) %>
+    <% fetch(:secondary_only_http_server_names).each do |sn| %>
+      server {
+        server_name www.<%= sn %>;
+        rewrite ^(.*) http://<%= sn %>$1 permanent;
+      }
+    <% end %>
+
+    server {
+      server_name <%= fetch(:secondary_only_http_server_names).join(' ') %>;
+      listen 80;
+      root <%= fetch(:deploy_to) %>/current/public;
+
+      location ^~ /assets/ {
+        gzip_static on;
+        expires max;
+        add_header Cache-Control public;
+      }
+
+      location ^~ /system/ {
+        gzip_static on;
+        expires max;
+        add_header Cache-Control public;
+      }
+
+      location ^~ /doc/ {
+        gzip_static on;
+        alias <%= fetch(:deploy_to) %>/current/doc/;
+        auth_basic "Restricted";
+        auth_basic_user_file <%= shared_path %>/secret/<%= fetch(:stage) %>/doc_pass;
+      }
+
+      try_files $uri/index.html $uri @unicorn;
+      location @unicorn {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass http://unicorn_<%= fetch(:full_app_name) %>;
+      }
+
+      error_page 500 502 503 504 /500.html;
+      client_max_body_size 4G;
+      keepalive_timeout 10;
+    }
+  <% end %>
+
+<% else %>
+  server {
+    server_name www.<%= fetch(:server_name) %>;
+    rewrite ^(.*) http://<%= fetch(:server_name) %>$1 permanent;
+  }
+
+  server {
+    server_name <%= fetch(:server_name) %> <%= fetch(:secondary_http_server_names, "") %>;
+    listen 80;
+    root <%= fetch(:deploy_to) %>/current/public;
+
+    location ^~ /assets/ {
+      gzip_static on;
+      expires max;
+      add_header Cache-Control public;
+    }
+
+    location ^~ /system/ {
+      gzip_static on;
+      expires max;
+      add_header Cache-Control public;
+    }
+
+    location ^~ /doc/ {
+      gzip_static on;
+      alias <%= fetch(:deploy_to) %>/current/doc/;
+      auth_basic "Restricted";
+      auth_basic_user_file <%= shared_path %>/secret/<%= fetch(:stage) %>/doc_pass;
+    }
+
+    try_files $uri/index.html $uri @unicorn;
+    location @unicorn {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
+      proxy_redirect off;
+      proxy_read_timeout 120s;
+      proxy_pass http://unicorn_<%= fetch(:full_app_name) %>;
+    }
+
+    error_page 500 502 503 504 /500.html;
+    client_max_body_size 4G;
+    keepalive_timeout 10;
+  }
+<% end %>

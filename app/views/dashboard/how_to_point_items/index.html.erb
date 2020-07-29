@@ -1,0 +1,40 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.how_to_point.index.title') %>
+  </span>
+</h2>
+
+<hr>
+
+<!-- START row -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- START panel -->
+        <div class="panel panel-primary">
+
+            <!-- panel body with collapse capabale -->
+            <div class="table-responsive panel-collapse pull out">
+                <table class="table table-bordered table-hover" id="table1">
+                    <thead>
+                        <tr>
+                            <th style="text-align: right;"><%= t('views.how_to_point.index.points') %></th>
+                            <th><%= t('views.how_to_point.index.fields.description') %></th>
+                            <th><%= t('views.how_to_point.index.fields.section') %></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @items.each do |item| %>
+                          <tr>
+                              <td style="text-align: right;"><%= item[:points] %></td>
+                              <td><%= item[:description] %></td>
+                              <td><%= item[:section] %></td>
+                          </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+            <!--/ panel body with collapse capabale -->
+        </div>
+    </div>
+</div>
+<!--/ END row -->

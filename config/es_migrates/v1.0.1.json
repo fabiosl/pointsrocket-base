@@ -1,0 +1,26 @@
+{
+  "post": {
+    "properties": {
+      "engagement": {
+        "type": "float"
+      },
+      "cost": {
+        "type": "float"
+      },
+      "author": {
+        "properties": {
+          "followers_count": {
+            "type": "integer"
+          },
+          "following_count": {
+            "type": "integer"
+          },
+          "picture": {
+            "type": "keyword",
+            "index": false
+          }
+        }
+      }
+    }
+  }
+}

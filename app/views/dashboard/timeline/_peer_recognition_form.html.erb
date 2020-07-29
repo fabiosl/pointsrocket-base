@@ -1,0 +1,64 @@
+<form class="panel peer-recognition-form">
+  <% if current_user.available_coins > 0 %>
+    <div class="panel-body np">
+      <% if current_user.admin? %>
+        <h5 class="praise-title praise-title pa15 pt10 pb0 mt0 mb10" style="font-style: italic;">
+          <%= t('views.timeline.post_form.admin_cannot_praise') %>
+        </h5>
+      <% else %>
+        <h5 class="praise-title praise-title pa15 pt10 pb0 mt0 mb0" style="font-style: italic;">
+          <%= t('views.timeline.post_form.praise_title') %>
+        </h5>
+        <p class="pl15 mb0">
+          <%= t('views.timeline.post_form.praise_subtitle_html', points: current_user.available_coins, days_str: distance_of_time_in_words_to_praise_expiry_day) %>
+          <a href="javascript://" data-toggle="modal" data-target="#myModal">
+            <i class="ico-info-sign"></i>
+          </a>
+        </p>
+        <div contenteditable="true" id="peer_recognition_content" name="peer_recognition_content" class="peer-recognition-content pa15 pt10 pb30" placeholder="<%= t 'views.timeline.peer_recognition.main_input_placeholder' %>"></div>
+      <% end %>
+    </div>
+
+    <% unless current_user.admin? %>
+      <div class="panel-footer">
+        <ul class="list-table">
+          <li style="width: 70%;line-height: 3.1em;">
+            <a href="javascript://" class="add-points btn btn-default" data-title="<%= t 'views.timeline.peer_recognition.add_points' %>" data-toggle="tooltip">
+              <i class="ico-plus"></i>
+            </a>
+            <a href="javascript://" class="add-user btn btn-default" data-title="<%= t 'views.timeline.peer_recognition.add_user' %>" data-toggle="tooltip">
+              <i class="ico-user-plus2"></i>
+            </a>
+            <a href="javascript://" class="add-hashtag btn btn-default mr20" data-title="<%= t 'views.timeline.peer_recognition.add_hashtag' %>" data-toggle="tooltip">
+              #
+            </a>
+            <input type="submit" class="btn btn-primary submit-points" value="<%= t 'views.timeline.peer_recognition.give_points' %>">
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="allPointsGiven-alert">
+      <span class="fsize16"><%= t('views.timeline.peer_recognition.points_given.congratulations') %></span>
+      <span class="fsize12"><%= t('views.timeline.peer_recognition.points_given.more_next_week', points: current_domain.weekly_user_coins, remaining: distance_of_time_in_words_to_praise_expiry_day) %></span>
+    </div>
+  <% end %>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><%= t('views.timeline.post_form.praise') %></h4>
+      </div>
+      <div class="modal-body">
+        <%= t('views.timeline.post_form.praise_help', points: current_domain.weekly_user_coins) %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.general.buttons.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>

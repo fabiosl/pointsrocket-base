@@ -1,0 +1,24 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.broadcasts.index.title').capitalize %>
+    <% if can? :manage_community, current_domain %>
+      <a href="/dashboard/admin/broadcasts" class="btn btn-xs btn-primary">
+        <%= t('views.general.buttons.edit').downcase %>
+      </a>
+    <% end %>
+  </span>
+</h2>
+
+<hr>
+
+<% if @broadcasts.size < 1 %>
+  <div class="well">
+    <%= t('views.broadcasts.index.no_records') %>
+  </div>
+<% end %>
+
+<div class="row">
+  <% @broadcasts.each do |broadcast| %>
+    <%= render partial: 'broadcast_item', locals: { broadcast: broadcast } %>
+  <% end %>
+</div>

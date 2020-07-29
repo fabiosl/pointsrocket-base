@@ -1,0 +1,40 @@
+<!-- BADGE -->
+<hr class="mt10 mb10 activity-separator">
+
+<ul class="list-table">
+  <li style="width:60px;">
+    <div class="pos-relative w50 h50">
+      <div
+        class="widget-image-container img-circle"
+        style="background-image:url('<%= activity.avatar.url(:s100x109) %>');" 
+      ></div>
+      <span class="item-status-ico">
+        <% if activity.done_by_user?(current_user) %>
+        <i class="ico ico-checkmark text-success"></i>
+        <% else %>
+          <i class="ico ico-circle text-danger"></i>
+        <% end %>
+      </span>
+    </div>
+  </li>
+  <li class="text-left">
+    <h5 class="semibold ellipsis nm">
+      <%= link_to badges_path do %>
+        <i class="ico-medal"></i> <%= activity.name %>
+      <% end %>
+    </h5>
+    <p class="info-list text-default ellipsis">
+      <span>
+        <i class="ico-users"></i>
+        <%= t('views.dashboard.widgets.badges.users_earned', count: activity.users.size) %>
+      </span>
+
+      <% if activity.badge_points > 0 %>
+      <span>
+        <i class="ico-trophy"></i> <%= activity.badge_points %> <%= t('views.general.points') %>
+      </span>
+      <% end %>
+    </p>
+  </li>
+</ul>
+<!--/ BADGE -->

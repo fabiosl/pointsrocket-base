@@ -1,0 +1,41 @@
+<div class="row trails">
+
+  <div class="col-sm-12">
+    <a href="/dashboard/admin" class="btn btn-primary">
+      Voltar
+    </a>
+  </div>
+
+  <hr>
+
+  <div class="col-sm-12">
+    <div class="indicator show" data-ng-if="loading">
+      <span class="spinner"></span>
+    </div>
+
+    <div class="panel">
+      <div class="panel-body">
+        <h4 class="semibold nm text-left">
+          <i class="ico-flag2 mr5"></i>Trilhas
+        </h4>
+        <div data-ng-repeat="trail in trails">
+          <hr>
+          <ul class="list-table">
+            <li class="text-left">
+              <h5 class="semibold ellipsis nm">{{ trail.name }}</h5>
+            </li>
+            <li class="text-right">
+              <a href="/dashboard/admin/{{ domain_id }}/trails/{{ trail.id }}/edit" class="btn btn-primary">Editar</a>
+              <a href="#" class="btn btn-danger" data-ng-click="delete(trail)">Deletar</a>
+            </li>
+          </ul>
+        </div>
+
+        <hr>
+        <a href="/dashboard/admin/{{ domain_id }}/trails/new" class="btn btn-primary">
+          Adicionar nova trilha
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<% if @user != current_user %>
+  <h2 class="mt0 mb20 lined-title">
+    <span>
+      <%= t('views.points.index.points_statement') %> - <b><%= @user.name %></b>
+    </span>
+  </h2>
+
+  <hr>
+<% else %>
+  <h2 class="mt0 mb20 lined-title">
+    <span>
+      <%= t('views.points.index.points_statement') %>
+    </span>
+  </h2>
+
+  <hr>
+<% end %>
+
+<div class="mb10">
+  <span><%= t('views.points.index.filters') %></span>
+  <a href="?" class="btn btn-default btn-sm">
+    <%= t('views.general.filters.general') %>
+  </a>
+  <a href="?date=last_24_hours" class="btn btn-default btn-sm">
+    <%= t('views.general.filters.last_24_hours') %>
+  </a>
+  <a href="?date=last_7_days" class="btn btn-default btn-sm">
+    <%= t('views.general.filters.last_week') %>
+  </a>
+  <a href="?date=last_month" class="btn btn-default btn-sm">
+    <%= t('views.general.filters.last_month') %>
+  </a>
+</div>
+
+<div class="panel panel-default mb0">
+  <div class="panel-body" style="padding:0px" >
+    <div class="table-responsive panel-collapse pull out">
+      <table class="table table-bordered table-hover" id="table1">
+        <thead>
+          <tr>
+            <th width="15%" class="text-center">
+              <%= t('views.points.index.fields.date') %>
+            </th>
+            <th>
+              <%= t('views.points.index.fields.description') %>
+            </th>
+            <th width="5%">
+              <%= t('views.points.index.fields.points') %>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @points.decorate.each do |point| %>
+          <tr>
+            <td class="text-center">
+              <%= point.created_at.strftime("%Y-%m-%d") %>
+            </td>
+            <td style="white-space:inherit">
+              <%= point.formated_title.html_safe %>
+            </td>
+            <td class="text-center">
+              <div class="img-circle badge-<%= if (point.value || 0) >= 0 then "success" else "danger" end %> points-number">
+                <%= point.value %>
+              </div>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%= will_paginate @points, renderer: BootstrapPagination::Rails %>

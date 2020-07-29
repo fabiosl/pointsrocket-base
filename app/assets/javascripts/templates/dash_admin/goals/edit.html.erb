@@ -1,0 +1,143 @@
+<form class="form-horizontal" name="editGoalForm" data-ng-submit="save()">
+  <div class="row goals">
+
+    <div class="indicator show" data-ng-if="loading">
+      <span class="spinner"></span>
+    </div>
+
+    <div class="col-sm-12">
+      <a href="/dashboard/admin/{{ domain_id }}/goals" class="btn btn-primary">
+        Voltar
+      </a>
+    </div>
+
+    <hr>
+
+    <div class="col-sm-12">
+      <div class="panel">
+        <div class="panel-body">
+          <h4 class="semibold nm text-left">
+            <i class="ico-flag2 mr5"></i>Edição da meta
+          </h4>
+          <hr>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Nome da meta</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" data-ng-model="goal.title" name="goal_title" required placeholder="Insira aqui o nome da sua meta.">
+
+              <span class="text-danger" data-ng-if="editGoalForm['goal_title'].$invalid && editGoalForm['goal_title'].$dirty">
+                <span data-ng-if="editGoalForm['goal_title'].$error.required">
+                  Campo obrigatório
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="panel">
+        <div class="panel-body">
+          <h4 class="semibold nm text-left">
+            <i class="ico-medal mr5"></i>Badges da meta
+          </h4>
+          <hr>
+
+          <div data-ng-repeat="badge_goal in goal.badge_goals" class="relative">
+
+            <div class="indicator show" data-ng-if="badge_goal._destroy">
+              <div class="col-sm-8 text-right">
+                Essa medalha será deletada. <a href="#" class="btn btn-primary" data-ng-click="undeleteMedal(badge_goal)">Desfazer exclusão</a>
+              </div>
+            </div>
+
+            <ul class="list-table mt10">
+              <li style="width: 70px;">
+                <img class="img-rounded" data-ng-src="{{ badge_goal.badge.avatar_url }}" alt="" width="50px" height="50px">
+              </li>
+              <li>
+                {{ badge_goal.badge.name }}
+              </li>
+              <li class="text-right" style="width: 230px;">
+                <div class="img-group img-group-stack">
+                  <span class="more img-circle">{{ badge_goal.repetition }}</span>
+
+                  <a href="#" data-ng-click="editMedal(badge_goal)" class="btn btn-primary">
+                    <i class="ico-edit"></i> Editar
+                  </a>
+
+                  <a href="#" data-ng-click="deleteMedal(badge_goal)" class="btn btn-danger">
+                    <i class="ico-remove"></i> Deletar
+                  </a>
+                </div>
+              </li>
+            </ul>
+
+            <hr>
+          </div>
+
+          <a href="#" class="btn btn-primary" data-ng-click="newMedal()">
+            <i class="ico-plus"></i> Adicionar outra medalha
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <button type="submit" class="btn btn-primary">
+        <i class="ico-upload3"></i> Salvar meta
+      </button>
+    </div>
+  </div>
+</form>
+
+<div id="modal-add-badge" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <div class="ico-medal mb15 mt15" style="font-size:36px; color: black;"></div>
+                <h3 class="semibold modal-title text-primary">Adicionar medalha</h3>
+            </div>
+            <form class="form-horizontal" name="newMedalForm" data-ng-submit="pushMedal()">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Medalha</label>
+                  <div class="col-sm-10">
+                    <select name="new_medal_badge" class="form-control" data-ng-model="new_medal.badge" data-ng-required="true" id="new_medal_badge" data-ng-options="badge.name for badge in badges track by badge.id">
+                      <option></option>
+                    </select>
+
+                    <span class="text-danger" data-ng-if="newMedalForm['new_medal_badge'].$invalid && newMedalForm['new_medal_badge'].$dirty">
+                      <span data-ng-if="newMedalForm['new_medal_badge'].$error.required">
+                        Campo obrigatório
+                      </span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Repetições</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" data-ng-model="new_medal.repetition" data-ng-required="true" name="new_medal_repetition">
+                    <span class="text-danger" data-ng-if="newMedalForm['new_medal_repetition'].$invalid && newMedalForm['new_medal_repetition'].$dirty">
+                      <span data-ng-if="newMedalForm['new_medal_repetition'].$error.required">
+                        Campo obrigatório
+                      </span>
+                    </span>
+                    <p>Defina quantas vezes cada usuário deve ganhar esta medalha para que suas metas diárias sejam cumpridas</p>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="ico-ok"></i> Adicionar medalha
+                  </button>
+              </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--/ END modal-facebook -->

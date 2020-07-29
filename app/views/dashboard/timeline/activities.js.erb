@@ -1,0 +1,4 @@
+$("#<%= @items_id %>").append('<%= escape_javascript(render(partial: "dashboard/widgets/activities/items", locals: { domain: @domain, activities: @activities}))%>');
+<% unless @activities_has_next_items %>
+  $("#<%= @items_id %>").parent().parent().parent().find('.load-more-activities').hide();
+<% end %>

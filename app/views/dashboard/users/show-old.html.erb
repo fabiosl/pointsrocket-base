@@ -1,0 +1,140 @@
+<div class="row">
+  <div class="col-sm-3 col-md-3">
+    <div class="panel user-profile-page">
+      <div class="panel-body pb0">
+        <ul class="list-unstyled">
+          <li class="text-center mt10">
+            <div class="pos-relative inline-block">
+              <% if @user.admin_current_domain %>
+                <i class="ico-crown default-user-admin-ico" title="Admin"></i>
+              <% end %>
+              <%= image_tag @user.avatar.url(:s65x65), :class => "img-circle img-bordered" %>
+            </div>
+          </li>
+          <li class="text-center mt10">
+            <h5 class="semibold ellipsis mt0"><%= @user.name%></h5>
+          </li>
+        </ul>
+      </div>
+      <div class="panel-body pt0 pb0">
+        <!-- Nav section -->
+        <ul class="nav nav-section nav-justified">
+          <li>
+            <div class="section">
+              <%= link_to user_badges_path(@user) do %>
+                <h4 class="nm"><i class="ico-medal"></i></h4>
+                <p class="nm"><%= @user.badges.size %></p>
+              <% end %>
+            </div>
+          </li>
+          <li>
+            <div class="section">
+              <%= link_to campaigns_path do %>
+              <h4 class="nm"><i class="ico-gift22"></i></h4>
+              <p class="nm"><%= @user.campaign_users.size %></p>
+              <% end %>
+            </div>
+          </li>
+          <li>
+            <div class="section">
+              <%= link_to user_points_path(@user) do %>
+                <h4 class="nm"><i class="ico-trophy"></i></h4>
+                <p class="nm"><%= @user.points.to_i %></p>
+              <% end %>
+            </div>
+          </li>
+        </ul>
+        <!--/ Nav section -->
+      </div>
+      <div class="panel-body pt0 pb0">
+        <ul class="list-unstyled text-break-all">
+          <% if current_user.admin %>
+            <li title="Email" class="mt10 mb5">
+              <span class="ico-envelop"></span>
+              <%= @user.email %>
+            </li>
+            <% if @user.phone && !@user.phone.empty? %>
+              <li title="Phone" class="mt10 mb5">
+                <span class="ico-phone3"></span>
+                <%= @user.phone %>
+              </li>
+            <% end %>
+          <% end %>
+          
+          <% if @user.location && !@user.location.empty? %>
+            <li title="Location" class="mt10 mb5">
+              <span class="ico-location"></span>
+              <%= @user.location %>
+            </li>
+          <% end %>
+          <% if @user.website && !@user.website.empty? %>
+            <li title="Website" class="mt10 mb5">
+              <span class="ico-link"></span>
+              <%= @user.website %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="panel-body pt0 pb0 text-center">
+        <div class="social-profiles">
+          <% unless @user.identities.empty? %>
+            <% @user.identities.decorate.each do |identity| %>
+              <a href="<%= identity.social_url %>" class="mr5" target="_blank">
+                <ul class="list-table" >
+                  <li style="width:40px;" class="pos-relative">
+                    <img class="img-circle img-bordered-primary" src="<%= identity.avatar.url(:thumb) %>" style="width:40px;">
+                    <div class="social-provider-ico-wrapper">
+                      <i class="ico ico-<%= identity.social_ico %> social-provider-ico"></i>
+                    </div>
+                  </li>
+                  <li class="text-left">
+                    <h5 class="semibold ellipsis nm ml15">
+                      /<%= identity.name %>
+                    </h5>
+                  </li>
+                </ul>
+              </a>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="panel-body text-center mt0">
+        <a class="btn btn-sm btn-info" href='<%= "#{conversations_path}?recipient_id=#{@user.id}" %>'>
+          <span class="ico-bubbles4"></span> 
+          <%= t('views.dashboard.users.show.buttons.send_message') %>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-9 col-md-9">
+    <!-- <div class="col-xs-12"> -->
+      <h3 class="mt0">
+        <%= t('views.dashboard.users.show.badges.last') %>
+        <% if current_user.admin %>
+          <small>
+            <%= link_to t('views.dashboard.users.show.buttons.edit_user_badges'), user_badges_path(@user) %>
+          </small>
+        <% end %>
+      </h3>
+    <!-- </div> -->
+    <% if @user.last_badges.empty? %>
+      <div class="col-xs-12">
+        <h5><%= t('views.dashboard.users.show.badges.empty') %></h5>
+      </div>
+    <% end %>
+    <div class="row">
+    <% @user.last_badges.each_with_index do |badge, index| %>
+      <%= render partial: 'user_badge', locals: { user: @user, badge: badge } %>
+    <% end %>
+
+    </div>
+    <% if current_domain.hashtag_challenges_enabled %>
+      <%= render partial: 'hashtag_challenge_publications',
+                 locals: { publications: @user.last_publications }
+      %>
+    <% end %>
+  </div>
+</div>
+
+

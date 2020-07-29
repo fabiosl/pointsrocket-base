@@ -1,0 +1,109 @@
+<%= render 'partials/alerts' %>
+
+
+<div class="container-fluid">
+
+    <!-- START row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-layout">
+                <!-- Left / Bottom Side -->
+                <div class="col-lg-12 panel">
+                    <!-- panel body -->
+                    <div class="panel-body">
+                        <ul class="list-table">
+                            <li class="text-left">
+                                <h4 class="semibold nm">Faturas</h4>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- panel body -->
+                    <!-- panel table -->
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="5%" class="text-center">ID</th>
+                                    <th width="25%" class="text-center">Valor</th>
+                                    <th width="30%" class="text-center">Data do pagamento</th>
+                                    <th width="40%" class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @invoices.each do |invoice| %>
+                                  <tr>
+                                      <td class="valign-top text-center"><%= invoice.id %></td>
+                                      <td class="valign-top text-center"><span class="bold"><%= number_to_currency (invoice.amount.to_f / 100), precision: 2 %></span></td>
+                                      <td class="valign-top text-center"><span class="bold"><%= if invoice.creditation_date then invoice.creditation_date.strftime('%d/%m/%Y') else "Não consta" end %></span></td>
+                                      <td class="valign-top text-center"><span class="bold"><%= invoice.status_description %></span></td>
+                                  </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--/ panel table -->
+                    <!-- panel footer -->
+                    <div class="panel-footer">
+                        <ul class="list-table pa10">
+                            <li>
+                                <h5 class="semibold nm">TOTAL</h5>
+                            </li>
+                            <li class="text-right">
+                                <h3 class="semibold nm text-success"><%= number_to_currency current_user.invoices.sum(:amount).to_f / 100, precision: 2 %></h3>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--/ Left / Bottom Side -->
+            </div>
+        </div>
+    </div>
+    <!--/ END row -->
+
+
+    <!-- START row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-layout">
+                <!-- Left / Bottom Side -->
+                <div class="col-lg-12 panel">
+                    <!-- panel body -->
+                    <div class="panel-body">
+                        <ul class="list-table">
+                            <li class="text-left">
+                                <h4 class="semibold nm">Cartões de crédito</h4>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- panel body -->
+                    <!-- panel table -->
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="5%" class="text-center">ID</th>
+                                    <th width="25%" class="text-center">Bandeira</th>
+                                    <th width="30%" class="text-center">Número</th>
+                                    <th width="40%" class="text-center">Validade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @credit_cards.each do |credit_card| %>
+                                  <tr>
+                                      <td class="valign-top text-center"><%= credit_card.id %></td>
+                                      <td class="valign-top text-center"><span class="bold"><%= if credit_card.flag then credit_card.flag.humanize else "Desconhecido" end %></span></td>
+                                      <td class="valign-top text-center"><span class="bold">**** **** **** <%= credit_card.last_digits %></span></td>
+                                      <td class="valign-top text-center"><span class="bold"><%= credit_card.expiration %></span></td>
+                                  </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--/ panel table -->
+                </div>
+                <!--/ Left / Bottom Side -->
+            </div>
+        </div>
+    </div>
+    <!--/ END row -->
+</div>

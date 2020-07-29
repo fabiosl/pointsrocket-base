@@ -1,0 +1,10 @@
+#= require ./lib/jquery-2.2.4.js
+#= require ./lib/twitter-bootstrap-3.3.1.js
+#= require ./lib/mustache.js
+#= require vendor.js
+#= require jquery_ujs
+#= require steps/js/jquery-steps.js
+#= require parsley/js/parsley
+#= require site/jquery.maskedinput.min.js
+#= require backend/pages/login
+#= require custom_admin

@@ -1,0 +1,954 @@
+<div class="row">
+  <div class="col-sm-12">
+    <a href="{{ domainsPath() }}" class="btn btn-danger">
+      <span ng-bind="('views.dashboard.admin.buttons.back' | i18next)"></span>
+    </a>
+  </div>
+</div>
+
+<form action="" name="editDomainForm" class="form-horizontal">
+  <div class="row">
+    <div class="col-sm-12 chapters-list relative">
+
+      <div class="indicator show" data-ng-if="loading">
+        <span class="spinner"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.name' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="domain.name" name="domain_name" required>
+
+          <span class="text-danger" data-ng-if="editDomainForm['domain_name'].$invalid && editDomainForm['domain_name'].$dirty">
+            <span data-ng-if="editDomainForm['domain_name'].$error.required">
+              <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.login_terms_url' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="domain.login_terms_url" name="domain_login_terms_url">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.description' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <textarea class="form-control" data-ng-model="domain.description" name="domain_decription"></textarea>
+
+          <span class="text-danger" data-ng-if="editDomainForm['domain_decription'].$invalid && editDomainForm['domain_decription'].$dirty">
+            <span data-ng-if="editDomainForm['domain_decription'].$error.required">
+              <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.url' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="url" data-ng-model="domain.url" placeholder="Url do domínio.">
+
+          <span class="text-danger" data-ng-if="editDomainForm['url'].$invalid && editDomainForm['url'].$dirty">
+            <span data-ng-if="editDomainForm['url'].$error.required">
+              <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.after_login' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="domain_after_signin_path" data-ng-model="domain.after_signin_path" placeholder="{{ 'views.dashboard.admin.domains.form.after_login_placeholder' | i18next }}">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.css' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="domain_css" data-ng-model="domain.css" placeholder="Digite qual css base desse domínio.">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.layout' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="domain_layout" data-ng-model="domain.layout" placeholder="">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.from_mail' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="domain_from_mail" data-ng-model="domain.from_mail" placeholder="">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.employee_advocacy' | i18next)"></span>
+        </label>
+        <div class="col-sm-2">
+          <input type="checkbox" data-ng-model="domain.employee_advocacy_enabled"> <br>
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+        
+        <div class="col-sm-4" data-ng-if="domain.employee_advocacy_enabled">
+          <input type="integer" data-ng-model="domain.advocacy_posts_limit_by_day" > <br>
+          <span ng-bind="('views.dashboard.admin.domains.form.advocacy_posts_limit_by_day' | i18next)"></span>
+        </div>
+
+        <div class="col-sm-2" data-ng-if="domain.employee_advocacy_enabled">
+          <input type="checkbox" data-ng-model="domain.share_in_fanpage"> <br>
+          <span ng-bind="('views.dashboard.admin.domains.form.share_in_fanpage' | i18next)"></span>
+        </div>
+
+        <div class="col-sm-2" data-ng-if="domain.employee_advocacy_enabled">
+          <input type="checkbox" data-ng-model="domain.share_in_personal"> <br>
+          <span ng-bind="('views.dashboard.admin.domains.form.share_in_personal' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.pass_domains_select_and_log_here_directly' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.pass_domains_select_and_log_here_directly">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          Para submissão
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.for_submission">
+          Habilite se você quer que esse domínio seja um domínio utilizado em submissão das redes sociais, para solicitar permissão. Ativando isso, você desabilita algumas funcionalidades não permitidas nas redes sociais, por exemplo, é retirado o texto pre digitado na modal de compartilhamento do news.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.courses' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.courses_enabled">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.only_invited' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.only_invited">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.community' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.forum_enabled">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.points' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.is_points">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.indication' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.has_indication">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.challenges_enabled' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.challenges_enabled">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.hashtag_challenges_enabled' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.hashtag_challenges_enabled">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.broadcasts_enabled' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.broadcasts_enabled">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.any_user_can_post' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.any_user_can_post">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.campaigns_enabled' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="checkbox" data-ng-model="domain.campaigns_enabled">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.peer_recognition_enabled' | i18next)"></span>
+        </label>
+        <div class="col-sm-2">
+          <input type="checkbox" data-ng-model="domain.peer_recognition_enabled">
+          <span ng-bind="('views.dashboard.admin.domains.form.enabled' | i18next)"></span>
+        </div>
+        <div class="col-sm-2" ng-show="domain.peer_recognition_enabled">
+          <input type="checkbox" data-ng-model="domain.only_registered_hashtags">
+          <span ng-bind="('views.dashboard.admin.domains.form.only_registered_hashtags' | i18next)"></span>
+        </div>
+        <div class="col-sm-6" ng-show="domain.peer_recognition_enabled">
+          <span ng-bind="('views.dashboard.admin.domains.form.weekly_user_coins' | i18next)"></span>
+          <input type="number" data-ng-model="domain.weekly_user_coins" class="pl5" min="0">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.peer_recognition_hashtags' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" id="peer-recognition-hashtags" class="form-control" data-ng-model="domain.peer_recognition_hashtags" name="domain_peer_recognition_hashtags">
+          <span class="help-block" ng-bind="('views.dashboard.admin.domains.form.peer_recognition_hashtags_help' | i18next)"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.challenge_localize_key' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="domain.challenge_localize_key" name="domain_challenge_localize_key">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.social_network_permiteds' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="domain.social_network_permiteds" name="domain_social_network_permiteds">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.login_providers' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="domain.login_providers" name="domain_login_providers">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.android_api_key' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="domain.android_api_key" name="domain_android_api_key">
+        </div>
+      </div>
+
+
+      <!-- <div class="form-group">
+        <label class="col-sm-2 control-label">&nbsp;</label>
+        <div class="col-sm-10">
+          <span class="checkbox custom-checkbox custom-checkbox-inverse">
+            <input type="checkbox" name="domain_default" data-ng-model="domain.default" id="domain_default" />
+            <label for="domain_default">&nbsp;&nbsp;Padrão?</label>
+          </span>
+        </div>
+      </div> -->
+
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-2">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <span ng-bind="('views.dashboard.admin.domains.form.courses_list_image' | i18next)"></span>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <span class="input-group-btn">
+                        <div class="btn btn-primary btn-file">
+                          <span class="icon iconmoon-file-3"></span>
+                          <span ng-bind="('views.dashboard.admin.domains.buttons.select_image' | i18next)"></span>
+                          <input type="file" name="avatar" onchange="angular.element(this).scope().setImage('DashboardImageDown', this.files)">
+                        </div>
+                      </span>
+
+                      <label data-ng-if="domain.dashboard_image_down_url">
+                        <input type="checkbox" data-ng-model="domain.delete_dashboard_image_down" ng-true-value="'1'" ng-false-value="'0'">
+                        <span ng-bind="('views.dashboard.admin.form.remove_image' | i18next)"></span>
+                      </label>
+                    </div>
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.current_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ domain.dashboard_image_down_url }}" alt="{{ domain.dashboard_image_down_file_name }}" data-ng-if="domain.dashboard_image_down_url">
+                      <div data-ng-if="!domain.dashboard_image_down_url">
+                        <span ng-bind="('views.dashboard.admin.form.no_image' | i18next)"></span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.new_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ newDashboardImageDownSrc }}" alt="" data-ng-if="newDashboardImageDownSrc" style="width: 100px;">
+                      <div data-ng-if="!newDashboardImageDownSrc">
+                        <span ng-bind="('views.dashboard.admin.form.no_selected_image' | i18next)"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-footer">
+                  <p>
+                    <span ng-bind="('views.dashboard.admin.domains.form.courses_list_image_help' | i18next)"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <span ng-bind="('views.dashboard.admin.domains.form.expanded_menu_logo' | i18next)"></span>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <span class="input-group-btn">
+                        <div class="btn btn-primary btn-file">
+                          <span class="icon iconmoon-file-3"></span>
+                          <span ng-bind="('views.dashboard.admin.domains.buttons.select_image' | i18next)"></span>
+                          <input type="file" name="avatar" onchange="angular.element(this).scope().setImage('DashboardMenuImage', this.files)">
+                        </div>
+                      </span>
+
+                      <label data-ng-if="domain.dashboard_menu_image_url">
+                        <input type="checkbox" data-ng-model="domain.delete_dashboard_menu_image" ng-true-value="'1'" ng-false-value="'0'">
+                        <span ng-bind="('views.dashboard.admin.form.remove_image' | i18next)"></span>
+                      </label>
+                    </div>
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.current_image' | i18next)"></span>
+                      </div>
+
+                      <img
+                        data-ng-src="{{ domain.dashboard_menu_image_url }}"
+                        alt="{{ domain.dashboard_menu_image_file_name }}"
+                        data-ng-if="domain.dashboard_menu_image_url"
+                        style="max-width: 100%"
+                      >
+                      <div data-ng-if="!domain.dashboard_menu_image_url">
+                        <span ng-bind="('views.dashboard.admin.form.no_image' | i18next)"></span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.new_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ newDashboardMenuImageSrc }}" alt="" data-ng-if="newDashboardMenuImageSrc" style="width: 100px;">
+                      <div data-ng-if="!newDashboardMenuImageSrc">
+                        <span ng-bind="('views.dashboard.admin.form.no_selected_image' | i18next)"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-footer">
+                  <p>
+                    <span ng-bind="('views.dashboard.admin.domains.form.expanded_menu_logo_help' | i18next)"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <span ng-bind="('views.dashboard.admin.domains.form.compact_menu_logo' | i18next)"></span>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <span class="input-group-btn">
+                        <div class="btn btn-primary btn-file">
+                          <span class="icon iconmoon-file-3"></span>
+                          <span ng-bind="('views.dashboard.admin.domains.buttons.select_image' | i18next)"></span>
+                          <input type="file" name="avatar" onchange="angular.element(this).scope().setImage('DashboardMenuImageContract', this.files)">
+                        </div>
+                      </span>
+
+                      <label data-ng-if="domain.dashboard_menu_image_contract_url">
+                        <input type="checkbox" data-ng-model="domain.delete_dashboard_menu_image_contract" ng-true-value="'1'" ng-false-value="'0'"><span ng-bind="('views.dashboard.admin.form.remove_image' | i18next)"></span>
+                      </label>
+                    </div>
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.current_image' | i18next)"></span>
+                      </div>
+
+                      <img
+                        data-ng-src="{{ domain.dashboard_menu_image_contract_url }}"
+                        alt="{{ domain.dashboard_menu_image_contract_file_name }}"
+                        data-ng-if="domain.dashboard_menu_image_contract_url"
+                        style="max-width: 100%"
+                      >
+                      <div data-ng-if="!domain.dashboard_menu_image_contract_url">
+                        <span ng-bind="('views.dashboard.admin.form.no_image' | i18next)"></span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.new_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ newDashboardMenuImageContractSrc }}" alt="" data-ng-if="newDashboardMenuImageContractSrc" style="width: 100px;">
+                      <div data-ng-if="!newDashboardMenuImageContractSrc">
+                        <span ng-bind="('views.dashboard.admin.form.no_selected_image' | i18next)"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-footer">
+                  <p>
+                    <span ng-bind="('views.dashboard.admin.domains.form.compact_menu_logo_help' | i18next)"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <span ng-bind="('views.dashboard.admin.domains.form.login_page_logo' | i18next)"></span>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <span class="input-group-btn">
+                        <div class="btn btn-primary btn-file">
+                          <span class="icon iconmoon-file-3"></span>
+                          <span ng-bind="('views.dashboard.admin.domains.buttons.select_image' | i18next)"></span>
+                          <input type="file" name="avatar" onchange="angular.element(this).scope().setImage('DashboardLoginImage', this.files)">
+                        </div>
+                      </span>
+
+                      <label data-ng-if="domain.dashboard_login_image_url">
+                        <input type="checkbox" data-ng-model="domain.delete_dashboard_login_image" ng-true-value="'1'" ng-false-value="'0'">
+                        <span ng-bind="('views.dashboard.admin.form.remove_image' | i18next)"></span>
+                      </label>
+                    </div>
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.current_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ domain.dashboard_login_image_url }}" alt="{{ domain.dashboard_login_image_file_name }}" data-ng-if="domain.dashboard_login_image_url">
+                      <div data-ng-if="!domain.dashboard_login_image_url">
+                        <span ng-bind="('views.dashboard.admin.form.no_image' | i18next)"></span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.new_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ newDashboardLoginImageSrc }}" alt="" data-ng-if="newDashboardLoginImageSrc" style="width: 100px;">
+                      <div data-ng-if="!newDashboardLoginImageSrc">
+                        <span ng-bind="('views.dashboard.admin.form.no_selected_image' | i18next)"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-footer">
+                  <p>
+                    <span ng-bind="('views.dashboard.admin.domains.form.default_image_help' | i18next)"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-sm-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <span ng-bind="('views.dashboard.admin.domains.form.mail_share_logo' | i18next)"></span>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <span class="input-group-btn">
+                        <div class="btn btn-primary btn-file">
+                          <span class="icon iconmoon-file-3"></span>
+                          <span ng-bind="('views.dashboard.admin.domains.buttons.select_image' | i18next)"></span>
+                          <input type="file" name="avatar" onchange="angular.element(this).scope().setImage('EmployeeAdvocacyEmailLogoImage', this.files)">
+                        </div>
+                      </span>
+
+                      <label data-ng-if="domain.employee_advocacy_email_logo_image_url">
+                        <input type="checkbox" data-ng-model="domain.delete_employee_advocacy_email_logo_image" ng-true-value="'1'" ng-false-value="'0'">
+                        <span ng-bind="('views.dashboard.admin.form.remove_image' | i18next)"></span>
+                      </label>
+                    </div>
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.current_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ domain.employee_advocacy_email_logo_image_url }}" alt="{{ domain.employee_advocacy_email_logo_file_name }}" data-ng-if="domain.employee_advocacy_email_logo_image_url">
+                      <div data-ng-if="!domain.employee_advocacy_email_logo_image_url">
+                        <span ng-bind="('views.dashboard.admin.form.no_image' | i18next)"></span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.new_image' | i18next)"></span>
+                      </div>
+
+                      <img data-ng-src="{{ newEmployeeAdvocacyEmailLogoImageSrc }}" alt="" data-ng-if="newEmployeeAdvocacyEmailLogoImageSrc" style="width: 100px;">
+                      <div data-ng-if="!newEmployeeAdvocacyEmailLogoImageSrc">
+                        <span ng-bind="('views.dashboard.admin.form.no_selected_image' | i18next)"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-footer">
+                  <p>
+                    <span ng-bind="('views.dashboard.admin.domains.form.default_image_help' | i18next)"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <span ng-bind="('views.dashboard.admin.domains.form.apn_key' | i18next)"></span>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <span class="input-group-btn">
+                        <div class="btn btn-primary btn-file">
+                          <span class="icon iconmoon-file-3"></span>
+                          <span ng-bind="('views.dashboard.admin.domains.buttons.select_file' | i18next)"></span>
+                          <input type="file" onchange="angular.element(this).scope().setFile('ApnKey', this.files)">
+                        </div>
+                      </span>
+
+                      <label data-ng-if="domain.apn_key_file_name">
+                        <input type="checkbox" data-ng-model="domain.remove_apn_key" ng-true-value="'1'" ng-false-value="'0'"><span ng-bind="('views.dashboard.admin.form.remove_file' | i18next)"></span>
+                      </label>
+                    </div>
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.current_file' | i18next)"></span>
+                      </div>
+
+                      {{ domain.apn_key_file_name }}
+
+                      <div data-ng-if="!domain.apn_key_file_name">
+                        <span ng-bind="('views.dashboard.admin.form.no_file' | i18next)"></span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div>
+                        <span ng-bind="('views.dashboard.admin.form.new_file' | i18next)"></span>
+                      </div>
+
+                      {{ newApnKeyName }}
+
+                      <div data-ng-if="!newApnKey">
+                        <span ng-bind="('views.dashboard.admin.form.no_selected_file' | i18next)"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-footer">
+                  <p>
+                    <span ng-bind="('views.dashboard.admin.domains.form.apn_key_help' | i18next)"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.facebook_api' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <div class="row">
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.facebook_app_id" name="domain_facebook_app_id" data-ng-required="!!domain.facebook_app_secret" placeholder="App ID">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_facebook_app_id'].$invalid && editDomainForm['domain_facebook_app_id'].$dirty">
+                <span data-ng-if="editDomainForm['domain_facebook_app_id'].$error.required">
+                  É necessário informar o App ID quando informa o App Secret
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.facebook_app_secret" name="domain_facebook_app_secret" data-ng-required="!!domain.facebook_app_id" placeholder="App Secret">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_facebook_app_secret'].$invalid && editDomainForm['domain_facebook_app_secret'].$dirty">
+                <span data-ng-if="editDomainForm['domain_facebook_app_secret'].$error.required">
+                  É necessário informar o App Secret quando informa o App ID
+                </span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.twitter_api' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <div class="row">
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.twitter_app_id" name="domain_twitter_app_id" data-ng-required="!!domain.twitter_app_secret" placeholder="App ID">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_twitter_app_id'].$invalid && editDomainForm['domain_twitter_app_id'].$dirty">
+                <span data-ng-if="editDomainForm['domain_twitter_app_id'].$error.required">
+                  É necessário informar o App ID quando informa o App Secret
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.twitter_app_secret" name="domain_twitter_app_secret" data-ng-required="!!domain.twitter_app_id" placeholder="App Secret">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_twitter_app_secret'].$invalid && editDomainForm['domain_twitter_app_secret'].$dirty">
+                <span data-ng-if="editDomainForm['domain_twitter_app_secret'].$error.required">
+                  É necessário informar o App Secret quando informa o App ID
+                </span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.youtube_api' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <div class="row">
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.youtube_app_id" name="domain_youtube_app_id" data-ng-required="!!domain.youtube_app_secret" placeholder="Client ID">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_youtube_app_id'].$invalid && editDomainForm['domain_youtube_app_id'].$dirty">
+                <span data-ng-if="editDomainForm['domain_youtube_app_id'].$error.required">
+                  É necessário informar o Client ID quando informa o Client Secret
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.youtube_app_secret" name="domain_youtube_app_secret" data-ng-required="!!domain.youtube_app_id" placeholder="Client Secret">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_youtube_app_secret'].$invalid && editDomainForm['domain_youtube_app_secret'].$dirty">
+                <span data-ng-if="editDomainForm['domain_youtube_app_secret'].$error.required">
+                  É necessário informar o Client Secret quando informa o Client ID
+                </span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.instagram_api' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <div class="row">
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.instagram_app_id" name="domain_instagram_app_id" data-ng-required="!!domain.instagram_app_secret" placeholder="Client ID">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_instagram_app_id'].$invalid && editDomainForm['domain_instagram_app_id'].$dirty">
+                <span data-ng-if="editDomainForm['domain_instagram_app_id'].$error.required">
+                  É necessário informar o Client ID quando informa o Client Secret
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.instagram_app_secret" name="domain_instagram_app_secret" data-ng-required="!!domain.instagram_app_id" placeholder="Client Secret">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_instagram_app_secret'].$invalid && editDomainForm['domain_instagram_app_secret'].$dirty">
+                <span data-ng-if="editDomainForm['domain_instagram_app_secret'].$error.required">
+                  É necessário informar o Client Secret quando informa o Client ID
+                </span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.linkedin_api' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <div class="row">
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.linkedin_app_id" name="domain_linkedin_app_id" data-ng-required="!!domain.linkedin_app_secret" placeholder="Client ID">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_linkedin_app_id'].$invalid && editDomainForm['domain_linkedin_app_id'].$dirty">
+                <span data-ng-if="editDomainForm['domain_linkedin_app_id'].$error.required">
+                  É necessário informar o Client ID quando informa o Client Secret
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-6">
+              <input type="text" class="form-control" data-ng-model="domain.linkedin_app_secret" name="domain_linkedin_app_secret" data-ng-required="!!domain.linkedin_app_id" placeholder="Client Secret">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_linkedin_app_secret'].$invalid && editDomainForm['domain_linkedin_app_secret'].$dirty">
+                <span data-ng-if="editDomainForm['domain_linkedin_app_secret'].$error.required">
+                  É necessário informar o Client Secret quando informa o Client ID
+                </span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.rules' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <div class="row relative" data-ng-repeat="(index, domain_br_badge_event) in domain.domain_br_badge_events">
+            <div class="col-sm-5">
+              <input type="text" class="form-control" data-ng-model="domain_br_badge_event.event" name="domain_br_badge_event_{{ index }}_event" placeholder="Nome do evento" data-ng-required="true">
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_br_badge_event_' + index + '_event'].$invalid && editDomainForm['domain_br_badge_event_' + index + '_event'].$dirty">
+                <span data-ng-if="editDomainForm['domain_br_badge_event_' + index + '_event'].$error.required">
+                  Informe um evento
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-5">
+              <select name="domain_br_badge_event_{{ index }}_br_badge" class="form-control" data-ng-options="option.name for option in domain_br_badge_event_events_choices track by option.id" data-ng-model="domain_br_badge_event.br_badge"></select>
+
+              <span class="text-danger" data-ng-if="editDomainForm['domain_br_badge_event_' + index + '_br_badge'].$invalid && editDomainForm['domain_br_badge_event_' + index + '_br_badge'].$dirty">
+                <span data-ng-if="editDomainForm['domain_br_badge_event_' + index + '_br_badge'].$error.required">
+                  É necessário escolher uma regra de negócio a ser executada quando acontecer o evento
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-2">
+              <a href="#" class="btn btn-danger bnt-block" data-ng-click="removeDomainBrBadgeEvent(domain_br_badge_event)">
+                <span ng-bind="('views.dashboard.admin.domains.buttons.remove_rule' | i18next)"></span>
+              </a>
+            </div>
+
+            <div data-ng-if="domain_br_badge_event._destroy" class="indicator show text-center">
+              <a href="#" class="btn-primary btn" data-ng-click="domain_br_badge_event._destroy = false"> <span ng-bind="('views.dashboard.admin.domains.buttons.restore_rule' | i18next)"></span></a>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <a href="javascript://" class="btn btn-primary" data-ng-click="addDomainBrBadgeEvent()">
+                <span ng-bind="('views.dashboard.admin.domains.buttons.new_rule' | i18next)"></span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.how_to_score' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <div class="row relative" data-ng-repeat="(index, how_to_point_item) in domain.how_to_point_items">
+            <div class="col-sm-2">
+              <input type="integer" class="form-control" data-ng-model="how_to_point_item.points" name="how_to_point_item_{{ index }}_points" placeholder="Pontos" data-ng-required="true">
+
+              <span class="text-danger" data-ng-if="editDomainForm['how_to_point_item_' + index + '_points'].$invalid && editDomainForm['how_to_point_item_' + index + '_points'].$dirty">
+                <span data-ng-if="editDomainForm['how_to_point_item_' + index + '_points'].$error.required">
+                  Informe a pontuação
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-4">
+              <input type="text" class="form-control" data-ng-model="how_to_point_item.description" name="how_to_point_item_{{ index }}_description" placeholder="Descrição" data-ng-required="true">
+
+              <span class="text-danger" data-ng-if="editDomainForm['how_to_point_item_' + index + '_description'].$invalid && editDomainForm['how_to_point_item_' + index + '_description'].$dirty">
+                <span data-ng-if="editDomainForm['how_to_point_item_' + index + '_description'].$error.required">
+                  Informe um evento
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-4">
+              <input type="text" class="form-control" data-ng-model="how_to_point_item.section" name="how_to_point_item_{{ index }}_section" placeholder="Seção" data-ng-required="true">
+
+              <span class="text-danger" data-ng-if="editDomainForm['how_to_point_item_' + index + '_section'].$invalid && editDomainForm['how_to_point_item_' + index + '_section'].$dirty">
+                <span data-ng-if="editDomainForm['how_to_point_item_' + index + '_section'].$error.required">
+                  Informe uma seção
+                </span>
+              </span>
+            </div>
+
+            <div class="col-sm-2">
+              <a href="#" class="btn btn-danger bnt-block" data-ng-click="how_to_point_item._destroy = true">
+                <span ng-bind="('views.dashboard.admin.domains.buttons.remove_rule' | i18next)"></span>
+              </a>
+            </div>
+
+            <div data-ng-if="how_to_point_item._destroy" class="indicator show text-center">
+              <a href="#" class="btn-primary btn" data-ng-click="how_to_point_item._destroy = false">
+                <span ng-bind="('views.dashboard.admin.domains.buttons.restore_rule' | i18next)"></span>
+              </a>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <a href="javascript://" class="btn btn-primary" data-ng-click="addHowToPointItem()">
+                <span ng-bind="('views.dashboard.admin.domains.buttons.new_way_to_point' | i18next)"></span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.domains.form.css_text' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <textarea class="form-control" data-ng-model="domain.css_text" rows="10" name="domain_css_text"></textarea>
+        </div>
+      </div>
+
+      <a href="#" class="btn btn-success mb10" data-ng-click="sync()">
+        <span ng-bind="('views.dashboard.admin.buttons.save' | i18next)"></span>
+      </a>
+    </div>
+
+  </div>
+</form>

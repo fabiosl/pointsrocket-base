@@ -1,0 +1,2 @@
+<% fav = @domain.dashboard_menu_image_contract.exists? ? @domain.dashboard_menu_image_contract.url(:logo) : "favicon.png" %>
+<%= favicon_link_tag fav %>

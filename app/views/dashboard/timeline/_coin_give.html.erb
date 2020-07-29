@@ -1,0 +1,49 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-coins"></i> <%= t('views.timeline.index.peer_recognition') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+  </div>
+  <div class="panel-body">
+    <ul class="list-table mb10">
+      <li class="text-center pos-relative" style="width:60px;">
+        {{ #timelineable.user.admin }}
+          <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+        {{ /timelineable.user.admin }}
+        <a href="<%= users_path %>/{{ timelineable.user.id }}">
+          <img
+            src="{{ timelineable.user.avatar_timeline }}"
+            alt="{{timelineable.user.name}}"
+            class="img-circle" width="50" height="50"
+          >
+        </a>
+      </li>
+      <li class="text-left">
+        <p class="semibold nm">
+          <a href="<%= users_path %>/{{timelineable.user.id}}" class="text-default">
+            {{timelineable.user.name}}
+          </a>
+        </p>
+        <p class="nm">
+          <span class="text-muted"><i class="ico-time"></i> <%= t "views.time_ago_with_time" %></span> - {{{timelineable.formatted_action}}}
+        </p>
+      </li>
+    </ul>
+
+    <div class="peer-reconition-content">
+      <blockquote class="mb10 text-muted text-center">
+        <p>
+          {{{timelineable.formatted_content}}}
+        </p>
+      </blockquote>
+    </div>
+
+  </div>
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>

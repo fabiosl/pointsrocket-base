@@ -1,0 +1,22 @@
+<% table_data.each do |hashtag, users| %>
+  <table class="table table-striped most-recognized-table" id=<%=hashtag + '_wrapper'%>>
+    <thead>
+      <tr>
+        <th><%= t 'views.dashboard.admin_dashboard.general.name' %></th>
+        <th class="text-center"><%= t 'views.dashboard.admin_dashboard.general.points' %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.each do |user| %>
+        <tr>
+          <td style="border:none;"> 
+            <%= link_to user[:user].name, user_path(user[:user]) %>
+          </td> 
+          <td style="width: 10%;border:none;" class="text-center">
+            <%= user[:total_points] %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

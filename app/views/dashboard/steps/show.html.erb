@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-md-8">
+
+    <%= render 'breadcrumb',
+        items: [
+          {
+            content: @step.chapter.course.name,
+            link: url_for(@step.chapter.course)
+          },
+          {
+            content: @step.chapter.name,
+            link: url_for(@step.chapter.course)
+          },
+          {
+            content: @step.name,
+            link: course_chapter_step_path(@step.chapter.course.slug, @step.chapter.slug, @step.position)
+          },
+        ]
+    %>
+
+    <%= render 'quiz' if @step.step_type == 'Quiz' and not @show_correct_answer %>
+    <%= render 'video' if @step.step_type == 'Vídeo' %>
+  </div>
+
+  <% if @step.archives.any? %>
+    <div class="col-md-4">
+      <div class="panel">
+        <div class="panel-body">
+          <h3 class="step-name"><strong><%= t('views.steps.show.files') %></strong></h3>
+
+          <% @step.archives.each do |archive| %>
+            <p>
+              <a href="<%= url_for archive %>"><%= archive.name %></a>
+            </p>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @step.chapter.course.monitor_html.present? %>
+    <div class="col-md-4">
+      <div class="panel">
+        <div class="panel-body">
+          <h3 class="step-name"><strong><%= t('views.steps.show.monitor') %></strong></h3>
+
+          <%= @step.chapter.course.monitor_html.html_safe %>
+
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @step_questions.size > 0 %>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="panel">
+        <div class="panel-body">
+          <h3 class="step-name"><strong><%= t('views.steps.show.questions') %></strong></h3>
+
+          <div class="media-list">
+            <%= render partial: 'dashboard/questions/step_question',
+              collection: @step_questions %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= render partial: 'dashboard/questions/form', locals: { step: @step } %>

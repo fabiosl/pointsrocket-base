@@ -1,0 +1,18 @@
+- title: "Trivia 1 do futebol americano"
+  questions_attributes:
+    - name: "Richie Incognito, jogador do Miami Dolphins, foi acusado de quê?"
+      options_attributes:
+      - name: "Uso de substâncias ilegais"
+      - name: "Homicídio culposo"
+      - name: "Bullying"
+        correct: true
+      - name: "Sequestro"
+
+    - name: "A canção \"Who Dat?\" é de que time da NFL?"
+      options_attributes:
+        - name: "New Orleans Saints"
+        - name: "Houston Texans"
+          correct: true
+        - name: "New England Patriots"
+        - name: "San Francisco 49ers"
+        - name: "Oakland Raiders"

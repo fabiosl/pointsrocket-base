@@ -1,0 +1,118 @@
+<h2 class="mt0 mb25"><%= t 'views.dashboard.admin_dashboard.news.title' %></h2>
+<div class="row">
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-info text-center">
+        <div class="ico-cursor fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t 'views.dashboard.admin_dashboard.news.clicks' %></h5>
+          <h2 class="semibold nm"><%= @dashboard_data[:total_clicks] %></h2>
+        </div>
+        <a
+          href="#"
+          class="panel-ribbon panel-ribbon-info pull-right"
+          data-html="true"
+          data-container="body"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-placement="left"
+          data-content="<%= t 'views.dashboard.admin_dashboard.total_clicks_help' %>"
+        >
+          <i class="ico-info"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-info text-center">
+        <div class="ico-share22 fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t 'views.dashboard.admin_dashboard.news.publications' %></h5>
+          <h2 class="semibold nm"><%= @dashboard_data[:total_news_shares] %></h2>
+        </div>
+        <a
+          href="#"
+          class="panel-ribbon panel-ribbon-info pull-right"
+          data-html="true"
+          data-container="body"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-placement="left"
+          data-content="<%= t 'views.dashboard.admin_dashboard.total_news_shares_help' %>"
+        >
+          <i class="ico-info"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-inverse text-center">
+        <h4 style="padding: 33px 0;">EEMV</h4>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h4 class="semibold pt10 pb10"><%= number_to_currency @dashboard_data[:news_total_cost], locale: :en %></h4>
+        </div>
+
+        <a
+          href="#"
+          class="panel-ribbon panel-ribbon-info pull-right"
+          data-html="true"
+          data-container="body"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-placement="left"
+          data-content="<%= t 'views.dashboard.admin_dashboard.eemv_total_help' %>"
+        >
+          <i class="ico-info"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel text-center" style="background-color: #3b5999; color: #ffffff;">
+        <div class="ico-facebook fsize24" style="padding: 43px 0;"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h4 class="semibold pt10 pb10"><%= number_to_currency @dashboard_data[:news_facebook_total_cost], locale: :en %></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel text-center" style="background-color: #0084b4; color: #ffffff;">
+        <div class="ico-twitter2 fsize24" style="padding: 43px 0;"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h4 class="semibold pt10 pb10"><%= number_to_currency @dashboard_data[:news_twitter_total_cost], locale: :en %></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel text-center" style="background-color: #0077b5; color: #ffffff;">
+        <div class="ico-linkedin2 fsize24" style="padding: 43px 0;"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h4 class="semibold pt10 pb10"><%= number_to_currency @dashboard_data[:news_linkedin_total_cost], locale: :en %></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

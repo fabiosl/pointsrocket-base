@@ -1,0 +1,3 @@
+# Configuring ruby environment (e.g. setting the defaut ruby)
+- include: rbenv-configure.yml
+

@@ -1,0 +1,2 @@
+$ ->
+  $('.badge-modal').modal('show')

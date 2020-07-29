@@ -1,0 +1,118 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.hashtag_challenges.index.title') %>
+    <% if can? :manage_community, current_domain %>
+      <a href="/dashboard/admin/hashtag_challenges" class="btn btn-xs btn-primary">
+        <%= t('views.general.buttons.edit').downcase %>
+      </a>
+    <% end %>
+  </span>
+</h2>
+
+<hr>
+
+<% if @hashtag_challenges.size < 1 %>
+  <div class="well">
+    <%= t('views.hashtag_challenges.index.no_records') %>. 
+    <%= link_to timeline_path do %>
+      <%= t('views.general.see_timeline') %> 
+    <% end %>
+  </div>
+<% end %>
+
+<% @hashtag_challenges.each_with_index do |hashtag_challenge, i| %>
+<% if i % 2 == 0 %>
+<div class="row">
+<% end %>
+  <div class="col-sm-6">
+    <div class="panel">
+
+      <!-- Thumbnail -->
+      <div class="thumbnail thumbnail-album">
+        <a href="<%= hashtag_challenge_path(hashtag_challenge) %>">
+          <!-- media -->
+          <div class="media">
+            <img src="<%= hashtag_challenge.image.url %>" alt="<%= hashtag_challenge.title %>" width="100%">
+          </div>
+          <!--/ media -->
+        </a>
+      </div>
+      <!--/ Thumbnail -->
+
+      <hr class="nm"><!-- horizontal line -->
+
+      <!-- User info -->
+      <ul class="list-table pa15 pb0">
+        <li class="text-left">
+          <p class="nm">
+            <a href="<%= hashtag_challenge_path(hashtag_challenge) %>">
+              <%= hashtag_challenge.title %>
+            </a>
+          </p>
+        </li>
+      </ul>
+      <!--/ User info -->
+
+      <%
+        participating_people = User.where(id: hashtag_challenge.user_ids_visible.pluck("user_id")).limit(2)
+        participating_people_count = hashtag_challenge.user_ids_visible.count.size
+      %>
+
+      <!-- Panel body -->
+      <div class="panel-body pb0">
+        <p class="nm">
+          <i class="ico-calendar3"></i>
+          <%= t('views.general.time_from') %>
+          <%= hashtag_challenge.date_start.strftime("%d/%m/%Y") %>
+          <%= t('views.general.time_to') %>
+          <%= hashtag_challenge.date_end.strftime("%d/%m/%Y") %>
+
+          <% if hashtag_challenge.badge %>
+          <p class="nm">
+            <span>
+              <i class="ico-medal"></i> <%= hashtag_challenge.badge.name %>
+            </span>
+          </p>
+          <% end %>
+
+          <% if hashtag_challenge.points %>
+          <p class="nm">
+            <span>
+              <i class="ico-trophy"></i> <%= hashtag_challenge.points %>
+              <%= t('views.general.points') %>
+            </span>
+          </p>
+          <% end %>
+        </p>
+      </div>
+      <!--/ Panel body -->
+
+      <div class="panel-toolbar-wrapper pa10">
+        <div class="panel-toolbar">
+          <span class="img-group img-group-stack">
+            <% participating_people.each do |user| %>
+              <%= link_to user_path(user) do %>
+                <%= image_tag user.avatar.url(:s50x50),
+                              size: '50x50',
+                              class: 'img-circle',
+                              alt: user.name
+                %>
+              <% end %>
+            <% end %>
+
+            <% if participating_people_count > 2 %>
+              <span class="more img-circle"><%= participating_people_count - 2 %>+</span>
+            <% end %>
+          </span>
+
+          <%= t "views.challenges.index.have_joined", count: participating_people_count %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <% if (i + 1) % 2 == 0 or hashtag_challenge == @hashtag_challenges.last %>
+  </div>
+  <% end %>
+<% end %>

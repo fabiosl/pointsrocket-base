@@ -1,0 +1,197 @@
+<div class="panel">
+  <div class="panel-body">
+    <ul class="list-table">
+      <li class="text-left">
+        <p class="nm semibold">
+          <a href="{{ timelineable.url }}" >
+            {{ timelineable.item_title }}
+          </a>
+        </p>
+        <p>
+          {{{ timelineable.subtitle }}}
+        </p>
+      </li>
+    </ul>
+
+    <hr class="nm">
+
+    <p class="title semibold">
+      <a href="{{ timelineable.employee_advocacy_post.url }}" target="_blank">
+        {{ timelineable.employee_advocacy_post.share_by_current_user }}
+      </a>
+    </p>
+
+    <a href="{{ timelineable.employee_advocacy_post.url }}" target="_blank">
+      <img src="{{ timelineable.employee_advocacy_post.image }}" alt="post image" width="100%">
+    </a>
+
+    <hr class="nm">
+
+    <div class="panel-body">
+      <h5 class="semibold mt0">{{ timelineable.employee_advocacy_post.title }}</h5>
+      <div>{{ timelineable.employee_advocacy_post.content }}</div>
+    </div>
+    <div class="share-bubble post-to-share mt15 mb15">
+      <div class="share-bubble-title">
+        <div class="title-place">
+          <%= t('views.employee_advocacy.share') %>
+        </div>
+      </div>
+
+      <ul class="list-table pl15 pr15">
+        <li class="share-button">
+          <ul class="list-table">
+            <li class="text-center">
+              <a
+                href="#" data-ng-click="share(post, social)" class="share-post-btn"
+                data-network="facebook"
+                data-network-color="#3b5a9a"
+                data-share-title="{{ timelineable.employee_advocacy_post.title }}"
+                data-share-id="{{ timelineable.employee_advocacy_post.id }}"
+                data-content-max-length="600"
+              >
+                <span class="social-icon social-icon-facebook">
+                  <span class="ico-facebook"></span>
+                  <span
+                    class="ok advocacy-post-check-current-user-{{timelineable.employee_advocacy_post.current_user_shared_on_facebook}}"
+                    data-check-share="{{ timelineable.employee_advocacy_post.id }}-facebook"
+                  >
+                    <span class="ico-ok"></span>
+                  </span>
+                </span>
+              </a>
+              <% unless current_domain.score_disabled %>
+              <div class="text-center mt10">
+                <span>
+                  <i class="ico-trophy"></i>
+                  + {{ timelineable.employee_advocacy_post.facebook_points }}
+                </span>
+              </div>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
+        <li class="share-button">
+          <ul class="list-table">
+            <li class="text-center">
+              <a
+                href="#" class="share-post-btn"
+                data-network="twitter"
+                data-network-color="#29a9e1"
+                data-share-title="{{ timelineable.employee_advocacy_post.title }}"
+                data-share-id="{{ timelineable.employee_advocacy_post.id }}"
+                data-content-max-length="110"
+              >
+                <span class="social-icon social-icon-twitter">
+                  <span class="ico-twitter"></span>
+                  <span
+                    class="ok advocacy-post-check-current-user-{{timelineable.employee_advocacy_post.current_user_shared_on_twitter}}"
+                    data-check-share="{{ timelineable.employee_advocacy_post.id }}-twitter"
+                  >
+                    <span class="ico-ok"></span>
+                  </span>
+                </span>
+              </a>
+              <% unless current_domain.score_disabled %>
+              <div class="text-center mt10">
+                <span>
+                  <i class="ico-trophy"></i>
+                  + {{ timelineable.employee_advocacy_post.twitter_points }}
+                </span>
+              </div>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
+        <li class="share-button">
+          <ul class="list-table">
+            <li class="text-center">
+              <a
+                href="#" data-ng-click="share(post, social)" class="share-post-btn"
+                data-network="linkedin"
+                data-network-color="#117bb8"
+                data-share-title="{{ timelineable.employee_advocacy_post.title }}"
+                data-share-id="{{ timelineable.employee_advocacy_post.id }}"
+                data-content-max-length="256"
+              >
+                <span class="social-icon social-icon-linkedin">
+                  <span class="ico-linkedin"></span>
+                  <span
+                    class="ok advocacy-post-check-current-user-{{timelineable.employee_advocacy_post.current_user_shared_on_linkedin}}"
+                    data-check-share="{{ timelineable.employee_advocacy_post.id }}-linkedin"
+                  >
+                    <span class="ico-ok"></span>
+                  </span>
+                </span>
+              </a>
+
+              <% unless current_domain.score_disabled %>
+              <div class="text-center mt10">
+                <span>
+                  <i class="ico-trophy"></i>
+                  + {{ timelineable.employee_advocacy_post.linkedin_points }}
+                </span>
+              </div>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
+        <li class="share-button">
+          <ul class="list-table">
+            <li class="text-center">
+              <a
+                href="#" data-ng-click="share(post, social)" class="share-post-btn"
+                data-network="instagram"
+                data-network-color="#fb3958"
+                data-share-title="{{ timelineable.employee_advocacy_post.title }}"
+                data-share-id="{{ timelineable.employee_advocacy_post.id }}"
+                data-content-max-length="256"
+              >
+                <span class="social-icon social-icon-instagram">
+                  <span class="ico-instagram"></span>
+                  <span
+                    class="ok advocacy-post-check-current-user-{{timelineable.employee_advocacy_post.current_user_shared_on_instagram}}"
+                    data-check-share="{{ timelineable.employee_advocacy_post.id }}-instagram"
+                  >
+                    <span class="ico-ok"></span>
+                  </span>
+                </span>
+              </a>
+
+              <% unless current_domain.score_disabled %>
+              <div class="text-center mt10">
+                <span>
+                  <i class="ico-trophy"></i>
+                  + {{ timelineable.employee_advocacy_post.instagram_points }}
+                </span>
+              </div>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel-toolbar-wrapper pa10">
+      <div class="panel-toolbar">
+        <span class="img-group img-group-stack">
+          {{#timelineable.employee_advocacy_post.people_shared_info.first_two}}
+            <a href="<%= users_path %>/{{ user_id }}">
+              <img src="{{ user_avatar }}" alt="{{ user_name }}" class="img-circle">
+            </a>
+          {{/timelineable.employee_advocacy_post.people_shared_info.first_two}}
+
+          {{#timelineable.employee_advocacy_post.people_shared_info.resting_count}}
+            <span class="more img-circle">{{ timelineable.employee_advocacy_post.people_shared_info.resting_count }}+</span>
+          {{/timelineable.employee_advocacy_post.people_shared_info.resting_count}}
+        </span>
+
+        <span>{{ timelineable.employee_advocacy_post.people_shared_info.count_label }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+

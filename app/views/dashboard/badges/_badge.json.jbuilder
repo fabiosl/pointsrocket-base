@@ -1,0 +1,1 @@
+json.(badge, :id, :name)

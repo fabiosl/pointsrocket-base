@@ -1,0 +1,15 @@
+---
+# - name: Add nodejs ppa
+#   apt_repository: repo='ppa:chris-lea/node.js'
+
+# - name: Update package list
+#   apt: update_cache=yes
+
+# - name: Install nodejs package
+#   apt: name=nodejs state=present
+
+- name: npm install
+  npm: path={{ template_deploy_directory }} state=present global=yes
+
+- name: npm install grunt-cli
+  npm: name=grunt-cli state=present global=yes

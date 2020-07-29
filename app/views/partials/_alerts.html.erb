@@ -1,0 +1,21 @@
+<% if flash[:customer_moip_create_error] %>
+  <div class="alert alert-dismissable alert-danger">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <p>
+      Alguns erros não permitiram concluir o pagamento
+    </p>
+
+    <% flash[:customer_moip_create_error]['errors'].each do |error| %>
+      <p><%= error['description'] %></p>
+    <% end -%>
+  </div>
+<% end %>
+
+<% flash.each do |name, msg| -%>
+  <% if name != 'customer_moip_create_error' %>
+    <div class="alert alert-dismissable alert-<%= name %>">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <%= msg %>
+    </div>
+  <% end %>
+<% end -%>

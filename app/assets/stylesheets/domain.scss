@@ -1,0 +1,18 @@
+/*
+ *= require steps/css/jquery-steps.css
+ *= require custom.css
+*/
+
+.domains-menu {
+  height: 60px;
+}
+
+.media-overlay {
+  opacity: 1 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.domain-item-toolbar {
+  display: flex;
+  flex-direction: row-reverse;
+}

@@ -1,0 +1,334 @@
+@import 'compass';
+
+#voucher-open-tag {
+  margin-top: 10px;
+}
+
+.navbar-nav {
+  .link-with-image {
+    a, img {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    img {
+      margin-top: -4px;
+    }
+  }
+}
+
+#pricing {
+  > .container {
+    > .row {
+      > * {
+        margin-bottom: 30px;
+      }
+    }
+  }
+}
+
+#suscribe {
+  select {
+    padding-left: 54px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    line-height: 1em;
+    font-size: 14px;
+  }
+}
+
+/* ----------------------------
+ *
+ * Alert
+ *
+ * --------------------------- */
+
+.subscribe {
+  .alert {
+    margin-top: -37px;
+  }
+
+  .or {
+    color: rgb(169, 158, 158);
+    text-align: center;
+  }
+}
+.alert {
+  padding: 10px;
+}
+.alert:empty {
+  display: none;
+}
+.alert-dismissable {
+  padding-right: 10px;
+}
+.alert-dismissable .close {
+  right: 0px;
+}
+/* success */
+.alert-success {
+  color: #4e7325 !important;
+  background-color: #e0f0cf;
+  border-color: #d2e8b8;
+}
+.alert-success .gritter-item,
+.alert-success .gritter-close {
+  color: #4e7325 !important;
+}
+/* info */
+.alert-info {
+  color: #16879d !important;
+  background-color: #e9f9fc;
+  border-color: #d3f3f9;
+}
+.alert-info .gritter-item,
+.alert-info .gritter-close {
+  color: #16879d !important;
+}
+/* notice */
+.alert-notice {
+  color: #16879d !important;
+  background-color: #e9f9fc;
+  border-color: #d3f3f9;
+}
+.alert-notice .gritter-item,
+.alert-notice .gritter-close {
+  color: #16879d !important;
+}
+
+/* alert */
+.alert-alert {
+  color: #16879d !important;
+  background-color: #e9f9fc;
+  border-color: #d3f3f9;
+}
+.alert-alert .gritter-item,
+.alert-alert .gritter-close {
+  color: #16879d !important;
+}
+/* warning */
+.alert-warning {
+  color: #da9e00 !important;
+  background-color: #fff9ea;
+  border-color: #fff3d5;
+}
+.alert-warning .gritter-item,
+.alert-warning .gritter-close {
+  color: #da9e00 !important;
+}
+/* danger */
+.alert-danger {
+  color: #e8263d !important;
+  background-color: #fcdee2;
+  border-color: #faccd1;
+}
+.alert-danger .gritter-item,
+.alert-danger .gritter-close {
+  color: #e8263d !important;
+}
+
+.devise-subscribe-form {
+  margin-bottom: 20px;
+
+  .form-group {
+    label {
+      font-weight: bold;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 0px;
+    }
+  }
+}
+
+#error_explanation {
+  ul {
+    li {
+      color: rgb(192, 28, 47);
+      text-indent: 20px;
+
+      &:before {
+        content: '*'
+      }
+    }
+  }
+}
+
+.devise-shared-links {
+  margin-bottom: 50px;
+  line-height: 2.1em;
+
+  a {
+    font-size: 12px;
+    color: rgb(52, 73, 94);
+  }
+
+  .btn-facebook {
+    color: #ffffff;
+    background-color: #3b5998;
+    border-color: #37538d;
+    padding: 6px 46px;
+  }
+}
+
+#suscribe {
+  .btn-facebook {
+    padding: 9px 46px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+
+#error_explanation {
+
+  h2 {
+    font-size: 18px;
+    color: rgb(192, 56, 56);
+    font-weight: 400;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+    li {
+
+    }
+}
+
+.voucher-description {
+  margin-top: 3px;
+  font-size: 16px;
+}
+
+.btn-rocket {
+  color: #ffffff;
+  background-color: #333F50;
+  border-color: transparent;
+
+  &:hover {
+    color: #ffffff;
+    background-color: #5cb85c;
+  }
+}
+
+.site-form {
+  padding:20px;
+
+  &.last {
+    margin-bottom: 50px;
+  }
+
+  fieldset {
+    overflow: hidden;
+  }
+
+  legend {
+    text-align: center;
+    padding-top: 40px;
+    display: block;
+    padding-bottom: 20px;
+  }
+
+  .btn {
+    padding: 6px 12px;
+  }
+}
+
+.table {
+  font-size: 14px;
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  text-align: center;
+
+  thead {
+    font-weight: bold;
+
+    td {
+      background: rgb(218, 218, 218);
+      font-weight: 500;
+      border-right-color: rgb(173, 173, 173);
+      border-bottom-color: rgb(173, 173, 173);
+    }
+  }
+
+  td {
+    border-right: 1px solid rgb(173, 173, 173);
+    border-bottom: 1px solid rgb(173, 173, 173);
+    height: 60px;
+    vertical-align: middle !important;
+  }
+}
+
+td.links {
+  width: 20%;
+}
+
+.ft13 {
+  font-size: 13px !important;
+}
+
+
+.mt40 {
+  margin-top: 40px;
+}
+
+/* pricing ----------------------------*/
+
+#pricing {
+  padding-bottom: 118px;
+}
+#pricing h2 {
+  margin-bottom: 40px;
+}
+#pricing .item {
+  border: 3px solid #EAEAEA;
+  border-radius: 4px 4px 4px 4px;
+  max-width: 357px;
+  padding: 20px 25px 44px;
+  -webkit-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+           -moz-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+            -ms-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+             -o-transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+                transition: background-color 0.6s ease, border .3s ease, color .3s ease, opacity .3s ease-in-out, outline 0.9s ease;
+}
+#pricing .item:hover {
+  border-color: #A2DCDE;
+}
+
+#pricing .item:hover .btn {
+  background: #00A0B0;
+  border-color: #A2DCDE;
+}
+
+#pricing .item h3 {
+  font-size: 29px;
+  font-weight: bold;
+}
+#pricing .item h4 {
+  color: #ADC1D1;
+  font-size: 15px;
+  font-weight: normal;
+  margin: 12px 0 32px;
+}
+#pricing .item ul {
+  list-style: none outside none;
+  margin: 0 0 33px;
+  padding: 0;
+}
+#pricing .item ul li {
+  font-size: 16px;
+  padding: 6px 0;
+}
+#pricing .item .btn {
+  font-size: 18px;
+  line-height: 11px;
+  padding: 24px 28px;
+}
+#voucher-fieldset{
+  padding-bottom: 0px;
+}

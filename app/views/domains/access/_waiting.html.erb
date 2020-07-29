@@ -1,0 +1,16 @@
+<div class="thumbnail thumbnail-album">
+  <%= link_to(domain.get_url) do %>
+    <div class="media">
+      <div class="indicator"><span class="spinner"></span></div>
+      <%= image_tag domain.dashboard_menu_image.url, class: 'unveiled', alt: 'Cover', width: '100%' %>
+    </div>
+  <% end %>
+  <div class="caption text-center">
+    <div class="label label-warning mb10">
+      <%= t('views.dashboard.community_invites.statuses.waiting_approval') %>
+    </div>
+    <div><%= domain.name %></div>
+  </div>
+  <hr class="mt5 mb5">
+  <%= render partial: 'domains/users_meta', locals: { domain: domain } %>
+</div>

@@ -1,0 +1,60 @@
+<div class="row">
+  <% 4.times do %>
+  <div class="col-sm-6">
+    <div class="panel">
+
+      <!-- Thumbnail -->
+      <div class="thumbnail thumbnail-album">
+          <!-- media -->
+          <div class="media">
+              <!-- indicator -->
+              <div class="indicator"><span class="spinner"></span></div>
+              <!--/ indicator -->
+              <img data-toggle="unveil" src="<%= image_url 'loreal/maquiagem.jpg' %>" alt="Cover" width="100%" class="unveiled">
+          </div>
+          <!--/ media -->
+      </div>
+      <!--/ Thumbnail -->
+
+      <hr class="nm"><!-- horizontal line -->
+
+      <!-- User info -->
+      <ul class="list-table pa15 pb0">
+          <li class="text-center" style="width:20px;">
+            <i class=" ico-facetime-video ft20"></i>
+          </li>
+          <li class="text-left">
+              <p class="ellipsis nm">
+                <a href="#">
+                  Faça você mesmo by <span class="semibold">Maybelline</span>
+                </a>
+              </p>
+          </li>
+      </ul>
+      <!--/ User info -->
+
+      <!-- Panel body -->
+      <div class="panel-body pb0">
+          <p class="nm ellipsis">
+              <a href="javascript:void(0);" class="text-default"><i class="ico-calendar3"></i> De 15/01 até 20/01</a>&nbsp;
+          </p>
+      </div>
+      <!--/ Panel body -->
+
+      <ul class="list-table pa10">
+          <li class="text-center" style="width:131px;">
+            <div class="img-group img-group-stack">
+                <span class="more img-circle">2+</span>
+                <span class="more img-circle">2+</span>
+                <span class="more img-circle">2+</span>
+            </div>
+          </li>
+          <li class="text-left">
+              <p class="nm"><a href="javascript:void(0);" class="semibold">4 pessoas</a> participaram</p>
+          </li>
+      </ul>
+
+    </div>
+  </div>
+  <% end %>
+</div>

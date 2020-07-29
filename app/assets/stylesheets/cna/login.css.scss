@@ -1,0 +1,94 @@
+@import "compass/css3/text-shadow";
+// $amarelo: #FDBD07;
+// $dourado: #C9AF77;
+
+.login-header {
+  background: image-url("cbfa/login-header.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display: none;
+
+  &:before {
+    content: "";
+    display: block;
+    padding-top: (272/747) * 100%;
+  }
+}
+
+
+.login-content {
+  > .row {
+    height: inherit;
+
+    > .col-form {
+      height: inherit;
+    }
+  }
+}
+
+  .login-form {
+    width: 303px;
+    margin: 0 auto;
+    margin-top: 50px;
+    display: block;
+
+    .btn-success {
+      &:hover, &:focus, &:active {
+        background: #DED656;
+        color: black;
+      }
+    }
+
+    legend {
+      color: #fff;
+      font-weight: 300;
+      font-size: 22px;
+      @include text-shadow(0 1px 2px rgba(0,0,0,.2));
+      border: none;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    input:-webkit-autofill {
+      background-color: white !important;
+    }
+  }
+
+  .cbfa-footer-logo {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: block;
+  }
+
+
+  @media (max-width: 420px) {
+    .login-header {
+      display: block;
+    }
+
+    .login-content {
+      height: auto !important;
+
+      .login-form {
+        margin-top: 20px;
+        margin-bottom: 40px;
+
+        legend {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+
+  // ipad em pe
+
+  @media (min-width: 768px) and (max-width: 1000px) {
+
+    .login-content {
+      background-position: -100px 0px;
+    }
+
+  }

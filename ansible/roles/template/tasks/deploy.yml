@@ -1,0 +1,2 @@
+- name: clone app repository
+  git: repo={{ template_repo_url }} dest={{ template_deploy_directory }} version={{ template_repo_version }}

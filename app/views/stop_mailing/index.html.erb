@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-default mt30">
+      <div class="panel-heading">
+        <h2 class="panel-title">
+          <%= t '.title' %>
+        </h2>
+      </div>
+      <div class="panel-body">
+        <% if @user.subscribe %>
+          <%= t '.your_email_html', mail: @user.email %>
+
+          <div class="mt10">
+            <%= t '.confirm_unsubscribe_html', link: link_to(t('.clicking_here'), stop_mailing_path(params[:token]), data: {method: :delete}) %>
+          </div>
+        <% else %>
+          <b><%= @user.email %></b>: <%= t '.not_subscribed' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

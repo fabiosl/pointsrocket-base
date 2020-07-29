@@ -1,0 +1,43 @@
+<li class="wrapper">
+  <div class="figure bgcolor-primary"><i class="ico-share22"></i></div>
+  <!-- panel -->
+  <div class="panel">
+    <div class="panel-body break-word">
+      <ul class="list-table">
+        <li class="text-center pos-relative" style="width:60px;">
+          {{ #timelineable.user.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.user.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.user.id }}">
+            <img src="{{ timelineable.user.avatar_timeline }}" alt="{{ timelineable.user.name }}" class="img-circle" width="50">
+          </a>
+          <span class="social-hashtag_challenge-ico">
+            <i class="ico ico-{{ timelineable.social_network }}"></i>
+          </span>
+        </li>
+        <li class="text-left">
+          <p class="nm"><span class="semibold">{{ timelineable.user.name }}</span> 
+          <%= t('views.dashboard.timeline.profile.created_employee_advocacy_share') %>
+        </li>
+      </ul>
+
+      <div class="panel-body">
+        {{ timelineable.user_content }}
+      </div>
+      <div class="mt10 images-full-width-wrapper">
+        <a href="{{ timelineable.external_url }}" target="_blank">
+          <img src="{{ timelineable.employee_advocacy_post.image }}" alt="post image" width="100%">
+        </a>
+      </div>
+
+      <div class="panel-body">
+        <a href="{{ timelineable.external_url }}" target="_blank" class="text-default">
+          <h5 class="semibold mt0">{{ timelineable.employee_advocacy_post.title }}</h5>
+        </a>
+        <div>{{ timelineable.employee_advocacy_post.content }}</div>
+      </div>
+    </div>
+  </div>
+  <!--/ panel -->
+</li>
+

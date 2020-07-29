@@ -1,0 +1,505 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.hashtag_challenges.index.title').capitalize %>
+  </span>
+</h2>
+
+<hr>
+
+<%
+  if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'false'
+    the_complete_registration_path = complete_registration_path(edit_social_networks: 'yes', ref: url_for(only_path: false))
+  else
+    the_complete_registration_path = complete_registration_url(subdomain: false, edit_social_networks: 'yes', ref: url_for(only_path: false))
+  end
+%>
+
+<div class="row">
+  <div class="col-sm-8">
+    <div class="panel">
+      <div class="panel-body pos-relative break-word">
+        <% if current_user.hashtag_challenge_approved? @hashtag_challenge %>
+          <!-- <i class="ico-ok-circle hashtag_challenge-approved-mark" style="color: green;" title="Approved"></i> -->
+          <span class="label label-success pull-right"><%= t('views.hashtag_challenges.show.participating') %></span>
+        <% end %>
+
+        <h2 class="mt0">
+          <%= @hashtag_challenge.title %>
+        </h2>
+        <p class="info-list text-default">
+          <span>
+            <i class="ico-calendar3"></i> <%= t('views.general.from').capitalize %>  <%= @hashtag_challenge.date_start.strftime("%d/%m/%Y") %> <%= t('views.general.to') %>  <%= @hashtag_challenge.date_end.strftime("%d/%m/%Y") %>
+          </span>
+
+          <% participating_people_count = @hashtag_challenge.user_ids_visible.count.size %>
+
+          <!--  TODO: the following code needs to be refactored. It is being repeated several times across views. -->
+          <%
+            participating_key = @hashtag_challenge.has_passed? ? "views.hashtag_challenges.index.have_published_past" : "views.hashtag_challenges.index.have_published"
+          %>
+
+          <span>
+            <i class="ico-user"></i> <%= t participating_key, count: participating_people_count %>
+          </span>
+
+          <span>
+            <% comments_count = Comment.where(commentable: @hashtag_challenge).count %>
+            <i class="ico-comments"></i> <%= comments_count %> <%= t('views.general.comments') %>
+          </span>
+
+          <% if @hashtag_challenge.badge %>
+          <span>
+            <i class="ico-medal"></i> <%= @hashtag_challenge.badge.name %>
+          </span>
+          <% end %>
+
+          <% if @hashtag_challenge.points %>
+          <span>
+            <i class="ico-trophy"></i> <%= @hashtag_challenge.points %>
+            <%= t('views.general.points') %>
+          </span>
+          <% end %>
+        </p>
+
+        <p class="description">
+          <%= (@hashtag_challenge.description || "").html_safe %>
+        </p>
+
+        <!-- media -->
+        <div class="media">
+          <img src="<%= @hashtag_challenge.image.url %>" alt="<%= @hashtag_challenge.title %>" width="100%">
+        </div>
+        <!--/ media -->
+
+      </div>
+    </div>
+
+    <div class="move-me-on-desktop" target="#hashtag_challenge-user-sidebar">
+      <div class="panel panel-my-social-networks">
+        <div class="panel-body">
+          <h4 class="semibold nm">
+            <i class="ico-facebook"></i>
+
+            <%= t('views.hashtag_challenges.show.my_social_networks') %>
+          </h4>
+
+          <hr class="mt15">
+          <%
+            permited_providers = get_permited_providers_for_current_domain
+          %>
+
+          <%
+            if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'false'
+              facebook_identity = current_user.identities.where(domain: current_domain.master_domain_or_self_for_provider(:facebook)).facebook.first
+            else
+              facebook_identity = current_user.identities.facebook.first
+            end
+          %>
+
+          <% if permited_providers.include?(:facebook) %>
+            <% if current_user.facebook_page_name_to_monitor.present? and facebook_identity.present? %>
+              <ul class="list-table">
+                <li style="width:40px;" class="pos-relative">
+                  <span class="relative">
+                    <img class="img-circle img-bordered-primary" src="<%= current_user.facebook_page_picture_to_monitor.url(:thumb) %>" style="width: 32px;">
+                    <div class="social-attached-icon-wrapper">
+                      <i class="ico ico-facebook social-attached-icon"></i>
+                    </div>
+                  </span>
+                </li>
+                <li>
+                  <a href="#collect-info-modal" data-toggle="modal">
+                    <h5 class="semibold ellipsis nm"><%= current_user.facebook_page_name_to_monitor %></h5>
+                    <% count = @hashtag_challenge.get_hashtag_challenge_user_for(user: current_user, provider: :facebook).size %>
+                    <p class="text-muted nm"><%= t '.publications', count: count %></p>
+                  </a>
+                </li>
+              </ul>
+
+              <hr>
+            <% else %>
+              <a href="<%= the_complete_registration_path %>" class="btn btn-block btn-facebook">
+                <%= t '.facebook_login_title' %>
+              </a>
+              <hr>
+            <% end %>
+          <% end %>
+
+          <%
+            if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'false'
+              youtube_identity = current_user.identities.where(domain: current_domain.master_domain_or_self_for_provider(:youtube)).youtube.first
+            else
+              youtube_identity = current_user.identities.youtube.first
+            end
+          %>
+
+          <% if permited_providers.include?(:google_oauth2) %>
+            <% if current_user.youtube_channel_name_to_monitor.present? and youtube_identity.present?  %>
+              <ul class="list-table">
+                <li style="width:40px;" class="pos-relative">
+                  <span class="relative">
+                    <img class="img-circle img-bordered-primary" src="<%= current_user.youtube_channel_picture_to_monitor.url(:thumb) %>" style="width: 32px;">
+                    <div class="social-attached-icon-wrapper">
+                      <i class="ico ico-youtube social-attached-icon"></i>
+                    </div>
+                  </span>
+                </li>
+                <li>
+                  <a href="#collect-info-modal" data-toggle="modal">
+                    <h5 class="semibold ellipsis nm"><%= current_user.youtube_channel_name_to_monitor %></h5>
+                    <% count = @hashtag_challenge.get_hashtag_challenge_user_for(user: current_user, provider: :youtube).size %>
+                    <p class="text-muted nm"><%= t '.publications', count: count %></p>
+                  </a>
+                </li>
+              </ul>
+
+              <hr>
+            <% else %>
+              <a href="<%= the_complete_registration_path %>" class="btn btn-block btn-youtube">
+                <%= t '.youtube_login_title' %>
+              </a>
+              <hr>
+
+            <% end %>
+          <% end %>
+
+          <%
+            if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'false'
+              instagram_identity = current_user.identities.where(domain: current_domain.master_domain_or_self_for_provider(:instagram)).instagram.first
+            else
+              instagram_identity = current_user.identities.instagram.first
+            end
+          %>
+
+          <% if permited_providers.include?(:instagram) %>
+            <% if instagram_identity.present? %>
+              <ul class="list-table">
+                <li style="width:40px;" class="pos-relative">
+                  <span class="relative">
+                    <img class="img-circle img-bordered-primary" src="<%= instagram_identity.avatar.url(:thumb) %>" style="width: 32px;">
+                    <div class="social-attached-icon-wrapper">
+                      <i class="ico ico-instagram social-attached-icon"></i>
+                    </div>
+                  </span>
+                </li>
+                <li>
+                  <a href="#collect-info-modal" data-toggle="modal">
+                    <h5 class="semibold ellipsis nm"><%= instagram_identity.name %></h5>
+                    <% count = @hashtag_challenge.get_hashtag_challenge_user_for(user: current_user, provider: :instagram).size %>
+                    <p class="text-muted nm"><%= t '.publications', count: count %></p>
+                  </a>
+                </li>
+              </ul>
+
+              <hr>
+            <% else %>
+              <a href="<%= the_complete_registration_path %>" class="btn btn-block btn-instagram">
+                <%= t '.instagram_login_title' %>
+              </a>
+              <hr>
+            <% end %>
+          <% end %>
+
+          <a href="#collect-info-modal" data-toggle="modal">
+            <p class="text-muted nm text-center "><%= t('views.hashtag_challenges.show.not_collected')%></p>
+          </a>
+
+          <!--%= link_to t(".manage_my_social_networks"), the_complete_registration_path, class: "btn btn-block btn-primary" %-->
+
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-body">
+          <h4 class="semibold nm">
+            <i class="ico-pencil"></i>
+
+            <%= t('views.hashtag_challenges.show.my_publications') %>
+          </h4>
+
+          <hr class="mt15">
+          <% if @current_user_submissions.any? %>
+            <% @current_user_submissions.decorate.each_with_index do |hashtag_challenge_user, i| %>
+              <ul class="list-table hashtag_challenge-user">
+                <% if hashtag_challenge_user.has_post_picture? %>
+                  <li class="text-left" style="width:60px;">
+                    <%= link_to hashtag_challenge_user.url, target: '_blank' do %>
+                      <%= image_tag hashtag_challenge_user.get_post_picture,
+                                    size: '50x50',
+                                    class: 'img-circle'
+                      %>
+                    <% end %>
+                  </li>
+                <% end %>
+
+                <li class="text-left">
+                  <p class="text-muted nm">
+                    <% if hashtag_challenge_user.status == "pending" %>
+                      <i class="ico-time " title="<%= t('views.hashtag_challenges.show.status.waiting_approval') %>"></i>
+                       <%= t('views.hashtag_challenges.show.status.waiting_approval') %> <br>
+
+                    <% elsif hashtag_challenge_user.status == "declined" %>
+                      <i class="ico-remove-circle text-danger" title="<%= t('views.hashtag_challenges.show.status.declined') %>"></i>
+                      <%= t('views.hashtag_challenges.show.status.declined') %> <br>
+                    <% end %>
+
+                    <i class="ico-calendar"></i> <%= t('views.hashtag_challenges.show.published_at') %>: <%= hashtag_challenge_user.post_created_at.strftime("%d/%m/%Y %H:%M") %> <br>
+
+                    <% if hashtag_challenge_user.social_id.present? %>
+                      <i class="ico-<%= hashtag_challenge_user.get_social_network %>"></i> <%= t('views.hashtag_challenges.show.published_on') %> <%= hashtag_challenge_user.get_social_network.titleize %><br>
+                    <% end %>
+                  </p>
+                </li>
+                <li style="width: 70px;" class="hashtag_challenger-user-status text-right">
+                  <a href="<%= hashtag_challenge_user.url %>" target="_blank">
+                    <i class="ico-link2 text-primary" title="<%= t('views.hashtag_challenges.show.open_externally') %>"></i>
+                  </a>
+
+                  <% if hashtag_challenge_user.status == "pending" %>
+                    <a href="<%= hashtag_challenge_hashtag_challenge_user_path(@hashtag_challenge, hashtag_challenge_user) %>" data-modal-confirm="<%= t('views.hashtag_challenges.show.confirms.remove') %>" data-modal-method="delete">
+                      <i class="ico-remove22 text-primary" title="<%= t('views.hashtag_challenges.show.buttons.remove') %>"></i>
+                    </a>
+                  <% elsif hashtag_challenge_user.status == "declined" %>
+                    <a href="#denied-explanation-<%= hashtag_challenge_user.id %>" data-toggle="modal" title="<%= t('views.hashtag_challenges.show.not_accepted_submission.reasons') %>">
+                      <i class="ico-question2 text-primary"></i>
+                    </a>
+                  <% end %>
+                </li>
+              </ul>
+
+              <% if i + 1 < @current_user_submissions.count %>
+                <hr class="mt10 mb10">
+              <% end %>
+            <% end %>
+          <% else %>
+            <p><%= t('views.hashtag_challenges.show.no_publications') %></p>
+          <% end %>
+
+        </div>
+      </div>
+
+      <%= render partial: "comments/widget", locals: {commentable: @hashtag_challenge} %>
+    </div>
+
+    <!-- publications -->
+    <% if @hashtag_challenge_users.social.any? %>
+      <h2 class="publication-headline text-center">
+        <%= t '.publications_headline' %>
+      </h2>
+      <hr>
+
+      <div class="row">
+
+        <%
+          count = @hashtag_challenge_users.social.count
+          groups_count = 2
+          i = 0
+          groups = @hashtag_challenge_users.social.order("created_at desc").decorate.inject([]) do |memo, hashtag_challenge_user|
+            group_index = i.to_f % groups_count
+
+            memo[group_index] ||= []
+            memo[group_index] << hashtag_challenge_user
+            i += 1
+            memo
+          end
+        %>
+
+        <% groups.each_with_index do |group, group_index| %>
+          <div class="col-xs-12 col-sm-<%= 12 / groups_count %>">
+            <% group.each do |hashtag_challenge_user| %>
+              <!-- thumbnail -->
+              <div class="panel attending">
+                <div class="panel-body pt0 pr0 pl0 pb0">
+                  <div class="thumbnail thumbnail-album animation animating delay fadeInLeft">
+                        <div class="caption mt10">
+                            <ul class="list-table">
+                              <li class="text-left pos-relative" style="width:60px;">
+                                <% if hashtag_challenge_user.user.admin_current_domain %>
+                                  <i class="ico-crown default-user-admin-ico" title="Admin"></i>
+                                <% end %>
+                                <%= link_to user_path(hashtag_challenge_user.user) do %>
+                                  <%= image_tag hashtag_challenge_user.user.avatar.url(:s50x50),
+                                                size: '50x50',
+                                                class: 'img-circle',
+                                                alt: hashtag_challenge_user.user.name
+                                  %>
+                                <% end %>
+                                <span class="social-hashtag_challenge-ico">
+                                  <i class="ico ico-<%= hashtag_challenge_user.get_post_social_network_icon %>"></i>
+                                </span>
+                              </li>
+                              <li class="text-left">
+                                <h5 class="semibold mt0 mb5"><%= hashtag_challenge_user.user.name %></h5>
+                                <p class="text-muted mb5 ellipsis">
+                                  <span class="ico ico-calendar"></span>
+                                  <%= hashtag_challenge_user.formatted_social_datetime %>
+                                </p>
+                              </li>
+                            </ul>
+                        </div>
+
+                        <% if hashtag_challenge_user.get_post_message.present? %>
+                          <div class="panel-body">
+                            <div class="challenge-post-message">
+                              <%= hashtag_challenge_user.get_post_message %>
+                            </div>
+                          </div>
+                        <% end %>
+
+                        <!-- media -->
+                        <div class="media pos-relative">
+                            <% if hashtag_challenge_user.get_post_picture.present? %>
+                              <!-- indicator -->
+                              <div class="indicator"><span class="spinner"></span></div>
+                              <!--/ indicator -->
+
+                              <!--/ toolbar overlay -->
+                              <img data-toggle="unveil" src="<%= hashtag_challenge_user.get_post_picture %>" data-src="<%= hashtag_challenge_user.get_post_picture %>" width="100%" class="unveiled">
+                            <% end %>
+
+                            <div class="share-overlay-hashtag_challenge-user">
+                              <a href="<%= hashtag_challenge_user.get_post_url %>" target="_blank">
+                                <div class="ico-external-link"></div>
+                              </a>
+                            </div>
+                        </div>
+                        <!--/ media -->
+
+                        <% if hashtag_challenge_user.get_metrics.size > 0 %>
+                        <div class="panel-toolbar-wrapper">
+                            <div class="panel-toolbar ellipsis">
+                                <%
+                                count = hashtag_challenge_user.get_metrics.size
+                                hashtag_challenge_user.get_metrics.each_with_index do |metric, i| %>
+                                  <i class="ico-<%= hashtag_challenge_user.get_metric_icon metric["name"], hashtag_challenge_user.get_social_network %>"></i> <%= metric["value"] %>
+                                  <% if i < count - 1%>
+                                    <span class="text-muted mr5 ml5">•</span>
+                                  <% end %>
+                                <% end %>
+                            </div>
+                        </div>
+                        <% end %>
+                    </div>
+                </div>
+              </div>
+              <!--/ thumbnail -->
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="fixed-sidebar" id="hashtag_challenge-user-sidebar">
+
+    </div>
+  </div>
+
+</div>
+
+<!-- START participate-modal -->
+<div id="participate-modal" class="modal fade">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3 class="semibold modal-title text-success"><%= t('views.hashtag_challenges.show.join_hashtag_challenge') %></h3>
+      </div>
+      <div class="modal-body">
+        <%= (@hashtag_challenge.description || "").html_safe %>
+
+        <a href="#terms-modal" data-toggle="modal"><%= t('views.hashtag_challenges.show.hashtag_challenge_agreement_terms') %></a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.hashtag_challenges.show.buttons.discard') %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+<!-- START terms-modal -->
+<div id="terms-modal" class="modal fade">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3 class="semibold modal-title text-success"><%= t('views.hashtag_challenges.show.hashtag_challenge_agreement_terms') %></h3>
+      </div>
+      <div class="modal-body">
+        <%= (@hashtag_challenge.terms || "").html_safe %>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.hashtag_challenges.show.buttons.close') %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<!--/ END terms-modal -->
+
+<% @current_user_submissions.where(status: "declined").each do |hashtag_challenge_user| %>
+
+  <!-- START participate-ok -->
+  <div id="denied-explanation-<%= hashtag_challenge_user.id %>" class="modal fade">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <div class="ico-remove-circle" style="font-size:36px;"></div>
+          <h3 class="semibold modal-title text-danger"><%= t('views.hashtag_challenges.show.not_accepted_submission.title') %></h3>
+        </div>
+        <div class="modal-body">
+          <p class=""><%= t('views.hashtag_challenges.show.not_accepted_submission.message') %></p>
+
+          <p class="">
+            <%= t('views.hashtag_challenges.show.reasons') %>: <span class="bold submition-feedback" ><%= hashtag_challenge_user.feedback %></span>
+          </p>
+
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.hashtag_challenges.show.buttons.close') %></button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  <!--/ END participate-ok -->
+
+<% end %>
+
+<div id="collect-info-modal" class="modal fade">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p><%= t '.collect_info_modal.info' %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.challenges.show.buttons.discard') %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<%= content_for :footer do %>
+  <%= javascript_include_tag "challenge_posts.js" %>
+
+  <% if @show_submission_modal %>
+    <script>
+      $(function(){
+        $("#participate-modal").modal()
+      })
+    </script>
+  <% end %>
+
+
+  <% if @show_modal_nao_aceita_id %>
+    <script>
+      $(function(){
+        $("#denied-explanation-<%= @show_modal_nao_aceita_id %>").modal()
+      })
+    </script>
+  <% end %>
+
+<% end %>
+

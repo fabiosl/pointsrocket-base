@@ -1,0 +1,26 @@
+<li class="wrapper">
+  <div class="figure bgcolor-primary"><i class="ico-pencil"></i></div>
+  <!-- panel -->
+  <div class="panel">
+    <div class="panel-body break-word">
+      <ul class="list-table">
+        <li class="text-center" style="width:60px;">
+          {{ #timelineable.user.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.user.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.user.id }}">
+            <img src="{{ timelineable.user.avatar_timeline }}" alt="{{ timelineable.user.name }}" class="img-circle" width="50">
+          </a>
+        </li>
+        <li class="text-left">
+          <p class="nm"><span class="semibold">{{ timelineable.user.name }}</span> 
+          <%= t('views.dashboard.timeline.profile.wrote_post') %>
+        </li>
+      </ul>
+      <div class="mt10 images-full-width-wrapper">
+        {{{ timelineable.linked_content }}}
+      </div>
+    </div>
+  </div>
+  <!--/ panel -->
+</li>

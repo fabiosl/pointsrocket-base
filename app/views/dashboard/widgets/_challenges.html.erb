@@ -1,0 +1,90 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <i class="ico-lab mr5"></i>
+      <%= t(apply_feedback('views.dashboard.widgets.challenges.title')) %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <% if challenges.size > 0 %>
+      <% challenges.each_with_index do |challenge, i| %>
+        <% if i > 0 %>
+        <hr class="mt10 mb10">
+        <% end %>
+
+        <ul class="list-table">
+          <li style="width:60px;" class="col-top">
+            <a href="<%= challenge_path(challenge) %>">
+              <img 
+                class="img-rounded img-circle"
+                src="<%= image_url challenge.image.url(:thumb) %>" 
+                width="50px"
+                height="50px"
+              >
+            </a>
+          </li>
+          <li class="text-left">
+            <a href="<%= challenge_path(challenge) %>">
+              <h5 class="semibold ellipsis nm">
+                <% if current_user.challenge_approved? challenge %>
+                  <i class="ico-ok-circle" style="color: green;" title="Approved"></i>
+                <% end %>
+
+                <%= challenge.title %>
+              </h5>
+              <p class="info-list text-default ellipsis">
+                <span>
+                  <i class="ico-calendar3"></i> <%= t('views.general.from').capitalize %> <%= challenge.date_start.strftime("%d/%m/%Y") %> <%= t('views.general.to')%> <%= challenge.date_end.strftime("%d/%m/%Y") %>
+                </span><br/>
+
+                <% participating_people_count = challenge.user_ids_visible.count.size %>
+
+                <%
+                  participating_key = challenge.has_passed? ? apply_feedback("views.challenges.index.have_joined_past") : apply_feedback("views.challenges.index.have_joined")
+                %>
+
+                <span>
+                  <i class="ico-user"></i> <%= t participating_key, count: participating_people_count %>
+                </span>
+                <br>
+
+                <% if challenge.points %>
+                  <span>
+                    <i class="ico-trophy"></i> <%= challenge.points %> <%= t('views.general.points')%>
+                  </span>
+                  <br>
+                <% end %>
+
+
+                <!--span>
+                  <i class="ico-comments"></i> 3 comentários
+                </span-->
+
+
+                <% if challenge.badge %>
+                  <span>
+                    <i class="ico-medal"></i> <%= challenge.badge.name %>
+                  </span>
+                <% end %>
+
+
+              </p>
+            </a>
+          </li>
+        </ul>
+
+      <% end %>
+    <% else %>
+      <p><%= t(apply_feedback('views.dashboard.widgets.challenges.not_found')) %></p>
+    <% end %>
+  </div>
+
+  <hr class="nm">
+
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar text-right">
+      <%= link_to t(apply_feedback('views.dashboard.widgets.challenges.see_all')), challenges_path %>
+    </div>
+  </div>
+</div>

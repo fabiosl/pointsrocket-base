@@ -1,0 +1,55 @@
+<div class="widget panel">
+  <div class="panel-body">
+    <ul class="list-table">
+      <li class="pos-relative" style="width:70px;">
+        <%= link_to user_path(question.user) do %>
+          <% if question.user.admin_current_domain %>
+            <i class="ico-crown large-user-admin-ico" title="Admin"></i>
+          <% end %>
+          <%= image_tag question.user.avatar.url(:s50x50),
+            :class => "img-circle" %>
+        <% end %>
+      </li>
+      <li class="text-left">
+        <h5 class="semibold ellipsis" style="margin: 0px;">
+          <a href="<%= question_path(question) %>">
+            <%= question.title %>
+          </a>
+          <small class="text-muted">
+            <%= question.formatted_date %>
+          </small>
+        </h5>
+        <small class="text-muted">
+          <%= question.user.name %> -
+          <i class="ico-trophy"></i><%= question.user.points.to_i %>
+          <% if can? :tags_options, current_user %>
+            <% question.tag_list.each do |tag_name| %>
+              - <%= t "tags.#{tag_name}.asked_in" %>
+            <% end %>
+          <% end %>
+        </small>
+      </li>
+    </ul>
+    <!--/ Nav section -->
+  </div>
+  <!--/ panel body -->
+
+  <div class="panel-footer">
+    <ul class="list-table">
+      <li>
+        <div class="img-group img-group-stack">
+          <%= render partial: 'dashboard/questions/answer_avatar', collection: question.last_answers %>
+          <%= t('views.questions.answers', count: question.answers.count) %>
+        </div>
+      </li>
+      <% unless question.step.nil? %>
+        <li class="text-right forum-question-tags">
+          <%= question.tag_link(question.step.chapter.course.name,
+            question.step.chapter.course.id, params[:filter], params[:tag]) %>
+          <%= question.tag_link(question.step.name, params[:course],
+            params[:filter], question.step.id) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

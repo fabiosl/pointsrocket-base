@@ -1,0 +1,375 @@
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+      <!-- <div class="panel-heading mb15">
+        <h3 class="panel-title"><%= t '.title' %></h3>
+      </div> -->
+      <%= form_for(current_user, url: request.original_fullpath, method: :put, html: { class: "form-horizontal form-bordered wizard", style: "opacity: 0;", id: 'wizard'}) do |f| %>
+
+        <% if current_domain.influencer? %>
+          <!-- Wizard Container 1 -->
+          <div class="wizard-title title current"><%= t('.select_social_accounts') %></div>
+          <div class="wizard-container body current" role="tabpanel" aria-hidden="false">
+              <% if must_show_expired_token_alert? %>
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="alert alert-danger fade in">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                      <h4 class="semibold"><%= t "alerts.we_cant_grab_your_data" %></h4>
+                      <%= t "alerts.we_cant_grab_your_data_html" %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+
+              <% instagram_token_expired = @it_token_invalid %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Instagram</h2>
+                </div>
+                <div class="panel-body">
+                  <% if instagram_token_expired %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.instagram_token_invalid' %>
+                    </div>
+                  <% end %>
+
+                  <%
+                    if ENV['SUBDOMAIN_AS_COMMUNITIES'] != 'false'
+                      identities = current_user.identities.where(provider: :instagram)
+                      authorize_url = user_omniauth_authorize_session_url(:instagram, subdomain: false)
+                      instagram_authorize_url = user_omniauth_authorize_session_url(:instagram, subdomain: false)
+                    else
+                      identities = current_user.identities.where(provider: :instagram, domain: @domain.master_domain_or_self_for_provider(:instagram))
+                      authorize_url = user_omniauth_authorize_session_url(:instagram)
+                      instagram_authorize_url = user_omniauth_authorize_session_url(:instagram)
+                    end
+                  %>
+
+                  <% unless identities.any? %>
+                    <a href="<%= instagram_authorize_url %>" class="btn btn-block btn-instagram">
+                      <i class="ico ico-instagram"></i>
+                      <%= t '.instagram_login_title' %>
+                    </a>
+                  <% end %>
+                  <% identities.each do |identity| %>
+                    <ul class="list-table">
+                      <li style="width:70px;">
+                          <%= image_tag identity.json['info']['image'],
+                                        class: 'img-circle img-bordered',
+                                        width: '65px', height: '65px'
+                          %>
+                      </li>
+                      <li class="text-left">
+                          <h5 class="semibold ellipsis">
+                              <%= identity.json['info']['name'] %><br>
+                              <small class="text-muted">@<%= identity.json['info']['nickname'] %></small>
+                          </h5>
+                      </li>
+                      <!-- <li class="text-right"><button class="btn btn-info"><span class="ico-twitter"></span> Follow</button></li> -->
+                      <li class="text-right">
+                        <% if @it_token_invalid %>
+
+                        <% else %>
+                          <%= link_to t('views.social_accounts.buttons.revoke'), identity, method: :delete, class: "btn btn-default btn-sm" %>
+                        <% end %>
+                      </li>
+                    </ul>
+
+                    <% if @it_token_invalid %>
+                      <div class="mt20">
+                        <a href="<%= instagram_authorize_url %>" class="btn btn-block btn-instagram">
+                          <i class="ico ico-instagram"></i>
+                          <%= t '.instagram_login_title' %>
+                        </a>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Facebook (Fanpage)</h2>
+                </div>
+                <div class="panel-body">
+                  <%
+                    if ENV['SUBDOMAIN_AS_COMMUNITIES'] != 'false'
+                      facebook_authorize_url = user_omniauth_authorize_session_url(:facebook, subdomain: false)
+                      identities = current_user.identities.where(provider: :facebook)
+                    else
+                      facebook_authorize_url = user_omniauth_authorize_session_url(:facebook)
+                      identities = current_user.identities.where(provider: :facebook, domain: @domain.master_domain_or_self_for_provider(:facebook))
+                    end
+                  %>
+                  <% if @fb_user_has_no_token %>
+                    <a href="<%= facebook_authorize_url %>" class="btn btn-block btn-facebook">
+                      <i class="ico ico-facebook"></i>
+                      <%= t '.facebook_login_title' %>
+                    </a>
+                  <% elsif @fb_user_has_no_permission %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.facebook_no_permission' %>
+                    </div>
+
+                    <a href="<%= facebook_authorize_url %>" class="btn btn-block btn-facebook">
+                      <i class="ico ico-facebook"></i>
+                      <%= t '.facebook_login_title' %>
+                    </a>
+                  <% elsif @user_has_changed_password_exception %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.facebook_changed_password' %>
+                    </div>
+
+                    <a href="<%= facebook_authorize_url %>" class="btn btn-block btn-facebook">
+                      <i class="ico ico-facebook"></i>
+                      <%= t '.facebook_login_title' %>
+                    </a>
+                  <% elsif @fb_token_invalid %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.facebook_token_invalid' %>
+                    </div>
+
+                    <a href="<%= facebook_authorize_url %>" class="btn btn-block btn-facebook">
+                      <i class="ico ico-facebook"></i>
+                      <%= t '.facebook_login_title' %>
+                    </a>
+                  <% elsif @fb_user_has_no_pages %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.facebook_no_pages' %>
+                    </div>
+
+                    <a href="<%= settings_path %>" class="btn btn-block btn-default">
+                      <%= t '.settings' %>
+                    </a>
+                  <% elsif @fb_exception %>
+                    <p><%= t '.facebook_exception' %></p>
+
+                    <% identities.each do |identity| %>
+                      <%= link_to t('views.social_accounts.buttons.revoke'), identity, method: :delete, class: "revoke-button-large btn btn-default btn-block btn-sm" %>
+                    <% end %>
+                  <% else %>
+                    <ul class="list-table">
+                      <li style="width: 100%;">
+                        <div class="control-group">
+                          <select
+                            id="select-facebook-page"
+                            name="user[facebook_page_id_to_monitor]"
+                            placeholder="<%= t('views.social_accounts.facebook.select_page') %>"
+                          >
+                            <option value=""><%= t('views.social_accounts.facebook.select_page') %></option>
+                            <% @fb_pages.each do |page| %>
+                              <option
+                                value="<%= page['id'] %>"
+                                <%= 'selected' if current_user.facebook_page_id_to_monitor == page['id'] %>
+                                data-data='{"picture": "https://graph.facebook.com/<%= page['id'] %>/picture"}'
+                              ><%= page['name'] %></option>
+                            <% end %>
+                          </select>
+                        </div>
+                      </li>
+                      <li style="width: 1%;">
+                        <% identities.limit(1).each do |identity| %>
+                          <%= link_to t('views.social_accounts.buttons.revoke'), identity, method: :delete, class: "revoke-button-large btn btn-default btn-sm" %>
+                        <% end %>
+                      </li>
+                    </ul>
+                  <% end %>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Youtube</h2>
+                </div>
+                <div class="panel-body">
+                  <%
+                    if ENV['SUBDOMAIN_AS_COMMUNITIES'] != 'false'
+                      youtube_authorize_url = user_omniauth_authorize_session_url(:google_oauth2, subdomain: false)
+                      identities = current_user.identities.where(provider: :google_oauth2)
+                    else
+                      youtube_authorize_url = user_omniauth_authorize_session_url(:google_oauth2)
+                      identities = current_user.identities.where(provider: :google_oauth2, domain: @domain.master_domain_or_self_for_provider(:google_oauth2))
+                    end
+                  %>
+                  <% if @yt_token_invalid %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.youtube_token_invalid' %>
+                    </div>
+                    <a href="<%= youtube_authorize_url %>" class="btn btn-block btn-youtube">
+                      <i class="ico ico-youtube"></i>
+                      <%= t '.youtube_login_title' %>
+                    </a>
+                  <% elsif @yt_user_has_no_token %>
+                    <a href="<%= youtube_authorize_url %>" class="btn btn-block btn-youtube">
+                      <i class="ico ico-youtube"></i>
+                      <%= t '.youtube_login_title' %>
+                    </a>
+                  <% elsif @yt_user_has_no_permission %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.youtube_no_permission' %>
+                    </div>
+
+                    <a href="<%= youtube_authorize_url %>" class="btn btn-block btn-youtube">
+                      <i class="ico ico-youtube"></i>
+                      <%= t '.youtube_login_title' %>
+                    </a>
+                  <% elsif @yt_authorization_error %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.youtube_no_auth' %>
+                    </div>
+
+                    <a href="<%= youtube_authorize_url %>" class="btn btn-block btn-youtube">
+                      <i class="ico ico-youtube"></i>
+                      <%= t '.youtube_login_title' %>
+                    </a>
+                  <% elsif @yt_user_has_no_channels %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.youtube_no_channels' %>
+                    </div>
+
+                    <a href="<%= settings_path %>" class="btn btn-block btn-default">
+                      <%= t '.settings' %>
+                    </a>
+                  <% elsif @yt_exception %>
+                    <div class="alert alert-dismissable alert-danger">
+                      <%= t '.youtube_exception' %>
+                    </div>
+                    <a href="<%= youtube_authorize_url %>" class="btn btn-block btn-youtube">
+                      <i class="ico ico-youtube"></i>
+                      <%= t '.youtube_login_title' %>
+                    </a>
+                  <% else %>
+                    <ul class="list-table">
+                      <li style="width: 100%;">
+                        <div class="control-group">
+                          <select
+                            id="select-youtube-channel"
+                            name="user[youtube_channel_id_to_monitor]"
+                            placeholder="<%= t('views.social_accounts.youtube.select_channel') %>"
+                          >
+                            <option value=""><%= t('views.social_accounts.youtube.select_channel') %></option>
+                            <% @yt_channels.each do |channel| %>
+                              <option
+                                value="<%= channel['id'] %>"
+                                <%= 'selected' if current_user.youtube_channel_id_to_monitor == channel['id'] %>
+                                data-data='{"picture": "<%= channel['thumbnails']['default']['url'] %>"}'
+                              ><%= channel['title'] %></option>
+                            <% end %>
+                          </select>
+                        </div>
+                      </li>
+                      <li>
+                        <% identities.limit(1).each do |identity| %>
+                          <%= link_to t('views.social_accounts.buttons.revoke'), identity, method: :delete, class: "revoke-button-large btn btn-default btn-sm" %>
+                        <% end %>
+                      </li>
+                    </ul>
+                  <% end %>
+                </div>
+              </div>
+          </div>
+          <!--/ Wizard Container 1 -->
+        <% end %>
+
+
+        <!-- Wizard Container -->
+        <div class="wizard-title title"><%= t('.profile') %></div>
+        <div class="wizard-container body" role="tabpanel" aria-labelledby="wizard-h-1" aria-hidden="true">
+          <div class="form-group">
+              <label class="col-sm-3 control-label"><%= t('views.settings.form.name') %></label>
+              <div class="col-sm-6">
+                  <%= f.text_field :name, class: 'form-control' %>
+                  <p class="help-block"><%= t('views.settings.form.full_name') %></p>
+              </div>
+          </div>
+          <div class="form-group">
+              <%= f.label :email, t('views.settings.form.email'), class: 'col-sm-3 control-label' %>
+              <div class="col-sm-5">
+                  <%= f.text_field :email, class: 'form-control' %>
+                  <% if f.object.errors.include?(:email) %>
+                    <p class="help-block">
+                      <%= f.object.errors[:email].join(' - ') %>
+                    </p>
+                  <% end %>
+                  <p class="help-block"><%= t('views.settings.form.email_warning') %></p>
+              </div>
+          </div>
+
+          <% if current_user.must_alter_password %>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><%= t('views.settings.form.new_password') %></label>
+                <div class="col-sm-5">
+                    <%= f.password_field :password, class: "form-control", autocomplete: "off" %>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><%= t('views.settings.form.repeat_password') %></label>
+                <div class="col-sm-5">
+                    <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "off" %>
+                </div>
+            </div>
+          <% end %>
+
+          <div class="form-group">
+            <%= f.label :phone, t('views.settings.form.phone'), class: 'col-sm-3 control-label' %>
+            <div class="col-sm-5">
+              <%= f.text_field :phone, type: 'text', placeholder: t('views.settings.form.type_phone'), class: 'form-control' %>
+            </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-sm-3 control-label"><%= t('views.settings.form.city') %></label>
+              <div class="col-sm-6">
+                  <%= f.text_field :location, class: 'form-control' %>
+                  <p class="help-block"><%= t('views.settings.form.where_are_you?') %></p>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-sm-3 control-label"><%= t('views.settings.form.website') %></label>
+              <div class="col-sm-6">
+                  <%= f.text_field :website, class: 'form-control', placeholder: 'http://' %>
+                  <p class="help-block"><%= t('views.settings.form.have_website?') %></p>
+              </div>
+          </div>
+
+          <%= render partial: "partials/complete_account_question_options_form" %>
+        </div>
+        <!--/ Wizard Container -->
+
+
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag "registration.css" %>
+  <%= stylesheet_link_tag "social_accounts.css" %>
+<% end %>
+
+<% content_for :footer do %>
+  <script>
+    window.texts = {};
+    window.texts["wizard.cancel"] = '<%= t 'wizard.cancel' %>'
+    window.texts["wizard.current"] = '<%= t 'wizard.current' %>'
+    window.texts["wizard.pagination"] = '<%= t 'wizard.pagination' %>'
+    window.texts["wizard.finish"] = '<%= t 'wizard.finish' %>'
+    window.texts["wizard.next"] = '<%= t 'wizard.next' %>'
+    window.texts["wizard.previous"] = '<%= t 'wizard.previous' %>'
+    window.texts["wizard.loading"] = '<%= t 'wizard.loading' %>'
+  </script>
+  <%= javascript_include_tag 'registration' %>
+  <%= javascript_include_tag 'social_accounts' %>
+  <script>
+    $('[data-maskedinput]').each(function(){
+      var $this = $(this);
+      $this.mask($this.data('maskedinput'));
+    });
+    <% if @error_type && @error_type == 'user' %>
+      if ($("#wizard-t-1").length) {
+        $("#wizard-t-1").click();
+      }
+    <% end %>
+  </script>
+
+<% end %>

@@ -1,0 +1,20 @@
+<div class="badge-modal modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <div style="margin: 5px 0px;">
+          <%= image_tag course.avatar.url(:medium) %>
+        </div>
+        <h3 class="semibold modal-title text-success"><%= course.name %></h3>
+      </div>
+      <div class="modal-body">
+        <h4 class="semibold mt0"><%= t('views.courses.finished.title') %></h4>
+        <p><%= t('views.courses.finished.congratulations') %> <%= t('views.courses.finished.visit') %> <%= link_to t('views.courses.finished.this_link'), courses_path %> <%= t('views.courses.finished.help') %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.general.buttons.close') %></button>
+      </div>
+    </div>
+  </div>
+</div>

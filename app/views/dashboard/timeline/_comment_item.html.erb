@@ -1,0 +1,32 @@
+<li class="media comment-item border-dotted pt10 pb5" id="comment-id-{{ id }}">
+  <a class="pull-left pos-relative" href="<%= users_path %>/{{ user.id }}">
+    {{ # user.admin_current_domain }}
+      <i class="ico-crown timeline-comment-user-admin-ico" title="Admin"></i>
+    {{ /user.admin_current_domain }}
+    <img
+      src="{{ user.avatar }}"
+      alt="{{ user.name }}"
+      class="img-circle" width="35" height="35"
+    >
+  </a>
+  <div class="media-body">
+    <a 
+      href="#"
+      class="text-default pull-right comment-delete-button"
+      data-comment-id="{{ id }}"
+      data-comment-user-id="{{ user.id }}"
+      title="<%= t('views.general.buttons.delete') %>" 
+    >
+      <i class="ico ico-trash"></i>
+    </a>
+    <p class="semibold nm">
+      <a href="<%= users_path %>/{{ user.id }}" class="text-default">
+        {{ user.name }}
+      </a>
+    </p>
+    <p class="media-text">{{{ linked_content }}}</p>
+    <!-- meta icon -->
+    <p class="media-meta">{{ timeStr }}</p>
+    <!--/ meta icon -->
+  </div>
+</li>

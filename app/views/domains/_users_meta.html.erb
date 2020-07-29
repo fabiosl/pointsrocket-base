@@ -1,0 +1,14 @@
+<ul class="meta">
+  <li>
+    <div class="img-group img-group-stack">
+    <% domain.users_participating.take(3).each do |user| %>
+      <%= image_tag user.avatar.url, class: 'img-circle' %>
+    <% end %>
+    </div>
+  </li>
+  <li>
+    <p class="nm">
+      <%= t('views.general.users.joined', count: domain.users_participating.size) %>
+    </p>
+  </li>
+</ul>

@@ -1,0 +1,29 @@
+.trails-category {
+  background: #2a2a2a;
+  // margin: -15px;
+  margin-bottom: 30px;
+}
+
+  .trails-category-item {
+    text-align: center;
+    font-size: 17px;
+
+    &.active {
+      text-decoration: underline;
+    }
+
+    &, a {
+      color: white;
+    }
+
+    a {
+      padding: 10px;
+      display: block;
+    }
+
+    img {
+      display: block;
+      margin: 0 auto 10px;
+      height: 50px;
+    }
+  }

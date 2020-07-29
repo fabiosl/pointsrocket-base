@@ -1,0 +1,26 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <i class="ico-medal mr5"></i> <%= t('views.timeline.index.instagram') %> - <%= t "views.time_ago_with_time" %>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <ul class="list-table">
+      <li class="text-center" style="width:100px;">
+        <a href="{{_source.link}}">
+          <img src="{{_source.picture}}" alt="{{_source.author.name}}" width="90px">
+        </a>
+      </li>
+      <li class="text-left">
+        <p class="title semibold nm">
+          {{#_source.message}}
+          <a href="{{_source.link}}">
+            {{_source.message}}
+          </a>
+          {{/_source.message}}
+        </p>
+      </li>
+    </ul>
+  </div>
+</div>

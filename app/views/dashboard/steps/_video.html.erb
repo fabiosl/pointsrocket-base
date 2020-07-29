@@ -1,0 +1,87 @@
+
+<div class="panel panel-default">
+  <% if current_user.steps.include?(@step) %>
+    <div class="alert alert-success">
+      <p><%= t('views.steps.video.watched') %></p>
+    </div>
+    <iframe
+      width="100%"
+      height="400"
+      src="https://www.youtube.com/embed/<%= @step.video_id %>"
+      frameborder="0"
+      allowfullscreen>
+    </iframe>
+  <% else %>
+    <div class="alert alert-info" id="video-info-message">
+      <%= t('views.steps.video.info_message') %>
+    </div>
+    <div class="alert alert-success hide" id="video-watched-message">
+      <p><%= t('views.steps.video.just_watched') %></p>
+    </div>
+    <div class="panel panel-default video-progress-container hide">
+      <div class="panel-body">
+        <div class="progress progress-striped nm">
+          <div id="video-progress-bar" class="progress-bar progress-bar-success" data-label-id="video-progress-bar-label">
+            <span class="" id="video-progress-bar-label">0%</span>
+          </div>
+        </div>
+        <div class="help-block">
+          <%= t('views.steps.video.complete_help_message') %>
+        </div>
+      </div>
+    </div>
+    <div id="youtube-video" class="video-frame-fluid"></div>
+    <%= content_for :footer do %>
+      <%= javascript_tag do %>
+        window.STEP = <%= @step.to_json(methods: [:video_id]).html_safe %>;
+      <% end%>
+      <%= javascript_include_tag 'step_video' %>
+    <% end %>
+  <% end %>
+  <div class="panel-body">
+    <h3 class="step-name">
+      <a
+        href="<%= get_next_step(@step) %>"
+        class="btn btn-success next-step-button"
+        data-step-completed="<%= current_user.steps_completeds.include?(@step) %>"
+      >
+        <%= t('views.questions.buttons.next_step') %>
+      </a>
+      <strong><%= @step.name %></strong>
+    </h3>
+    <p><%= @step.description %></p>
+  </div>
+
+  <% content_for :footer do %>
+    <script>
+      $(document).ready(function() {
+        // Show uncompleted step modal
+        $('.next-step-button').click(function(e){
+          var stepCompleted = $(this).data('stepCompleted');
+
+          if (!stepCompleted) {
+            e.preventDefault();
+            $('#uncompleted-step-modal').modal();
+          }
+        });
+      });
+    </script>
+  <% end %>
+
+  <div class="modal fade" id="uncompleted-step-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h3 class="semibold modal-title text-success"><%= t('views.steps.uncompleted') %></h3>
+        </div>
+        <div class="modal-body">
+          <p><%= t('views.steps.video.uncompleted_step') %></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.general.buttons.close') %></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

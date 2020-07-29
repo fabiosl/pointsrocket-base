@@ -1,0 +1,306 @@
+<h2 class="mt0 mb25"><%= t 'views.dashboard.admin_dashboard.hashtag_challenges.title' %></h2>
+<div class="row">
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-inverse text-center">
+        <div class="ico-file4 fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t 'views.dashboard.admin_dashboard.general.posts_count' %></h5>
+          <h2 class="semibold nm"><%= @dashboard_data[:hashtag_challenge_total_post] %></h2>
+        </div>
+        <a
+          href="#"
+          class="panel-ribbon panel-ribbon-info pull-right"
+          data-html="true"
+          data-container="body"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-placement="left"
+          data-content="<%= t 'views.dashboard.admin_dashboard.posts_count_help' %>"
+        >
+          <i class="ico-info"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-info text-center">
+        <div class="ico-cursor2 fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t 'views.dashboard.admin_dashboard.hashtag_challenges.interactions' %></h5>
+          <h2 class="semibold nm"><%= @dashboard_data[:hashtag_challenge_total_interactions] %></h2>
+        </div>
+        <a
+          href="#"
+          class="panel-ribbon panel-ribbon-info pull-right"
+          data-html="true"
+          data-container="body"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-placement="left"
+          data-content="<%= t 'views.dashboard.admin_dashboard.total_interactions_help' %>"
+        >
+          <i class="ico-info"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-teal text-center">
+        <div class="ico-people fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t 'views.dashboard.admin_dashboard.hashtag_challenges.potential_reach' %></h5>
+          <h2 class="semibold nm"><%= @dashboard_data[:potential_reach] %></h2>
+        </div>
+        <a
+          href="#"
+          class="panel-ribbon panel-ribbon-info pull-right"
+          data-html="true"
+          data-container="body"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-placement="left"
+          data-content="<%= t 'views.dashboard.admin_dashboard.potential_reach_help' %>"
+        >
+          <i class="ico-info"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-info text-center">
+        <div class="ico-people fsize24"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h5><%= t 'views.dashboard.admin_dashboard.hashtag_challenges.potential_impact' %></h5>
+          <h2 class="semibold nm"><%= @dashboard_data[:potential_impact] %></h2>
+        </div>
+        <a
+          href="#"
+          class="panel-ribbon panel-ribbon-info pull-right"
+          data-html="true"
+          data-container="body"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-placement="left"
+          data-content="<%= t 'views.dashboard.admin_dashboard.potential_impact_help' %>"
+        >
+          <i class="ico-info"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel bgcolor-inverse text-center">
+        <h4 style="padding: 33px 0;">EEMV</h4>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h4 class="semibold pt10 pb10"><%= number_to_currency @dashboard_data[:hashtag_challenge_total_cost], locale: :en %></h4>
+        </div>
+        <a
+          href="#"
+          class="panel-ribbon panel-ribbon-info pull-right"
+          data-html="true"
+          data-container="body"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-placement="left"
+          data-content="<%= t 'views.dashboard.admin_dashboard.eemv_total_help' %>"
+        >
+          <i class="ico-info"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel text-center" style="background-color: #3b5999; color: #ffffff;">
+        <div class="ico-facebook fsize24" style="padding: 43px 0;"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h4 class="semibold pt10 pb10"><%= number_to_currency @dashboard_data[:facebook_cost], locale: :en %></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel text-center" style="background-color: #cd201f; color: #ffffff;">
+        <div class="ico-youtube2 fsize24" style="padding: 43px 0;"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h4 class="semibold pt10 pb10"><%= number_to_currency @dashboard_data[:youtube_cost], locale: :en %></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+    <div class="table-layout animation delay animating fadeInDown">
+      <div class="col-xs-4 panel text-center" style="background-color: #e4405f; color: #ffffff;">
+        <div class="ico-instagram fsize24" style="padding: 43px 0;"></div>
+      </div>
+      <div class="col-xs-8 panel">
+        <div class="panel-body text-center">
+          <h4 class="semibold pt10 pb10"><%= number_to_currency @dashboard_data[:instagram_cost], locale: :en %></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default animation delay animating fadeInDown">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= t 'views.dashboard.admin_dashboard.hashtag_challenges.eemv_evolution' %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="chart mt10" id="chart-eemv-evolution" style="height:250px;"></div>
+      </div>
+      <a
+        href="#"
+        class="panel-ribbon panel-ribbon-info pull-right"
+        data-html="true"
+        data-container="body"
+        data-toggle="popover"
+        data-trigger="hover"
+        data-placement="left"
+        data-content="<%= t 'views.dashboard.admin_dashboard.eemv_total_help' %>"
+      >
+        <i class="ico-info"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h4><%= t 'views.dashboard.admin_dashboard.hashtag_challenges.top_posts_by_interactions' %></h4>
+    <div class="row">
+      <% @dashboard_data[:top_publications].each do |hashtag_challenge_user| %>
+        <div class="col-sm-3">
+          <%= render partial: "dashboard/admin_dashboard/hashtag_challenge_user", locals: {hashtag_challenge_user: hashtag_challenge_user} %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h4><%= t 'views.dashboard.admin_dashboard.hashtag_challenges.worst_posts_by_interactions' %></h4>
+    <div class="row">
+      <% @dashboard_data[:down_publications].each do |hashtag_challenge_user| %>
+        <div class="col-sm-3">
+          <%= render partial: "dashboard/admin_dashboard/hashtag_challenge_user", locals: {hashtag_challenge_user: hashtag_challenge_user} %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel list-meta animation delay animating fadeInDown">
+      <div class="panel-body top-engaged-users">
+        <ul class="list-table mb30">
+          <li>
+            <h4 class="semibold nm text-left">
+              <%= t 'views.dashboard.admin_dashboard.hashtag_challenges.most_engaged_users' %>
+            </h4>
+          </li>
+        </ul>
+        <% @dashboard_data[:most_engaged_user].each_with_index do |user_h, index| %>
+          <%= render partial: "dashboard/admin_dashboard/user", locals: { user_h: user_h, position: index + 1 } %>
+          <hr class="list-item-hr">
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="widget panel panel-badge animation delay animating fadeInDown">
+      <div class="panel-body medal-panel">
+        <ul class="list-table mb30">
+          <li>
+            <h4 class="semibold nm text-left">
+              <%= t 'views.dashboard.admin_dashboard.hashtag_challenges.least_engaged_users' %>
+            </h4>
+          </li>
+        </ul>
+        <% @dashboard_data[:worst_engaged_user].each_with_index do |user_h, index| %>
+          <%= render partial: "dashboard/admin_dashboard/user", locals: { user_h: user_h, position: index + 1 } %>
+          <hr class="list-item-hr">
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :css do %>
+  <%= stylesheet_link_tag "new_dashboard_table.css" %>
+<% end %>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag "challenge_posts.js" %>
+  <%= javascript_include_tag "new_dashboard_table.js" %>
+
+  <% if @domain.hashtag_challenges_enabled %>
+    <script>
+      var data = <%=
+        (@dashboard_data[:eemv_evolution] || []).map do |eemv_evolution|
+          [
+            l(eemv_evolution[:start], format: :chart_label),
+            eemv_evolution[:eemv]
+          ]
+        end.to_json.html_safe
+      %>
+      var dataset = [{ label: "($) USD", data: data, color: "#DC554F" }];
+
+      var option = {
+        series: {
+          bars: {
+            align: 'center',
+            lineWidth: 0,
+            show: true,
+            barWidth: 0.5,
+            fill: 0.9
+          }
+        },
+        grid: {
+          borderColor: '#eee',
+          borderWidth: 1,
+          hoverable: true,
+          backgroundColor: '#fcfcfc'
+        },
+        tooltip: true,
+        tooltipOpts: { content: '%x : %y' },
+        xaxis: {
+          tickColor: '#fcfcfc',
+          mode: 'categories'
+        },
+        yaxis: { tickColor: '#eee' },
+        shadowSize: 0
+      };
+
+      $.plot('#chart-eemv-evolution', dataset, option);
+    </script>
+  <% end %>
+<% end %>

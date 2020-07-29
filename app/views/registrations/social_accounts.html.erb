@@ -1,0 +1,130 @@
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+<div class="panel panel-default">
+<div class="panel-heading mb15">
+  <h3 class="panel-title">Complete your registration</h3>
+</div>
+<%= form_for(current_user, url: select_social_accounts_index_path, method: :post, html: { class: "form-horizontal form-bordered wizard", id: 'wizard'}) do |f| %>
+  <!-- Wizard Container 1 -->
+  <div class="wizard-title title current"><%= t('.select_social_accounts') %></div>
+  <div class="wizard-container body current" role="tabpanel" aria-hidden="false">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Facebook (Fanpage)</h2>
+        </div>
+        <div class="panel-body">
+          <% if @fb_user_has_no_token %>
+            <a href="<%= user_omniauth_authorize_url(:facebook, subdomain: false) %>" class="btn btn-block btn-facebook">
+              <i class="ico ico-facebook"></i>
+              <%= t '.facebook_login_title' %>
+            </a>
+          <% elsif @fb_user_has_no_permission %>
+            <p><%= t '.facebook_no_permission' %></p>
+
+            <a href="<%= user_omniauth_authorize_url(:facebook, subdomain: false) %>" class="btn btn-block btn-facebook">
+              <i class="ico ico-facebook"></i>
+              <%= t '.facebook_login_title' %>
+            </a>
+          <% elsif @fb_user_has_no_pages %>
+            <p><%= t '.facebook_no_pages' %></p>
+
+            <a href="<%= settings_path %>" class="btn btn-block btn-default">
+              <%= t '.settings' %>
+            </a>
+          <% elsif @fb_exception %>
+            <p><%= t '.facebook_exception' %></p>
+          <% else %>
+            <%
+              opts = @fb_pages.map do |page|
+                [page["name"], page["id"]]
+              end
+            %>
+
+            <%= select_tag(:facebook_page_id_to_monitor, options_for_select(opts, current_user.facebook_page_id_to_monitor), class: "form-control") %>
+          <% end %>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Youtube</h2>
+        </div>
+        <div class="panel-body">
+          <% if @yt_user_has_no_token %>
+            <a href="<%= user_omniauth_authorize_url(:google_oauth2, subdomain: false) %>" class="btn btn-block btn-youtube">
+              <i class="ico ico-youtube"></i>
+              <%= t '.youtube_login_title' %>
+            </a>
+          <% elsif @yt_user_has_no_permission %>
+            <p><%= t '.youtube_no_permission' %></p>
+
+            <a href="<%= user_omniauth_authorize_url(:google_oauth2, subdomain: false) %>" class="btn btn-block btn-youtube">
+              <i class="ico ico-youtube"></i>
+              <%= t '.youtube_login_title' %>
+            </a>
+          <% elsif @yt_authorization_error %>
+            <p><%= t '.youtube_no_auth' %></p>
+
+            <a href="<%= user_omniauth_authorize_url(:google_oauth2, subdomain: false) %>" class="btn btn-block btn-youtube">
+              <i class="ico ico-youtube"></i>
+              <%= t '.youtube_login_title' %>
+            </a>
+          <% elsif @yt_user_has_no_channels %>
+            <p><%= t '.youtube_no_channels' %></p>
+
+            <a href="<%= settings_path %>" class="btn btn-block btn-default">
+              <%= t '.settings' %>
+            </a>
+          <% elsif @yt_exception %>
+            <p><%= t '.youtube_exception' %></p>
+          <% else %>
+            <%
+              opts = @yt_channels.map do |channel|
+                [channel["title"], channel["id"]]
+              end
+            %>
+
+            <%= select_tag(:youtube_channel_id_to_monitor, options_for_select(opts, current_user.youtube_channel_id_to_monitor), class: "form-control") %>
+          <% end %>
+        </div>
+      </div>
+  </div>
+  <!--/ Wizard Container 1 -->
+
+  <!-- Wizard Container 2 -->
+  <div class="wizard-title title"><%= t('.profile') %></div>
+  <div class="wizard-container body" role="tabpanel" aria-labelledby="wizard-h-1" aria-hidden="true">
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><%= t('views.settings.form.name') %></label>
+        <div class="col-sm-6">
+            <%= f.text_field :name, class: 'form-control' %>
+            <p class="help-block"><%= t('views.settings.form.full_name') %></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <%= f.label :email, t('views.settings.form.email'), class: 'col-sm-3 control-label' %>
+        <div class="col-sm-5">
+            <%= f.text_field :email, class: 'form-control' %>
+            <% if f.object.errors.include?(:email) %>
+              <p class="help-block">
+                <%= f.object.errors[:email].join(' - ') %>
+              </p>
+            <% end %>
+            <p class="help-block"><%= t('views.settings.form.email_warning') %></p>
+        </div>
+    </div>
+
+    <%= render partial: "partials/complete_account_question_options_form" %>
+
+  <% end %>
+  </div>
+  </div>
+  <!--/ Wizard Container 2 -->
+</div>
+
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag "registration.css" %>
+<% end %>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag 'registration' %>
+<% end %>

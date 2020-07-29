@@ -1,0 +1,20 @@
+<div class="thumbnail thumbnail-album">
+  <%= link_to(domain.get_url) do %>
+    <div class="media">
+      <div class="indicator"><span class="spinner"></span></div>
+      <%= image_tag domain.dashboard_menu_image.url, class: 'unveiled', alt: 'Cover', width: '100%' %>
+    </div>
+  <% end %>
+  <%= form_tag domain_join_path, class: 'mb10' do %>
+    <%= hidden_field_tag 'domain_id', domain.id %>
+    <%= button_tag type: 'submit', class: 'btn btn-success btn-block' do %>
+      <i class="ico-plus"></i>
+      <%= t('views.general.buttons.join') %>
+    <% end %>
+  <% end %>
+  <div class="caption text-center">
+    <%= domain.name %>
+  </div>
+  <hr class="mt5 mb5">
+  <%= render partial: 'domains/users_meta', locals: { domain: domain } %>
+</div>

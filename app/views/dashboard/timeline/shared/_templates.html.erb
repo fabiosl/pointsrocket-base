@@ -1,0 +1,202 @@
+<!-- START template-timeline-Post-Viewers -->
+<script id="template-timeline-Post-Viewers" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/post_viewers" %>
+</script>
+<!-- END template-timeline-Post-Viewers -->
+
+<!-- START template-timeline-Post -->
+<script id="template-timeline-CoinGive" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/coin_give" %>
+</script>
+<!-- END template-timeline-Post -->
+
+<!-- START template-timeline-Post -->
+<script id="template-timeline-Post" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/post" %>
+</script>
+<!-- END template-timeline-Post -->
+
+<!-- START template-timeline-Question -->
+<script id="template-timeline-Question" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/question" %>
+</script>
+<!-- END template-timeline-Question -->
+
+<!-- START template-timeline-TimelineAggregateCampaignUser -->
+<script id="template-timeline-TimelineAggregateCampaignUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/timeline_aggregate_campaign_user" %>
+</script>
+<!-- END template-timeline-TimelineAggregateCampaignUser -->
+
+<!-- START template-timeline-ChallengeUser -->
+<script id="template-timeline-ChallengeUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/challenge_user" %>
+</script>
+<!-- END template-timeline-ChallengeUser -->
+
+<!-- START template-timeline-TimelineAggregateChallengeUser -->
+<script id="template-timeline-TimelineAggregateChallengeUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/timeline_aggregate_challenge_user" %>
+</script>
+<!-- END template-timeline-TimelineAggregateChallengeUser -->
+
+<!-- START template-timeline-TimelineAggregateEmployeeAdvocacyShare -->
+<script id="template-timeline-TimelineAggregateEmployeeAdvocacyShare" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/timeline_aggregate_employee_advocacy_share" %>
+</script>
+<!-- END template-timeline-TimelineAggregateEmployeeAdvocacyShare -->
+
+<!-- START template-timeline-TimelineAggregateHashtagChallengeUser -->
+<script id="template-timeline-TimelineAggregateHashtagChallengeUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/timeline_aggregate_hashtag_challenge_user" %>
+</script>
+<!-- END template-timeline-TimelineAggregateHashtagChallengeUser -->
+
+<!-- START template-timeline-hashtag_challenge_user_instagram -->
+<script id="template-timeline-hashtag_challenge_user_instagram" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/hashtag_challenge_user_instagram" %>
+</script>
+<!-- END template-timeline-hashtag_challenge_user_instagram -->
+
+<!-- START template-timeline-hashtag_challenge_user_facebook -->
+<script id="template-timeline-hashtag_challenge_user_facebook" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/hashtag_challenge_user_facebook" %>
+</script>
+<!-- END template-timeline-hashtag_challenge_user_facebook -->
+
+
+<!-- START template-timeline-hashtag_challenge_user_youtube -->
+<script id="template-timeline-hashtag_challenge_user_youtube" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/hashtag_challenge_user_youtube" %>
+</script>
+<!-- END template-timeline-hashtag_challenge_user_youtube -->
+
+<!-- START template-timeline-Challenge -->
+<script id="template-timeline-Challenge" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/challenge" %>
+</script>
+<!-- END template-timeline-Challenge -->
+
+<!-- START template-timeline-HashtagChallenge -->
+<script id="template-timeline-HashtagChallenge" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/hashtag_challenge" %>
+</script>
+<!-- END template-timeline-HashtagChallenge -->
+
+<!-- START template-timeline-CampaignUser -->
+<script id="template-timeline-CampaignUser" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/campaign_user" %>
+</script>
+<!-- END template-timeline-CampaignUser -->
+
+<!-- START template-timeline-Campaign -->
+<script id="template-timeline-Campaign" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/campaign" %>
+</script>
+<!-- END template-timeline-Campaign -->
+
+<!-- START template-timeline-Badge -->
+<script id="template-timeline-Badge" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/badge" %>
+</script>
+<!-- END template-timeline-Badge -->
+
+<!-- START template-timeline-Broadcast -->
+<script id="template-timeline-Broadcast" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/broadcast" %>
+</script>
+<!-- END template-timeline-Broadcast -->
+
+<!-- START template-timeline-Comment -->
+<script id="template-timeline-Comment" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/comment" %>
+</script>
+
+<script id="template-timeline-CommentItem" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/comment_item" %>
+</script>
+<!-- END template-timeline-Comment -->
+
+
+<!-- START template-timeline-Course -->
+<script id="template-timeline-Course" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/course" %>
+</script>
+<!-- END template-timeline-Course -->
+
+<!-- START template-timeline-facebook -->
+<script id="template-timeline-facebook" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/facebook" %>
+</script>
+<!-- END template-timeline-facebook -->
+
+<!-- START template-timeline-instagram -->
+<script id="template-timeline-instagram" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/instagram" %>
+</script>
+<!-- END template-timeline-instagram -->
+
+<!-- START template-timeline-youtube -->
+<script id="template-timeline-youtube" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/youtube" %>
+</script>
+<!-- END template-timeline-youtube -->
+
+<!-- START template-timeline-employee-advocacy-post -->
+<script id="template-timeline-EmployeeAdvocacyPost" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/employee_advocacy_post" %>
+</script>
+<!-- END template-timeline-employee-advocacy-post -->
+
+<script id="template-user-who-share" type="x-tmpl-mustache">
+  <div class="media">
+    <span class="pull-left">
+      <a href="<%= users_path %>/{{ user.id }}" class="text-default">
+        <img src="{{ user.avatar }}" class="media-object img-circle" alt="" width="50px" height="50px;">
+      </a>
+    </span>
+    <span class="media-body">
+      <span class="media-heading">
+        <a href="<%= users_path %>/{{ user.id }}" class="text-default">
+          {{ user.name }}
+        </a>
+      </span>
+      <span class="media-text ellipsis nm">{{ formatted_created_at }}</span>
+    </span>
+  </div>
+</script>
+
+<script id="template-share-create" type="x-tmpl-mustache">
+  <%= render partial: "dashboard/timeline/advocacy_share_create" %>
+</script>
+
+<script id="template-share-success" type="x-tmpl-mustache">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <div class="ico-{{ share_ok.social_slug }} mb15 mt15" style="font-size:36px; color: {{ share_ok.color }};"></div>
+        <h3 class="semibold modal-title text-primary"><%= t('views.employee_advocacy.post_shared') %></h3>
+      </div>
+      <div class="modal-body">
+        <p><%= t('views.employee_advocacy.success_share') %>.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          <%= t('views.employee_advocacy.close') %>
+        </button>
+      </div>
+    </div>
+  </div>
+</script>
+
+<%= content_for :footer do %>
+  <script>
+    // Limit text to a given number of chars
+    $('#timeline-items .challenge-post-message').readmore({
+      collapsedHeight: 90,
+      moreLink: "<a href='#'>#{i18next.t('views.general.buttons.read_more')}</a>",
+      lessLink: "<a href='#'>#{i18next.t('views.general.buttons.close')}</a>"
+    });
+  </script>
+<% end %>

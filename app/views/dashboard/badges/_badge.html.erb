@@ -1,0 +1,120 @@
+<% user = user || @user %>
+<% has_badge = user.has_badge?(badge) %>
+<!-- BADGE HISTORY MODAL -->
+<div id="badge-<%= badge.id %>-user-history" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="postViewsModal">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+          <%= t('views.badges.when_earn_badge') %>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div id="viewers-list"></div>
+        <div>
+          <% user.get_badge_users(badge).order(created_at: :desc).each do |badge| %>
+            <div class="media-list">
+              <div class="media">
+                <span class="pull-left">
+                  <i class="ico-medal"></i>
+                </span>
+                <span class="media-body">
+                  <%= badge.created_at.strftime("%d/%m/%Y #{I18n.t('views.general.time_at')} %Hh%M") %>
+                </span>
+              </div>
+            </div>
+          <% end%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+  <div class="widget panel panel-badge <%= has_badge ? 'has-badge' : 'badge--dont-have' %> <%= badge.badge_type %>">
+    <div class="panel-body medal-panel"  style="min-height: 215px;">
+      <ul class="list-unstyled">
+        <li class="text-center mb15" style="">
+          <%= image_tag badge.avatar.url, style: "width:50%;" %>
+        </li>
+        <li class="text-center mb10">
+          <h4 class="semibold nm text-primary badge_text"><%= badge.name %></h4>
+        </li>
+      </ul>
+    </div>
+    <%
+      if can?(:user_badges, current_user) and params['controller'] == "dashboard/users"
+        ft_class = 'fsize12'
+      else
+        ft_class = 'fsize16'
+      end
+    %>
+
+    <% if badge.badge_type == 'reusable' %>
+      <%
+        quantity = 0
+        quantity = user.get_badge_users(badge).size if has_badge
+      %>
+      <div
+        title="<%= t('views.general.more_details') %>"
+        class="reusable-badge-counter pointer"
+        data-counter="<%= quantity %>"
+        data-toggle="modal"
+        data-target="#badge-<%= badge.id%>-user-history"
+      >
+        <%= quantity %>
+      </div>
+    <% end %>
+
+
+    <div class="panel-footer text-center pt0">
+      <ul class="list-table mt15">
+        <% if badge.badge_points > 0 %>
+          <li class="text-center medal-badge">
+            <i class="ico-trophy fsize24"></i>
+            <p class="nm <%= ft_class %>"><%= badge.badge_points %></p>
+          </li>
+        <% end %>
+
+        <% if user.has_badge?(badge) %>
+          <li
+            title="<%= t('views.general.more_details') %>"
+            class="text-center pointer"
+            data-toggle="modal" data-target="#badge-<%= badge.id%>-user-history"
+          >
+            <i class="ico-calendar3 fsize24"></i>
+            <p class="nm <%= ft_class %>">
+              <%= user.decorate.formatted_badge_date(badge) %>
+            </p>
+          </li>
+
+        <% else %>
+
+          <% if badge.hint %>
+            <li class="text-center">
+              <i class="ico-question fsize24 ico-badge-hint" data-toggle="tooltip" title="<%= badge.hint %>"></i>
+              <p class="nm <%= ft_class %>"><%= t('views.badges.index.tip') %></p>
+            </li>
+          <% end %>
+        <% end %>
+
+        <% if can?(:user_badges, current_user) and params['controller'] == "dashboard/users" %>
+          <li class="text-center valign-top deassociate-wrapper">
+            <%= link_to '', 'javascript://',
+              class: "badge-button fsize24 btn btn-danger mt0 ico-remove",
+              data: {badge_id: badge.id, url: deassociate_badge_path(user.id, badge.id), type: 'deassociate'} %>
+          </li>
+
+          <li class="text-center valign-top associate-wrapper">
+            <%= link_to '', 'javascript://',
+              class: "badge-button ico-plus fsize24 btn btn-success mt0",
+              data: {badge_id: badge.id, url: associate_badge_path(user.id, badge.id), type: 'associate'} %>
+          </li>
+
+        <% end %>
+
+      </ul>
+    </div>
+  </div>
+</div>

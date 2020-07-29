@@ -1,0 +1,35 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-medal mr5"></i> <%= t('views.badges.created.title') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <ul class="list-table">
+      <li class="text-center" style="width:100px;">
+        <img src="{{timelineable.avatar_url}}" alt="" width="90px">
+      </li>
+      <li class="text-left">
+        <p class="title semibold nm">
+          <a href="<%= badges_path %>">
+            {{timelineable.name}}
+          </a>
+        </p>
+        {{#timelineable.hint}}
+        <p class="nm">{{timelineable.hint}}</p>
+        {{/timelineable.hint}}
+        <p class="text-muted nm">
+          <i class="ico-trophy"></i> {{ timelineable.badge_points }}
+        </p>
+      </li>
+    </ul>
+  </div>
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>

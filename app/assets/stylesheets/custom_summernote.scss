@@ -1,0 +1,39 @@
+.post-content-wrapper,
+.timeline-post-content {
+  padding-bottom: 0;
+  .note-editor {
+    margin-bottom: 0;
+    .note-statusbar {
+      display: none;
+    }
+  }
+  .note-frame {
+    border: none;
+  }
+
+  .note-editable {
+    min-height: 80px;
+  }
+
+  .note-placeholder {
+    z-index: 1;
+  }
+}
+
+.timeline-post-content {
+  .note-frame {
+    border: 1px solid #cfd9db;
+  }
+}
+
+.my-toolbar {
+  .btn-default {
+    background: none;
+    border: none;
+    &.active {
+      color: #6a6a6a;
+      background-color: #dde4e6;
+      border-color: #c0cdd1;
+    }
+  }
+}

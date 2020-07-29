@@ -1,0 +1,36 @@
+<li class="wrapper">
+  <div class="figure bgcolor-warning"><i class="ico-gift22"></i></div>
+  <!-- panel -->
+  <div class="panel">
+    <div class="panel-body">
+      <ul class="list-table">
+        <li class="text-center" style="width:60px;">
+          {{ #timelineable.user.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.user.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.user.id }}">
+            <img src="{{ timelineable.user.avatar_timeline }}" alt="{{ timelineable.user.name }}" class="img-circle" width="50">
+          </a>
+        </li>
+        <li class="text-left">
+            <p class="mb5">
+              <span class="semibold">{{ timelineable.user.name }}</span>
+              {{ #timelineable.campaign.redeem_points? }}
+              <%= t('views.dashboard.timeline.profile.redeemed_reward') %>
+              <a href="/dashboard/recompensas">{{ timelineable.campaign.title }}</a>
+              {{ /timelineable.campaign.redeem_points? }}
+
+              {{ ^timelineable.campaign.redeem_points? }}
+              <%= t('views.dashboard.timeline.profile.finished_challenge_requirements') %>
+              <a href="/dashboard/recompensas/{{ timelineable.campaign.id }}">{{ timelineable.campaign.title }}</a>
+              {{ /timelineable.campaign.redeem_points? }}
+            </p>
+        </li>
+      </ul>
+      <div class="text-center images-full-width-wrapper mt10">
+        <img src="{{ timelineable.campaign.image_timeline }}" alt="Campaign image">
+      </div>
+    </div>
+  </div>
+  <!--/ panel -->
+</li>

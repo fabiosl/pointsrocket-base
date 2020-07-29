@@ -1,0 +1,31 @@
+<div class="thumbnail thumbnail-album">
+  <% if current_user.admin %>
+    <div class="domain-item-toolbar">
+      <div class="btn-group pull-right">
+        <button type="button" class="btn btn-link dropdown-toggle text-default pl10 pr10" data-toggle="dropdown" aria-expanded="false"><i class="ico-menu2"></i></button>
+        <ul class="dropdown-menu dropdown-menu-left">
+            <li>
+              <%= link_to domain_path(domain), method: "delete" , data: { confirm: t('views.general.are_you_sure?') } do %>
+                <%=t('views.general.delete')%>
+              <% end %>
+            </li>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+  
+
+  <%= link_to(domain.get_url) do %>
+    <div class="media">
+      <div class="indicator"><span class="spinner"></span></div>
+      <%= image_tag domain.dashboard_menu_image.url, class: 'unveiled domains-image-background', alt: 'Cover', width: '100%' %>
+    </div>
+  <% end %>
+  <div class="caption text-center">
+    <%= link_to domain.get_url do %>
+      <%= t('views.domains.index.go_to_community', name: domain.name) %>
+    <% end %>
+  </div>
+  <hr class="mt5 mb5">
+  <%= render partial: 'domains/users_meta', locals: { domain: domain } %>
+</div>

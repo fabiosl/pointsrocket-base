@@ -1,0 +1,45 @@
+<div class="step_question panel-body <% if index == 0 %>active<% end %>" id="<%= step_question.id %>">
+  <h4>
+    <span class="step-name mb20"><%= step_question.question %></span>
+    <span class="step-points"><i class="ico-trophy"></i>
+    <%= step_question.score || ENV['DEFAULT_STEP_QUESTION_POINTS'].to_i %></span>
+  </h4>
+
+  <div class="hint-panel row">
+    <div class="col-xs-12">
+      <% if step_question.hint %>
+        <p class="mb20"><strong><%= t('views.questions.show.hint') %>:</strong> <%= step_question.hint %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="question-container">
+    <div class="question-processing-animatio"></div>
+    <div class="indicator">
+      <span class="spinner"></span>
+      <div class="answer-processing-status">
+        <%= t('views.questions.show.answers.processing') %>
+      </div>
+    </div>
+    <% if step_question.answered_correctly_by_user?(current_user) %>
+      <h5 class="semibold"><%= t('views.questions.show.answers.got_correct') %></h5>
+      <%= render partial: 'dashboard/steps/quiz_disabled_option', collection: step_question.step_question_options, locals: {step_question: step_question} %>
+    <% else %>
+      <%= render partial: 'dashboard/steps/quiz_enabled_option', collection: step_question.step_question_options, locals: {step_question: step_question} %>
+      <h5 class="semibold alert"></h5>
+    <% end %>
+  </div>
+
+  <div class="text-right">
+    <% if has_next %>
+      <a href="javascript://" class="btn-next-question mt20 btn btn-primary" <% if not step_question.answered_correctly_by_user?(current_user) %>disabled<% end %> data-index="<%= index %>">
+        <%= t('views.questions.buttons.next_question') %>
+      </a>
+    <% else %>
+      <a href="<%= get_next_step(@step) %>" class="btn btn-success mt20 next-step-button next-step-button-quiz <% if not step_question.answered_correctly_by_user?(current_user) %>hidden<% end %>">
+        <%= t('views.questions.buttons.next_step') %>
+      </a>
+    <% end %>
+  </div>
+
+</div>

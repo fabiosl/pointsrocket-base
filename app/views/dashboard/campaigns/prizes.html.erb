@@ -1,0 +1,112 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    Prêmios
+
+    <% if can? :manage_community, current_domain %>
+      <a href="/dashboard/admin/campaigns" class="btn btn-xs btn-primary">
+        <%= t('views.general.buttons.edit').downcase %>
+      </a>
+    <% end %>
+  </span>
+</h2>
+
+<hr>
+
+<div class="row">
+
+  <% 7.times do |i| %>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <div class="panel prize-panel">
+        <div class="panel-body text-center">
+          <img src="http://placehold.it/200x200" alt="" class="prize-image">
+
+          <h3 class="prize-title">
+            Netflix
+          </h3>
+
+          <div class="description-view">
+            Buy an Allowance Boost to supplement your monthly Bonusly allowance. Unlike your regular allotment of Bonusly points, Allowance Boost points do not expire.
+          </div>
+
+          <% if i == 1 %>
+            <div class="ribbon"><span>peguei 2</span></div>
+          <% end %>
+
+          <div class="ribbon ribbon-left"><span>200 <i class="ico-trophy"></i></span></div>
+
+        </div>
+        <div class="panel-footer">
+          <a href="javascript://" class="btn btn-primary btn-block" data-toggle="modal" data-target="#prize-modal" >
+            Quero isto
+          </a>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>
+
+
+<div
+  id="prize-modal"
+  class="modal fade prize-modal"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+        <img src="http://placehold.it/200x200" alt="" class="prize-image">
+
+        <h3 class="prize-title">
+          Netflix
+        </h3>
+      </div>
+      <div class="modal-body">
+        <p>
+          Buy an Allowance Boost to supplement your monthly Bonusly allowance. Unlike your regular allotment of Bonusly points, Allowance Boost points do not expire.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.challenges.show.buttons.discard') %></button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#prize-modal-thanks">
+          Quero pegar mais um
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  id="prize-modal-thanks"
+  class="modal fade prize-modal"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+        <img src="http://placehold.it/200x200" alt="" class="prize-image">
+
+        <h3 class="prize-title">
+          Netflix
+        </h3>
+      </div>
+      <div class="modal-body">
+        <p>
+          Obrigado, em breve entraremos em contato com você sobre seu prêmio.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('views.challenges.show.buttons.discard') %></button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.campaigns.index.title').capitalize %>
+    <% if can? :manage_community, current_domain %>
+      <a href="/dashboard/admin/campaigns" class="btn btn-xs btn-primary">
+        <%= t('views.general.buttons.edit').downcase %>
+      </a>
+    <% end %>
+  </span>
+</h2>
+
+<hr>
+
+<% if @campaigns.size < 1 %>
+  <div class="well">
+    <%= t('views.campaigns.index.no_records') %>.
+    <%= link_to timeline_path do %>
+      <%= t('views.general.see_timeline') %>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= render @campaigns.select {|c| not c.redeem_points.present? } %>
+  </div>
+
+  <% @campaigns.select {|c| c.redeem_points.present? }.each do |c| %>
+    <%= render partial: "campaign_redeem", locals: {campaign: c} %>
+  <% end %>
+</div>

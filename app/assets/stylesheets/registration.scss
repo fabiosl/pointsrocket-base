@@ -1,0 +1,20 @@
+//= require selectize
+
+.custom-checkbox > input[type="checkbox"] {
+  display: none !important;
+}
+
+.wizard .content {
+  background-color: #fff;
+
+  & > .body {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    position: relative;
+  }
+}
+
+.panel > .wizard > .steps, .panel.wizard > .steps {
+  background: none;
+}

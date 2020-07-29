@@ -1,0 +1,163 @@
+
+{
+  "course_title": "Como gravar cursos para a plataforma",
+  "course_description": "Aqui você aprende como gravar vídeos na plataforma",
+  "has_badge": true,
+  "tag_list": "cbfa",
+  "badge_points": 100,
+  "category": {
+    "slug": "educacao",
+    "position": 1,
+    "name": "Educação"
+  },
+"chapters": [
+    {
+      "name": "Cursos na Plataforma",
+      "description": "Nesse capítulo abordamos um pouco das dos cursos na plataforma!",
+      "badge": {
+        "has_badge": false
+      },
+      "steps": [
+        {
+          "step_type": "video",
+          "step_title": "Entendendo a estrutura (Capítulos, Videos, Perguntas, Material adicional)",
+          "video_url": "https://player.vimeo.com/video/165930598"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: É possível acessar os cursos por celulares?",
+          "questions": [
+            {
+              "question_title": "É possível acessar os cursos por celulares?",
+              "question_answer": "Sim",
+              "other_options": [
+                "Não"
+              ]
+            }
+          ]
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: Quem pode interagir com as perguntas realizadas nos cursos?",
+          "questions": [
+            {
+              "question_title": "Quem pode interagir com as perguntas realizadas nos cursos?",
+              "question_answer": "Todos os membros da plataforma",
+              "other_options": [
+                "Apenas o professor",
+                "Apenas usuários que já tenham concluído esse curso"
+              ]
+            }
+          ]
+        },
+        {
+          "step_type": "video",
+          "step_title": "Certificados",
+          "video_url": "https://player.vimeo.com/video/166207619"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: Aproveitamento mínimo para receber o certificados?",
+          "questions": [
+            {
+              "question_title": "Qual o aproveitamento mínimo que um aluno deve ter para receber o certificado de um curso?",
+              "question_answer": "Esse fator é configurável para cada curso",
+              "other_options": [
+                "100%"
+              ]
+            }
+          ]
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: Quantas vezes o aluno pode tentar responder uma pergunta?",
+          "questions": [
+            {
+              "question_title": "Quantas vezes o aluno pode tentar responder uma pergunta?",
+              "question_answer": "Esse fator é configurável para cada curso",
+              "other_options": [
+                "Até três vezes",
+                "Apenas uma vez"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Capítulo 2: Produzindo o conteúdo",
+      "description": "Nesse capítulo abordamos um pouco de como produzir conteúdos de qualidade para plataforma.",
+      "badge": {
+        "has_badge": false
+      },
+      "steps": [
+        {
+          "step_type": "video",
+          "step_title": "Escolhendo o tipo de curso (Screencast, Vídeo live)",
+          "video_url": "https://player.vimeo.com/video/166070234"
+        },
+        {
+          "step_type": "video",
+          "step_title": "Gravando no Windows",
+          "video_url": "https://player.vimeo.com/video/166070229"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: Qual desses não é um programa ideal para de gravação de vídeos?",
+          "questions": [
+            {
+              "question_title": "Qual desses não é um programa ideal para de gravação de vídeos?",
+              "question_answer": "Photoshop",
+              "other_options": [
+                "Windows Movie Maker",
+                "Cyberlink PowerDirector",
+                "ActivePresenter",
+                "Camtasia"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "Capítulo 3: Subindo para a Web",
+      "description": "Nesse capítulo abordamos um pouco de como enviar os vídeos para a Web corretamente.",
+      "badge": {
+        "has_badge": false
+      },
+      "steps": [
+        {
+          "step_type": "video",
+          "step_title": "Introdução (Youtube, Vimeo)",
+          "video_url": "https://player.vimeo.com/video/166069925"
+        },
+        {
+          "step_type": "quiz",
+          "step_title": "Quiz: Os vídeos da plataforma podem ser apenas do youtube?",
+          "questions": [
+            {
+              "question_title": "Os vídeos da plataforma podem ser apenas do youtube?",
+              "question_answer": "Falso",
+              "other_options": [
+                "Verdadeiro"
+              ]
+            }
+          ]
+        },
+        {
+          "step_type": "video",
+          "step_title": "Subindo para o Youtube",
+          "video_url": "https://player.vimeo.com/video/166070730"
+        },
+
+        {
+          "step_type": "video",
+          "step_title": "Enviando curso para atualização na Plataforma",
+          "video_url": "https://player.vimeo.com/video/166070621"
+        }
+      ]
+    }
+
+  ]
+}

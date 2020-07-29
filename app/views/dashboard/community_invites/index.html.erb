@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= t('views.dashboard.community_invites.index.title') %></h3>
+  </div>
+  <div class="panel-toolbar text-right"></div>
+  <% if @community_invites.empty? %>
+    <div class="panel-body">
+      <%= t('views.dashboard.community_invites.index.no_records') %>
+    </div>
+  <% else %>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th><%= t('views.dashboard.community_invites.index.fields.username') %></th>
+          <th><%= t('views.dashboard.community_invites.index.fields.email') %></th>
+          <th><%= t('views.dashboard.community_invites.index.fields.status') %></th>
+          <th><%= t('views.dashboard.community_invites.index.fields.actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @community_invites.each do |invite| %>
+          <tr>
+            <td><%= invite.user.name %></td>
+            <td><%= invite.user.email %></td>
+            <td><%= t("views.dashboard.community_invites.statuses.#{invite.status}") %></td>
+            <td>
+            <% if invite.is_waiting_approval? %>
+              <div class="btn-group">
+                <%= form_tag domain_join_path(invite), { form_class: 'pull-left mr15 pt0 pb0' } do %>
+                  <%= hidden_field_tag 'role', 'user' %>
+                  <%= submit_tag t('views.dashboard.community_invites.index.buttons.approve_as_user'), class: 'btn btn-success btn-sm pt0 pb0' %>
+                <% end %>
+                <%= form_tag domain_join_path(invite), { form_class: 'pull-left mr15 pt0 pb0' } do %>
+                  <%= hidden_field_tag 'role', 'manager' %>
+                  <%= submit_tag t('views.dashboard.community_invites.index.buttons.approve_as_manager'), class: 'btn btn-success btn-sm pt0 pb0' %>
+                <% end %>
+                <%= button_to t('views.dashboard.community_invites.index.buttons.decline'), decline_community_invite_path(invite), { form_class: 'pull-left pt0 pb0', class: 'btn btn-danger btn-sm pt0 pb0'} %>
+              </div>
+            <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

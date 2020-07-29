@@ -1,0 +1,37 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-graduation mr5"></i> <%= t('views.courses.created.title') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <ul class="list-table">
+      <li class="text-center col-top" style="width:90px;">
+        <a href="<%= courses_path %>/{{timelineable.slug}}">
+          <img src="{{timelineable.avatar_url}}" alt="{{timelineable.name}}">
+        </a>
+      </li>
+      <li class="text-left">
+        <p class="nm">
+          <a href="<%= courses_path %>/{{timelineable.slug}}">
+            {{ timelineable.name }}
+          </a>
+        </p>
+        <p class="title semibold nm">
+          {{ timelineable.description }}
+        </p>
+        <p class="text-muted nm">
+          <i class="ico-trophy"></i> {{ timelineable.points }}
+        </p>
+      </li>
+    </ul>
+  </div>
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>

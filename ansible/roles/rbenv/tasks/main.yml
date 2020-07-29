@@ -1,0 +1,11 @@
+# Common prereqs (e.g. build tools, libs)
+- include: common-prereqs.yml
+  sudo: yes
+
+# rbenv setup
+- include: rbenv-setup.yml
+  tags: rbn_setup
+
+# Common ruby environment tasks (e.g. adding a .gemrc, ...)
+- include: common-post.yml
+

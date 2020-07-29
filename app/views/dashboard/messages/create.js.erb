@@ -1,0 +1,17 @@
+var message;
+console.log("create");
+
+message = " \
+  <li class=\"media media-right\"> \
+    <a href=\"javascript:void(0);\" class=\"media-object\"> \
+      <img src=\"<%= image_url @message.user.avatar %>\" class=\"img-circle\"> \
+    </a> \
+    <div class=\"media-body\"> \
+      <p class=\"media-text\"><%= @message.body %></p>  \
+      <span class=\"clearfix\"></span> \
+      <p class=\"media-meta\"><%= @message.created_at %></p> \
+    </div> \
+  </li> \
+"
+
+$('.message-list').append(message);

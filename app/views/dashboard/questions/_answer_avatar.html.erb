@@ -1,0 +1,4 @@
+<%= link_to user_path(answer_avatar.user) do %>
+  <%= image_tag answer_avatar.user.avatar.url(:s50x50),
+    :class => "img-circle", :width => "38px", :height => "38px" %>
+<% end %>

@@ -1,0 +1,37 @@
+= Db and Assets import export
+
+Serve pra enviar ou receber os assets/db de produção/staging pra local, muito cuidado com produção
+
+== Servidor pra Local
+
+=== db
+
+  bundle exec cap staging db:local:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user
+
+=== assets
+
+  bundle exec cap staging assets:local:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user
+
+=== db e assets
+
+  bundle exec cap staging app:local:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user
+
+
+== Local pra o servidor (cuidado, não foi testado)
+
+
+=== db
+
+  bundle exec cap staging db:remove:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user
+
+=== assets
+
+  bundle exec cap staging assets:remove:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user
+
+=== db e assets
+
+  bundle exec cap staging app:remove:sync DATABASE_NAME=local_database_name DATABASE_USERNAME=local_database_user
+
+== Mais informações
+
+https://github.com/sgruhier/capistrano-db-tasks

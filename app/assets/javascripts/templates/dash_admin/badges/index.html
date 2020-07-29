@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-sm-12" id="badges-list">
+
+    <div class="indicator show" data-ng-if="loading">
+      <span class="spinner"></span>
+    </div>
+
+    <p>
+      <a href="/dashboard/admin/" class="btn btn-primary">
+      <span ng-bind="('views.dashboard.admin.buttons.back' | i18next)"></span>
+      </a>
+      <a href="/dashboard/admin/{{ domain_id }}/badges/new" class="btn btn-success">
+        <span ng-bind="('views.dashboard.admin.badges.buttons.add' | i18next)"></span>
+      </a>
+    </p>
+
+    <p>
+      <input type="text" placeholder="{{ 'views.dashboard.admin.badges.placeholders.filter' | i18next }}" data-ng-model="searchText" class="form-control">
+    </p>
+
+    <div class="panel panel-default mb20" data-ng-repeat="badge in badges | filter:searchText ">
+      <div class="panel-heading handle">
+        <div class="panel-title">
+          {{ badge.name }}
+        </div>
+
+        <div class="panel-toolbar text-right">
+          <a href="/dashboard/admin/{{ domain_id }}/badges/{{ badge.id }}/edit" class="btn btn-primary">
+            <span ng-bind="('views.dashboard.admin.buttons.edit' | i18next)"></span>
+          </a>
+          <a href="#" class="btn btn-danger" data-ng-click="deleteBadge(badge)">
+            <span ng-bind="('views.dashboard.admin.buttons.delete' | i18next)"></span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

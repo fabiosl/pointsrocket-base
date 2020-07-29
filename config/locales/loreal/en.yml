@@ -1,0 +1,64 @@
+en:
+  models:
+    badges:
+      new_badge_earned: 'New bonus earned'
+  views:
+    mail:
+      badges:
+        see_badge_community: 'See bonus at community'
+    general:
+      no_medals: 'No bonus'
+      medals: 'Bonus'
+      medal: 'Bonus'
+    dashboard:
+      widgets:
+        badges:
+          title: 'Last bonus'
+          see_all: 'See all bonus'
+          you_have_none: 'You have not earned any bonus yet'
+      sidebar:
+        menu:
+          badges: 'Bonus'
+      index:
+        latest_badges:
+          title: 'Last bonus'
+          you_have_none: 'You have not earned any bonus yet'
+    broadcasts:
+      show:
+        info_message: 'Watch this livestream to unlock its bonus and points'
+        complete_help_message: 'Keep watching until the progress bar fills up to unlock your bonus and earn points!'
+    badges:
+      earned_badge: 'You earned a new bonus'
+      when_earn_badge: 'When you earned this bonus'
+      index:
+        title: 'Bonus'
+      show:
+        title: 'Bonus'
+      created:
+        title: 'New bonus created'
+    notifications:
+      new_badge: 'New bonus'
+      badge_earned: You earned a new bonus'
+    timeline:
+      index:
+        medal: 'Bonus'
+    steps:
+      new_badge: 'New bonus!'
+  controllers:
+    dashboard:
+      how_to_point:
+        badge: 'Bonus'
+  badge_user_mailer:
+    new_badge_email:
+      title: "Congratulations %{username}, you just won a bonus!"
+      title_with_points: "Congratulations %{username}, you just won a bonus and %{points} points!"
+  notification:
+    push_notification:
+      BadgeUser_create: "You won a bonus: %{name}"
+      Challenge_create: "New submission: %{name}"
+      ChallengeUser_create: "You made a submission: %{challenge_name}"
+      ChallengeUser_approved: "Submission approved: %{challenge_name}"
+      ChallengeUser_declined: "Submission declined: %{challenge_name}"
+  excel:
+    badges: "Bonus (Badges)"
+    challenges: "Feedbacks"

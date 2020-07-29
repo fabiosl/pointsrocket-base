@@ -1,0 +1,33 @@
+<script>
+  window.QUESTION_ANSWERS_PATH = '<%= question_answers_path %>';
+</script>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="ico-pencil2 mr5"></i><%= t('views.steps.quiz') %></h3>
+      </div>
+      <% step_questions = StepQuestionDecorator.decorate_collection(@step.step_questions) %>
+
+      <form class="form-horizontal form-bordered wizard" action="" >
+        <div class="steps clearfix">
+          <ul role="tablist">
+          <% step_questions.each_with_index do |step_question, index| %>
+            <li role="tab" class="quiz-question-tab <%= step_question.trigger_class(current_user) %>">
+              <a class="quiz-option-button step_question_trigger" data-id="<%= step_question.id %>">
+              <span class="number"><%= index + 1 %></span>
+              </a>
+            </li>
+          <% end %>
+          </ul>
+        </div>
+
+        <% step_questions.each_with_index do |step_question, index| %>
+          <%= render step_question, {index: index, has_next: index + 1 != step_questions.count} %>
+        <% end  %>
+      </form>
+
+    </div>
+  </div>
+</div>

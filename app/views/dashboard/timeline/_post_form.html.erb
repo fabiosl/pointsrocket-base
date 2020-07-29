@@ -1,0 +1,85 @@
+<% if can?(:create_posts, domain) || can?(:give_points, current_domain) || can?(:create_news, current_domain) %>
+  <div class="hidden publication-div">
+    <!--/ section header -->
+    <!-- tab -->
+    <ul class="nav nav-tabs">
+      <% some_active = false %>
+      <% if can? :give_points, current_domain %>
+        <li class="<%= some_active ? "" : "active" %>">
+          <a href="#give-points-tab" data-toggle="tab">
+            <%= t 'views.timeline.post_form.praise' %>
+          </a>
+        </li>
+        <% some_active = true %>
+      <% end %>
+      <% if can? :create_news, current_domain %>
+        <li class="<%= some_active ? "" : "active" %>">
+          <a href="#news-tab" data-toggle="tab">News</a>
+        </li>
+        <% some_active = true %>
+      <% end %>
+      <% if can? :create_posts, domain %>
+        <li class="<%= some_active ? "" : "active" %>">
+          <a href="#post-form-tab" data-toggle="tab">
+            <%= t 'views.timeline.post_form.publication' %>    
+          </a>
+        </li>
+        <% some_active = true %>
+      <% end %>
+    </ul>
+    <!--/ tab -->
+    <!-- tab content -->
+    <% some_active = false %>
+    <div class="tab-content mb20">
+      <% if can? :give_points, current_domain %>
+        <div class="tab-pane noborder-in-first-panel np <%= some_active ? "" : "active" %>" id="give-points-tab">
+          <%= render partial: "peer_recognition_form", locals: { available_coins: current_user.available_coins } %>
+        </div>
+        <% some_active = true %>
+      <% end %>
+      <% if can? :create_news, current_domain %>
+        <div class="tab-pane noborder-in-first-panel np <%= some_active ? "" : "active" %>" id="news-tab">
+          <%= render partial: 'news_form' %>
+        </div>
+        <% some_active = true %>
+      <% end %>
+      <% if can? :create_posts, domain %>
+        <div class="tab-pane noborder-in-first-panel np <%= some_active ? "" : "active" %>" id="post-form-tab">
+          <%= form_for(post, html: { class: 'panel post-box-form np'}) do  |f| %>
+            <div class="post-content-wrapper">
+              <%= f.text_area :content,
+                              class: 'form-control form-control-minimal',
+                              placeholder: t('views.posts.new'),
+                              rows: 4, required: true
+              %>
+              <div class="my-toolbar"></div>
+            </div>
+            <div class="panel-footer">
+              <div class="panel-toolbar-wrapper">
+                <div class="panel-toolbar">
+                <ul class="list-table">
+                <% if can? :notify_users, current_domain %>
+                  <li>
+                    <span class="checkbox custom-checkbox custom-checkbox-inverse">
+                    <%= f.hidden_field :notify_users %>
+                    <%= f.check_box :notify_users, { id: 'checkbox-notify-users', checked: true }, true, false %>
+                    <label for="checkbox-notify-users">
+                      &nbsp;&nbsp;<%= t('views.timeline.index.notify_users') %>
+                    </label>
+                  </span>
+                  </li>
+                <% end %>
+                  <li class="text-right">
+                    <%= f.submit t('views.dashboard.timeline.buttons.post'), class: 'btn btn-primary' %>
+                  </li>
+                </ul>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <!--/ tab content -->
+  </div>
+<% end %>

@@ -1,0 +1,44 @@
+<% if ENV['CURRENT_ANDROID_VERSION_CODE'].present? %>
+  <script>
+    window.CURRENT_ANDROID_VERSION_CODE = <%= ENV['CURRENT_ANDROID_VERSION_CODE'] %>;
+  </script>
+
+  <div id="modal-android-outdated" class="modal fade">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header text-center">
+                  <h3 class="semibold modal-title text-primary">
+                    <%= t ".update_your_app" %>
+                  </h3>
+              </div>
+              <div class="modal-body pa20">
+                <%= t ".update_app_message_html", current_version: ENV["CURRENT_ANDROID_VERSION_CODE"], store: "Play Store" %>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div>
+  <!--/ END modal-people-shared -->
+<% end %>
+
+
+<% if ENV['CURRENT_IOS_VERSION_CODE'].present? %>
+  <script>
+    window.CURRENT_IOS_VERSION_CODE = <%= ENV['CURRENT_IOS_VERSION_CODE'].split(",").to_json.html_safe %>;
+  </script>
+
+  <div id="modal-ios-outdated" class="modal fade">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header text-center">
+                  <h3 class="semibold modal-title text-primary">
+                    <%= t ".update_your_app" %>
+                  </h3>
+              </div>
+              <div class="modal-body pa20">
+                <%= t ".update_app_message_html", current_version: ENV["CURRENT_IOS_VERSION_CODE"].split(",").first, store: "App Store" %>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div>
+  <!--/ END modal-people-shared -->
+<% end %>

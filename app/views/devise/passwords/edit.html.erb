@@ -1,0 +1,45 @@
+
+<!-- Subscribe Form -->
+<section id="suscribe" class="subscribe bg-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <header class="subscribe-header">
+          <h2 class="title">Altere sua senha</h2>
+          <!-- <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p> -->
+        </header>
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {class: 'subscribe-form devise-subscribe-form', method: :put}) do |f| %>
+          <%#= f.error_notification %>
+
+          <%= f.hidden_field :reset_password_token, as: :hidden %>
+          <%#= f.full_error :reset_password_token %>
+
+          <fieldset>
+            <div class="form-group">
+              <label class="hidden">Senha</label>
+              <div class="left-inner-addon">
+                <i class="icon-key"></i>
+                <%= f.password_field :password, required: false, class: 'form-control input-lg', placeholder: 'Senha' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="hidden">Confirme sua senha</label>
+              <div class="left-inner-addon">
+                <i class="icon-key"></i>
+                <%= f.password_field :password_confirmation, required: false, class: 'form-control input-lg', placeholder: 'Confirme sua senha' %>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-warning btn-lg has-shadow"><i class="icon glyphicon glyphicon-send"></i> Alterar senha e fazer login</button>
+          </fieldset>
+        <% end %>
+
+        <div class="devise-shared-links">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

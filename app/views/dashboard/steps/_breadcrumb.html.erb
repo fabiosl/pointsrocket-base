@@ -1,0 +1,10 @@
+<ol class="breadcrumb">
+  <% items.each do |item| %>
+    <% if item == items.last %>
+      <li class="active"><%= item[:content] %></li>
+    <% else %>
+      <li><a href="<%= item[:link] %>"><%= item[:content] %></a></li>
+    <% end %>
+  <% end %>
+  <!-- <li class="active">Data</li> -->
+</ol>

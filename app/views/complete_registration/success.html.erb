@@ -1,0 +1,25 @@
+<div class="intro" >
+  <div id="pricing" class="bg-color ">
+    <div class="container text-center ">
+      <h2 class="">Assinatura feita com sucesso!</h2>
+      <!-- <p>Aproveite já todos os conteúdos que nossa plataforma tem para oferecer!</p> -->
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="order col-sm-5 col-sm-offset-1">
+      <h3>Parabéns, seja bem-vindo à On Rocket!</h3>
+      <p>Seu ID no Moip Pagamentos: <span><%= @subscription.moip_code %></span></p>
+      <p>Em breve você receberá um email de boas vindas para saber como aproveitar ao máximo a nossa plataforma!</p>
+
+      <%= link_to 'Começar agora!', :dashboard, class: 'btn btn-success mt40' %>
+    </div>
+    <div id="laptop-guy" class="order col-sm-4 col-sm-offset-1" >
+      <%= image_tag 'site/laptop.png', class: 'img-responsive img-centered', alt: 'img intro' %>
+    </div>
+
+  </div>
+</div>
+<script>
+</script>

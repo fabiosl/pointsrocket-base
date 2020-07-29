@@ -1,0 +1,63 @@
+#
+# This file configures the New Relic Agent.  New Relic monitors Ruby, Java,
+# .NET, PHP, Python, Node, and Go applications with deep visibility and low
+# overhead.  For more information, visit www.newrelic.com.
+#
+# Generated January 24, 2020
+#
+# This configuration file is custom generated for Buzzmonitor
+#
+# For full documentation of agent configuration options, please refer to
+# https://docs.newrelic.com/docs/agents/ruby-agent/installation-configuration/ruby-agent-configuration
+
+common: &default_settings
+  # Required license key associated with your New Relic account.
+  license_key: 4dc446aadc39a0545aa97d4587163e0798efa335
+
+  # Your application name. Renaming here affects where data displays in New
+  # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
+  app_name: buzzmonitor-advocacy
+
+  monitor_mode: true
+  log_level: info
+  ssl: true
+  apdex_t: 0.5
+
+  browser_monitoring:
+      auto_instrument: true
+
+  capture_params: true
+  transaction_tracer:
+    enabled: true
+    transaction_threshold: apdex_f
+    record_sql: obfuscated
+    stack_trace_threshold: 0.500
+
+  error_collector:
+    enabled: true
+    capture_source: true
+    ignore_errors: ActionController::RoutingError
+
+
+# Environment-specific settings are in this section.
+# RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.
+# If your application has other named environments, configure them here.
+development:
+  <<: *default_settings
+  monitor_mode: true
+  app_name: buzzmonitor-advocacy-dev (Development)
+
+test:
+  <<: *default_settings
+  # It doesn't make sense to report to New Relic from automated test runs.
+  monitor_mode: false
+
+staging:
+  <<: *default_settings
+  monitor_mode: true
+  app_name: buzzmonitor-advocacy-staging (Staging)
+
+production:
+  <<: *default_settings
+  monitor_mode: true
+  app_name: buzzmonitor-advocacy-production

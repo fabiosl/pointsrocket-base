@@ -1,0 +1,36 @@
+<li class="wrapper">
+  <div class="figure bgcolor-primary"><i class="ico-share22"></i></div>
+  <!-- panel -->
+  <div class="panel">
+    <div class="panel-body break-word">
+      <ul class="list-table">
+        <li class="text-center" style="width:60px;">
+          {{ #timelineable.user.admin_current_domain }}
+            <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+          {{ /timelineable.user.admin_current_domain }}
+          <a href="<%= users_path %>/{{ timelineable.user.id }}">
+            <img src="{{ timelineable.user.avatar_timeline }}" alt="{{ timelineable.user.name }}" class="img-circle" width="50">
+          </a>
+        </li>
+        <li class="text-left">
+          <p class="nm"><span class="semibold">{{ timelineable.user.name }}</span> 
+          <%= t('views.dashboard.timeline.profile.shared_advocacy_post') %>
+        </li>
+      </ul>
+      <div class="mt10 images-full-width-wrapper">
+        <a href="{{ timelineable.url }}" target="_blank">
+          <img src="{{ timelineable.image }}" alt="post image" width="100%">
+        </a>
+      </div>
+
+      <div class="panel-body">
+        <a href="{{ timelineable.url }}" target="_blank" class="text-default">
+          <h5 class="semibold mt0">{{ timelineable.title }}</h5>
+        </a>
+        <div>{{ timelineable.content }}</div>
+      </div>
+    </div>
+  </div>
+  <!--/ panel -->
+</li>
+

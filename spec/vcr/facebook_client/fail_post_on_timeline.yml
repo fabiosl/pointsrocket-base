@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://graph.facebook.com/v2.7/me/feed?access_token=EAACEdEose0cBAI14xjh37DGmmi8ShIUfP1Pl21VH6Udy5nEFHUbnEZC4N3ZBIXGPzDiewghtZB4hZBs48s77ZALddrvPutncuSvTh8B9TDbwimjcu3VWkAX7kWIDobAuiLL3AYIWSBy1OnWEkkhjNyxqrUw2cGdtWbUjtMvIHeQZDZD
+    body:
+      encoding: UTF-8
+      string: message=
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      X-App-Usage:
+      - '{"call_count":3,"total_cputime":2,"total_time":2}'
+      X-Fb-Rev:
+      - '2473111'
+      X-Fb-Trace-Id:
+      - FWqefcnd69Q
+      Content-Type:
+      - application/json; charset=UTF-8
+      Facebook-Api-Version:
+      - v2.7
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - "*"
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Www-Authenticate:
+      - OAuth "Facebook Platform" "invalid_request" "Invalid parameter"
+      Vary:
+      - Accept-Encoding
+      X-Fb-Debug:
+      - P35PO0Vh/1gH93eBW2tKVjuEe9SGpdP+Z6c0tHrt1ygvv7+YmKPax2y2T0Yh+wNJ6NJAafc3/1Uq1a9TTmBm7Q==
+      Date:
+      - Fri, 29 Jul 2016 02:47:09 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '191'
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Invalid parameter","type":"OAuthException","code":100,"error_subcode":1349125,"is_transient":false,"error_user_title":"Missing
+        Message Or Attachment","error_user_msg":"Missing message or attachment.","fbtrace_id":"FWqefcnd69Q"}}'
+    http_version: 
+  recorded_at: Fri, 29 Jul 2016 02:47:09 GMT
+recorded_with: VCR 3.0.3

@@ -1,0 +1,75 @@
+.v-middle, .v-middle-full {
+  display: table-cell;
+  vertical-align: middle;
+  height: inherit;
+}
+
+.v-middle-full {
+  width: 9999px;
+}
+
+.mobile-header {
+  display: block;
+
+  @media (min-width: 421px) {
+    display: none;
+  }
+}
+
+.barra-preta {
+  display: none;
+  background: black;
+  height: 114px;
+  padding: 0 30px;
+  // border-bottom: 1px solid white;
+
+  @media (min-width: 421px) {
+    display: block;
+  }
+
+  > .row {
+    height: inherit;
+  }
+
+}
+
+.universidade-loreal-logo {
+  height: inherit;
+  color: #fff;
+  font-family: "Times New Roman";
+  font-size: 31px;
+  font-style: italic;
+
+  b {
+    font-weight: bold;
+  }
+}
+
+.loreal-logo {
+  height: inherit;
+}
+
+.beautyhack-logo {
+  height: inherit;
+}
+
+// mobile
+@media (max-width: 420px) {
+  .mobile-header-logo {
+    width: 100%;
+  }
+
+  // .universidade-loreal-logo {
+  //   text-align: center;
+  // }
+
+}
+
+// ipad em pe
+
+@media (min-width: 768px) and (max-width: 1000px) {
+  // .universidade-loreal-logo {
+  //   font-size: 22px;
+  // }
+
+}

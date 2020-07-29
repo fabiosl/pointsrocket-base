@@ -1,0 +1,39 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= t('views.dashboard.memberships.index.title') %></h3>
+  </div>
+  <div class="panel-toolbar text-right"></div>
+  <% if @memberships.empty? %>
+    <div class="panel-body">
+      <%= t('views.dashboard.memberships.index.no_records') %>
+    </div>
+  <% else %>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th><%= t('views.dashboard.memberships.index.fields.username') %></th>
+          <th><%= t('views.dashboard.memberships.index.fields.email') %></th>
+          <th><%= t('views.dashboard.memberships.index.fields.status') %></th>
+          <th><%= t('views.dashboard.memberships.index.fields.actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @memberships.each do |membership| %>
+          <tr>
+            <td><%= membership.user.name %></td>
+            <td><%= membership.user.email %></td>
+            <td><%= t("views.dashboard.memberships.index.statuses.#{membership.status}") %></td>
+            <td>
+            <% if membership.is_pending? %>
+              <div class="btn-group">
+                <%= button_to t('views.general.buttons.approve'), approve_membership_path(membership), { form_class: 'pt0 pb0', class: 'btn btn-success btn-sm pt0 pb0'} %>
+                <%= button_to t('views.general.buttons.decline'), decline_membership_path(membership), { form_class: 'pt0 pb0', class: 'btn btn-danger btn-sm pt0 pb0'} %>
+              </div>
+            <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

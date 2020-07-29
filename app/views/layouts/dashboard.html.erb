@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="backend" lang="<%= I18n.locale %>">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Language" content="<%= I18n.locale %>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="og:locale" content="<%= I18n.locale %>">
+    <meta property="og:url" content="<%= main_app.root_url %>">
+
+    <title><%= @domain.name %></title>
+    <meta property="og:title" content="<%= @domain.name %>">
+    <meta property="og:site_name" content="<%= @domain.name %>">
+    <meta property="og:description" content="<%= @domain.description %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <%= csrf_meta_tags %>
+
+
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700">
+    <%= render partial: "partials/favicon" %>
+
+    <%= stylesheet_link_tag "main-dashboard.css" %>
+    <% if @domain.css.present? %>
+      <%= stylesheet_link_tag @domain.css %>
+    <% end %>
+
+    <style id="domain_css_text" type="text/css">
+      <% if @domain.present? and @domain.css_text.present? %>
+        <%= @domain.css_text.html_safe %>
+      <% end %>
+    </style>
+
+    <%= yield :css %>
+
+    <%= javascript_include_tag "modernizr/js/modernizr.js" %>
+
+    <script>
+      window.locale = '<%= I18n.locale %>';
+    </script>
+
+    <% if respond_to? :current_user %>
+      <script>
+        window.CURRENT_USER = <%= current_user.to_json.html_safe %>;
+        window.CURRENT_DOMAIN = <%= current_domain.decorate.to_json(methods: [:peer_recognition_hashtags_items]).html_safe %>;
+        window.USER_ID = <%= current_user.id %>;
+        window.TENANT = "<%= Apartment::Tenant.current %>";
+        window.DOMAIN_ID = <%= @domain.id %>;
+
+
+        window.translations = {
+          <% if I18n.locale.present? %>
+            "<%= I18n.locale %>": <%= File.read(Rails.root.join("app/assets/javascripts/locales/#{I18n.locale}.json")).html_safe %>
+          <% end %>
+        };
+      </script>
+      <%= javascript_include_tag "i18n" %>
+    <% end %>
+
+  </head>
+
+  <body>
+    <%= render :partial => "layouts/dashboard/header" %>
+    <%= render :partial => "layouts/dashboard/sidebar" %>
+
+
+    <section id="main" role="main">
+      <div class="container-fluid">
+        <% flash.each do |name, msg| -%>
+          <div class="alert alert-dismissable alert-<%= name %>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <%= msg.html_safe %>
+          </div>
+        <% end -%>
+
+        <% if must_show_expired_token_alert? %>
+          <div class="alert alert-danger fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4 class="semibold"><%= t 'alerts.account_with_problem' %></h4>
+            <p class="mb10"><%= t 'alerts.calm_you_can_solve_cant_collect_publications' %></p>
+            <%
+              if ENV['SUBDOMAIN_AS_COMMUNITIES'] == 'false'
+                the_complete_registration_path = complete_registration_path(edit_social_networks: 'yes', ref: url_for(only_path: false))
+              else
+                the_complete_registration_path = complete_registration_url(subdomain: false, edit_social_networks: 'yes', ref: url_for(only_path: false))
+              end
+            %>
+            <a href="<%= the_complete_registration_path %>" class="btn btn-danger"><%= t 'alerts.understand' %></a>
+          </div>
+        <% end %>
+
+        <%= yield %>
+
+        <%= render :partial => "layouts/dashboard/footer" %>
+        <%= render :partial => "layouts/dashboard/versions" %>
+      </div>
+
+    </section>
+
+
+    <script>
+
+    </script>
+
+    <%= javascript_include_tag "main-dashboard.js" %>
+
+    <script>
+      <% if ENV['SOCKET_JS_URL'].present? %>
+        window.SOCKET_JS_URL = '<%= ENV['SOCKET_JS_URL'] %>';
+      <% end %>
+    </script>
+    <!--<%= javascript_include_tag "socket.js" %>-->
+
+    <%= yield :footer %>
+    <%= render 'partials/ganalytics' %>
+
+  </body>
+</html>

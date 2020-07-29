@@ -1,0 +1,48 @@
+# Instalation
+
+- name: Check if papertrail remote_syslog is instaled
+  shell: bash -lc "which remote_syslog"
+  register: remote_syslog_register
+  ignore_errors: yes
+
+- name: Creates download directory
+  file: path=/home/downloads state=directory
+  when: remote_syslog_register.rc > 0
+
+- name: Download papertrail remote_syslog
+  get_url: url=https://github.com/papertrail/remote_syslog2/releases/download/v0.14/remote_syslog_linux_amd64.tar.gz dest=/home/downloads/remote_syslog_linux_amd64.tar.gz
+  when: remote_syslog_register.rc > 0
+
+- name: Unzip papertrail remote_syslog
+  unarchive: src=/home/downloads/remote_syslog_linux_amd64.tar.gz dest=/home/downloads/ copy=no
+  when: remote_syslog_register.rc > 0
+  ignore_errors: yes
+
+- name: Expose papertrail remote_syslog
+  file: src=/home/downloads/remote_syslog/remote_syslog dest=/usr/local/sbin/remote_syslog state=link
+  when: remote_syslog_register.rc > 0
+
+# Configuration
+- name: Copy remote_syslog configuration
+  copy: src=remote_syslog.yml dest=/home/downloads/remote_syslog/papertrail_syslog.yml
+
+# Configuration
+- name: Copy remote_syslog configuration (staging)
+  copy: src=remote_syslog_staging.yml dest=/home/downloads/remote_syslog/papertrail_staging_syslog.yml
+
+- name: Check if monit is instaled
+  shell: bash -lc "which monit"
+  register: monit_register
+  ignore_errors: yes
+
+- name: copy monit configuration
+  copy: src=monit_papertrail dest=/etc/monit/conf.d/papertrail
+  when: monit_register.rc == 0
+  notify:
+    - restart monit
+    - restart monit papertrail
+
+# - name: Install papertrail remote_syslog
+#   shell: bash -lc "dpkg -i /home/downloads/remote_syslog_linux_amd64.tar.gz"
+#   sudo_user: root
+#   when: remote_syslog_register.rc > 0

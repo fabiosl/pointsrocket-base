@@ -1,0 +1,200 @@
+<div class="row">
+  <div class="col-sm-12">
+    <a href="/dashboard/admin/campaigns" class="btn btn-danger">
+      <span ng-bind="('views.dashboard.admin.buttons.back' | i18next)"></span>
+    </a>
+  </div>
+</div>
+
+<form action="" name="editCampaignForm" class="form-horizontal">
+  <div class="row">
+    <div class="col-sm-12 chapters-list relative">
+
+      <div class="indicator show" data-ng-if="loading">
+        <span class="spinner"></span>
+      </div>
+
+      <div data-ng-if="errors" class="panel panel-danger mt20" >
+        <div class="panel-heading">
+          <div class="panel-title">
+            <span ng-bind="('views.dashboard.admin.form.errors' | i18next)"></span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p data-ng-repeat="(key, value) in errors">
+            {{ getError(key) }}
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.rewards.fields.title' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="campaign.title" name="campaign_title" required>
+
+          <span class="text-danger" data-ng-if="editCampaignForm['campaign_title'].$invalid && editCampaignForm['campaign_title'].$dirty">
+            <span data-ng-if="editCampaignForm['campaign_title'].$error.required">
+              <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.rewards.fields.subtitle' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="campaign.subtitle" name="campaign_subtitle">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+        <span ng-bind="('views.dashboard.admin.rewards.fields.description' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <textarea name="campaign_description" data-ng-model="campaign.description" class="form-control" required></textarea>
+
+          <span class="text-danger" data-ng-if="editCampaignForm['campaign_description'].$invalid && editCampaignForm['campaign_description'].$dirty">
+            <span data-ng-if="editCampaignForm['campaign_description'].$error.required">
+              <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">
+          <span ng-bind="('views.dashboard.admin.rewards.fields.redeem_points' | i18next)"></span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" data-ng-model="campaign.redeem_points" name="campaign_redeem_points">
+        </div>
+      </div>
+
+      <div data-ng-if="!!campaign.redeem_points">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">
+            <span ng-bind="('views.dashboard.admin.rewards.fields.max_redeems' | i18next)"></span>
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" data-ng-model="campaign.max_redeems" name="campaign_max_redeems" data-ng-required>
+
+            <span class="text-danger" data-ng-if="editCampaignForm['campaign_max_redeems'].$invalid && editCampaignForm['campaign_max_redeems'].$dirty">
+              <span data-ng-if="editCampaignForm['campaign_max_redeems'].$error.required">
+                <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+      <div data-ng-if="!campaign.redeem_points">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">
+            <span ng-bind="('views.dashboard.admin.rewards.fields.start_date' | i18next)"></span>
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="campaign_start_date" data-ng-model="campaign.start_date" data-date-time-picker datetime-type="start" required="">
+
+            <span class="text-danger" data-ng-if="editCampaignForm['campaign_start_date'].$invalid && editCampaignForm['campaign_start_date'].$dirty">
+              <span data-ng-if="editCampaignForm['campaign_start_date'].$error.required">
+                <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+              </span>
+            </span>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">
+            <span ng-bind="('views.dashboard.admin.rewards.fields.end_date' | i18next)"></span>
+          </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="campaign_end_date" data-ng-model="campaign.end_date" data-date-time-picker datetime-type="end" required="">
+
+            <span class="text-danger" data-ng-if="editCampaignForm['campaign_end_date'].$invalid && editCampaignForm['campaign_end_date'].$dirty">
+              <span data-ng-if="editCampaignForm['campaign_end_date'].$error.required">
+                <span ng-bind="('views.dashboard.admin.form.required_field' | i18next)"></span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <span ng-bind="('views.dashboard.admin.form.image' | i18next)"></span>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-4">
+              <span class="input-group-btn">
+                <div class="btn btn-primary btn-file">
+                  <span class="icon iconmoon-file-3"></span>
+                  <span ng-bind="('views.general.select_image' | i18next)"></span>
+                  <input type="file" name="avatar" onchange="angular.element(this).scope().setImage(this.files)">
+                </div>
+              </span>
+            </div>
+            <div class="col-sm-4">
+              <div>
+                <span ng-bind="('views.dashboard.admin.form.current_image' | i18next)"></span>
+              </div>
+
+              <img data-ng-src="{{ campaign.image_url }}" data-ng-if="campaign.image_url" style="width: 80px;">
+              <div data-ng-if="!campaign.image_url">
+                <span ng-bind="('views.dashboard.admin.form.no_image' | i18next)"></span>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div>
+                <span ng-bind="('views.dashboard.admin.form.new_image' | i18next)"></span>
+              </div>
+
+              <img data-ng-src="{{ newImageSrc }}" alt="" data-ng-if="newImageSrc" style="width: 100px;">
+              <div data-ng-if="!newImageSrc">
+                <span ng-bind="('views.dashboard.admin.form.no_selected_image' | i18next)"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <p><span ng-bind="('views.dashboard.admin.rewards.helpers.image' | i18next)"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <span ng-bind="('views.general.medals' | i18next)"></span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <input type="text" placeholder="{{ 'views.dashboard.admin.rewards.placeholders.badges_filter' | i18next }}" data-ng-model="badgeSearchText" class="form-control">
+
+          <div data-ng-repeat="badge in badges | filter:badgeSearchText">
+            <input type="checkbox" data-ng-change="toggleBadge(badge)" ng-model="badge.selected" id="badge_{{ badge.id }}">
+            <label for="badge_{{ badge.id }}">
+              {{ badge.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <a href="#" class="btn btn-success mb10" data-ng-click="sync()" ng-disabled="editCampaignForm.$invalid">
+        <span ng-bind="('views.dashboard.admin.buttons.save' | i18next)"></span>
+      </a>
+    </div>
+
+  </div>
+</form>

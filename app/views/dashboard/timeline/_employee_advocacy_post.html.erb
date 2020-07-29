@@ -1,0 +1,275 @@
+<div class="panel {{timelineable.className}}">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-share22 mr5"></i>
+          <%= t('views.employee_advocacy.post') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="panel-body">
+    <ul class="list-table mb10">
+      <li class="text-center pos-relative" style="width:60px;">
+        {{ #timelineable.user.admin }}
+          <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+        {{ /timelineable.user.admin }}
+        <a href="<%= users_path %>/{{ timelineable.user.id }}">
+          <img
+            src="{{ timelineable.user.avatar_timeline }}"
+            alt="{{ timelineable.user.name }}"
+            class="img-circle" width="50" height="50"
+          >
+        </a>
+      </li>
+      <li class="text-left">
+        <p class="semibold nm">
+          <a href="<%= users_path %>/{{ timelineable.user.id }}" class="text-default">
+            {{timelineable.user.name}}
+          </a>
+        </p>
+        <p class="nm">
+          <%= t('views.timeline.index.shared_advocacy_post') %>
+        </p>
+      </li>
+    </ul>
+    <p class="title semibold">
+      <a href="{{ timelineable.url }}" target="_blank">
+        {{ timelineable.share_by_current_user }}
+      </a>
+    </p>
+  </div>
+
+  <div class="post-image-wrapper" style="position: relative;">
+    <a href="{{ timelineable.url }}" target="_blank">
+      <img src="{{ timelineable.image }}" alt="post image" width="100%">
+      <div class="post-image-overlay">
+        <div class="ico-external-link"></div>
+      </div>
+    </a>
+
+  </div>
+
+  <hr class="nm">
+
+  <div class="panel-body">
+    <h5 class="semibold mt0">
+      <a href="{{ timelineable.url }}" target="_blank">
+        {{ timelineable.title }}
+      </a>
+    </h5>
+    <div>{{ timelineable.content }}</div>
+  </div>
+  <div class="share-bubble post-to-share mt15 mb15">
+    <div class="share-bubble-title">
+      <div class="title-place">
+        {{#timelineable.expires_in_text}}
+          {{timelineable.expires_in_text}}
+        {{/timelineable.expires_in_text}}
+
+        {{^timelineable.expires_in_text}}
+          <%= t('views.employee_advocacy.share') %>
+        {{/timelineable.expires_in_text}}
+      </div>
+    </div>
+
+    <ul class="list-table pl15 pr15">
+      {{^timelineable.isVideo}}
+        <li class="share-button share-button-facebook">
+          <ul class="list-table">
+            <li class="text-center">
+              <a
+                href="#" class="share-post-btn"
+                data-network="facebook"
+                data-network-color="#3b5a9a"
+                data-share-title="{{ timelineable.content }}"
+                data-share-id="{{ timelineable.id }}"
+                data-content-max-length="600"
+              >
+                <span class="social-icon social-icon-facebook">
+                  <span class="ico-facebook"></span>
+                  <span
+                    class="ok advocacy-post-check-current-user-{{timelineable.current_user_shared_on_facebook}}"
+                    data-check-share="{{ timelineable.id }}-facebook"
+                  >
+                    <span class="ico-ok"></span>
+                  </span>
+                </span>
+              </a>
+              <% unless current_domain.score_disabled %>
+              <div class="text-center mt10">
+                <span>
+                  <i class="ico-trophy"></i>
+                  + {{ timelineable.facebook_points }}
+                </span>
+              </div>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
+        <li class="share-button share-button-twitter">
+          <ul class="list-table">
+            <li class="text-center">
+              <a
+                href="#" class="share-post-btn"
+                data-network="twitter"
+                data-network-color="#29a9e1"
+                data-share-title="{{ timelineable.content }}"
+                data-share-id="{{ timelineable.id }}"
+                data-content-max-length="110"
+              >
+                <span class="social-icon social-icon-twitter">
+                  <span class="ico-twitter"></span>
+                  <span
+                    class="ok advocacy-post-check-current-user-{{timelineable.current_user_shared_on_twitter}}"
+                    data-check-share="{{ timelineable.id }}-twitter"
+                  >
+                    <span class="ico-ok"></span>
+                  </span>
+                </span>
+              </a>
+              <% unless current_domain.score_disabled %>
+              <div class="text-center mt10">
+                <span>
+                  <i class="ico-trophy"></i>
+                  + {{ timelineable.twitter_points }}
+                </span>
+              </div>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
+        <li class="share-button share-button-linkedin">
+          <ul class="list-table">
+            <li class="text-center">
+              <a
+                href="#" class="share-post-btn"
+                data-network="linkedin"
+                data-network-color="#117bb8"
+                data-share-title="{{ timelineable.content }}"
+                data-share-id="{{ timelineable.id }}"
+                data-content-max-length="256"
+              >
+                <span class="social-icon social-icon-linkedin">
+                  <span class="ico-linkedin"></span>
+                  <span
+                    class="ok advocacy-post-check-current-user-{{timelineable.current_user_shared_on_linkedin}}"
+                    data-check-share="{{ timelineable.id }}-linkedin"
+                  >
+                    <span class="ico-ok"></span>
+                  </span>
+                </span>
+              </a>
+
+              <% unless current_domain.score_disabled %>
+              <div class="text-center mt10">
+                <span>
+                  <i class="ico-trophy"></i>
+                  + {{ timelineable.linkedin_points }}
+                </span>
+              </div>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+
+        <li class="share-button share-button-instagram">
+          <ul class="list-table">
+            <li class="text-center">
+              <a
+                href="#" class="share-post-btn"
+                data-network="instagram"
+                data-network-color="#fb3958"
+                data-share-title="{{ timelineable.content }}"
+                data-share-id="{{ timelineable.id }}"
+                data-image-url="{{ timelineable.image }}"
+                data-content-max-length="256"
+              >
+                <span class="social-icon social-icon-instagram">
+                  <span class="ico-instagram"></span>
+                  <span
+                    class="ok advocacy-post-check-current-user-{{timelineable.current_user_shared_on_instagram}}"
+                    data-check-share="{{ timelineable.id }}-instagram"
+                  >
+                    <span class="ico-ok"></span>
+                  </span>
+                </span>
+              </a>
+
+              <% unless current_domain.score_disabled %>
+              <div class="text-center mt10">
+                <span>
+                  <i class="ico-trophy"></i>
+                  + {{ timelineable.instagram_points }}
+                </span>
+              </div>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+      {{/timelineable.isVideo}}
+
+      <li class="share-button share-button-download">
+        <ul class="list-table">
+          <li class="text-center">
+            <a
+              href="#" class="download-post-btn"
+              data-network="download"
+              data-image-url="{{ timelineable.image }}"
+              data-video-url="{{ timelineable.video }}"
+            >
+              <span class="social-icon social-icon-download">
+                <span class="ico-download"></span>
+
+                <span
+                  class="ok advocacy-post-check-current-user-{{ timelineable.current_user_shared_on_download }}"
+                  data-check-share="{{ timelineable.id }}-download"
+                >
+                  <span class="ico-ok"></span>
+                </span>
+              </span>
+            </a>
+
+            <% unless current_domain.score_disabled %>
+            <div class="text-center mt10" style="opacity: 0">
+              <span>
+                <i class="ico-trophy"></i>
+                + {{ timelineable.download_points }}
+              </span>
+            </div>
+            <% end %>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="panel-toolbar-wrapper pa10">
+    <div class="panel-toolbar">
+      <span class="img-group img-group-stack">
+        {{#timelineable.people_shared_info.first_two}}
+          <a href="<%= users_path %>/{{ user_id }}">
+            <img src="{{ user_avatar }}" alt="{{ user_name }}" class="img-circle">
+          </a>
+        {{/timelineable.people_shared_info.first_two}}
+
+        {{#timelineable.people_shared_info.resting_count}}
+          <span class="more img-circle people-shared-post-btn" data-post-id="{{ timelineable.id }}">{{ timelineable.people_shared_info.resting_count }}+</span>
+        {{/timelineable.people_shared_info.resting_count}}
+      </span>
+
+      <span>
+        <a href="#" data-post-id="{{ timelineable.id }}" class="people-shared-post-btn">
+          {{ timelineable.people_shared_info.count_label }}
+        </a>
+      </span>
+    </div>
+  </div>
+</div>
+

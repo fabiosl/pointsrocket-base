@@ -1,0 +1,130 @@
+@import "compass/css3/border-radius";
+@import "compass/css3/opacity";
+@import "compass/css3/box-shadow";
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
+
+html body {
+  font-family: 'Lato', sans-serif;
+}
+
+@import "cna/header";
+@import "cna/login";
+
+$dourado: #cb2212;
+
+html.login-page body {
+  background: #272727;
+}
+
+.navbar-header {
+  background: #000000 !important;
+}
+
+.topmenu li.active a > .figure > [class^="ico-"], .mainmenu li.active a > .figure > [class^="ico-"], .topmenu li.active a > .figure > [class*=" ico-"], .mainmenu li.active a > .figure > [class*=" ico-"] {
+  color: $dourado;
+}
+
+a {
+  color: $dourado;
+
+  &:hover, &:focus, &:active {
+    color: $dourado;
+    @include opacity(0.9);
+  }
+}
+
+.open > .dropdown-toggle.btn-success {
+  color: white;
+  background: black;
+}
+
+.course-panel .btn-success, .step-name .btn-success {
+  background: $dourado;
+  border: none;
+  color: white;
+
+  &:hover, &:focus, &:active {
+    color: white;
+    background: black;
+  }
+}
+
+.open > .dropdown-toggle.btn-filtro {
+  color: white;
+  background: black;
+}
+
+.well.well-success.bordered {
+  border-color: $dourado;
+}
+
+
+.btn-filtro {
+  background: none;
+  @include border-radius(0);
+  border: 1px solid black;
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+  color: black;
+
+  &:hover, &:focus, &:active {
+    color: white;
+    background: black;
+  }
+}
+
+
+.open > .dropdown-toggle.btn-primary {
+  background: $dourado;
+}
+
+
+.btn-primary {
+  background: black;
+  border: none;
+
+  &:hover, &:focus, &:active {
+    background: $dourado;
+  }
+}
+
+.progress .progress-bar.progress-bar-success {
+  background-color: $dourado;
+}
+
+.text-success {
+  color: $dourado !important;
+}
+
+.list-group-tabs > .list-group-item.active {
+  background-color: #2A2A2A;
+  border-color: #2A2A2A;
+}
+
+// .form-control:focus {
+//   border-color: $dourado;
+// }
+
+.text-primary {
+  color: black !important;
+}
+
+.course-list .course-list-item .course-panel .panel-body > .course-panel-thumb > img {
+  @include box-shadow(1px 1px 8px 1px rgb(0, 0, 0));
+}
+
+.breadcrumb {
+  background-color: white;
+  border: 1px solid #cfd9db;
+}
+
+.step-overlay {
+  background: #777777;
+  padding: 10px;
+}
+
+.border-radius-5 {
+  @include border-radius(5px);
+}

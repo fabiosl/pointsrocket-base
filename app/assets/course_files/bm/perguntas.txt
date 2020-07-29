@@ -1,0 +1,60 @@
+1) Devo utilizar o operador AND para:
+A) Encontrar depoimentos com todos os termos estipulados, independente da ordem. | false
+B) Encontrar depoimentos com todos os termos estipulados, na ordem exata. | false
+C) Encontrar depoimentos com este termo ou outro. | false
+D) Encontrar depoimentos com este termo mais outro na ordem exata. | false
+E) Nenhuma das anteriores | true
+
+2) Devo utilizar o operador OR para:
+A) Encontrar depoimentos com qualquer um dos termos estipulados na busca, independente da ordem ou presença dos demais. | false
+B) Encontrar depoimentos com qualquer um dos termos estipulados na busca, de acordo com a ordem e os demais operadores. | false
+C) Encontrar depoimentos com este e mais outro termo independente da ordem | false
+D) Encontrar depoimentos com este e mais outro, independente da ordem ou presença dos demais. | false
+E) Nenhuma das anteriores. | true
+
+3) Devo utilizar o operador " " para:
+A) Encontrar depoimentos com a expressão exata da busca, tanto com relação com os termos associados quanto a sua ordem de aparição. | false
+B) Encontrar depoimentos com a expressão, mas não é necessário ter relação com os termos associados e quanto a sua ordem de aparição. | false
+C) Encontrar depoimentos com o termo em qualquer ordem, desde que possua relação aos termos associados e a sua ordem de aparição. | false
+D) Encontrar depoimentos com o termo em qualquer ordem, desde que não possua relação aos termos associados e a sua ordem de aparição. | false
+E) Nenhuma das anteriores. | true
+
+4) Devo utilizar o operador - para:
+A) Excluir depoimentos com os termos da busca. | false
+B) Encontrar com exatidão os termos da busca | false
+C) Excluir depoimentos que não contenham este termo da busca | false
+D) Encontrar depoimentos que possuam termos parecidos ou similares. | false
+E) Nenhuma das anteriores | true
+
+5) Devo utilizar o operador () para:
+A) Criar associações entre blocos de buscas. | false
+B) Isolar elementos de uma fórmula de busca. | false
+C) Encontrar depoimentos de maneira abrangente, com associações entre os blocos e elementos da fórmula. | false
+D) Criar associações entre blocos de buscas e também para isolar elementos de uma fórmula de busca. | false
+E) Nenhuma das anteriores | true
+
+6) O que é “sentido de contém” em uma busca?
+A) O termo cadastrado pode coletar palavras parecidas com o termo. | false
+B) O termo cadastrado pode coletar palavras que possuem o termo em seu conteúdo. | false
+
+7) Quando uma ferramenta de monitoramento possui o “sentido de contém”, se eu quiser buscar exatamente pelo termo Ana, como devo criar a busca?
+A) ana | false
+B) "ana" | false
+C) " ana" | false
+D) " ana " | true
+
+8) Assinale a alternativa que contém redes sociais que trabalham com busca booleana:
+A) Nenhuma | false
+B) Twitter, Instagram e Facebook. | false
+C) Instagram, Facebook e Youtube | false
+D) Twitter e Google | true
+
+9) Ao realizar uma busca no Twitter, se utilizarmos o nome do usuário e não seu @, o Twitter deverá retornar para:
+A) Somente a conta do usuário | false
+B) Conta do usuário e suas menções | false
+C) Somente as menções do usuário | true
+D) A conta do usuário e demais depoimentos que possuam o nome do usuário. | false
+
+10) Qual das alternativas abaixo representa uma busca mais restritiva:
+A) Por localização | true
+B) Por idioma | false

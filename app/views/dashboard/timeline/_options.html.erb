@@ -1,0 +1,67 @@
+{{ #pinned }}
+<li class="text-right" style="width:30px;">
+  <div class="btn-group">
+    <i class="ico-pushpin2"></i>
+  </div>
+</li>
+{{ /pinned }}
+
+<li class="text-right" style="width:30px;">
+  <div class="btn-group">
+    <button type="button" class="btn btn-link dropdown-toggle text-default pl10 pr10" data-toggle="dropdown" aria-expanded="false"><i class="ico-menu2"></i></button>
+    <ul class="dropdown-menu dropdown-menu-right">
+      <% if can?(:manage_timeline, current_domain) %>
+        <li>
+          <a
+            href="/api/timeline_items/{{ id }}/hide"
+            data-modal-method="patch"
+            data-modal-confirm="<%= t "views.general.are_you_sure?" %>"
+            class="text-default"
+          ><%= t('views.general.buttons.hide') %></a>
+        </li>
+
+        {{ ^pinned }}
+        <li>
+          <a
+            href="/api/timeline_items/{{ id }}/pin"
+            data-method="patch"
+            class="text-default"
+          ><%= t('views.general.buttons.pin') %></a>
+        </li>
+        {{ /pinned }}
+
+        {{ #pinned }}
+        <li>
+          <a
+            href="/api/timeline_items/{{ id }}/remove_pin"
+            data-method="patch"
+            class="text-default"
+          ><%= t('views.general.buttons.remove_pin') %></a>
+        </li>
+        {{ /pinned }}
+      <% end %>
+
+      <% if can?(:report_content, current_domain) %>
+        <li>
+          <a
+            href="javascript://"
+            data-toggle="modal"
+            data-target="#modal-report"
+            data-timeline-item-id="{{ id }}"
+            class="text-default timeline-item-report-button"
+          ><%= t('views.general.buttons.report') %></a>
+        </li>
+
+        <li data-ng-if="block_user_id">
+          <a
+            href="javascript://"
+            data-toggle="modal"
+            data-target="#modal-block"
+            data-user-id="{{ block_user_id }}"
+            class="text-default timeline-item-block-button"
+          ><%= t('views.general.buttons.block') %></a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</li>

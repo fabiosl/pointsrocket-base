@@ -1,0 +1,260 @@
+<!-- START row -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- Form default layout -->
+        <form class="panel panel-default" action="">
+            <div class="panel-heading">
+                <h3 class="panel-title">Insira os seus dados</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="control-label">Mês</label>
+                            <select name="type" class="form-control">
+                                <option value="">Selecione</option>
+                                <% months = 12.times.map { |i| (Date.today - (i + 1).month).beginning_of_month } %>
+                                <% months.each do |d| %>
+                                  <option value="<%= d.strftime("%B / %Y") %>"><%= d.strftime("%B / %Y") %></option>
+                                <% end %>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="control-label">Colaboradores</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="control-label">Faturamento Serviços</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="control-label">Faturamento Revenda</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="control-label">N/visitas</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="control-label">N/Cortes</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="control-label">N/Colorações</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="control-label">N/Relaxamentos</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="control-label">N/Tratamento</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="reset" class="btn btn-inverse">Limpar</button>
+            </div>
+        </form>
+        <!--/ Form default layout -->
+    </div>
+</div>
+<!--/ END row -->
+
+<hr>
+
+<div class="row mb20">
+  <div class="col-sm-12">
+    <div>
+      Período
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Mês <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu">
+          <% months = 12.times.map { |i| (Date.today - (i + 1).month).beginning_of_month } %>
+          <% months.each do |d| %>
+            <li><a href="javascript:void(0);"><%= d.strftime("%B / %Y") %></a></li>
+          <% end %>
+        </ul>
+      </div><!-- /btn-group -->
+
+      <button type="button" class="pull-right btn btn-default dropdown-toggle" data-toggle="dropdown">Download <i class="ico-download-alt"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- START row -->
+<div class="row">
+  <div class="col-md-12">
+    <!-- START panel -->
+    <div class="panel panel-primary">
+
+      <!-- panel body with collapse capabale -->
+      <div class="table-responsive panel-body">
+        <ul class="list-table">
+          <li>
+            <h4 class="semibold nm text-left"><i class="ico-table mr5"></i>Tabela</h4>
+          </li>
+        </ul>
+
+        <hr>
+
+        <%
+          colaboradores = 5 # a
+          fat_servicos = 256000 # b
+          fat_revenda = 50000 # c
+          fat_total = fat_servicos + fat_revenda
+          visitas = 100 # d
+          cortes = 50 # e
+          coloracoes = 40 # f
+          relaxamentos = 35 # g
+          tratamentos = 50 # h
+        %>
+
+        <div class="panel nm">
+          <table class="table table-bordered table-hover" id="table1">
+            <thead>
+              <tr>
+                <th width="200px">Colaboradores: <%= colaboradores %></th>
+                <th class="">Performance/Salão</th>
+                <th class="">Performance/Colaborador</th>
+                <th class="">Ticket/Médio</th>
+                <th class="">Percentual sobre vendas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>
+                  Fatramento Serviços
+                </th>
+                <td>
+                  <%= number_to_currency(fat_servicos) %>
+                </td>
+                <td>
+                  <%= number_to_currency (fat_servicos / colaboradores).to_i %>
+                </td>
+                <td>
+                  <%= number_to_currency (fat_servicos / visitas).to_i %>
+                </td>
+                <td>
+                  <%= ((fat_servicos / fat_total.to_f) * 100).round(2) %>%
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  Fatramento Revenda
+                </th>
+                <td>
+                  <%= number_to_currency fat_revenda %>
+                </td>
+                <td>
+                  <%= number_to_currency (fat_revenda / colaboradores).to_i %>
+                </td>
+                <td>
+                  <%= number_to_currency (fat_revenda / visitas).to_i %>
+                </td>
+                <td>
+                  <%= ((fat_revenda / fat_total.to_f) * 100).round(2) %>%
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  Fatramento Total
+                </th>
+                <td>
+                  <%= number_to_currency fat_total %>
+                </td>
+                <td>
+                  <%= number_to_currency (fat_total / colaboradores).to_i %>
+                </td>
+                <td>
+                  <%= number_to_currency (fat_total / visitas).to_i %>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>
+                  Número de Visitas
+                </th>
+                <td>
+                  <%= visitas %>
+                </td>
+                <td>
+                  <%= (visitas / colaboradores).to_i %>
+                </td>
+                <th colspan="2">
+                  % Serviços sobre visitas
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  Número de Cortes
+                </th>
+                <td>
+                  <%= cortes %>
+                </td>
+                <td>
+                  <%= (cortes / colaboradores.to_f).round(2) %>
+                </td>
+                <td colspan="2">
+                  <%= ((cortes / visitas.to_f) * 100).round(2) %>%
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  Número de Colorações
+                </th>
+                <td>
+                  <%= coloracoes %>
+                </td>
+                <td>
+                  <%= (coloracoes / colaboradores.to_f).round(2) %>
+                </td>
+                <td colspan="2">
+                  <%= ((coloracoes / visitas.to_f) * 100).round(2) %>%
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  Número de Relaxamentos
+                </th>
+                <td>
+                  <%= relaxamentos %>
+                </td>
+                <td>
+                  <%= (relaxamentos / colaboradores.to_f).round(2) %>
+                </td>
+                <td colspan="2">
+                  <%= ((relaxamentos / visitas.to_f) * 100).round(2) %>%
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  Número de Tratamentos
+                </th>
+                <td>
+                  <%= tratamentos %>
+                </td>
+                <td>
+                  <%= (tratamentos / colaboradores.to_f).round(2) %>
+                </td>
+                <td colspan="2">
+                  <%= ((tratamentos / visitas.to_f) * 100).round(2) %>%
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--/ panel body with collapse capabale -->
+    </div>
+  </div>
+</div>
+<!--/ END row -->

@@ -1,0 +1,154 @@
+<h2 class="mt0 mb25"><%= t 'views.dashboard.admin_dashboard.general.title' %></h2>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel">
+      <div class="panel-body">
+        <table class="table table-striped data-table">
+          <thead>
+            <tr>
+              <th width="100px">User</th>
+              <% @dashboard_data[:atr].head.each do |head_item| %>
+                <th>
+                  <div style="max-width: 120px">
+                    <span class="ellipsis center-block">
+                      <%= link_to @dashboard_data[:atr].get_title_of(head_item), @dashboard_data[:atr].get_link_of(head_item), title: @dashboard_data[:atr].get_title_of(head_item) %>
+                    </span>
+                    <span class="ellipsis center-block fsize12 text-muted">
+                      <%= l head_item.created_at, format: :short %>
+                    </span>
+                  </div>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @dashboard_data[:atr].rows.each_with_index do |row, index| %>
+              <tr>
+                <% row.each do |row_item| %>
+                  <% if row_item.is_a? User %>
+                    <td>
+                      <%= link_to row_item.name, user_path(row_item) %>
+                    </td>
+                  <% elsif !!row_item == row_item  %>
+                    <%# check if is bool %>
+                    <td>
+                      <i class="<%= row_item ? "ico-ok-circle text-success" : "ico-remove-circle text-danger" %>"></i>
+                    </td>
+                  <% elsif row_item.is_a? Integer or row_item.is_a? String %>
+                    <td>
+                      <%= row_item %>
+                    </td>
+                  <% elsif row_item.is_a? Hash and row_item[:object].present? %>
+                    <% if row_item[:object].is_a? EmployeeAdvocacyPost %>
+                      <td>
+                        <% if row_item[:shared] %>
+                          <%
+                            tooltip_social_networks = [:facebook, :twitter, :linkedin].select do |network|
+                              row_item["shares_#{network}".to_sym] > 0
+                            end.map do |network|
+                              "<i class='ico-#{network} text-right'></i> #{row_item["shares_#{network}".to_sym] > 1 ? row_item["shares_#{network}".to_sym] : "" }"
+                            end
+                            tooltip_interactions = EmployeeAdvocacyShareDecorator::VISIBLE_INTERACTIONS.select do |i|
+                              row_item[:interactions][i].present? and row_item[:interactions][i] > 0
+                            end.map do |i|
+                              "<i class=\"ico-#{ interaction_ico(i) } text-right\"></i> #{ row_item[:interactions][i] }"
+                            end
+                            tooltip = []
+                            tooltip << tooltip_social_networks.join(" ") if tooltip_social_networks.present?
+                            tooltip << tooltip_interactions.join(" ") if tooltip_interactions.present?
+                            tooltip = tooltip.join('<br />')
+                          %>
+                          <span data-html="true" data-toggle="tooltip" data-placement="<%= index == 0 ? "bottom" : "top" %>" title="" data-original-title="<%= tooltip %>">
+                            <i class="ico-lightning"></i> <%=
+                              EmployeeAdvocacyShareDecorator::VISIBLE_INTERACTIONS.select do |i|
+                                row_item[:interactions][i].present?
+                              end.inject(0) do |memo, i|
+                                memo + row_item[:interactions][i]
+                              end
+                            %>
+                          </span>
+                        <% else %>
+                          <i class="ico-remove-circle text-danger"></i>
+                        <% end %>
+                      </td>
+                    <% elsif row_item[:object].is_a? Course %>
+                      <td>
+                        <div class="progress progress-striped active">
+                          <div class="progress-bar progress-bar-success" style="width: <%= (row_item[:percentage_completed] * 100.to_f).round %>%">
+                          </div>
+                        </div> <%= (row_item[:percentage_completed] * 100.to_f).round %>% | <%= row_item[:points] %> <i class="ico-trophy"></i>
+                      </td>
+                    <% end %>
+                  <% else %>
+                    <% raise "#{row_item} no parseable" %>
+                  <% end %>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12">
+    <div class="panel">
+      <div class="panel-body">
+        <table class="table table-striped data-table">
+          <thead>
+            <tr>
+              <th><%= t 'views.dashboard.admin_dashboard.general.name' %></th>
+              <th><%= t 'views.dashboard.admin_dashboard.general.points' %></th>
+              <% if @domain.hashtag_challenges_enabled %>
+                <th><%= t 'views.dashboard.admin_dashboard.general.interactions' %></th>
+              <% end %>
+              <th><%= t 'views.dashboard.admin_dashboard.general.badges' %></th>
+              <% if @domain.campaigns_enabled %>
+                <th><%= t 'views.dashboard.admin_dashboard.general.rewards' %></th>
+              <% end %>
+              <% if @domain.employee_advocacy_enabled %>
+                <th><%= t 'views.dashboard.admin_dashboard.general.shares_news' %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @engagement_user_data.each do |user_h| %>
+              <tr>
+                <td>
+                  <%= link_to user_h[:user].name, user_path(user_h[:user]) %>
+                </td>
+                <td><%= user_h[:user].sum_points %></td>
+                <% if @domain.hashtag_challenges_enabled %>
+                  <td><%= user_h[:interactions] || 0 %></td>
+                <% end %>
+                <td><%= user_h[:user].badge_users.count %></td>
+                <% if @domain.campaigns_enabled %>
+                  <td><%= user_h[:user].campaign_users.count %></td>
+                <% end %>
+                <% if @domain.employee_advocacy_enabled %>
+                  <td><%= user_h[:user].employee_advocacy_shares.count %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-right">
+  <%= link_to dashboard_engagement_path, class: 'btn btn-success mb5' do %>
+    <i class="ico-download22"></i>
+    <%= t('views.dashboard.admin_dashboard.export_xls') %>
+  <% end %>
+</div>
+
+<% content_for :css do %>
+  <%= stylesheet_link_tag "new_dashboard_table.css" %>
+<% end %>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag "new_dashboard_table.js" %>
+<% end %>

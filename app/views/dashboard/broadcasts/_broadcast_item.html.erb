@@ -1,0 +1,78 @@
+<div class="col-md-6 col-sm-12">
+    <div class="panel">
+      <!-- Thumbnail -->
+      <div class="thumbnail thumbnail-album">
+        <a href="<%= broadcast_path(broadcast) %>">
+          <!-- media -->
+          <div class="media">
+            <!-- indicator -->
+            <div class="indicator"><span class="spinner"></span></div>
+            <!--/ indicator -->
+            <img 
+              class="img-rounded"
+              src="<%= broadcast.image_url %>"
+              alt=""
+              width="100%"
+              >
+          </div>
+          <!--/ media -->
+        </a>
+      </div>
+      <!--/ Thumbnail -->
+
+      <!-- User info -->
+      <ul class="list-table pa15 pb0">
+        <li class="text-center" style="width:20px;">
+          <i class=" ico-facetime-video ft20"></i>
+        </li>
+        <li class="text-left">
+          <p class="ellipsis nm">
+            <a href="<%= broadcast_path(broadcast) %>">
+              <%= broadcast.title %>
+            </a>
+          </p>
+        </li>
+      </ul>
+      <!--/ User info -->
+      <!-- Panel body -->
+      <div class="panel-body pb0">
+        <p class="ellipsis">
+          <a href="javascript:void(0);" class="text-default">
+          <i class="ico-calendar3"></i>
+          <%= broadcast.schedule_time_str %></a>
+          
+          <% if broadcast.badge %>
+            <span>
+              <i class="ico-medal"></i> <%= broadcast.badge_name %>
+            </span>
+          <% end %>
+
+          <span>
+            <i class="ico-trophy"></i>
+            <%= "#{broadcast.points} #{ t('views.general.points')}" %>
+          </span>
+          
+          <span>
+            <i class="ico-users"></i>
+            <%= t('views.general.views', count: broadcast.visualizations.size) %>
+          </span>
+
+          <span class="Broadcast-status Broadcast-status--<%= broadcast.status %> pull-right">
+            <%= t("views.broadcasts.status.#{broadcast.status}") %>
+          </span>
+        </p>
+
+      </div>
+      <!--/ Panel body -->
+
+      <!-- <div class="ma10 mt0">
+        <span class="img-group img-group-stack">
+          <img src="<%= image_url 'avatar/avatar3.jpg' %>" alt="" class="img-circle">
+          <img src="<%= image_url 'avatar/avatar4.jpg' %>" alt="" class="img-circle">
+          <span class="more img-circle">2+</span>
+        </span>
+
+        <a href="javascript:void(0);" class="semibold">4 pessoas</a> vão participar
+      </div> -->
+    </div>
+  </div>

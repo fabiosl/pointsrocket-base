@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-sm-12" id="courses-list">
+    <div class="panel panel-default mb20" data-ng-repeat="course in courses">
+      <div class="panel-heading handle">
+        <div class="panel-title">
+          {{ course.name }}
+        </div>
+
+        <div class="panel-toolbar text-right">
+          <div class="option">
+            <a href="/dashboard/admin/{{ domain_id }}/courses/{{ course.id }}/edit" class="btn btn-primary">
+              Editar
+            </a>
+            <!-- <button class="btn do" data-toggle="collapse" href="#collapse{{ course.id }}">
+              <i class="arrow"></i>
+            </button> -->
+          </div>
+        </div>
+      </div>
+      <div class="panel-collapse collapse out" id="collapse{{ course.id }}">
+        <div class="panel-body">
+          {{ course.description }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

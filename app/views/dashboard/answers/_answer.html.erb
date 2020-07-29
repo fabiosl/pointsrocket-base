@@ -1,0 +1,49 @@
+<div class="media np">
+  <div class="media-object pull-left answer-user-image" style="width: 50px;">
+    <div class="pos-relative">
+      <% if answer.user.present? %>
+        <% if answer.user.admin_current_domain %>
+          <i class="ico-crown large-user-admin-ico" title="Admin"></i>
+        <% end %>
+        <%= link_to user_path(answer.user) do %>
+          <%= image_tag answer.user.avatar.url(:s50x50), :class => "img-circle" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="media-body form-group">
+    <div class="media-text answer-div" id="<%= "edit_answer_#{answer.id}" %>">
+      <div class="vote-container" >
+        <%= link_to '', 'javascript://',
+            class: answer.upvote_class(current_user),
+            data: {answer_id: answer.id, url: answer_upvote_path(answer, format: :json)} %>
+        <div id="total_votes" class="points text-info semibold question-votes mb5" data-answer-id="<%= answer.id %>">
+          <%= answer.total_votes %>
+        </div>
+      </div>
+      <h5 class="semibold mt0 mb5 text-default">
+        <% if answer.user.present? %>
+          <%= answer.user.name %>
+        <% end %>
+          <span class="media-meta"><%= answer.formatted_date %></span>
+      </h5>
+
+      <p class="mb5"><%= answer.linked_content.html_safe %></p>
+
+      <% if answer.archive.present? %>
+        <%= link_to answer.archive.url(), class: 'btn btn-default mb20' do %>
+          <i class="ico-file-download"></i> <%= answer.archive.file.filename %>
+        <% end %>
+      <% end %>
+
+      <% if can? :update, answer %>
+        <div>
+          <%= link_to t('views.general.buttons.edit'), edit_answer_path(answer),
+            remote: true, class: "btn btn-sm btn-primary" %>
+          <%= link_to t('views.general.buttons.delete'), answer, method: :delete,
+            data: { confirm: t('views.general.are_you_sure?') }, class: "btn btn-sm btn-danger" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

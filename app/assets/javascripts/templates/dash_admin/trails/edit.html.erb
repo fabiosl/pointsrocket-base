@@ -1,0 +1,135 @@
+<form class="form-horizontal" name="editTrailForm" novalidate ng-submit="editTrailForm.submited = true; (editTrailForm.$valid && save())">
+  <div class="row trails">
+
+    <div class="indicator show" data-ng-if="loading">
+      <span class="spinner"></span>
+    </div>
+
+    <div class="col-sm-12">
+      <a href="/dashboard/admin/{{ domain_id }}/trails" class="btn btn-primary">
+        Voltar
+      </a>
+    </div>
+
+    <hr>
+
+    <div class="col-sm-12">
+      <div class="panel">
+        <div class="panel-body">
+          <h4 class="semibold nm text-left">
+            <i class="ico-flag2 mr5"></i> Edição da trilha
+          </h4>
+          <hr>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Nome *</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" data-ng-model="trail.name" name="trail_name" required placeholder="Insira aqui o nome da sua trilha.">
+
+              <span class="text-danger" data-ng-if="editTrailForm['trail_name'].$invalid && (editTrailForm.submited || editTrailForm['trail_name'].$dirty)">
+                <span data-ng-if="editTrailForm['trail_name'].$error.required">
+                  Campo obrigatório
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Horas *</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" data-ng-model="trail.hours" name="trail_hours" required placeholder="">
+
+              <span class="text-danger" data-ng-if="editTrailForm['trail_hours'].$invalid && (editTrailForm.submited || editTrailForm['trail_hours'].$dirty)">
+                <span data-ng-if="editTrailForm['trail_hours'].$error.required">
+                  Campo obrigatório
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Ativo</label>
+            <div class="col-sm-10">
+              <input type="checkbox" class="form-control" data-ng-model="trail.active" name="trail_active">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Faixa Etária</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" data-ng-model="trail.age_group" name="trail_age_group" placeholder="Ex: 10 anos, 12 anos, 10-14 anos">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Youtube/Vimeo Preview</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" data-ng-model="trail.video_url" name="trail_video_url" placeholder="https://www.youtube.com/embed/yYFH1t5IMTE">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Descrição *</label>
+            <div class="col-sm-10">
+              <textarea name="trail_description" data-ng-model="trail.description" class="form-control" required></textarea>
+
+              <span class="text-danger" data-ng-if="editTrailForm['trail_description'].$invalid && (editTrailForm.submited || editTrailForm['trail_description'].$dirty)">
+                <span data-ng-if="editTrailForm['trail_description'].$error.required">
+                  Campo obrigatório
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h4 class="semibold nm text-left">
+            <i class="ico-graduation mr5"></i>Cursos
+          </h4>
+          <hr>
+
+          <div class="indicator show" data-ng-if="courses_loading">
+            <span class="spinner"></span>
+          </div>
+
+          <div data-ng-if="!courses_loading">
+            <div data-ng-repeat="course_trail in trail.course_trails">
+              <div class="form-group relative">
+                <div class="indicator show" data-ng-if="course_trail._destroy">
+                  <div class="col-sm-8 text-right">
+                    O curso <b>{{ course_trail.course.name }}</b> será removido dessa trilha. <a href="#" class="btn btn-primary" data-ng-click="course_trail._destroy = false">Desfazer exclusão</a>
+                  </div>
+                </div>
+
+                <div class="col-sm-2 control-label">Curso</div>
+                <div class="col-sm-8">
+                  <select name="course_trails_{{ index }}_course_id" class="form-control" data-ng-options="option.name for option in courses track by option.id" data-ng-model="course_trail.course"></select>
+                </div>
+                <div class="col-sm-2">
+                  <a href="#" class="btn btn-danger" data-ng-click="course_trail._destroy = true">Remover</a>
+                </div>
+              </div>
+
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <a href="#" class="btn btn-primary" data-ng-click="addCourse()">Adicionar curso</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12">
+      <button type="submit" class="btn btn-primary" data-ng-disabled="editTrailForm.submited && !editTrailForm.$valid">
+        <i class="ico-upload3"></i> Salvar trilha
+      </button>
+    </div>
+  </div>
+</form>
+

@@ -1,0 +1,261 @@
+<!-- START Template Main -->
+<section id="main" role="main">
+    <!-- START Template Container -->
+    <section class="container login-container">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Brand -->
+          <div class="text-center" style="margin-bottom:40px;">
+            <% if @domain.dashboard_login_image.exists? %>
+              <%= image_tag @domain.dashboard_login_image.url(:logo), class: 'mb20' %>
+            <% end %>
+
+            <h5 class="semibold text-muted mt-5">Pagamento.</h5>
+          </div>
+          <!--/ Brand -->
+
+        </div>
+      </div>
+
+      <!-- START row -->
+      <div class="row">
+        <div class="col-sm-7">
+          <!-- Alert message -->
+          <% flash.each do |key, value| %>
+            <div class="alert alert-<%= key %>">
+              <%= value %>
+            </div>
+          <% end %>
+
+          <% @hide_voucher = (not @franchisee and not @voucher_code) ? 'hide' : '' %>
+          <%= form_tag(payment_complete_registration_index_path, {
+            class: "form-login #{@hide_voucher}" ,
+            id: 'voucher-fieldset'}) do |f| %>
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <h2 class="panel-title">
+                  Código de desconto
+                </h2>
+              </div>
+
+              <div class="panel-body">
+                <div class="form-group">
+                  <%= label :voucher, 'Código do cupom', class: 'control-label' %>
+                  <% if @franchisee %>
+                    <div class="voucher-description">
+                      <%= @franchisee.decorate.formatted_description %>
+                    </div>
+                  <% else %>
+                    <%= text_field_tag :voucher, nil, class: 'form-control' %>
+                  <% end %>
+                </div>
+
+                <% if @franchisee %>
+                  <%= link_to "Não quero este desconto", clear_voucher_complete_registration_index_path, class: 'btn btn-default' %>
+                <% else %>
+                  <%= submit_tag 'Quero meu desconto!', class: 'btn btn-success' %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <%= form_for(@user, url: {controller: :complete_registration, action: :payment}, html: {class: 'form-login'}) do |f| %>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h2 class="panel-title">
+                  Informações Gerais
+                </h2>
+              </div>
+              <div class="panel-body">
+
+                <% if f.object.errors.present? %>
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                      <h2 class="panel-title">
+                        Erros não deixaram prosseguir
+                      </h2>
+                    </div>
+                    <div class="panel-body">
+                      <ul class="nm list-unstyled">
+                        <% f.object.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                <% end %>
+
+                <div class="form-group">
+                  <div class="form-stack clearfix">
+                    <%= f.label :plan_id, "Plano", class: 'control-label' %>
+
+                    <% if @franchisee %>
+                      <div class="voucher-description">
+                        <%= @franchisee.decorate.formatted_plan %>
+                      </div>
+                    <% else %>
+                      <%= f.select :plan_id, options_for_select(@plans.decorate.map{ |plan| [plan.formatted_name, plan.id] }, {selected: f.object.plan.id}), {}, {class: 'form-control input-lg'} %>
+                      <a href="#" id="voucher-open-tag" class="ft10 mt10 i pull-right">
+                        Possui código de desconto? Clique aqui!
+                      </a>
+                    <% end %>
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="form-group">
+                  <%= f.label :cpf, "CPF *", class: 'control-label' %>
+                  <%= f.text_field :cpf, type: 'number', placeholder: 'Apenas número', maxlength: 11, minlength: 11, class: 'form-control change-to-text-desktop', required: true %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :birthdate, "Data de nascimento *", class: 'control-label' %>
+                  <%
+                    birthdate_value = ""
+                    if f.object.birthdate.present?
+                      birthdate_value = f.object.birthdate.strftime("%d/%m/%Y")
+                    end
+                  %>
+                  <%= f.text_field :birthdate, type: 'text', value: birthdate_value, placeholder: 'DD/MM/YYYY', class: 'form-control', required: true, data: {maskedinput: "99/99/9999"} %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :phone, "Telefone *", class: 'control-label' %>
+                  <%= f.text_field :phone, type: 'text', placeholder: 'Digite seu telefone', class: 'form-control', required: true, data: {maskedinput: '(99) 99999999?9'} %>
+                </div>
+
+                <%= f.fields_for :addresses do |addresses_form| %>
+                  <% if addresses_form.object.errors.present? %>
+                    <div class="panel panel-danger">
+                      <div class="panel-heading">
+                        <h2 class="panel-title">
+                          Erros no endereço deixaram prosseguir
+                        </h2>
+                      </div>
+                      <div class="panel-body">
+                        <ul class="nm">
+                          <% addresses_form.object.errors.full_messages.each do |msg| %>
+                            <li><%= msg %></li>
+                          <% end %>
+                        </ul>
+                      </div>
+                    </div>
+                  <% end %>
+
+                  <ul>
+                    <% addresses_form.object.errors.full_messages.each do |msg| %>
+                      <li><%= msg %></li>
+                    <% end %>
+                  </ul>
+
+                  <fieldset hidden>
+                    <h3>
+                      Endereço
+                    </h3>
+
+                    <%= addresses_form.hidden_field :id %>
+
+                    <div class="form-group">
+                      <%= addresses_form.label :country, 'País *', class: 'control-label' %>
+                      <div class="col-sm-7">
+                        <%= addresses_form.text_field :country, placeholder: 'País', class: 'form-control', readonly: true, value: :BRA %>
+                      </div>
+                    </div>
+                  </fieldset>
+                <% end %>
+
+              </div>
+            </div>
+
+            <%= f.fields_for :credit_cards, f.object.credit_cards.last do |credit_card_form| %>
+
+              <%= credit_card_form.hidden_field :id %>
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h2 class="panel-title">
+                    Cartão de crédito
+                  </h2>
+                </div>
+                <div class="panel-body">
+                  <% if credit_card_form.object.errors.present? %>
+                    <div class="panel panel-danger">
+                      <div class="panel-heading">
+                        <h2 class="panel-title">
+                          Erros no cartão não deixaram prosseguir
+                        </h2>
+                      </div>
+                      <div class="panel-body">
+                        <ul class="nm">
+                          <% credit_card_form.object.errors.full_messages.each do |msg| %>
+                            <li><%= msg %></li>
+                          <% end %>
+                        </ul>
+                      </div>
+                    </div>
+                  <% end %>
+
+                  <div class="form-group">
+                    <%= credit_card_form.label 'holder_name', 'Nome do dono no cartão *', class: 'control-label' %>
+                    <%= credit_card_form.text_field :holder_name, placeholder: 'Nome como está escrito no cartão', class: 'form-control', required: 'true' %>
+                  </div>
+
+                  <div class="form-group">
+                    <%= credit_card_form.label 'number', 'Número do cartão *', class: 'control-label' %>
+                    <%= credit_card_form.text_field :number, type: 'number', class: 'form-control change-to-text-desktop', required: true, data: {maskedinput: '9999-9999-9999-9999'} %>
+                  </div>
+
+                  <div class="form-group">
+                    <%= credit_card_form.label 'expiration', 'Mês/Ano da validade do cartão de crédito *', class: 'control-label' %>
+                    <%= credit_card_form.text_field :expiration, type: "number", placeholder: 'Formato MM/YY', class: 'form-control change-to-text-desktop', required: true, data: {maskedinput: '99/99'} %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="i mb20" style="font-size: 11px;">
+              Clicando em assinar agora, você automaticamente aceita os <%= link_to 'termos de uso', asset_path('TERMOS E CONDICOES DE CONTRATACAO DE CURSO VIRTUAL.docx'), target: '_blank', style:'color:#8FCB39'  %>.
+            </div>
+
+            <%= f.submit 'Assinar agora!', class: 'btn btn-success btn-block' %>
+          <% end %>
+        </div>
+
+        <!-- <div class="col-sm-5 hidden-xs">
+          <%= image_tag 'site/first-doll.png', width: "210px" %>
+        </div> -->
+
+        <div class="col-sm-5 motivation-box">
+          <h3 class="mt0"> Comece agora!</h3>
+          <h5> <i class="ico-globe"></i> Todos os cursos, uma única assinatura!</h5>
+          <h5> <i class="ico-code"></i> Criação de Jogos, Apps e Programação.</h5>
+          <h5> <i class="ico-trophy"></i> Assista as aulas, vença os desafios, ganhe prêmios!</h5>
+          <h5> <i class="ico-rocket"></i> Novos cursos todos os meses.</h5>
+          <h5> <i class="ico-comment"></i> Interaja no nosso fórum de alunos.</h5>
+          <h5> <i class="ico-star"></i> Acesse ofertas exclusivas de parceiros para assinantes.</h5>
+          <br/>
+          <div class="embeded-video">
+            <iframe src="https://player.vimeo.com/video/124267971" height="230" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen align="center"></iframe>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+    <!--/ END Template Container -->
+</section>
+<!--/ END Template Main -->
+
+<script>
+  if (!('ontouchstart' in window)) {
+    var elements = document.querySelectorAll('.change-to-text-desktop');
+    Array.prototype.forEach.call(elements, function(el){
+      el.setAttribute('type', 'text');
+    });
+  }
+</script>
+
+<% content_for :footer do %>
+  <%= javascript_include_tag "site_payment.js" %>
+<% end %>

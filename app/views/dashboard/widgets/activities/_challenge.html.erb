@@ -1,0 +1,61 @@
+<!-- CHALLENGES -->
+<% if domain.challenges_enabled %>
+  <hr class="mt10 mb10 activity-separator">
+  
+  <ul class="list-table">
+    <li style="width:60px;" class="col-top">
+      <div class="pos-relative w50 h50">
+        <a href="<%= challenge_path(activity) %>">
+          <div
+            class="widget-image-container img-circle"
+            style="background-image:url('<%= activity.image.url(:thumb) %>');" 
+          ></div>
+        </a>
+        <span class="item-status-ico">
+        <% if activity.done_by_user?(current_user) %>
+          <i class="ico ico-checkmark text-success"></i>
+        <% else %>
+          <i class="ico ico-circle text-danger"></i>
+        <% end %>
+        </span>
+      </div>
+    </li>
+    <li class="text-left">
+      <a href="<%= challenge_path(activity) %>">
+        <h5 class="semibold ellipsis nm">
+          <i class="ico-pencil"></i> <%= activity.title %>
+        </h5>
+        <p class="info-list text-default ellipsis">
+          <span>
+            <i class="ico-calendar3"></i> <%= t('views.general.from').capitalize %> <%= activity.date_start.strftime("%d/%m/%Y") %> <%= t('views.general.to')%> <%= activity.date_end.strftime("%d/%m/%Y") %>
+          </span><br/>
+
+          <% participating_people_count = activity.user_ids_visible.count.size %>
+
+          <%
+            participating_key = activity.has_passed? ? apply_feedback("views.challenges.index.have_joined_past") : apply_feedback("views.challenges.index.have_joined")
+          %>
+
+          <span>
+            <i class="ico-user"></i> <%= t participating_key, count: participating_people_count %>
+          </span>
+          <br>
+
+          <% if activity.points > 0 %>
+            <span>
+              <i class="ico-trophy"></i> <%= activity.points %> <%= t('views.general.points')%>
+            </span>
+            <br>
+          <% end %>
+
+          <% if activity.badge %>
+            <span>
+              <i class="ico-medal"></i> <%= activity.badge.name %>
+            </span>
+          <% end %>
+        </p>
+      </a>
+    </li>
+  </ul>
+<% end %>
+<!--/ CHALLENGE -->

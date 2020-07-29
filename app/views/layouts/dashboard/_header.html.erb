@@ -1,0 +1,235 @@
+<header id="header" class="navbar">
+  <div class="navbar-header">
+    <%= link_to current_domain.homepage_path, class: 'navbar-brand' do %>
+      <%= image_tag current_domain.dashboard_menu_image.url, class: 'dash-logo' %>
+      <%= image_tag current_domain.dashboard_menu_image_contract.url, class: 'dash-logo-contract' %>
+    <% end %>
+  </div>
+
+  <div class="navbar-toolbar clearfix">
+    <ul class="nav navbar-nav navbar-left">
+      <li class="hidden-xs hidden-sm">
+        <a href="javascript:void(0);" class="sidebar-minimize" data-toggle="minimize" title="Minimize sidebar">
+          <span class="meta">
+            <span class="icon"></span>
+          </span>
+        </a>
+      </li>
+
+      <li class="navbar-main hidden-lg hidden-md hidden-sm">
+        <a href="javascript:void(0);" data-toggle="sidebar" data-direction="ltr" rel="tooltip" title="Menu sidebar">
+          <span class="meta">
+            <span class="icon"><i class="ico-paragraph-justify3"></i></span>
+          </span>
+        </a>
+      </li>
+
+      <% if ENV['SEARCH_ENABLED'] == 'true' %>
+      <!-- Search form toggler  -->
+      <li class="dropdown custom" id="header-search">
+        <a href="javascript:void(0);" class="nav-link" data-toggle="dropdown" data-target="#dropdown-form" id="search-opener">
+          <span class="meta">
+            <span class="icon"><i class="ico-search"></i></span>
+          </span>
+        </a>
+
+        <!-- Dropdown menu -->
+        <div class="dropdown-menu" role="menu" id="search_menu">
+          <div class="dropdown-header">
+            <span class="title"><%= t('views.dashboard.topbar.results') %></span>
+          </div>
+          <div class="dropdown-body slimscroll">
+
+            <!-- Message list -->
+            <div class="media-list" id="search-items-place">
+
+            </div>
+            <!--/ Message list -->
+
+            <script class="search-item-template" type="x-tmpl-mustache">
+              <a href="{{url}}" class="media border-dotted read">
+                <span class="pull-left">
+                  {{#thumb}}
+                    <img src="{{thumb}}" class="img-circle" width="32px" height="32px">
+                  {{/thumb}}
+                  {{^thumb}}
+                    <i class="{{icon}}"></i>
+                  {{/thumb}}
+                </span>
+                <span class="media-body">
+                  <span class="ellipsis nm search-item-title">{{{formatted_title}}}</span>
+                  <span class="ellipsis nm text-muted search-item-headline">{{formatted_headline}}</span>
+                </span>
+              </a>
+            </script>
+          </div>
+        </div>
+        <!--/ Dropdown menu -->
+      </li>
+      <!--/ Search form toggler -->
+      <% end %>
+
+      <li class="dropdown custom" id="header-dd-message">
+        <a href="/dashboard/conversations" title="<%= t('views.messages.title') %>">
+          <span class="meta">
+            <span class="icon"><i class="ico-bubbles3"></i></span>
+            <span class="badge badge-danger pull-left hide message-notification-badge"></span>
+          </span>
+        </a>
+      </li>
+
+      <!-- Notification dropdown -->
+      <li class="dropdown custom" id="header-dd-notification">
+        <%= render partial: "layouts/dashboard/notification" %>
+
+        <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-toggle="dropdown" title="<%= t('views.notifications.title') %>">
+          <span class="meta">
+            <span class="icon"><i class="ico-bell"></i></span>
+            <span class="badge badge-danger pull-left hide general-notification-badge"></span>
+          </span>
+        </a>
+
+        <!-- Dropdown menu -->
+        <div class="dropdown-menu" role="menu">
+          <div class="dropdown-header">
+            <span class="title"><%= t('views.dashboard.topbar.notifications') %> <span class="count"></span></span>
+            <!-- <span class="option text-right"><a href="javascript:void(0);">Marcar todas como lidas</a></span> -->
+          </div>
+          <div class="dropdown-body slimscroll">
+
+            <!-- Message list -->
+            <div class="media-list" id="notification-list">
+            </div>
+            <!--/ Message list -->
+          </div>
+        </div>
+        <!--/ Dropdown menu -->
+      </li>
+      <!--/ Notification dropdown -->
+    </ul>
+
+    <!-- START navbar form -->
+    <% if ENV['SEARCH_ENABLED'] == 'true' %>
+    <div class="navbar-form navbar-left dropdown" id="dropdown-form">
+      <%= search_form_for @search_query, url: main_app.search_path do |f| %>
+      <div class="has-icon">
+        <!-- skiping auto complete -->
+        <%= f.search_field :content_cont, class: "form-control", placeholder: t('views.dashboard.topbar.search') %>
+        <i class="ico-search form-control-icon"></i>
+      </div>
+      <% end %>
+    </div>
+    <!-- START navbar form -->
+
+    <% end %>
+
+
+    <ul class="nav navbar-nav navbar-right">
+    <% if current_domain.campaigns_enabled %>
+      <li class="points">
+        <div class="v-table">
+          <div class="v-table-cell">
+
+            <a href="<%= main_app.campaigns_path %>" title="<%= t('views.dashboard.topbar.rewards') %>">
+              <i class="ico-gift22 mr5"></i>
+              <span class="nav-item-text hidden-xs"><%= t('views.dashboard.topbar.rewards') %></span>
+            </a>
+
+          </div>
+        </div>
+      </li>
+    <% end %>
+    <% unless current_domain.score_disabled %>
+      <li id="points-container" class="points text-info semibold">
+        <div class="v-table">
+          <div class="v-table-cell">
+            <a href="<%= main_app.ranking_path %>" class="pos-relative points-won-place" title="Ranking">
+              <i class="ico-trophy mr5"></i><span id="user_points"><%= current_user.points.to_i %></span>
+              <span class="points-won-now"></span>
+            </a>
+          </div>
+        </div>
+      </li>
+    <% end %>
+      <li class="dropdown profile">
+        <a href="javascript:void(0);" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
+          <span class="meta">
+            <span class="avatar">
+              <% if current_user.admin_current_domain %>
+                <i class="ico-crown header-user-admin-ico" title="Admin"></i>
+              <% end %>
+              <%= image_tag current_user.avatar.url(:dashboard_header), :class => "img-circle" %>
+            </span>
+            <span class="text hidden-xs hidden-sm pl5">
+              <% if can? :see_formatted_names, current_user %>
+              <%= current_user.formatted_name %>
+              <% else %>
+              <%= current_user.name %>
+              <% end %>
+            </span>
+            <span class="caret"></span>
+          </span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="<%= main_app.user_path(current_user) %>">
+              <span class="icon"><i class="ico-user2"></i></span> <%= t('views.dashboard.topbar.my_profile') %>
+            </a>
+          </li>
+          <li>
+            <a href="<%= main_app.settings_path %>">
+              <span class="icon"><i class="ico-cog4"></i></span> <%= t('views.dashboard.topbar.settings') %>
+            </a>
+          </li>
+
+          <% if not @domain.is_points %>
+            <li>
+              <a href="<%= main_app.invoices_path %>">
+                <span class="icon"><i class="ico-money"></i></span> <%= t('views.dashboard.topbar.finances') %>
+              </a>
+            </li>
+            <% if can? :change_credit_card, current_user %>
+            <li>
+              <a href="<%= main_app.change_credit_card_path %>">
+                <span class="icon"><i class="ico- ico-credit"></i></span> <%= t('views.dashboard.topbar.update_card') %>
+              </a>
+            </li>
+            <% end %>
+          <% end %>
+
+          <% if @domain.influencer? %>
+            <!-- <li>
+              <%= link_to(main_app.analytics_path) do %>
+              <span class="icon"><i class="ico-dashboard"></i></span> <%= t('views.dashboard.topbar.analytics') %>
+              <% end %>
+            </li> -->
+            <li>
+              <%= link_to( ENV["SUBDOMAIN_AS_COMMUNITIES"] == 'true' ? complete_registration_url(subdomain: false, edit_social_networks: "yes") : main_app.complete_registration_path(edit_social_networks: "yes")) do %>
+                <span class="icon"><i class="ico-facebook22"></i></span>
+                <%= t('views.dashboard.topbar.social_accounts') %>
+              <% end %>
+            </li>
+          <% end %>
+          <li>
+          <a href="javascript://" data-toggle="modal" data-target="#modal-points-about">
+            <span class="icon">
+              <i class="ico-info2"></i>
+            </span> <%= t('views.dashboard.topbar.about') %>
+          </li></a>
+          <li>
+            <%= link_to(main_app.destroy_user_session_path, method: :delete) do %>
+            <span class="icon"><i class="ico-exit"></i></span> <%= t('views.dashboard.topbar.logout') %>
+            <% end %>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</header>
+<script>
+  window.CURRENT_USER_POINTS = <%= current_user.sum_points %>;
+</script>
+
+<div id="loader">
+  <div class="indicator black show"><span class="spinner"></span></div>
+</div>

@@ -1,0 +1,81 @@
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.block_users.index.title') %>
+  </span>
+</h2>
+
+<hr>
+
+<% if @block_users.size == 0 %>
+  <div class="well">
+    <%= t('views.block_users.index.no_records') %>.
+    <%= link_to timeline_path do %>
+      <%= t('views.general.see_timeline') %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="panel panel-default">
+    <div class="panel-body np">
+      <table class="table nm">
+        <thead>
+          <tr>
+            <th>
+              <%= t('views.block_users.index.table.user') %>
+            </th>
+            <th>
+              <%= t('views.block_users.index.table.actions') %>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @block_users.each do |block_user| %>
+            <tr>
+              <td>
+                <%= block_user.blocked.name %>
+              </td>
+              <td>
+                <%= link_to t('views.block_users.index.buttons.block'), block_user_path(block_user), method: :delete, class: "btn btn-primary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<hr>
+
+<h2 class="mt0 mb20 lined-title">
+  <span>
+    <%= t('views.block_users.index.block_user') %>
+  </span>
+</h2>
+
+<div class="panel">
+  <div class="panel-body">
+    <%= form_for(@block_user, html: {class: "form-horizontal form-bordered"}) do |f| %>
+      <div class="form-group">
+        <label class="col-sm-3 control-label"><%= t('views.block_users.index.user') %></label>
+        <div class="col-sm-6">
+          <%=
+            opts = User.where.not(id: current_user.block_users.pluck('blocked_id')).order("name desc").map do |u|
+              [u.name, u.id]
+            end
+
+            f.select :blocked_id, options_for_select(opts, selected: @block_user.blocked_id), {}, {class: "form-control"}
+          %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label"></label>
+        <div class="col-sm-6">
+          <input type="submit" class="btn btn-danger" value="<%= t('views.block_users.index.buttons.block') %>">
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+

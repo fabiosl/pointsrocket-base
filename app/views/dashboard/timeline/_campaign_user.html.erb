@@ -1,0 +1,46 @@
+<div class="panel">
+  <div class="panel-toolbar-wrapper">
+    <div class="panel-toolbar">
+      <ul class="list-table">
+        <li class="text-left">
+          <i class="ico-gift22"></i> <%= t('views.timeline.index.finished_challenge_requirements') %> - <%= t "views.time_ago_with_time" %>
+        </li>
+        <%= render(partial: 'options') %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <ul class="list-table">
+      <li class="text-center" style="width:60px;">
+        {{ #timelineable.user.admin_current_domain }}
+          <i class="ico-crown timeline-user-admin-ico" title="Admin"></i>
+        {{ /timelineable.user.admin_current_domain }}
+        <a href="<%= users_path %>/{{ timelineable.user.id }}">
+          <img src="{{timelineable.user.avatar_timeline}}" alt="{{timelineable.user.name}}" class="img-circle">
+        </a>
+      </li>
+      <li class="text-left">
+        <p class="nm semibold">
+          <a href="<%= users_path %>/{{ timelineable.user.id }}" class="text-default">
+            {{ timelineable.user.name }}
+          </a>
+        </p>
+        <p class="nm">
+          <%= t('views.timeline.index.titles.you_finished_challenge_requirements') %> <a href="<%= campaigns_path %>/{{timelineable.campaign.id}}">
+            {{ timelineable.campaign.title }}
+          </a>
+        </p>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="nm">
+
+  <a href="<%= campaigns_path %>/{{timelineable.campaign.id}}">
+    <img src="{{timelineable.campaign.image_timeline}}" alt="" width="100%">
+  </a>
+
+  <hr class="nm">
+  <%= render partial: 'comments', locals: { user: current_user } %>
+</div>
